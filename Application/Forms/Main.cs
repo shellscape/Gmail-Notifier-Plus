@@ -36,13 +36,14 @@ namespace GmailNotifierPlus.Forms {
 			InitializeComponent();
 
 			this.Text = GmailNotifierPlus.Resources.Resources.WindowTitle;
+			
 			this.CreateInstances();
 
 			if ((args.Length > 0) && (args[0] == "-settings")) {
 				this.OpenSettingsWindow();
 			}
 
-			_Config.Saved += new ConfigSavedEventHandler(_Config_Saved);
+			_Config.Saved += _Config_Saved;
 
 			_Timer.Tick += _Timer_Tick;
 			_Timer.Interval = _Config.Interval * 1000;
@@ -78,8 +79,13 @@ namespace GmailNotifierPlus.Forms {
 		private void Main_Shown(object sender, EventArgs e) {
 			if (_Config.FirstRun) {
 				this.OpenSettingsWindow();
+
+				_Config.FirstRun = false;
+				_Config.Save();
+
 			}
-			base.Top = 0x1000;
+
+			base.Top = 5000;
 		}
 
 		private void _Config_Saved(object sender, EventArgs e) {
@@ -104,7 +110,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void _Notifier_CheckFinished(Notifier sender, EventArgs e) {
 			_StatusList.Add(sender.Text, sender.ConnectionStatus);
-			_UnreadTotal += sender.UnreadMailCount;
+			_UnreadTotal += sender.Unread;
 			
 			FinalizeChecks();
 		}
@@ -113,7 +119,7 @@ namespace GmailNotifierPlus.Forms {
 			
 			Notifier notifier = (Notifier)sender;
 			notifier.FormClosed -= _Notifier_FormClosed;
-			notifier.CheckFinished -= _Notifier_CheckFinished;
+			notifier.CheckMailFinished -= _Notifier_CheckFinished;
 
 			_Instances.Remove(notifier.Text);
 			_StatusList.Remove(notifier.Text);
@@ -145,7 +151,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void BuildJumpList() {
 
-			int defaultAccountIndex = _Config.Accounts.IndexOf(_Config.DefaultAccount);
+			int defaultAccountIndex = _Config.Accounts.IndexOf(_Config.Accounts.Default);
 
 			_JumpListManager.ClearAllUserTasks();
 			IJumpListTask[] taskCompose = new IJumpListTask[1];
@@ -192,40 +198,58 @@ namespace GmailNotifierPlus.Forms {
 
 
 		private void CloseInstances() {
+
 			List<string> list = new List<string>();
+			
 			foreach (Notifier notifier in _Instances.Values) {
 				if (_Config.Accounts[notifier.AccountIndex] == null) {
 					list.Add(notifier.Text);
 				}
 			}
+
 			foreach (string str in list) {
 				TabbedThumbnail thumbnailPreview = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(_Instances[str].Handle);
 				thumbnailPreview.TabbedThumbnailClosed -= _Preview_TabbedThumbnailClosed;
+				
 				_TaskbarManager.TabbedThumbnail.RemoveThumbnailPreview(thumbnailPreview);
 				_Instances[str].Close();
 			}
+
 			if (_Config.Accounts.Count > 0) {
 				_TaskbarManager.TabbedThumbnail.SetActiveTab(_Instances[_Config.Accounts[0].FullAddress].Handle);
 			}
 		}
 
 		private void CreateInstances() {
+
 			for (int i = 0; i < _Config.Accounts.Count; i++) {
-				if (!_Instances.ContainsKey(_Config.Accounts[i].FullAddress)) {
-					Notifier notifier = new Notifier(i);
-					notifier.FormClosed += _Notifier_FormClosed;
-					notifier.CheckFinished += _Notifier_CheckFinished;
-					_Instances.Add(_Config.Accounts[i].FullAddress, notifier);
-					notifier.Show(this);
-					TabbedThumbnail preview = new TabbedThumbnail(base.Handle, notifier.Handle);
-					preview.TabbedThumbnailClosed += _Preview_TabbedThumbnailClosed;
-					preview.SetWindowIcon(Utilities.ResourceHelper.GetResourceIcon("GmailNotifierPlus.Icons.Default.ico"));
-					preview.Tooltip = string.Empty;
-					_TaskbarManager.TabbedThumbnail.AddThumbnailPreview(preview);
+
+				Account account = _Config.Accounts[i];
+
+				if (_Instances.ContainsKey(account.FullAddress)) {
+					continue;
 				}
+					
+				Notifier notifier = new Notifier(i);
+				notifier.FormClosed += _Notifier_FormClosed;
+				notifier.CheckMailFinished += _Notifier_CheckFinished;
+					
+				_Instances.Add(account.FullAddress, notifier);
+					
+				notifier.Show(this);
+
+				TabbedThumbnail preview = new TabbedThumbnail(base.Handle, notifier.Handle);
+				preview.TabbedThumbnailClosed += _Preview_TabbedThumbnailClosed;
+				preview.SetWindowIcon(Utilities.ResourceHelper.GetIcon("Default.ico"));
+				preview.Tooltip = String.Empty;
+					
+				_TaskbarManager.TabbedThumbnail.AddThumbnailPreview(preview);
+				
 			}
+
 			if (_Config.Accounts.Count > 0) {
-				_TaskbarManager.TabbedThumbnail.SetActiveTab(_Instances[_Config.Accounts[0].FullAddress].Handle);
+				Account account = _Config.Accounts[0];
+				_TaskbarManager.TabbedThumbnail.SetActiveTab(_Instances[account.FullAddress].Handle);
 			}
 		}
 
@@ -270,16 +294,16 @@ namespace GmailNotifierPlus.Forms {
 			}
 			else {
 				count = Math.Min(count, 0x63);
-				_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetResourceIcon("GmailNotifierPlus.Icons.Digits." + count.ToString("00") + ".ico"), string.Empty);
+				_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon("Digits." + count.ToString("00") + ".ico"), string.Empty);
 			}
 		}
 
 		internal void SetWarningOverlay() {
-			_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetResourceIcon("GmailNotifierPlus.Icons.Warning.ico"), string.Empty);
+			_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon(".Warning.ico"), string.Empty);
 		}
 
 		internal void SetOfflineOverlay() {
-			_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetResourceIcon("GmailNotifierPlus.Icons.Offline.ico"), string.Empty);
+			_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon("Offline.ico"), string.Empty);
 		}
 
 		private void OpenSettingsWindow() {
@@ -294,11 +318,10 @@ namespace GmailNotifierPlus.Forms {
 
 		internal void RemoteCheckMails() {
 			MethodInvoker method = null;
+
 			if (base.InvokeRequired) {
 				if (method == null) {
-					method = delegate {
-						this.CheckMail();
-					};
+					method = delegate { this.CheckMail(); };
 				}
 				base.Invoke(method);
 			}
@@ -306,23 +329,24 @@ namespace GmailNotifierPlus.Forms {
 
 		internal void RemoteOpenSettingsWindow() {
 			MethodInvoker method = null;
+
 			if (base.InvokeRequired) {
 				if (method == null) {
-					method = delegate {
-						this.OpenSettingsWindow();
-					};
+					method = delegate { this.OpenSettingsWindow(); };
 				}
 				base.Invoke(method);
 			}
 		}
 
 		private void UpdateMailsJumpList() {
+			
 			try {
 				_JumpListManager.ClearAllCustomCategories();
 			}
-			catch {
-			}
+			catch { }
+			
 			Dictionary<string, List<JumpListLink>> dictionary = new Dictionary<string, List<JumpListLink>>();
+			
 			int num = 0;
 			int num2 = Math.Min(_UnreadTotal, (int)_JumpListManager.MaxSlotsInList);
 			int index = 0;
@@ -335,18 +359,18 @@ namespace GmailNotifierPlus.Forms {
 				Account account = _Config.Accounts[notifier.AccountIndex];
 
 				if (Locale.Current.IsRightToLeftLanguage) {
-					str = string.Concat(new object[] { "(", notifier.UnreadMailCount, ") ", account.FullAddress, " " });
+					str = string.Concat(new object[] { "(", notifier.Unread, ") ", account.FullAddress, " " });
 				}
 				else {
-					str = string.Concat(new object[] { account.FullAddress, " (", notifier.UnreadMailCount, ")" });
+					str = string.Concat(new object[] { account.FullAddress, " (", notifier.Unread, ")" });
 				}
 
 				if (!dictionary.ContainsKey(str)) {
 					dictionary.Add(str, new List<JumpListLink>());
 				}
 
-				if (num4 < notifier.CurrentMails.Count) {
-					XmlNode node = notifier.CurrentMails[num4];
+				if (num4 < notifier.XmlMail.Count) {
+					XmlNode node = notifier.XmlMail[num4];
 					String innerText = node.ChildNodes.Item(0).InnerText;
 					String linkTitle = String.IsNullOrEmpty(innerText) ? Locale.Current.Labels.NoSubject : innerText;
 					String linkUrl = UrlHelper.BuildMailUrl(node.ChildNodes.Item(2).Attributes["href"].Value, notifier.AccountIndex);
@@ -371,13 +395,14 @@ namespace GmailNotifierPlus.Forms {
 			foreach (KeyValuePair<string, List<JumpListLink>> pair in dictionary) {
 				JumpListCustomCategory category = new JumpListCustomCategory(pair.Key);
 				category.AddJumpListItems(pair.Value.ToArray());
+
 				_JumpListManager.AddCustomCategories(new JumpListCustomCategory[] { category });
 			}
+
 			try {
 				_JumpListManager.Refresh();
 			}
-			catch {
-			}
+			catch { }
 		}
 
 

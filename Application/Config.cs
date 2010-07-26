@@ -60,6 +60,8 @@ namespace GmailNotifierPlus {
 			this.Sound = "default";
 			this.PlaySound = true;
 			this.FirstRun = true;
+
+			this.Accounts = new AccountList();
 		}
 
 		public event ConfigSavedEventHandler Saved;
@@ -68,16 +70,8 @@ namespace GmailNotifierPlus {
 		public String Language { get; set; }
 		public String Sound { get; set; }
 		public Boolean PlaySound { get; set; }
-		public List<Account> Accounts { get; set; }
+		public AccountList Accounts { get; set; }
 		public Boolean FirstRun { get; set; }
-
-		[XmlIgnore]
-		public Account DefaultAccount {
-			get {
-				Account account = (from a in Accounts where a.Default == true select a).First();
-				return account;
-			}
-		}
 
 		public void Save() {
 

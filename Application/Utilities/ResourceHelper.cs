@@ -20,12 +20,32 @@
 		/// <returns></returns>
 		public static T Get<T>(Assembly assembly, String fileName){
 		
+			Type type = typeof(T);
+
+			if (type == typeof(Stream)) {
+				return (T)Convert.ChangeType(assembly.GetManifestResourceStream(String.Concat(_ResourcePrefix, fileName)), type);
+			}
+
 			using (Stream dataStream = assembly.GetManifestResourceStream(String.Concat(_ResourcePrefix, fileName))){
 				
-				if(typeof(T) == typeof(String) && dataStream != null){
+				if(dataStream == null){
+					return default(T);
+				}
+
+				if(type == typeof(String)){
 					using (StreamReader sr = new StreamReader(dataStream)){
-						return (T)(object)sr.ReadToEnd();						
-					}				
+						return (T)Convert.ChangeType(sr.ReadToEnd(), type);
+					}
+				}
+				else if (type == typeof(Icon) || type == typeof(Image) || type == typeof(Bitmap)) {
+					try {
+						ConstructorInfo constructor = typeof(T).GetConstructor(new System.Type[] { typeof(object) });
+						T result = (T)constructor.Invoke(new object[] { dataStream });
+
+						return result;
+
+					}
+					catch { }
 				}
 			}
 
@@ -47,25 +67,20 @@
 			return Get<T>(assembly, fileName);
 		}
 
-		public static Icon GetResourceIcon(string resourceName) {
-			if (string.IsNullOrEmpty(resourceName)) {
-				return null;
-			}
-			return new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName));
+		public static Icon GetIcon(string iconName) {
+			iconName = String.Concat("Icons.", iconName);
+
+			return Get<Icon>(iconName);
 		}
 
-		public static Bitmap GetResourceImage(string resourceName) {
-			if (string.IsNullOrEmpty(resourceName)) {
-				return null;
-			}
-			return new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName));
+		public static Bitmap GetImage(string imageName) {
+			imageName = String.Concat("Images.", imageName);
+
+			return Get<Bitmap>(imageName);
 		}
 
-		public static Stream GetResourceStream(string resourceName) {
-			if (string.IsNullOrEmpty(resourceName)) {
-				return null;
-			}
-			return Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+		public static Stream GetStream(string resourceName) {
+			return Get<Stream>(resourceName);
 		}
 
 		public static Locale GetLocale(String language) {

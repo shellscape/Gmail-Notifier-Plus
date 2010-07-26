@@ -25,7 +25,7 @@
 
 		public static void PlayDefaultSound() {
 			try {
-				Stream stream = Utilities.ResourceHelper.GetResourceStream("GmailNotifierPlus.Resources.WindowsNotify.wav");
+				Stream stream = Utilities.ResourceHelper.GetStream("WindowsNotify.wav");
 				new System.Media.SoundPlayer(stream).Play();
 			}
 			catch {

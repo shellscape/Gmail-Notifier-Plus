@@ -89,12 +89,25 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountList.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Forms\Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Notifier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Notifier.Designer.cs">
+      <DependentUpon>Notifier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Locale.cs" />
     <Compile Include="Config.cs" />
@@ -107,7 +120,7 @@
     <Compile Include="Controls\ImageButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Notifier.cs">
+    <Compile Include="Forms\_Notifier.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Program.cs" />
@@ -116,7 +129,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Settings.cs">
+    <Compile Include="Forms\_Settings.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Utilities\DataProtector.cs" />
@@ -145,6 +158,9 @@
     <EmbeddedResource Include="Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Notifier.resx">
+      <DependentUpon>Notifier.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Locales\en-US.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +185,40 @@
       <Project>{AA0C00CB-8699-4F37-BFAE-40CA87ACC06D}</Project>
       <Name>Windows API Shell</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\WindowsNotify.wav" />
+    <EmbeddedResource Include="Resources\Icons\Default.ico" />
+    <EmbeddedResource Include="Resources\Icons\Inbox.ico" />
+    <EmbeddedResource Include="Resources\Icons\Mail.ico" />
+    <EmbeddedResource Include="Resources\Icons\Next.ico" />
+    <EmbeddedResource Include="Resources\Icons\Offline.ico" />
+    <EmbeddedResource Include="Resources\Icons\Open.ico" />
+    <EmbeddedResource Include="Resources\Icons\Previous.ico" />
+    <EmbeddedResource Include="Resources\Icons\Settings.ico" />
+    <EmbeddedResource Include="Resources\Icons\Warning.ico" />
+    <EmbeddedResource Include="Resources\Images\About.png" />
+    <EmbeddedResource Include="Resources\Images\Copyrights.png" />
+    <EmbeddedResource Include="Resources\Images\Disclaimer.png" />
+    <EmbeddedResource Include="Resources\Images\Welcome.png" />
+    <EmbeddedResource Include="Resources\Images\Add.png" />
+    <EmbeddedResource Include="Resources\Images\AddDisabled.png" />
+    <EmbeddedResource Include="Resources\Images\AddHover.png" />
+    <EmbeddedResource Include="Resources\Images\AddPressed.png" />
+    <EmbeddedResource Include="Resources\Images\Background.png" />
+    <EmbeddedResource Include="Resources\Images\Checking.png" />
+    <EmbeddedResource Include="Resources\Images\Donate.gif" />
+    <EmbeddedResource Include="Resources\Images\Exclamation.png" />
+    <EmbeddedResource Include="Resources\Images\Information.png" />
+    <EmbeddedResource Include="Resources\Images\Line.png" />
+    <EmbeddedResource Include="Resources\Images\Main.png" />
+    <EmbeddedResource Include="Resources\Images\Offline.png" />
+    <EmbeddedResource Include="Resources\Images\Remove.png" />
+    <EmbeddedResource Include="Resources\Images\RemoveDisabled.png" />
+    <EmbeddedResource Include="Resources\Images\RemoveHover.png" />
+    <EmbeddedResource Include="Resources\Images\RemovePressed.png" />
+    <EmbeddedResource Include="Resources\Images\Warning.png" />
+    <EmbeddedResource Include="Resources\Images\Envelope.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

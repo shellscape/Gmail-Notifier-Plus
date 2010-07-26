@@ -25,7 +25,7 @@
 			public const String LoginApps = "LoginAction2";
 		}
 
-		private static Config config = Config.Current;
+		private static Config _Config = Config.Current;
 
 		public static string BuildComposeUrl(int accountIndex) {
 			return (GetBaseUrl(accountIndex) + "#compose");
@@ -50,39 +50,40 @@
 		}
 
 		public static string GetBaseUrl(int accountIndex) {
-			Account account = config.Accounts[accountIndex];
+			Account account = _Config.Accounts[accountIndex];
 			if ((account != null) && (account.Type != AccountTypes.Regular)) {
-				return string.Format(Uris.Base, Params.BaseApps + config.Accounts[accountIndex].Domain);
+				return string.Format(Uris.Base, Params.BaseApps + _Config.Accounts[accountIndex].Domain);
 			}
 			return string.Format(Uris.Base, Params.Base);
 		}
 
 		public static string GetFeedUrl(int accountIndex) {
-			if (config.Accounts[accountIndex].Type == AccountTypes.Regular) {
+			if (_Config.Accounts[accountIndex].Type == AccountTypes.Regular) {
 				return string.Format(Uris.Feed, Params.Base);
 			}
-			return string.Format(Uris.Feed, Params.BaseApps + config.Accounts[accountIndex].Domain);
+			return string.Format(Uris.Feed, Params.BaseApps + _Config.Accounts[accountIndex].Domain);
 		}
 
 		public static string ToLoginUrl(string continueUrl, int accountIndex) {
 			string param;
 			string page;
+			Account account = _Config.Accounts[accountIndex];
 
-			if (config.Accounts[accountIndex].Type == AccountTypes.Regular) {
+			if (account.Type == AccountTypes.Regular) {
 				param = Params.Login;
 				page = Pages.Login;
 			}
 			else {
-				param = Params.BaseApps + config.Accounts[accountIndex].Domain;
+				param = Params.BaseApps + account.Domain;
 				page = Pages.LoginApps;
 			}
-			
+
 			object urlData = new object[] { 
 				param, 
 				page, 
 				HttpUtility.UrlEncode(continueUrl), 
-				HttpUtility.UrlEncode(config.Accounts[accountIndex].Name), 
-				HttpUtility.UrlEncode(config.Accounts[accountIndex].Password), 
+				HttpUtility.UrlEncode(account.Name), 
+				HttpUtility.UrlEncode(account.Password), 
 				string.Empty 
 			};
 
