@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Locale>
+	<Name>English (US)</Name>
+	<Buttons>
+		<Browse>Browse...</Browse>
+		<Cancel>Cancel</Cancel>
+		<Default>Default</Default>
+		<Edit>Edit</Edit>
+		<Next>Next</Next>
+		<OK>OK</OK>
+		<Save>Save</Save>
+	</Buttons>
+	<Labels>
+		<About>About Gmail Notifier Plus</About>
+		<Add>Add an Account</Add>
+		<Additional>Additional Settings</Additional>
+		<BrowseDialog>Browse for a new notification sound.</BrowseDialog>
+		<CheckLogin>Please check your account settings.</CheckLogin>
+		<CheckMail>Check for New Mail</CheckMail>
+		<Compose>Compose Mail</Compose>
+		<Configuration>Manage Accounts</Configuration>
+		<ConfigurationShort>Change Settings</ConfigurationShort>
+		<Connecting>Checking for new mail...</Connecting>
+		<ConnectionUnavailable>Please check your network connection</ConnectionUnavailable>
+		<CustomSound>Custom...</CustomSound>
+		<DefaultSound>Default</DefaultSound>
+		<Edit>Edit account information</Edit>
+		<Error>An account with this username already exists. Please enter a different username.</Error>
+		<Inbox>Go to your inbox</Inbox>
+		<Interval>Check every:</Interval>
+		<Language>Display language:</Language>
+		<Login>Username:</Login>
+		<Minutes>minute(s)</Minutes>
+		<No>No</No>
+		<NoAccount>Please set up an account.</NoAccount>
+		<NoMail>No new mail</NoMail>
+		<NoSound>None</NoSound>
+		<NoSubject>(no subject)</NoSubject>
+		<OSErrorContent>This software was designed to run exclusively on Windows 7.</OSErrorContent>
+		<OSErrorTitle>Operating system compatibility error</OSErrorTitle>
+		<Password>Password:</Password>
+		<RemoveConfirmation>Are you sure you want to remove this account?</RemoveConfirmation>
+		<RemoveConfirmationTitle>Remove Account</RemoveConfirmationTitle>
+		<Sound>Sound notification</Sound>
+		<Unread>Unread</Unread>
+		<WaveFiles>Wave File</WaveFiles>
+		<Yes>Yes</Yes>
+	</Labels>
+	<Tooltips>
+		<About>About Gmail Notifier Plus</About>
+		<Add>Add an account</Add>
+		<Inbox>Inbox</Inbox>
+		<Next>Next</Next>
+		<OpenMail>Open</OpenMail>
+		<Previous>Previous</Previous>
+		<Remove>Remove selected account</Remove>
+		<Settings>Settings</Settings>
+	</Tooltips>
+</Locale>
