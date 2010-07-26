@@ -24,21 +24,22 @@ namespace GmailNotifierPlus {
 			String xml = null;
 			FileInfo file = new FileInfo(Path.Combine(_Path, _FileName));
 
-			if(file.Exists){
+			if (file.Exists) {
 				using (FileStream fs = new FileStream(file.FullName, FileMode.Create, FileAccess.ReadWrite)) {
 					using (StreamReader sr = new StreamReader(fs)) {
 						xml = sr.ReadToEnd();
 					}
 				}
 
-				if(!String.IsNullOrEmpty(xml)){
+				if (!String.IsNullOrEmpty(xml)) {
 					config = Utilities.Serializer.Deserialize<Config>(xml);
 				}
 			}
+			else {
+				config.Save();
+			}
 			
 			Config.Current = config;
-
-			config.Save();
 		}
 
 		public static Config Current {

@@ -11,7 +11,7 @@
 	internal static class Program {
 
 		internal static String channelName;
-		internal static GmailNotifierPlus.Main mainForm;
+		internal static GmailNotifierPlus.Forms.Main mainForm;
 
 		private static void CallRunningInstance(string[] args) {
 			RemotingService service = (RemotingService)RemotingServices.Connect(typeof(RemotingService), "ipc://" + channelName + "/service.rem");
@@ -56,9 +56,7 @@
 
 					Config.Init();
 					
-					mainForm = new GmailNotifierPlus.Main(args);
-
-					
+					mainForm = new GmailNotifierPlus.Forms.Main(args);
 
 					Application.Run(mainForm);
 				}
