@@ -120,9 +120,6 @@
     <Compile Include="Controls\ImageButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\_Notifier.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -160,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Notifier.resx">
       <DependentUpon>Notifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Locales\en-US.xml" />
   </ItemGroup>
