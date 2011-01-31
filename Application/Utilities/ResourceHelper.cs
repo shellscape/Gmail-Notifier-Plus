@@ -39,7 +39,7 @@
 				}
 				else if (type == typeof(Icon) || type == typeof(Image) || type == typeof(Bitmap)) {
 					try {
-						ConstructorInfo constructor = typeof(T).GetConstructor(new System.Type[] { typeof(object) });
+						ConstructorInfo constructor = typeof(T).GetConstructor(new System.Type[] { typeof(Stream) });
 						T result = (T)constructor.Invoke(new object[] { dataStream });
 
 						return result;

@@ -60,6 +60,9 @@
   <PropertyGroup>
     <RootNamespace>GmailNotifierPlus</RootNamespace>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Icons\Default.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -116,6 +119,7 @@
     </Compile>
     <Compile Include="Account.cs" />
     <Compile Include="Utilities\EncryptionHelper.cs" />
+    <Compile Include="Utilities\ImageHelper.cs" />
     <Compile Include="Utilities\ResourceHelper.cs" />
     <Compile Include="Controls\ImageButton.cs">
       <SubType>Component</SubType>
@@ -125,9 +129,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\_Settings.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Utilities\DataProtector.cs" />
     <Compile Include="Utilities\Serializer.cs" />

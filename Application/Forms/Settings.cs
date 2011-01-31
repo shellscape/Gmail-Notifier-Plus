@@ -28,8 +28,8 @@ namespace GmailNotifierPlus.Forms {
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
 		public static extern bool SetForegroundWindow(IntPtr hWnd);
 
-		private const int animationOffset = 300;
 		private readonly int animationSpeed = 30;
+
 		private int _DefaultAccountIndex;
 		private bool _IsEditing;
 
@@ -40,25 +40,29 @@ namespace GmailNotifierPlus.Forms {
 
 		public Settings() {
 			InitializeComponent();
-		
+
+			// now we can play around with the form 
+			//this.Size = new Size(300, 404);
+			this.ClientSize = new Size(300, 355);
+
 			ToolTip tip = new ToolTip();
 
 			_FontRegular = new Font(_ListViewAccounts.Font, FontStyle.Regular);
 			_FontBold = new Font(_ListViewAccounts.Font, FontStyle.Bold);
 
 			InitTables();
-			InitImageButtons();
-			UpdateHeaderSize();
 
-			foreach (Account account in _Config.Accounts) {
-				_ListViewAccounts.Items.Add(account.Login);
-				_ListAccounts.Add(account.Login, account);
-			}
+			if (_Config.Accounts.Count > 0) {
+				foreach (Account account in _Config.Accounts) {
+					_ListViewAccounts.Items.Add(account.Login);
+					_ListAccounts.Add(account.Login, account);
+				}
+		
+				_DefaultAccountIndex = _Config.Accounts.IndexOf(_Config.Accounts.Default);
 
-			_DefaultAccountIndex = _Config.Accounts.IndexOf(_Config.Accounts.Default);
-
-			if (_DefaultAccountIndex < _ListViewAccounts.Items.Count) {
-				_ListViewAccounts.Items[this._DefaultAccountIndex].Font = this._FontBold;
+				if (_DefaultAccountIndex < _ListViewAccounts.Items.Count) {
+					_ListViewAccounts.Items[this._DefaultAccountIndex].Font = this._FontBold;
+				}
 			}
 
 			tip.SetToolTip(_ImgButtonAbout, Locale.Current.Tooltips.About);
@@ -85,10 +89,13 @@ namespace GmailNotifierPlus.Forms {
 			_ButtonOk.Text = _ButtonAboutOk.Text = Locale.Current.Buttons.OK;
 			_ButtonCancel.Text = _ButtonAccountCancel.Text = Locale.Current.Buttons.Cancel;
 
-			this.AdjustControls();
+			InitImageButtons();
+			UpdateHeaderSize();
+			AdjustControls();
+			InitEvents();
 
 			if (Locale.Current.IsRightToLeftLanguage) {
-				this.MirrorControls();
+				MirrorControls();
 			}
 
 		}
@@ -281,65 +288,17 @@ namespace GmailNotifierPlus.Forms {
 
 #endregion
 
-#region .    Timer Event Methods    
-
-		private void _TimerAboutIn_Tick(object sender, EventArgs e) {
-			if (_PanelMain.Left < 300) {
-				_PanelMain.Left = _PanelButtons.Left += this.animationSpeed;
-				_PanelAbout.Left = _PanelAboutButtons.Left += this.animationSpeed;
-			}
-			else {
-				_TimerAboutIn.Enabled = false;
-			}
-		}
-
-		private void _TimerAboutOut_Tick(object sender, EventArgs e) {
-			if (_PanelMain.Left > 0) {
-				_PanelMain.Left = _PanelButtons.Left -= this.animationSpeed;
-				_PanelAbout.Left = _PanelAboutButtons.Left -= this.animationSpeed;
-			}
-			else {
-				_TimerAboutOut.Enabled = false;
-
-				if (_Config.FirstRun) {
-					_Config.FirstRun = false;
-					_PictureWelcome.Visible = _PictureDisclaimer.Visible = false;
-					_PictureCopyrights.Visible = true;
-					_ButtonAboutOk.Text = Locale.Current.Buttons.OK;
-				}
-			}
-		}
-
-		private void _TimerIn_Tick(object sender, EventArgs e) {
-			if (_PanelMain.Left > -300) {
-				_PanelMain.Left = _PanelButtons.Left -= this.animationSpeed;
-				_PanelAccount.Left = _PanelAccountButtons.Left -= this.animationSpeed;
-			}
-			else {
-				_TimerIn.Enabled = false;
-			}
-		}
-
-		private void _TimerOut_Tick(object sender, EventArgs e) {
-			if (_PanelMain.Left < 0) {
-				_PanelMain.Left = _PanelButtons.Left += this.animationSpeed;
-				_PanelAccount.Left = _PanelAccountButtons.Left += this.animationSpeed;
-			}
-			else {
-				_TimerOut.Enabled = false;
-			}
-		}
-
-#endregion
-
 #region .    Private Methods    
 
 		private void AdjustControls() {
+
+			return;
+
 			int num = 6; // arbitrary numbers? padding?
 			int num2 = 10; // ditto?
 			int width = Math.Max(_ButtonDefault.Width, _ButtonEdit.Width);
 
-			// Not sure if this was lowsy coding, CLR mangling, or if it's really needed. Seems that an autosize would work here.
+			// Not sure if this was lowsy coding, CLR mangling, or if it's really needed. Seems that autosize would work here.
 			//if (config.Language == Resources.Code_Bulgarian) {
 			//  _ButtonEdit.Width -= 25;
 			//}
@@ -402,7 +361,7 @@ namespace GmailNotifierPlus.Forms {
 
 			_ImgButtonAbout.Click += _ImgButtonAbout_Click;
 			_ImgButtonAdd.Click += _ImgButtonAdd_Click;
-			_ImgButtonDonate.Click += _ImgButtonDonate_Click;
+			//_ImgButtonDonate.Click += _ImgButtonDonate_Click;
 			_ImgButtonRemove.Click += _ImgButtonRemove_Click;
 
 			_ListViewAccounts.DoubleClick += _ListViewAccounts_DoubleClick;
@@ -413,40 +372,36 @@ namespace GmailNotifierPlus.Forms {
 			_TextInterval.Leave += _TextInterval_Leave;
 			_TextPassword.TextChanged += _Credentials_Changed;
 			_TextUsername.TextChanged += _Credentials_Changed;
-
-			_TimerAboutIn.Tick += _TimerAboutIn_Tick;
-			_TimerAboutOut.Tick += _TimerAboutOut_Tick;
-			_TimerIn.Tick += _TimerIn_Tick;
-			_TimerOut.Tick += _TimerOut_Tick;
-
 		}
 
 		private void InitImageButtons(){
 
+			_PanelAbout.BackgroundImage = ResourceHelper.GetImage("About.png");
+			_PanelAbout.BackgroundImageLayout = ImageLayout.None;
+			//_PictureBackground.Image = ResourceHelper.GetImage("About.png");
+			//_PictureCopyrights.Image = ResourceHelper.GetImage("Copyrights.png");
 			_PictureExclamation.Image = ResourceHelper.GetImage("Exclamation.png");
 			_PictureExclamation.Height = _LabelError.Height;
-			_PictureLine.BackgroundImage = ResourceHelper.GetImage("Line.png");
-			_PictureBackground.Image = ResourceHelper.GetImage("About.About.png");
-			_PictureCopyrights.Image = ResourceHelper.GetImage("About.Copyrights.png");
 			
 			_ImgButtonAbout.SetImage(ResourceHelper.GetImage("Information.png"));
 			_ImgButtonAdd.SetImages(ResourceHelper.GetImage("Add.png"), ResourceHelper.GetImage("AddDisabled.png"), ResourceHelper.GetImage("AddHover.png"), ResourceHelper.GetImage("AddPressed.png"));
+			//_ImgButtonDonate.SetImage(ResourceHelper.GetImage("Donate.gif"));
 			_ImgButtonRemove.SetImages(ResourceHelper.GetImage("Remove.png"), ResourceHelper.GetImage("RemoveDisabled.png"), ResourceHelper.GetImage("RemoveHover.png"), ResourceHelper.GetImage("RemovePressed.png"));
-			_ImgButtonRemove.Enabled = false;
-			_ImgButtonDonate.SetImage(ResourceHelper.GetImage("Donate.gif"));
-			
+			_ImgButtonRemove.Enabled = false;			
 
 			if (_Config.FirstRun) {
-				_PictureWelcome.Image = ResourceHelper.GetImage("About.Welcome.png");
-				_PictureDisclaimer.Image = ResourceHelper.GetImage("About.Disclaimer.png");
-				_PanelMain.Left = _PanelButtons.Left = 300;
-				_PanelAbout.Left = _PanelAboutButtons.Left += 300;
+				//_PictureWelcome.Image = ResourceHelper.GetImage("Welcome.png");
+				//_PictureDisclaimer.Image = ResourceHelper.GetImage("Disclaimer.png");
+				//_PanelMain.Left = _PanelButtons.Left = 300;
+				//_PanelAbout.Left = _PanelAboutButtons.Left += 300;
 				
 				this.SwitchToAbout();
 
-				_PictureWelcome.Visible = _PictureDisclaimer.Visible = true;
-				_PictureCopyrights.Visible = _ImgButtonDonate.Visible = false;
-				_ButtonAboutOk.Text = Locale.Current.Buttons.Next;
+				//_PictureWelcome.Visible = _PictureDisclaimer.Visible = true;
+				//_PictureCopyrights.Visible = _ImgButtonDonate.Visible = false;
+
+				//_ImgButtonDonate.Visible = false;
+				_ButtonAboutOk.Text = Locale.Current.Buttons.LetsGo;
 			}
 
 		}
@@ -460,7 +415,7 @@ namespace GmailNotifierPlus.Forms {
 			table.Columns.Add(columnName, typeof(string));
 			table.Columns.Add(columnValue, typeof(string));
 
-			foreach (String language in Utilities.ResourceHelper.AvailableLocales) {
+			foreach (String language in ResourceHelper.AvailableLocales) {
 				table.Rows.Add(new string[] { language, language });
 			}
 
@@ -537,7 +492,8 @@ namespace GmailNotifierPlus.Forms {
 #region .    Panel Switching Methods    
 
 		private void SwitchToAbout() {
-			
+
+			_ButtonAboutOk.Text = Locale.Current.Buttons.Sweet;
 			this.AcceptButton = _ButtonAboutOk;
 			this.CancelButton = _ButtonAboutOk;
 			
@@ -553,7 +509,8 @@ namespace GmailNotifierPlus.Forms {
 
 			_ButtonAboutOk.TabStop = true;
 			_PanelAbout.Focus();
-			_TimerAboutIn.Enabled = true;
+			Animate(_PanelAbout);
+
 		}
 
 		private void SwitchToAccounts() {
@@ -597,7 +554,7 @@ namespace GmailNotifierPlus.Forms {
 				_LabelAccountTitle.Left += width - _LabelAccountTitle.Width;
 			}
 
-			_TimerIn.Enabled = true;
+			Animate(_PanelAccount);
 		}
 
 		private void SwitchToSettings(SourceScreen source) {
@@ -615,24 +572,31 @@ namespace GmailNotifierPlus.Forms {
 				_ButtonOk.TabStop = 
 				_ButtonCancel.TabStop = true;
 
+			Animate(_PanelMain);
 			_PanelMain.Focus();
 
 			switch (source) {
 				case SourceScreen.About:
 					_ButtonAboutOk.TabStop = false;
-					_TimerAboutOut.Enabled = true;
 					break;
 
 				case SourceScreen.Accounts:
-
-					_TextUsername.TabStop = 
-						_TextPassword.TabStop = 
-						_ButtonAccountSave.TabStop = 
-						_ButtonAccountCancel.TabStop = false;
-
-					_TimerOut.Enabled = true;
+					_TextUsername.TabStop = _TextPassword.TabStop = _ButtonAccountSave.TabStop = _ButtonAccountCancel.TabStop = false;
 					break;
 			}
+		}
+
+		private void Animate(Panel panel) {
+
+			// if we're moving right, -1. if we're moving left, 1.
+			int multiplier = panel.Left > Math.Abs(_PanelSlider.Left) ? -1 : 1;
+
+			while(Math.Abs(_PanelSlider.Left) != panel.Left){
+				_PanelSlider.Left += (animationSpeed * multiplier);
+				System.Threading.Thread.Sleep(10); // add a little pause for smoothness
+				Application.DoEvents();
+			}
+
 		}
 
 #endregion

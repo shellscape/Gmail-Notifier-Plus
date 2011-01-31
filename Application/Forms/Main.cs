@@ -27,6 +27,7 @@ namespace GmailNotifierPlus.Forms {
 		private Dictionary<string, Notifier.Status> _StatusList = new Dictionary<string, Notifier.Status>();
 		private TaskbarManager _TaskbarManager = TaskbarManager.Instance;
 		private int _UnreadTotal;
+		private Icon _IconDigits = null;
 
 		private Config _Config = Config.Current;
 
@@ -35,8 +36,16 @@ namespace GmailNotifierPlus.Forms {
 		public Main(string[] args) {
 			InitializeComponent();
 
+			this.Location = new Point(-10000, -10000);
+			Bitmap windowBitmap = ResourceHelper.GetImage("Envelope.png");
+			Icon windowIcon = Icon.FromHandle(windowBitmap.GetHicon());
+
+			this.Icon = windowIcon;
+
+			windowBitmap.Dispose();
+			windowBitmap = null;
+
 			this.Text = GmailNotifierPlus.Resources.Resources.WindowTitle;
-			
 			this.CreateInstances();
 
 			if ((args.Length > 0) && (args[0] == "-settings")) {
@@ -48,6 +57,8 @@ namespace GmailNotifierPlus.Forms {
 			_Timer.Tick += _Timer_Tick;
 			_Timer.Interval = _Config.Interval * 1000;
 			_Timer.Enabled = true;
+
+			SetUnreadOverlay(99);
 		}
 
 		protected override void WndProc(ref Message m) {
@@ -289,13 +300,27 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void SetUnreadOverlay(int count) {
-			if (count == 0) {
-				_TaskbarManager.SetOverlayIcon(base.Handle, null, string.Empty);
+			//if (count == 0) {
+			//	_TaskbarManager.SetOverlayIcon(base.Handle, null, string.Empty);
+			//}
+			//else {
+				//count = Math.Min(count, 99);
+				if (_IconDigits != null) {
+					_IconDigits.Dispose();
+					_IconDigits = null;
+				}
+
+				int digitsNumber;
+				Int32.TryParse(count.ToString("00"), out digitsNumber);
+
+				_IconDigits = ImageHelper.GetDigitIcon(digitsNumber);
+
+			using(System.IO.FileStream fs = new System.IO.FileStream("icon.ico",  System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite)){
+				_IconDigits.Save(fs);
 			}
-			else {
-				count = Math.Min(count, 0x63);
-				_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon("Digits." + count.ToString("00") + ".ico"), string.Empty);
-			}
+
+				_TaskbarManager.SetOverlayIcon(base.Handle, _IconDigits, string.Empty);
+			//}
 		}
 
 		internal void SetWarningOverlay() {
@@ -307,6 +332,7 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void OpenSettingsWindow() {
+			
 			if (_SettingsWindow == null) {
 				_SettingsWindow = new Settings();
 				_SettingsWindow.FormClosed += _SettingsWindow_FormClosed;

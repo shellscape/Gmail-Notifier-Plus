@@ -38,6 +38,8 @@ namespace GmailNotifierPlus {
 			public String OK { get; set; }
 			public String Next { get; set; }
 			public String Save { get; set; }
+			public String LetsGo { get; set; }
+			public String Sweet { get; set; }
 
 		}
 

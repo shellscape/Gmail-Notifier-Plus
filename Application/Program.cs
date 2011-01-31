@@ -38,6 +38,7 @@
 		[STAThread]
 		private static void Main(string[] args) {
 			bool createdNew;
+
 			channelName = String.Concat(WindowsIdentity.GetCurrent().Name, "@GmailNotifierPlus");
 			
 			String guid = "{421a0043-b2ab-4b86-8dec-63ce3b8bd764}";

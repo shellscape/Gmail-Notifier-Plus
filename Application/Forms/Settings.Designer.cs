@@ -50,59 +50,45 @@ namespace GmailNotifierPlus.Forms {
 			this._LabelSound = new System.Windows.Forms.Label();
 			this._LabelTitle = new System.Windows.Forms.Label();
 			this._LabelUsername = new System.Windows.Forms.Label();
-			this._ImgButtonAbout = new GmailNotifierPlus.Controls.ImageButton();
-			this._ImgButtonAdd = new GmailNotifierPlus.Controls.ImageButton();
-			this._ImgButtonDonate = new GmailNotifierPlus.Controls.ImageButton();
-			this._ImgButtonRemove = new GmailNotifierPlus.Controls.ImageButton();
 			this._TextPassword = new VistaControls.TextBox();
 			this._TextUsername = new VistaControls.TextBox();
 			this._ListViewAccounts = new VistaControls.ListView();
 			this._ColumnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this._PictureBackground = new System.Windows.Forms.PictureBox();
-			this._PictureCopyrights = new System.Windows.Forms.PictureBox();
-			this._PictureDisclaimer = new System.Windows.Forms.PictureBox();
 			this._PictureExclamation = new System.Windows.Forms.PictureBox();
-			this._PictureLine = new System.Windows.Forms.PictureBox();
-			this._PictureWelcome = new System.Windows.Forms.PictureBox();
 			this._ComboLanguage = new VistaControls.ComboBox();
 			this._ComboSound = new VistaControls.ComboBox();
 			this._TextInterval = new System.Windows.Forms.TextBox();
-			this._TimerAboutIn = new System.Windows.Forms.Timer(this.components);
-			this._TimerAboutOut = new System.Windows.Forms.Timer(this.components);
-			this._TimerIn = new System.Windows.Forms.Timer(this.components);
-			this._TimerOut = new System.Windows.Forms.Timer(this.components);
 			this._PanelAbout = new System.Windows.Forms.Panel();
 			this._PanelAboutButtons = new System.Windows.Forms.Panel();
 			this._PanelAccount = new System.Windows.Forms.Panel();
 			this._PanelAccountButtons = new System.Windows.Forms.Panel();
 			this._PanelButtons = new System.Windows.Forms.Panel();
+			this._ImgButtonAbout = new GmailNotifierPlus.Controls.ImageButton();
 			this._PanelMain = new System.Windows.Forms.Panel();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAbout)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAdd)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonDonate)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonRemove)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._PictureBackground)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._PictureCopyrights)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._PictureDisclaimer)).BeginInit();
+			this._ImgButtonRemove = new GmailNotifierPlus.Controls.ImageButton();
+			this._ImgButtonAdd = new GmailNotifierPlus.Controls.ImageButton();
+			this._PanelSlider = new System.Windows.Forms.Panel();
 			((System.ComponentModel.ISupportInitialize)(this._PictureExclamation)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._PictureLine)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._PictureWelcome)).BeginInit();
 			this._PanelAbout.SuspendLayout();
 			this._PanelAboutButtons.SuspendLayout();
 			this._PanelAccount.SuspendLayout();
 			this._PanelAccountButtons.SuspendLayout();
 			this._PanelButtons.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAbout)).BeginInit();
 			this._PanelMain.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._ImgButtonRemove)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAdd)).BeginInit();
+			this._PanelSlider.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _ButtonAboutOk
 			// 
-			this._ButtonAboutOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._ButtonAboutOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this._ButtonAboutOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonAboutOk.Location = new System.Drawing.Point(308, 14);
+			this._ButtonAboutOk.Location = new System.Drawing.Point(5, 5);
+			this._ButtonAboutOk.Margin = new System.Windows.Forms.Padding(6);
 			this._ButtonAboutOk.Name = "_ButtonAboutOk";
-			this._ButtonAboutOk.Size = new System.Drawing.Size(75, 23);
+			this._ButtonAboutOk.Size = new System.Drawing.Size(290, 40);
 			this._ButtonAboutOk.TabIndex = 0;
 			this._ButtonAboutOk.TabStop = false;
 			this._ButtonAboutOk.Text = "OK";
@@ -110,10 +96,9 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _ButtonAccountCancel
 			// 
-			this._ButtonAccountCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._ButtonAccountCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this._ButtonAccountCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonAccountCancel.Location = new System.Drawing.Point(308, 14);
+			this._ButtonAccountCancel.Location = new System.Drawing.Point(129, 13);
 			this._ButtonAccountCancel.Name = "_ButtonAccountCancel";
 			this._ButtonAccountCancel.Size = new System.Drawing.Size(75, 23);
 			this._ButtonAccountCancel.TabIndex = 3;
@@ -123,10 +108,9 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _ButtonAccountSave
 			// 
-			this._ButtonAccountSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._ButtonAccountSave.Enabled = false;
 			this._ButtonAccountSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonAccountSave.Location = new System.Drawing.Point(227, 14);
+			this._ButtonAccountSave.Location = new System.Drawing.Point(210, 14);
 			this._ButtonAccountSave.Name = "_ButtonAccountSave";
 			this._ButtonAccountSave.Size = new System.Drawing.Size(75, 23);
 			this._ButtonAccountSave.TabIndex = 2;
@@ -136,11 +120,10 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _ButtonBrowse
 			// 
-			this._ButtonBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._ButtonBrowse.AutoSize = true;
 			this._ButtonBrowse.Enabled = false;
 			this._ButtonBrowse.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonBrowse.Location = new System.Drawing.Point(296, 179);
+			this._ButtonBrowse.Location = new System.Drawing.Point(200, 179);
 			this._ButtonBrowse.MinimumSize = new System.Drawing.Size(65, 23);
 			this._ButtonBrowse.Name = "_ButtonBrowse";
 			this._ButtonBrowse.Size = new System.Drawing.Size(65, 23);
@@ -150,10 +133,9 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _ButtonCancel
 			// 
-			this._ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this._ButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonCancel.Location = new System.Drawing.Point(308, 14);
+			this._ButtonCancel.Location = new System.Drawing.Point(128, 13);
 			this._ButtonCancel.Name = "_ButtonCancel";
 			this._ButtonCancel.Size = new System.Drawing.Size(75, 23);
 			this._ButtonCancel.TabIndex = 8;
@@ -162,11 +144,10 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _ButtonDefault
 			// 
-			this._ButtonDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._ButtonDefault.AutoSize = true;
 			this._ButtonDefault.Enabled = false;
 			this._ButtonDefault.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonDefault.Location = new System.Drawing.Point(225, 115);
+			this._ButtonDefault.Location = new System.Drawing.Point(128, 115);
 			this._ButtonDefault.MinimumSize = new System.Drawing.Size(65, 23);
 			this._ButtonDefault.Name = "_ButtonDefault";
 			this._ButtonDefault.Size = new System.Drawing.Size(65, 23);
@@ -176,11 +157,10 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _ButtonEdit
 			// 
-			this._ButtonEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._ButtonEdit.AutoSize = true;
 			this._ButtonEdit.Enabled = false;
 			this._ButtonEdit.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonEdit.Location = new System.Drawing.Point(296, 115);
+			this._ButtonEdit.Location = new System.Drawing.Point(199, 115);
 			this._ButtonEdit.MinimumSize = new System.Drawing.Size(65, 23);
 			this._ButtonEdit.Name = "_ButtonEdit";
 			this._ButtonEdit.Size = new System.Drawing.Size(65, 23);
@@ -190,9 +170,8 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _ButtonOk
 			// 
-			this._ButtonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._ButtonOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonOk.Location = new System.Drawing.Point(227, 14);
+			this._ButtonOk.Location = new System.Drawing.Point(209, 14);
 			this._ButtonOk.Name = "_ButtonOk";
 			this._ButtonOk.Size = new System.Drawing.Size(75, 23);
 			this._ButtonOk.TabIndex = 7;
@@ -301,67 +280,25 @@ namespace GmailNotifierPlus.Forms {
 			this._LabelUsername.TabIndex = 14;
 			this._LabelUsername.Text = "Username:";
 			// 
-			// _ImgButtonAbout
-			// 
-			this._ImgButtonAbout.Location = new System.Drawing.Point(13, 17);
-			this._ImgButtonAbout.Name = "_ImgButtonAbout";
-			this._ImgButtonAbout.Size = new System.Drawing.Size(16, 16);
-			this._ImgButtonAbout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this._ImgButtonAbout.TabIndex = 11;
-			this._ImgButtonAbout.TabStop = false;
-			// 
-			// _ImgButtonAdd
-			// 
-			this._ImgButtonAdd.Location = new System.Drawing.Point(27, 118);
-			this._ImgButtonAdd.Name = "_ImgButtonAdd";
-			this._ImgButtonAdd.Size = new System.Drawing.Size(16, 16);
-			this._ImgButtonAdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this._ImgButtonAdd.TabIndex = 25;
-			this._ImgButtonAdd.TabStop = false;
-			// 
-			// _ImgButtonDonate
-			// 
-			this._ImgButtonDonate.Location = new System.Drawing.Point(13, 15);
-			this._ImgButtonDonate.Name = "_ImgButtonDonate";
-			this._ImgButtonDonate.Size = new System.Drawing.Size(74, 21);
-			this._ImgButtonDonate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this._ImgButtonDonate.TabIndex = 12;
-			this._ImgButtonDonate.TabStop = false;
-			// 
-			// _ImgButtonRemove
-			// 
-			this._ImgButtonRemove.Location = new System.Drawing.Point(49, 118);
-			this._ImgButtonRemove.Name = "_ImgButtonRemove";
-			this._ImgButtonRemove.Size = new System.Drawing.Size(16, 16);
-			this._ImgButtonRemove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this._ImgButtonRemove.TabIndex = 25;
-			this._ImgButtonRemove.TabStop = false;
-			// 
 			// _TextPassword
 			// 
-			this._TextPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-									| System.Windows.Forms.AnchorStyles.Right)));
 			this._TextPassword.Location = new System.Drawing.Point(25, 104);
 			this._TextPassword.Name = "_TextPassword";
-			this._TextPassword.Size = new System.Drawing.Size(336, 20);
+			this._TextPassword.Size = new System.Drawing.Size(249, 20);
 			this._TextPassword.TabIndex = 1;
 			this._TextPassword.TabStop = false;
 			this._TextPassword.UseSystemPasswordChar = true;
 			// 
 			// _TextUsername
 			// 
-			this._TextUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-									| System.Windows.Forms.AnchorStyles.Right)));
 			this._TextUsername.Location = new System.Drawing.Point(25, 58);
 			this._TextUsername.Name = "_TextUsername";
-			this._TextUsername.Size = new System.Drawing.Size(336, 20);
+			this._TextUsername.Size = new System.Drawing.Size(249, 20);
 			this._TextUsername.TabIndex = 0;
 			this._TextUsername.TabStop = false;
 			// 
 			// _ListViewAccounts
 			// 
-			this._ListViewAccounts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-									| System.Windows.Forms.AnchorStyles.Right)));
 			this._ListViewAccounts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this._ColumnHeaderName});
 			this._ListViewAccounts.FullRowSelect = true;
@@ -373,7 +310,7 @@ namespace GmailNotifierPlus.Forms {
 			this._ListViewAccounts.RightToLeftLayout = true;
 			this._ListViewAccounts.ShowGroups = false;
 			this._ListViewAccounts.ShowItemToolTips = true;
-			this._ListViewAccounts.Size = new System.Drawing.Size(336, 72);
+			this._ListViewAccounts.Size = new System.Drawing.Size(238, 72);
 			this._ListViewAccounts.TabIndex = 0;
 			this._ListViewAccounts.UseCompatibleStateImageBehavior = false;
 			this._ListViewAccounts.View = System.Windows.Forms.View.Details;
@@ -382,31 +319,6 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			this._ColumnHeaderName.Text = "Name";
 			this._ColumnHeaderName.Width = 233;
-			// 
-			// _PictureBackground
-			// 
-			this._PictureBackground.Location = new System.Drawing.Point(0, 0);
-			this._PictureBackground.Name = "_PictureBackground";
-			this._PictureBackground.Size = new System.Drawing.Size(299, 305);
-			this._PictureBackground.TabIndex = 35;
-			this._PictureBackground.TabStop = false;
-			// 
-			// _PictureCopyrights
-			// 
-			this._PictureCopyrights.Location = new System.Drawing.Point(109, 269);
-			this._PictureCopyrights.Name = "_PictureCopyrights";
-			this._PictureCopyrights.Size = new System.Drawing.Size(190, 36);
-			this._PictureCopyrights.TabIndex = 34;
-			this._PictureCopyrights.TabStop = false;
-			// 
-			// _PictureDisclaimer
-			// 
-			this._PictureDisclaimer.Location = new System.Drawing.Point(0, 248);
-			this._PictureDisclaimer.Name = "_PictureDisclaimer";
-			this._PictureDisclaimer.Size = new System.Drawing.Size(299, 49);
-			this._PictureDisclaimer.TabIndex = 33;
-			this._PictureDisclaimer.TabStop = false;
-			this._PictureDisclaimer.Visible = false;
 			// 
 			// _PictureExclamation
 			// 
@@ -419,32 +331,12 @@ namespace GmailNotifierPlus.Forms {
 			this._PictureExclamation.TabStop = false;
 			this._PictureExclamation.Visible = false;
 			// 
-			// _PictureLine
-			// 
-			this._PictureLine.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this._PictureLine.Location = new System.Drawing.Point(0, 304);
-			this._PictureLine.Name = "_PictureLine";
-			this._PictureLine.Size = new System.Drawing.Size(299, 1);
-			this._PictureLine.TabIndex = 8;
-			this._PictureLine.TabStop = false;
-			// 
-			// _PictureWelcome
-			// 
-			this._PictureWelcome.Location = new System.Drawing.Point(12, 118);
-			this._PictureWelcome.Name = "_PictureWelcome";
-			this._PictureWelcome.Size = new System.Drawing.Size(111, 23);
-			this._PictureWelcome.TabIndex = 32;
-			this._PictureWelcome.TabStop = false;
-			this._PictureWelcome.Visible = false;
-			// 
 			// _ComboLanguage
 			// 
-			this._ComboLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._ComboLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._ComboLanguage.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this._ComboLanguage.FormattingEnabled = true;
-			this._ComboLanguage.Location = new System.Drawing.Point(227, 268);
+			this._ComboLanguage.Location = new System.Drawing.Point(129, 268);
 			this._ComboLanguage.Name = "_ComboLanguage";
 			this._ComboLanguage.Size = new System.Drawing.Size(134, 21);
 			this._ComboLanguage.TabIndex = 6;
@@ -468,91 +360,77 @@ namespace GmailNotifierPlus.Forms {
 			this._TextInterval.Text = "1";
 			this._TextInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// _TimerAboutIn
-			// 
-			this._TimerAboutIn.Interval = 1;
-			// 
-			// _TimerAboutOut
-			// 
-			this._TimerAboutOut.Interval = 1;
-			// 
-			// _TimerIn
-			// 
-			this._TimerIn.Interval = 1;
-			// 
-			// _TimerOut
-			// 
-			this._TimerOut.Interval = 1;
-			// 
 			// _PanelAbout
 			// 
-			this._PanelAbout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-									| System.Windows.Forms.AnchorStyles.Left)));
-			this._PanelAbout.Controls.Add(this._PictureDisclaimer);
-			this._PanelAbout.Controls.Add(this._PictureCopyrights);
-			this._PanelAbout.Controls.Add(this._PictureWelcome);
-			this._PanelAbout.Controls.Add(this._PictureBackground);
-			this._PanelAbout.Location = new System.Drawing.Point(-300, 0);
+			this._PanelAbout.Controls.Add(this._PanelAboutButtons);
+			this._PanelAbout.Location = new System.Drawing.Point(0, 0);
+			this._PanelAbout.Margin = new System.Windows.Forms.Padding(0);
 			this._PanelAbout.Name = "_PanelAbout";
-			this._PanelAbout.Size = new System.Drawing.Size(299, 305);
+			this._PanelAbout.Size = new System.Drawing.Size(300, 355);
 			this._PanelAbout.TabIndex = 0;
 			// 
 			// _PanelAboutButtons
 			// 
-			this._PanelAboutButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._PanelAboutButtons.BackColor = System.Drawing.SystemColors.Control;
-			this._PanelAboutButtons.Controls.Add(this._ImgButtonDonate);
-			this._PanelAboutButtons.Location = new System.Drawing.Point(-300, 305);
+			this._PanelAboutButtons.Controls.Add(this._ButtonAboutOk);
+			this._PanelAboutButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this._PanelAboutButtons.Location = new System.Drawing.Point(0, 305);
 			this._PanelAboutButtons.Name = "_PanelAboutButtons";
-			this._PanelAboutButtons.Size = new System.Drawing.Size(299, 50);
+			this._PanelAboutButtons.Size = new System.Drawing.Size(300, 50);
 			this._PanelAboutButtons.TabIndex = 0;
 			// 
 			// _PanelAccount
 			// 
-			this._PanelAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-									| System.Windows.Forms.AnchorStyles.Left)));
 			this._PanelAccount.Controls.Add(this._PictureExclamation);
 			this._PanelAccount.Controls.Add(this._LabelError);
 			this._PanelAccount.Controls.Add(this._LabelAccountTitle);
+			this._PanelAccount.Controls.Add(this._PanelAccountButtons);
 			this._PanelAccount.Controls.Add(this._TextPassword);
 			this._PanelAccount.Controls.Add(this._TextUsername);
 			this._PanelAccount.Controls.Add(this._LabelPassword);
 			this._PanelAccount.Controls.Add(this._LabelUsername);
-			this._PanelAccount.Location = new System.Drawing.Point(300, 0);
+			this._PanelAccount.Location = new System.Drawing.Point(600, 0);
+			this._PanelAccount.Margin = new System.Windows.Forms.Padding(0);
 			this._PanelAccount.Name = "_PanelAccount";
-			this._PanelAccount.Size = new System.Drawing.Size(299, 305);
+			this._PanelAccount.Size = new System.Drawing.Size(300, 355);
 			this._PanelAccount.TabIndex = 0;
 			// 
 			// _PanelAccountButtons
 			// 
-			this._PanelAccountButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._PanelAccountButtons.BackColor = System.Drawing.SystemColors.Control;
 			this._PanelAccountButtons.Controls.Add(this._ButtonAccountCancel);
 			this._PanelAccountButtons.Controls.Add(this._ButtonAccountSave);
-			this._PanelAccountButtons.Location = new System.Drawing.Point(300, 305);
+			this._PanelAccountButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this._PanelAccountButtons.Location = new System.Drawing.Point(0, 305);
 			this._PanelAccountButtons.Name = "_PanelAccountButtons";
-			this._PanelAccountButtons.Size = new System.Drawing.Size(299, 50);
+			this._PanelAccountButtons.Size = new System.Drawing.Size(300, 50);
 			this._PanelAccountButtons.TabIndex = 0;
 			// 
 			// _PanelButtons
 			// 
-			this._PanelButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-									| System.Windows.Forms.AnchorStyles.Right)));
 			this._PanelButtons.BackColor = System.Drawing.SystemColors.Control;
 			this._PanelButtons.Controls.Add(this._ImgButtonAbout);
 			this._PanelButtons.Controls.Add(this._ButtonCancel);
 			this._PanelButtons.Controls.Add(this._ButtonOk);
+			this._PanelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this._PanelButtons.Location = new System.Drawing.Point(0, 305);
 			this._PanelButtons.Name = "_PanelButtons";
-			this._PanelButtons.Size = new System.Drawing.Size(299, 50);
+			this._PanelButtons.Size = new System.Drawing.Size(300, 50);
 			this._PanelButtons.TabIndex = 0;
+			// 
+			// _ImgButtonAbout
+			// 
+			this._ImgButtonAbout.Location = new System.Drawing.Point(13, 17);
+			this._ImgButtonAbout.Name = "_ImgButtonAbout";
+			this._ImgButtonAbout.Size = new System.Drawing.Size(16, 16);
+			this._ImgButtonAbout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._ImgButtonAbout.TabIndex = 11;
+			this._ImgButtonAbout.TabStop = false;
 			// 
 			// _PanelMain
 			// 
-			this._PanelMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-									| System.Windows.Forms.AnchorStyles.Left)
-									| System.Windows.Forms.AnchorStyles.Right)));
 			this._PanelMain.Controls.Add(this._ComboSound);
+			this._PanelMain.Controls.Add(this._PanelButtons);
 			this._PanelMain.Controls.Add(this._LabelSound);
 			this._PanelMain.Controls.Add(this._ButtonBrowse);
 			this._PanelMain.Controls.Add(this._ButtonDefault);
@@ -567,10 +445,39 @@ namespace GmailNotifierPlus.Forms {
 			this._PanelMain.Controls.Add(this._TextInterval);
 			this._PanelMain.Controls.Add(this._LabelMinutes);
 			this._PanelMain.Controls.Add(this._LabelInterval);
-			this._PanelMain.Location = new System.Drawing.Point(0, 0);
+			this._PanelMain.Location = new System.Drawing.Point(300, 0);
+			this._PanelMain.Margin = new System.Windows.Forms.Padding(0);
 			this._PanelMain.Name = "_PanelMain";
-			this._PanelMain.Size = new System.Drawing.Size(299, 305);
+			this._PanelMain.Size = new System.Drawing.Size(300, 355);
 			this._PanelMain.TabIndex = 0;
+			// 
+			// _ImgButtonRemove
+			// 
+			this._ImgButtonRemove.Location = new System.Drawing.Point(49, 118);
+			this._ImgButtonRemove.Name = "_ImgButtonRemove";
+			this._ImgButtonRemove.Size = new System.Drawing.Size(16, 16);
+			this._ImgButtonRemove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._ImgButtonRemove.TabIndex = 25;
+			this._ImgButtonRemove.TabStop = false;
+			// 
+			// _ImgButtonAdd
+			// 
+			this._ImgButtonAdd.Location = new System.Drawing.Point(27, 118);
+			this._ImgButtonAdd.Name = "_ImgButtonAdd";
+			this._ImgButtonAdd.Size = new System.Drawing.Size(16, 16);
+			this._ImgButtonAdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this._ImgButtonAdd.TabIndex = 25;
+			this._ImgButtonAdd.TabStop = false;
+			// 
+			// _PanelSlider
+			// 
+			this._PanelSlider.Controls.Add(this._PanelAbout);
+			this._PanelSlider.Controls.Add(this._PanelMain);
+			this._PanelSlider.Controls.Add(this._PanelAccount);
+			this._PanelSlider.Location = new System.Drawing.Point(0, 0);
+			this._PanelSlider.Name = "_PanelSlider";
+			this._PanelSlider.Size = new System.Drawing.Size(901, 355);
+			this._PanelSlider.TabIndex = 1;
 			// 
 			// Settings
 			// 
@@ -579,15 +486,8 @@ namespace GmailNotifierPlus.Forms {
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.CancelButton = this._ButtonCancel;
-			this.ClientSize = new System.Drawing.Size(299, 355);
-			this.Controls.Add(this._PictureLine);
-			this.Controls.Add(this._PanelMain);
-			this.Controls.Add(this._PanelButtons);
-			this.Controls.Add(this._PanelAccountButtons);
-			this.Controls.Add(this._PanelAccount);
-			this.Controls.Add(this._PanelAboutButtons);
-			this.Controls.Add(this._PanelAbout);
-			this.Controls.Add(this._ButtonAboutOk);
+			this.ClientSize = new System.Drawing.Size(901, 456);
+			this.Controls.Add(this._PanelSlider);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -595,26 +495,20 @@ namespace GmailNotifierPlus.Forms {
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Gmail Notifier Plus";
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAbout)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAdd)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonDonate)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonRemove)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._PictureBackground)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._PictureCopyrights)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._PictureDisclaimer)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._PictureExclamation)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._PictureLine)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._PictureWelcome)).EndInit();
 			this._PanelAbout.ResumeLayout(false);
 			this._PanelAboutButtons.ResumeLayout(false);
-			this._PanelAboutButtons.PerformLayout();
 			this._PanelAccount.ResumeLayout(false);
 			this._PanelAccount.PerformLayout();
 			this._PanelAccountButtons.ResumeLayout(false);
 			this._PanelButtons.ResumeLayout(false);
 			this._PanelButtons.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAbout)).EndInit();
 			this._PanelMain.ResumeLayout(false);
 			this._PanelMain.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this._ImgButtonRemove)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAdd)).EndInit();
+			this._PanelSlider.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -641,30 +535,21 @@ namespace GmailNotifierPlus.Forms {
 		private Label _LabelUsername;
 		private ImageButton _ImgButtonAbout;
 		private ImageButton _ImgButtonAdd;
-		private ImageButton _ImgButtonDonate;
 		private ImageButton _ImgButtonRemove;
 		private VistaControls.TextBox _TextPassword;
 		private VistaControls.TextBox _TextUsername;
 		private VistaControls.ListView _ListViewAccounts;
-		private PictureBox _PictureBackground;
-		private PictureBox _PictureCopyrights;
-		private PictureBox _PictureDisclaimer;
 		private PictureBox _PictureExclamation;
-		private PictureBox _PictureLine;
-		private PictureBox _PictureWelcome;
 		private VistaControls.ComboBox _ComboLanguage;
 		private VistaControls.ComboBox _ComboSound;
 		private ColumnHeader _ColumnHeaderName;
 		private System.Windows.Forms.TextBox _TextInterval;
-		private Timer _TimerAboutIn;
-		private Timer _TimerAboutOut;
-		private Timer _TimerIn;
-		private Timer _TimerOut;
 		private Panel _PanelAbout;
 		private Panel _PanelAboutButtons;
 		private Panel _PanelAccount;
 		private Panel _PanelAccountButtons;
 		private Panel _PanelButtons;
 		private Panel _PanelMain;
+		private Panel _PanelSlider;
 	}
 }
