@@ -93,12 +93,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountList.cs" />
+    <Compile Include="Controls\DoubleBufferedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Forms\Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Notifier-original.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Notifier-original.Designer.cs">
+      <DependentUpon>Notifier-original.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Notifier.cs">
       <SubType>Form</SubType>
@@ -155,6 +164,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Notifier-original.resx">
+      <DependentUpon>Notifier-original.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Notifier.resx">
       <DependentUpon>Notifier.cs</DependentUpon>
@@ -220,6 +232,9 @@
     <EmbeddedResource Include="Resources\Images\RemovePressed.png" />
     <EmbeddedResource Include="Resources\Images\Warning.png" />
     <EmbeddedResource Include="Resources\Images\Envelope.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\%24this.Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

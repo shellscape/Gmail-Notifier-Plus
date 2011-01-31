@@ -31,7 +31,6 @@ namespace GmailNotifierPlus.Forms {
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.components = new System.ComponentModel.Container();
 			this._ButtonAboutOk = new System.Windows.Forms.Button();
 			this._ButtonAccountCancel = new System.Windows.Forms.Button();
 			this._ButtonAccountSave = new System.Windows.Forms.Button();
@@ -58,16 +57,16 @@ namespace GmailNotifierPlus.Forms {
 			this._ComboLanguage = new VistaControls.ComboBox();
 			this._ComboSound = new VistaControls.ComboBox();
 			this._TextInterval = new System.Windows.Forms.TextBox();
-			this._PanelAbout = new System.Windows.Forms.Panel();
-			this._PanelAboutButtons = new System.Windows.Forms.Panel();
-			this._PanelAccount = new System.Windows.Forms.Panel();
-			this._PanelAccountButtons = new System.Windows.Forms.Panel();
-			this._PanelButtons = new System.Windows.Forms.Panel();
+			this._PanelAbout = new GmailNotifierPlus.Controls.DoubleBufferPanel();
+			this._PanelAboutButtons = new GmailNotifierPlus.Controls.DoubleBufferPanel();
+			this._PanelAccount = new GmailNotifierPlus.Controls.DoubleBufferPanel();
+			this._PanelAccountButtons = new GmailNotifierPlus.Controls.DoubleBufferPanel();
+			this._PanelButtons = new GmailNotifierPlus.Controls.DoubleBufferPanel();
 			this._ImgButtonAbout = new GmailNotifierPlus.Controls.ImageButton();
-			this._PanelMain = new System.Windows.Forms.Panel();
+			this._PanelMain = new GmailNotifierPlus.Controls.DoubleBufferPanel();
 			this._ImgButtonRemove = new GmailNotifierPlus.Controls.ImageButton();
 			this._ImgButtonAdd = new GmailNotifierPlus.Controls.ImageButton();
-			this._PanelSlider = new System.Windows.Forms.Panel();
+			this._PanelSlider = new GmailNotifierPlus.Controls.DoubleBufferPanel();
 			((System.ComponentModel.ISupportInitialize)(this._PictureExclamation)).BeginInit();
 			this._PanelAbout.SuspendLayout();
 			this._PanelAboutButtons.SuspendLayout();
@@ -98,7 +97,7 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			this._ButtonAccountCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this._ButtonAccountCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonAccountCancel.Location = new System.Drawing.Point(129, 13);
+			this._ButtonAccountCancel.Location = new System.Drawing.Point(214, 14);
 			this._ButtonAccountCancel.Name = "_ButtonAccountCancel";
 			this._ButtonAccountCancel.Size = new System.Drawing.Size(75, 23);
 			this._ButtonAccountCancel.TabIndex = 3;
@@ -110,7 +109,7 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			this._ButtonAccountSave.Enabled = false;
 			this._ButtonAccountSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonAccountSave.Location = new System.Drawing.Point(210, 14);
+			this._ButtonAccountSave.Location = new System.Drawing.Point(133, 14);
 			this._ButtonAccountSave.Name = "_ButtonAccountSave";
 			this._ButtonAccountSave.Size = new System.Drawing.Size(75, 23);
 			this._ButtonAccountSave.TabIndex = 2;
@@ -135,7 +134,7 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			this._ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this._ButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonCancel.Location = new System.Drawing.Point(128, 13);
+			this._ButtonCancel.Location = new System.Drawing.Point(214, 14);
 			this._ButtonCancel.Name = "_ButtonCancel";
 			this._ButtonCancel.Size = new System.Drawing.Size(75, 23);
 			this._ButtonCancel.TabIndex = 8;
@@ -171,7 +170,7 @@ namespace GmailNotifierPlus.Forms {
 			// _ButtonOk
 			// 
 			this._ButtonOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonOk.Location = new System.Drawing.Point(209, 14);
+			this._ButtonOk.Location = new System.Drawing.Point(133, 14);
 			this._ButtonOk.Name = "_ButtonOk";
 			this._ButtonOk.Size = new System.Drawing.Size(75, 23);
 			this._ButtonOk.TabIndex = 7;
@@ -544,12 +543,12 @@ namespace GmailNotifierPlus.Forms {
 		private VistaControls.ComboBox _ComboSound;
 		private ColumnHeader _ColumnHeaderName;
 		private System.Windows.Forms.TextBox _TextInterval;
-		private Panel _PanelAbout;
-		private Panel _PanelAboutButtons;
-		private Panel _PanelAccount;
-		private Panel _PanelAccountButtons;
-		private Panel _PanelButtons;
-		private Panel _PanelMain;
-		private Panel _PanelSlider;
+		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelAbout;
+		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelAboutButtons;
+		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelAccount;
+		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelAccountButtons;
+		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelButtons;
+		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelMain;
+		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelSlider;
 	}
 }

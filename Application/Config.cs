@@ -25,10 +25,14 @@ namespace GmailNotifierPlus {
 			FileInfo file = new FileInfo(Path.Combine(_Path, _FileName));
 
 			if (file.Exists) {
-				using (FileStream fs = new FileStream(file.FullName, FileMode.Create, FileAccess.ReadWrite)) {
-					using (StreamReader sr = new StreamReader(fs)) {
-						xml = sr.ReadToEnd();
-					}
+				//using (FileStream fs = new FileStream(file.FullName, FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
+				//  using (StreamReader sr = new StreamReader(fs)) {
+				//    xml = sr.ReadToEnd();
+				//  }
+				//}
+
+				using (StreamReader sr = file.OpenText()) {
+					xml = sr.ReadToEnd();
 				}
 
 				if (!String.IsNullOrEmpty(xml)) {

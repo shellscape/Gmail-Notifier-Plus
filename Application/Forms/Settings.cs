@@ -44,6 +44,7 @@ namespace GmailNotifierPlus.Forms {
 			// now we can play around with the form 
 			//this.Size = new Size(300, 404);
 			this.ClientSize = new Size(300, 355);
+			this.SetStyle(ControlStyles.AllPaintingInWmPaint | 	ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
 			ToolTip tip = new ToolTip();
 
@@ -387,14 +388,14 @@ namespace GmailNotifierPlus.Forms {
 			_ImgButtonAdd.SetImages(ResourceHelper.GetImage("Add.png"), ResourceHelper.GetImage("AddDisabled.png"), ResourceHelper.GetImage("AddHover.png"), ResourceHelper.GetImage("AddPressed.png"));
 			//_ImgButtonDonate.SetImage(ResourceHelper.GetImage("Donate.gif"));
 			_ImgButtonRemove.SetImages(ResourceHelper.GetImage("Remove.png"), ResourceHelper.GetImage("RemoveDisabled.png"), ResourceHelper.GetImage("RemoveHover.png"), ResourceHelper.GetImage("RemovePressed.png"));
-			_ImgButtonRemove.Enabled = false;			
+			_ImgButtonRemove.Enabled = false;
 
 			if (_Config.FirstRun) {
 				//_PictureWelcome.Image = ResourceHelper.GetImage("Welcome.png");
 				//_PictureDisclaimer.Image = ResourceHelper.GetImage("Disclaimer.png");
 				//_PanelMain.Left = _PanelButtons.Left = 300;
 				//_PanelAbout.Left = _PanelAboutButtons.Left += 300;
-				
+
 				this.SwitchToAbout();
 
 				//_PictureWelcome.Visible = _PictureDisclaimer.Visible = true;
@@ -402,6 +403,9 @@ namespace GmailNotifierPlus.Forms {
 
 				//_ImgButtonDonate.Visible = false;
 				_ButtonAboutOk.Text = Locale.Current.Buttons.LetsGo;
+			}
+			else {
+				this.SwitchToSettings(SourceScreen.About);
 			}
 
 		}
@@ -452,7 +456,7 @@ namespace GmailNotifierPlus.Forms {
 			this.ReverseControls(ref _PanelAboutButtons);
 		}
 
-		private void ReverseControls(ref Panel container) {
+		private void ReverseControls(ref GmailNotifierPlus.Controls.DoubleBufferPanel container) {
 			for (int i = 0; i < container.Controls.Count; i++) {
 				container.Controls[i].Left = container.Width - (container.Controls[i].Left + container.Controls[i].Width);
 			}

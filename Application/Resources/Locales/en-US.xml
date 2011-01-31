@@ -53,9 +53,9 @@
 		<Add>Add an account</Add>
 		<Inbox>Inbox</Inbox>
 		<Next>Next</Next>
-		<OpenMail>Open</OpenMail>
+		<OpenMail>Open Inbox</OpenMail>
 		<Previous>Previous</Previous>
-		<Remove>Remove selected account</Remove>
+		<Remove>Remove Selected Account</Remove>
 		<Settings>Settings</Settings>
 	</Tooltips>
 </Locale>

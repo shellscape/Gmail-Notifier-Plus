@@ -148,11 +148,10 @@
 			this.Controls.Add(this._LabelMessage);
 			this.Controls.Add(this._LabelStatus);
 			this.Controls.Add(this._LabelDate);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "Notifier";
 			this.Opacity = 0D;
-			this.RightToLeftLayout = true;
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

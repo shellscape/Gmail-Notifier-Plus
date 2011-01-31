@@ -1,27 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Windows.Forms;
-using System.Xml;
+﻿using GmailNotifierPlus.Utilities;
 
 using Microsoft.WindowsAPICodePack.Taskbar;
 
-using GmailNotifierPlus.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace GmailNotifierPlus.Forms {
-
 	public partial class Notifier : Form {
-
-		public enum Status {
-			OK,
-			AuthenticationFailed,
-			Offline
-		}
 
 		private const int _FeedMax = 20;
 		private int _MailIndex;
@@ -34,46 +22,59 @@ namespace GmailNotifierPlus.Forms {
 
 		private Config _Config = Config.Current;
 		private Account _Account = null;
-				
+
 		private WebClient _WebClient = new WebClient();
 
 		public event CheckMailFinishedEventHandler CheckMailFinished;
+
+		public enum NotifierStatus {
+			OK,
+			AuthenticationFailed,
+			Offline
+		}		
 
 		public Notifier(int accountIndex) {
 			InitializeComponent();
 
 			AccountIndex = accountIndex;
+
 			_Account = _Config.Accounts[accountIndex];
-
-			this.Text = _Account.FullAddress;
-			this.BackgroundImage = Utilities.ResourceHelper.GetImage("Background.png");
 			_LabelStatus.RightToLeft = Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
-
 			_WebClient.DownloadDataCompleted += _WebClient_DownloadDataCompleted;
 			_Config.Saved += _Config_Saved;
 
-			
+			// the background image is cuasing an Out of Memory Exception. Investigate this later.
+			//this.BackgroundImage = Utilities.ResourceHelper.GetImage("Background.png");
+			this.Text = _Account.FullAddress;	
 		}
 
+#region .    Public Properties    
+
 		public int AccountIndex { get; private set; }
-		public Status ConnectionStatus { get; private set; }
-		
+		public NotifierStatus ConnectionStatus { get; private set; }
+
 		/// <summary>
 		/// Returns an XmlNodeList containing the last response from the server.
 		/// </summary>
 		public XmlNodeList XmlMail { get; private set; }
-		
+
 		/// <summary>
 		/// Returns the number of unread emails for associated account.
 		/// </summary>
 		public int Unread { get; private set; }
 
-#region .    Events    
+#endregion
 
+#region .    Events    
+		
 		private void Notifier_Activated(object sender, EventArgs e) {
 			this.Refresh();
 
-			_TaskbarManager.TabbedThumbnail.GetThumbnailPreview(base.Handle).InvalidatePreview();
+			TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
+			
+			if(thumb !=  null){
+				thumb.InvalidatePreview();
+			}
 		}
 
 		private void Notifier_Shown(object sender, EventArgs e) {
@@ -82,6 +83,20 @@ namespace GmailNotifierPlus.Forms {
 			ShowStatus();
 			base.Top = 0x1000;
 			base.Opacity = 100.0;
+		}
+
+		internal void CheckMail() {
+			if (_WebClient.IsBusy) {
+				return;
+			}
+
+			try {
+				_WebClient.Credentials = new NetworkCredential(_Account.Login, _Config.Accounts[AccountIndex].Password);
+				_WebClient.DownloadDataAsync(new Uri(UrlHelper.GetFeedUrl(AccountIndex)));
+
+				SetCheckingPreview();
+			}
+			catch { }
 		}
 
 		private void _ButtonPrev_Click(object sender, ThumbnailButtonClickedEventArgs e) {
@@ -115,15 +130,15 @@ namespace GmailNotifierPlus.Forms {
 
 		private void _WebClient_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e) {
 			if (e.Error == null) {
-				ConnectionStatus = Status.OK;
-				
-				String xml = Encoding.UTF8.GetString(e.Result).Replace("<feed version=\"0.3\" xmlns=\"http://purl.org/atom/ns#\">", "<feed>");
+				ConnectionStatus = NotifierStatus.OK;
+
+				String xml = System.Text.Encoding.UTF8.GetString(e.Result).Replace("<feed version=\"0.3\" xmlns=\"http://purl.org/atom/ns#\">", "<feed>");
 				XmlDocument document = new XmlDocument();
-				
+
 				document.LoadXml(xml);
-				
+
 				XmlNode node = document.SelectSingleNode("/feed/fullcount");
-				
+
 				Unread = Convert.ToInt32(node.InnerText);
 				XmlMail = document.SelectNodes("/feed/entry");
 				_MailIndex = 0;
@@ -131,10 +146,10 @@ namespace GmailNotifierPlus.Forms {
 			else {
 				WebException error = (WebException)e.Error;
 				if (error.Status == WebExceptionStatus.ProtocolError) {
-					ConnectionStatus = Status.AuthenticationFailed;
+					ConnectionStatus = NotifierStatus.AuthenticationFailed;
 				}
 				else {
-					ConnectionStatus = Status.Offline;
+					ConnectionStatus = NotifierStatus.Offline;
 				}
 			}
 
@@ -144,27 +159,8 @@ namespace GmailNotifierPlus.Forms {
 
 #endregion
 
-#region .    Internal Methods    
-
-		internal void CheckMail() {
-			if (_WebClient.IsBusy) {
-				return;
-			}
-
-			try {
-				_WebClient.Credentials = new NetworkCredential(_Account.Login, _Config.Accounts[AccountIndex].Password);
-				_WebClient.DownloadDataAsync(new Uri(UrlHelper.GetFeedUrl(AccountIndex)));
-					
-				SetCheckingPreview();
-			}
-			catch { }
-		}
-
-#endregion
-
-#region .    Private Methods    
-
 		private void CreateThumbButtons() {
+
 			_ButtonPrev = new ThumbnailToolbarButton(Utilities.ResourceHelper.GetIcon("Previous.ico"), Locale.Current.Tooltips.Previous);
 			_ButtonPrev.Click += _ButtonPrev_Click;
 
@@ -181,7 +177,7 @@ namespace GmailNotifierPlus.Forms {
 		private void SetCheckingPreview() {
 			_LabelStatus.Top = 82;
 			_LabelStatus.Height = 26;
-			_LabelStatus.ForeColor = SystemColors.ControlText;
+			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.Connecting;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Checking.png");
 		}
@@ -189,7 +185,7 @@ namespace GmailNotifierPlus.Forms {
 		private void SetNoMailPreview() {
 			_LabelStatus.Top = 0;
 			_LabelStatus.Height = 108;
-			_LabelStatus.ForeColor = Color.Gray;
+			_LabelStatus.ForeColor = System.Drawing.Color.Gray;
 			_LabelStatus.Text = Locale.Current.Labels.NoMail;
 			_PictureLogo.Image = null;
 		}
@@ -197,15 +193,15 @@ namespace GmailNotifierPlus.Forms {
 		private void SetOfflinePreview() {
 			_LabelStatus.Top = 79;
 			_LabelStatus.Height = 29;
-			_LabelStatus.ForeColor = SystemColors.ControlText;
+			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.ConnectionUnavailable;
-			_PictureLogo.Image = Utilities.ResourceHelper.GetImage(".Offline.png");
+			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Offline.png");
 		}
 
 		private void SetWarningPreview() {
 			_LabelStatus.Top = 0x4f;
 			_LabelStatus.Height = 0x1d;
-			_LabelStatus.ForeColor = SystemColors.ControlText;
+			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.CheckLogin;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Warning.png");
 		}
@@ -213,11 +209,11 @@ namespace GmailNotifierPlus.Forms {
 		private void ShowMails() {
 			_PictureLogo.Visible = _LabelStatus.Visible = false;
 
-			_LabelTitle.Visible = 
-				_LabelFrom.Visible = 
-				_LabelMessage.Visible = 
-				_LabelDate.Visible = 
-				_LabelIndex.Visible = 
+			_LabelTitle.Visible =
+				_LabelFrom.Visible =
+				_LabelMessage.Visible =
+				_LabelDate.Visible =
+				_LabelIndex.Visible =
 				_PanelLine.Visible = true;
 
 			this.Refresh();
@@ -225,12 +221,12 @@ namespace GmailNotifierPlus.Forms {
 
 		private void ShowStatus() {
 			_PictureLogo.Visible = _LabelStatus.Visible = true;
-			
-			_LabelTitle.Visible = 
-				_LabelFrom.Visible = 
-				_LabelMessage.Visible = 
-				_LabelDate.Visible = 
-				_LabelIndex.Visible = 
+
+			_LabelTitle.Visible =
+				_LabelFrom.Visible =
+				_LabelMessage.Visible =
+				_LabelDate.Visible =
+				_LabelIndex.Visible =
 				_PanelLine.Visible = false;
 
 			this.Refresh();
@@ -243,15 +239,15 @@ namespace GmailNotifierPlus.Forms {
 
 			switch (ConnectionStatus) {
 
-				case Status.AuthenticationFailed:
+				case NotifierStatus.AuthenticationFailed:
 					this.SetWarningPreview();
 					break;
 
-				case Status.Offline:
+				case NotifierStatus.Offline:
 					this.SetOfflinePreview();
 					break;
 
-				case Status.OK:
+				case NotifierStatus.OK:
 
 					if (Unread > 0) {
 						XmlNode node = XmlMail[_MailIndex];
@@ -270,17 +266,20 @@ namespace GmailNotifierPlus.Forms {
 						}
 
 						_MailUrl = UrlHelper.BuildMailUrl(node.ChildNodes.Item(2).Attributes["href"].Value, AccountIndex);
-												
-						
-						
+
 						this.ShowMails();
 					}
 					else {
 						this.SetNoMailPreview();
 						this.ShowStatus();
 					}
-					
-					_TaskbarManager.TabbedThumbnail.GetThumbnailPreview(base.Handle).InvalidatePreview();
+
+					TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
+
+					if (thumb != null) {
+						thumb.InvalidatePreview();
+					}
+
 					return;
 			}
 
@@ -291,14 +290,14 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void UpdateThumbButtonsStatus() {
-			
+
 			int num = (Unread > 20) ? 20 : Unread;
 
 			_ButtonPrev.Enabled = _MailIndex != 0;
 			_ButtonNext.Enabled = _MailIndex < (num - 1);
 			_ButtonPrev.Tooltip = Locale.Current.Tooltips.Previous;
 			_ButtonNext.Tooltip = Locale.Current.Tooltips.Next;
-			
+
 			if (Unread == 0) {
 				_ButtonInbox.Icon = Utilities.ResourceHelper.GetIcon("Inbox.ico");
 				_ButtonInbox.Tooltip = Locale.Current.Tooltips.Inbox;
@@ -308,7 +307,7 @@ namespace GmailNotifierPlus.Forms {
 				_ButtonInbox.Tooltip = Locale.Current.Tooltips.OpenMail;
 			}
 
-			_ButtonInbox.Enabled = ConnectionStatus == Status.OK;
+			_ButtonInbox.Enabled = ConnectionStatus == NotifierStatus.OK;
 		}
 
 		private void OnMailReceived(EventArgs e) {
@@ -321,8 +320,6 @@ namespace GmailNotifierPlus.Forms {
 			Help.ShowHelp(this, string.IsNullOrEmpty(_MailUrl) ? UrlHelper.BuildInboxUrl(AccountIndex) : _MailUrl);
 			this.Refresh();
 		}
-
-#endregion
 
 	}
 }
