@@ -12,8 +12,6 @@ using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.Shell;
 
-using VistaControls;
-
 using GmailNotifierPlus.Controls;
 using GmailNotifierPlus.Utilities;
 
@@ -92,7 +90,7 @@ namespace GmailNotifierPlus.Forms {
 
 			InitImageButtons();
 			UpdateHeaderSize();
-			AdjustControls();
+			//AdjustControls();
 			InitEvents();
 
 			if (Locale.Current.IsRightToLeftLanguage) {
@@ -291,49 +289,49 @@ namespace GmailNotifierPlus.Forms {
 
 #region .    Private Methods    
 
-		private void AdjustControls() {
+		//private void AdjustControls() {
 
-			return;
+		//  return;
 
-			int num = 6; // arbitrary numbers? padding?
-			int num2 = 10; // ditto?
-			int width = Math.Max(_ButtonDefault.Width, _ButtonEdit.Width);
+		//  int num = 6; // arbitrary numbers? padding?
+		//  int num2 = 10; // ditto?
+		//  int width = Math.Max(_ButtonDefault.Width, _ButtonEdit.Width);
 
-			// Not sure if this was lowsy coding, CLR mangling, or if it's really needed. Seems that autosize would work here.
-			//if (config.Language == Resources.Code_Bulgarian) {
-			//  _ButtonEdit.Width -= 25;
-			//}
-			//else if (config.Language == Resources.Code_Ukrainian) {
-			//  _ButtonEdit.Width -= 40;
-			//}
+		//  // Not sure if this was lowsy coding, CLR mangling, or if it's really needed. Seems that autosize would work here.
+		//  //if (config.Language == Resources.Code_Bulgarian) {
+		//  //  _ButtonEdit.Width -= 25;
+		//  //}
+		//  //else if (config.Language == Resources.Code_Ukrainian) {
+		//  //  _ButtonEdit.Width -= 40;
+		//  //}
 
-			_ButtonEdit.Left = _ListViewAccounts.Right - _ButtonEdit.Width;
+		//  _ButtonEdit.Left = _ListViewAccounts.Right - _ButtonEdit.Width;
 
-			_ButtonDefault.AutoSize = _ButtonEdit.AutoSize = false;
-			_ButtonDefault.Width = _ButtonEdit.Width = width - num2;
-			_ButtonDefault.Left = (_ButtonEdit.Left - _ButtonDefault.Width) - num;
+		//  _ButtonDefault.AutoSize = _ButtonEdit.AutoSize = false;
+		//  _ButtonDefault.Width = _ButtonEdit.Width = width - num2;
+		//  _ButtonDefault.Left = (_ButtonEdit.Left - _ButtonDefault.Width) - num;
 
-			width = _ButtonBrowse.Width;
+		//  width = _ButtonBrowse.Width;
 
-			_ButtonBrowse.AutoSize = false;
-			_ButtonBrowse.Width = width - num2;
-			_ButtonBrowse.Left = _ListViewAccounts.Right - _ButtonBrowse.Width;
+		//  _ButtonBrowse.AutoSize = false;
+		//  _ButtonBrowse.Width = width - num2;
+		//  _ButtonBrowse.Left = _ListViewAccounts.Right - _ButtonBrowse.Width;
 			
-			_ComboSound.Width = (_ButtonBrowse.Left - num) - _ComboSound.Left;
+		//  _ComboSound.Width = (_ButtonBrowse.Left - num) - _ComboSound.Left;
 
-			Size minSize = new Size(((_ButtonDefault.Left - _LabelInterval.Left) - num) + 1, _LabelInterval.Height);
+		//  Size minSize = new Size(((_ButtonDefault.Left - _LabelInterval.Left) - num) + 1, _LabelInterval.Height);
 			
-			_LabelInterval.MinimumSize = _LabelLanguage.MinimumSize = minSize;
+		//  _LabelInterval.MinimumSize = _LabelLanguage.MinimumSize = minSize;
 			
-			int left = (_LabelInterval.Left + Math.Max(_LabelInterval.Width, _LabelLanguage.Width)) + num;
+		//  int left = (_LabelInterval.Left + Math.Max(_LabelInterval.Width, _LabelLanguage.Width)) + num;
 			
-			_TextInterval.Left = left;
+		//  _TextInterval.Left = left;
 			
-			_LabelMinutes.Left = (_TextInterval.Left + _TextInterval.Width) + num;
+		//  _LabelMinutes.Left = (_TextInterval.Left + _TextInterval.Width) + num;
 			
-			_ComboLanguage.Left = left;
-			_ComboLanguage.Width = _ListViewAccounts.Right - left;
-		}
+		//  _ComboLanguage.Left = left;
+		//  _ComboLanguage.Width = _ListViewAccounts.Right - left;
+		//}
 
 		private void EditAccount() {
 			this._IsEditing = true;
