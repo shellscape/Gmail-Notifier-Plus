@@ -63,7 +63,11 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\Icons\Default.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Gmail Notifier Plus.exe.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System">
@@ -122,6 +126,7 @@
     </Compile>
     <Compile Include="Account.cs" />
     <Compile Include="Utilities\EncryptionHelper.cs" />
+    <Compile Include="Utilities\ErrorHelper.cs" />
     <Compile Include="Utilities\ImageHelper.cs" />
     <Compile Include="Utilities\ResourceHelper.cs" />
     <Compile Include="Controls\ImageButton.cs">
@@ -228,6 +233,9 @@
     <EmbeddedResource Include="Resources\Images\Envelope.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Gmail Notifier Plus.exe.manifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\%24this.Icon.ico" />
   </ItemGroup>
   <ItemGroup>

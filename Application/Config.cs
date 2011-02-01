@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace GmailNotifierPlus {
 
-	[XmlRoot("Config")]
+	[DataContract(Name="config")]
 	public class Config {
 
 		private static readonly String _AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -30,7 +29,7 @@ namespace GmailNotifierPlus {
 				}
 
 				if (!String.IsNullOrEmpty(xml)) {
-					config = Utilities.Serializer.Deserialize<Config>(xml);
+					config = Utilities.Serializer.DeserializeContract<Config>(xml);
 				}
 			}
 			else {
@@ -68,17 +67,30 @@ namespace GmailNotifierPlus {
 
 		public event ConfigSavedEventHandler Saved;
 
+		[DataMember(Name="interval")]
 		public int Interval { get; set; }
+
+		[DataMember(Name = "language")]
 		public String Language { get; set; }
+
+		[DataMember(Name = "sound")]
 		public String Sound { get; set; }
+
+		[DataMember(Name = "soundnotification")]
 		public int SoundNotification { get; set; }
+
+		[DataMember(Name = "playsound")]
 		public Boolean PlaySound { get; set; }
+
+		[DataMember(Name = "accounts")]
 		public AccountList Accounts { get; set; }
+
+		[DataMember(Name = "firstrun")]
 		public Boolean FirstRun { get; set; }
 
 		public void Save() {
 
-			String serialized = Utilities.Serializer.Serialize<Config>(this);
+			String serialized = Utilities.Serializer.SerializeContract<Config>(this);
 
 			using (FileStream fs = new FileStream(Path.Combine(_Path, _FileName), FileMode.Create, FileAccess.ReadWrite)) {
 				using (StreamWriter sw = new StreamWriter(fs)) {

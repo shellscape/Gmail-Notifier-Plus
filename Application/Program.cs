@@ -1,13 +1,18 @@
-﻿namespace GmailNotifierPlus {
-	
-	using System;
-	using System.Runtime.Remoting;
-	using System.Runtime.Remoting.Channels;
-	using System.Runtime.Remoting.Channels.Ipc;
-	using System.Security.Principal;
-	using System.Threading;
-	using System.Windows.Forms;
+﻿using System;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Ipc;
+using System.Security.Principal;
+using System.Threading;
+using System.Windows.Forms;
 
+using Microsoft.WindowsAPICodePack.Dialogs;
+using Microsoft.WindowsAPICodePack.Shell;
+
+using GmailNotifierPlus.Utilities;
+
+namespace GmailNotifierPlus {
+	
 	internal static class Program {
 
 		internal static String channelName;
@@ -40,7 +45,7 @@
 			bool createdNew;
 
 			channelName = String.Concat(WindowsIdentity.GetCurrent().Name, "@GmailNotifierPlus");
-			
+
 			String guid = "{421a0043-b2ab-4b86-8dec-63ce3b8bd764}";
 			String name = String.Concat(@"Local\GmailNotifierPlus", guid);
 
@@ -54,10 +59,16 @@
 					InitRemoting();
 					Application.EnableVisualStyles();
 					Application.SetCompatibleTextRenderingDefault(false);
+					Application.ThreadException += Application_ThreadException;
 
-					Config.Init();
-					
-					mainForm = new GmailNotifierPlus.Forms.Main(args);
+					try {
+						Config.Init();
+
+						mainForm = new GmailNotifierPlus.Forms.Main(args);
+					}
+					catch (Exception e) {
+						Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
+					}
 
 					Application.Run(mainForm);
 				}
@@ -73,6 +84,11 @@
 				Program.mainForm.RemoteOpenSettingsWindow();
 			}
 		}
+
+		public static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
+			ErrorHelper.Report(e.Exception);
+		}
+
 	}
 }
 

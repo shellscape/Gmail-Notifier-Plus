@@ -39,6 +39,7 @@ namespace GmailNotifierPlus.Forms {
 		private static readonly int WM_TASKBARBUTTONCREATED = ((int)RegisterWindowMessage("TaskbarButtonCreated"));
 
 		public Main(string[] args) {
+
 			InitializeComponent();
 
 			this.Location = new Point(-10000, -10000);
@@ -81,6 +82,7 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void Main_Load(object sender, EventArgs e) {
+
 			_JumpList = JumpList.CreateJumpListForIndividualWindow(this._TaskbarManager.ApplicationId, base.Handle);
 			_JumpList.JumpListItemsRemoved += delegate(object o, UserRemovedJumpListItemsEventArgs ev) { };
 			_JumpList.KnownCategoryToDisplay = JumpListKnownCategoryType.Neither;

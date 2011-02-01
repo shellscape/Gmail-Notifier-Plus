@@ -1,14 +1,16 @@
-﻿namespace GmailNotifierPlus {
+﻿using System;
+using System.Runtime.Serialization;
 
-	using System;
-	using System.Xml;
-	using System.Xml.Serialization;
+using GmailNotifierPlus.Utilities;
+
+namespace GmailNotifierPlus {
 
 	public enum AccountTypes {
 		Regular,
 		GoogleApps
 	}
 
+	[DataContract(Name="account")]
 	public class Account {
 
 		public static class Domains {
@@ -21,18 +23,30 @@
 		public String Login { get; set; }
 		public String Password { get; set; }
 		public Boolean Default { get; set; }
-
-		[XmlIgnore]
 		public String Domain { get; private set; }
-
-		[XmlIgnore]
 		public String FullAddress { get; private set; }
-
-		[XmlIgnore]
 		public String Name { get; private set; }
-
-		[XmlIgnore]
 		public AccountTypes Type { get; private set; }
+
+		[DataMember(Name = "ahead")]
+		private String LoginEncrypted {
+			get {
+				return EncryptionHelper.Encrypt(this.Login);
+			}
+			set {
+				this.Login = EncryptionHelper.Decrypt(value);
+			}
+		}
+
+		[DataMember(Name = "aft")]
+		private String PasswordEncrypted {
+			get {
+				return EncryptionHelper.Encrypt(this.Password);
+			}
+			set {
+				this.Password = EncryptionHelper.Decrypt(value);
+			}
+		}
 
 		public Account() {
 			this.Login = this.Password = this.Name = this.Domain = this.FullAddress = String.Empty;
@@ -71,7 +85,6 @@
 			}
 		}
 
-		[XmlIgnore]
 		public bool IsEmpty {
 			get {
 				if (!String.IsNullOrEmpty(this.Login)) {

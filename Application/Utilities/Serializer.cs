@@ -34,10 +34,34 @@ namespace GmailNotifierPlus.Utilities {
 			}
 
 			return builder.ToString();
+
 		}
 
 		/// <summary>
-		/// Deserializes the specified XML string to the specified type
+		/// Serializes the specified instance to XML using the <see cref="DataContractSerializer"/>
+		/// </summary>
+		/// <typeparam name="T">Type to be serialized</typeparam>
+		/// <param name="instance">Instance to be serialized</param>
+		/// <returns>XML string</returns>
+		public static string SerializeContract<T>(T instance) {
+			if (instance == null) {
+				throw new ArgumentNullException("instance");
+			}
+
+			StringBuilder builder = new StringBuilder();
+
+			var ser = new DataContractSerializer(typeof(T));
+
+			using (XmlWriter xw = XmlWriter.Create(builder)) {
+				ser.WriteObject(xw, instance);
+			}
+
+			return builder.ToString();
+
+		}
+
+		/// <summary>
+		/// Deserializes the specified XML string to the specified type, using the <see cref="XmlSerializer"/>
 		/// </summary>
 		/// <typeparam name="T">Type to deserialize to</typeparam>
 		/// <param name="xml">XML</param>
@@ -52,6 +76,27 @@ namespace GmailNotifierPlus.Utilities {
 			using (XmlDictionaryReader reader = XmlDictionaryReader.CreateDictionaryReader(xmlReader)) {
 				XmlSerializer serializer = new XmlSerializer(typeof(T));
 				instance = (T)serializer.Deserialize(reader);
+			}
+
+			return instance;
+		}
+
+		/// <summary>
+		/// Deserializes the specified XML string to the specified type, using the <see cref="DataContractSerializer"/>
+		/// </summary>
+		/// <typeparam name="T">Type to deserialize to</typeparam>
+		/// <param name="xml">XML</param>
+		/// <returns>Instance of the specified type</returns>
+		public static T DeserializeContract<T>(string xml) {
+			if (string.IsNullOrEmpty(xml))
+				throw new ArgumentNullException("xml");
+
+			T instance;
+
+			using (XmlReader xmlReader = XmlReader.Create(new StringReader(xml)))
+			using (XmlDictionaryReader reader = XmlDictionaryReader.CreateDictionaryReader(xmlReader)) {
+				var ser = new DataContractSerializer(typeof(T));
+				instance = (T)Convert.ChangeType(ser.ReadObject(reader), typeof(T));
 			}
 
 			return instance;

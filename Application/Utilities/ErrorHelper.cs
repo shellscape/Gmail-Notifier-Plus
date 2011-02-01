@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
+using System.Security.Permissions;
 using System.Text;
 
 using Microsoft.Win32;
@@ -35,6 +37,9 @@ namespace GmailNotifierPlus.Utilities {
 		}
 
 		public static void Show(Exception e, Guid guid) {
+
+			String message = String.Concat("Error ID: ", guid.ToString(), "\n\n", e.Message);
+
 			TaskDialog dialog = new TaskDialog() {
 				HyperlinksEnabled = true,
 				DetailsExpanded = false,
@@ -43,10 +48,9 @@ namespace GmailNotifierPlus.Utilities {
 				DetailsExpandedText = e.StackTrace,
 				Caption = "Gmail Notifier Plus Error",
 				InstructionText = "An unhandled exception occurred:",
-				Text = e.Message,
+				Text = message,
 				FooterIcon = TaskDialogStandardIcon.Information,
-				FooterText = String.Concat("This error's identifier is:\n\t", guid.ToString(), 
-					"\n\nPlease <a href=\"#stub\">Click Here</a> to automagically report the issue.")
+				FooterText = "Please <a href=\"#stub\">Click Here</a> to automagically report the issue.\nPress CTL + C to copy this error to the clipboard."
 			};
 
 			dialog.HyperlinkClick += delegate(object sender, TaskDialogHyperlinkClickedEventArgs evt) {
@@ -61,7 +65,7 @@ namespace GmailNotifierPlus.Utilities {
 			var info = new Microsoft.VisualBasic.Devices.ComputerInfo();
 
 			String path = Path.Combine(_LogPath, guid.ToString());
-			
+
 			String os = String.Join(" ", "CPU:", info.OSFullName, info.OSVersion, info.OSPlatform);
 			String memory = String.Concat("Memory: ", info.TotalPhysicalMemory);
 			String date = String.Concat("Date: ", DateTime.Now.ToString());
@@ -69,7 +73,7 @@ namespace GmailNotifierPlus.Utilities {
 
 			try {
 				RegistryKey key = Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor\0", false);
-				processor = String.Join(" ", "Processor:", 
+				processor = String.Join(" ", "Processor:",
 					key.GetValue("VendorIdentifier"),
 					key.GetValue("Identifier"),
 					key.GetValue("ProcessorNameString"),
@@ -84,16 +88,16 @@ namespace GmailNotifierPlus.Utilities {
 			String stack = String.Concat("Stack Trace:\n", e.StackTrace);
 
 			String data = String.Join("\n\n", system, message, stack);
-			
-			using(FileStream fs = new FileStream(_LogPath, FileMode.Create, FileAccess.Write)){
-				using(StreamWriter sw = new StreamWriter(fs)){
+
+			using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write)) {
+				using (StreamWriter sw = new StreamWriter(fs)) {
 					sw.Write(data);
 				}
 			}
 
 		}
-		
-		public static void Send(Guid guid){
+
+		public static void Send(Guid guid) {
 			String path = Path.Combine(_LogPath, guid.ToString());
 			FileInfo file = new FileInfo(path);
 			String data = null;

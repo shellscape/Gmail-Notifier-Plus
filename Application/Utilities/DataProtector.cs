@@ -1,210 +1,206 @@
-﻿namespace GmailNotifierPlus.Utilities
-{
-    using System;
-    using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
-    public class DataProtector
-    {
-        private const int CRYPTPROTECT_LOCAL_MACHINE = 4;
-        private const int CRYPTPROTECT_UI_FORBIDDEN = 1;
-        private static IntPtr NullPtr = IntPtr.Zero;
-        private Store store;
+/// Lifted from http://man.ddvip.com/web/bsaspnetapp/LiB0190.html
 
-        public DataProtector(Store tempStore)
-        {
-            this.store = tempStore;
-        }
+namespace GmailNotifierPlus.Utilities {
+	public class DataProtector {
 
-        [DllImport("Crypt32.dll", CharSet=CharSet.Auto, SetLastError=true)]
-        private static extern bool CryptProtectData(ref DATA_BLOB pDataIn, string szDataDescr, ref DATA_BLOB pOptionalEntropy, IntPtr pvReserved, ref CRYPTPROTECT_PROMPTSTRUCT pPromptStruct, int dwFlags, ref DATA_BLOB pDataOut);
-        [DllImport("Crypt32.dll", CharSet=CharSet.Auto, SetLastError=true)]
-        private static extern bool CryptUnprotectData(ref DATA_BLOB pDataIn, string szDataDescr, ref DATA_BLOB pOptionalEntropy, IntPtr pvReserved, ref CRYPTPROTECT_PROMPTSTRUCT pPromptStruct, int dwFlags, ref DATA_BLOB pDataOut);
-        public byte[] Decrypt(byte[] cipherText, byte[] optionalEntropy)
-        {
-            DATA_BLOB pDataOut = new DATA_BLOB();
-            DATA_BLOB pDataIn = new DATA_BLOB();
-            CRYPTPROTECT_PROMPTSTRUCT ps = new CRYPTPROTECT_PROMPTSTRUCT();
-            this.InitPromptstruct(ref ps);
-            try
-            {
-                int num2;
-                try
-                {
-                    int length = cipherText.Length;
-                    pDataIn.pbData = Marshal.AllocHGlobal(length);
-                    if (IntPtr.Zero == pDataIn.pbData)
-                    {
-                        throw new Exception("Unable to allocate cipherText buffer.");
-                    }
-                    pDataIn.cbData = length;
-                    Marshal.Copy(cipherText, 0, pDataIn.pbData, pDataIn.cbData);
-                }
-                catch (Exception exception)
-                {
-                    throw new Exception("Exception marshalling data. " + exception.Message);
-                }
-                DATA_BLOB pOptionalEntropy = new DATA_BLOB();
-                if (Store.USE_MACHINE_STORE == this.store)
-                {
-                    num2 = 5;
-                    if (optionalEntropy == null)
-                    {
-                        optionalEntropy = new byte[0];
-                    }
-                    try
-                    {
-                        int cb = optionalEntropy.Length;
-                        pOptionalEntropy.pbData = Marshal.AllocHGlobal(cb);
-                        if (IntPtr.Zero == pOptionalEntropy.pbData)
-                        {
-                            throw new Exception("Unable to allocate entropy buffer.");
-                        }
-                        pOptionalEntropy.cbData = cb;
-                        Marshal.Copy(optionalEntropy, 0, pOptionalEntropy.pbData, cb);
-                        goto Label_0125;
-                    }
-                    catch (Exception exception2)
-                    {
-                        throw new Exception("Exception entropy marshalling data. " + exception2.Message);
-                    }
-                }
-                num2 = 1;
-            Label_0125:
-                if (!CryptUnprotectData(ref pDataIn, null, ref pOptionalEntropy, IntPtr.Zero, ref ps, num2, ref pDataOut))
-                {
-                    throw new Exception("Decryption failed. " + GetErrorMessage(Marshal.GetLastWin32Error()));
-                }
-                if (IntPtr.Zero != pDataIn.pbData)
-                {
-                    Marshal.FreeHGlobal(pDataIn.pbData);
-                }
-                if (IntPtr.Zero != pOptionalEntropy.pbData)
-                {
-                    Marshal.FreeHGlobal(pOptionalEntropy.pbData);
-                }
-            }
-            catch (Exception exception3)
-            {
-                throw new Exception("Exception decrypting. " + exception3.Message);
-            }
-            byte[] destination = new byte[pDataOut.cbData];
-            Marshal.Copy(pDataOut.pbData, destination, 0, pDataOut.cbData);
-            return destination;
-        }
+		[DllImport("Crypt32.dll", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+		private static extern bool CryptProtectData(ref DATA_BLOB pDataIn, String szDataDescr, ref DATA_BLOB pOptionalEntropy, IntPtr pvReserved, ref CRYPTPROTECT_PROMPTSTRUCT pPromptStruct, int dwFlags, ref DATA_BLOB pDataOut);
+		
+		[DllImport("Crypt32.dll", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+		private static extern bool CryptUnprotectData(ref DATA_BLOB pDataIn, String szDataDescr, ref DATA_BLOB pOptionalEntropy, IntPtr pvReserved, ref CRYPTPROTECT_PROMPTSTRUCT pPromptStruct, int dwFlags, ref DATA_BLOB pDataOut);
 
-        public byte[] Encrypt(byte[] plainText, byte[] optionalEntropy)
-        {
-            DATA_BLOB pDataIn = new DATA_BLOB();
-            DATA_BLOB pDataOut = new DATA_BLOB();
-            DATA_BLOB pOptionalEntropy = new DATA_BLOB();
-            CRYPTPROTECT_PROMPTSTRUCT ps = new CRYPTPROTECT_PROMPTSTRUCT();
-            this.InitPromptstruct(ref ps);
-            try
-            {
-                int num2;
-                try
-                {
-                    int length = plainText.Length;
-                    pDataIn.pbData = Marshal.AllocHGlobal(length);
-                    if (IntPtr.Zero == pDataIn.pbData)
-                    {
-                        throw new Exception("Unable to allocate plaintext buffer.");
-                    }
-                    pDataIn.cbData = length;
-                    Marshal.Copy(plainText, 0, pDataIn.pbData, length);
-                }
-                catch (Exception exception)
-                {
-                    throw new Exception("Exception marshalling data. " + exception.Message);
-                }
-                if (Store.USE_MACHINE_STORE == this.store)
-                {
-                    num2 = 5;
-                    if (optionalEntropy == null)
-                    {
-                        optionalEntropy = new byte[0];
-                    }
-                    try
-                    {
-                        int num3 = optionalEntropy.Length;
-                        pOptionalEntropy.pbData = Marshal.AllocHGlobal(optionalEntropy.Length);
-                        if (IntPtr.Zero == pOptionalEntropy.pbData)
-                        {
-                            throw new Exception("Unable to allocate entropy data buffer.");
-                        }
-                        Marshal.Copy(optionalEntropy, 0, pOptionalEntropy.pbData, num3);
-                        pOptionalEntropy.cbData = num3;
-                        goto Label_0121;
-                    }
-                    catch (Exception exception2)
-                    {
-                        throw new Exception("Exception entropy marshalling data. " + exception2.Message);
-                    }
-                }
-                num2 = 1;
-            Label_0121:
-                if (!CryptProtectData(ref pDataIn, "", ref pOptionalEntropy, IntPtr.Zero, ref ps, num2, ref pDataOut))
-                {
-                    throw new Exception("Encryption failed. " + GetErrorMessage(Marshal.GetLastWin32Error()));
-                }
-            }
-            catch (Exception exception3)
-            {
-                throw new Exception("Exception encrypting. " + exception3.Message);
-            }
-            byte[] destination = new byte[pDataOut.cbData];
-            Marshal.Copy(pDataOut.pbData, destination, 0, pDataOut.cbData);
-            return destination;
-        }
+		[DllImport("kernel32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+		private unsafe static extern int FormatMessage(int dwFlags, ref IntPtr lpSource, int dwMessageId, int dwLanguageId, ref String lpBuffer, int nSize, IntPtr* Arguments);
 
-        [DllImport("kernel32.dll", CharSet=CharSet.Auto)]
-        private static extern unsafe int FormatMessage(int dwFlags, ref IntPtr lpSource, int dwMessageId, int dwLanguageId, ref string lpBuffer, int nSize, IntPtr* Arguments);
-        private static unsafe string GetErrorMessage(int errorCode)
-        {
-            int num = 0x100;
-            int num2 = 0x200;
-            int num3 = 0x1000;
-            int nSize = 0xff;
-            string lpBuffer = "";
-            int dwFlags = (num | num3) | num2;
-            IntPtr lpSource = new IntPtr();
-            IntPtr arguments = new IntPtr();
-            if (FormatMessage(dwFlags, ref lpSource, errorCode, 0, ref lpBuffer, nSize, &arguments) == 0)
-            {
-                throw new Exception("Failed to format message for error code " + errorCode + ". ");
-            }
-            return lpBuffer;
-        }
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+		internal struct DATA_BLOB {
+			public int cbData;
+			public IntPtr pbData;
+		}
 
-        private void InitPromptstruct(ref CRYPTPROTECT_PROMPTSTRUCT ps)
-        {
-            ps.cbSize = Marshal.SizeOf(typeof(CRYPTPROTECT_PROMPTSTRUCT));
-            ps.dwPromptFlags = 0;
-            ps.hwndApp = NullPtr;
-            ps.szPrompt = null;
-        }
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+		internal struct CRYPTPROTECT_PROMPTSTRUCT {
+			public int cbSize;
+			public int dwPromptFlags;
+			public IntPtr hwndApp;
+			public String szPrompt;
+		}
 
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
-        internal struct CRYPTPROTECT_PROMPTSTRUCT
-        {
-            public int cbSize;
-            public int dwPromptFlags;
-            public IntPtr hwndApp;
-            public string szPrompt;
-        }
+		static private IntPtr NullPtr = ((IntPtr)((int)(0)));
 
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
-        internal struct DATA_BLOB
-        {
-            public int cbData;
-            public IntPtr pbData;
-        }
+		private const int CRYPTPROTECT_UI_FORBIDDEN = 0x1;
+		private const int CRYPTPROTECT_LOCAL_MACHINE = 0x4;
 
-        public enum Store
-        {
-            USE_MACHINE_STORE = 1,
-            USE_USER_STORE = 2
-        }
-    }
+		public enum Store {
+			USE_MACHINE_STORE = 1,
+			USE_USER_STORE
+		};
+
+		private Store _Store;
+
+		public DataProtector(Store store) {
+			_Store = store;
+		}
+		
+		public byte[] Encrypt(byte[] plainText, byte[] optionalEntropy) {
+			bool retVal = false;
+
+			DATA_BLOB plainTextBlob = new DATA_BLOB();
+			DATA_BLOB cipherTextBlob = new DATA_BLOB();
+			DATA_BLOB entropyBlob = new DATA_BLOB();
+
+			CRYPTPROTECT_PROMPTSTRUCT prompt = new CRYPTPROTECT_PROMPTSTRUCT();
+			InitPromptstruct(ref prompt);
+
+			int dwFlags;
+			try {
+				try {
+					int bytesSize = plainText.Length;
+					plainTextBlob.pbData = Marshal.AllocHGlobal(bytesSize);
+					if (IntPtr.Zero == plainTextBlob.pbData) {
+						throw new Exception("Unable to allocate plaintext buffer.");
+					}
+					plainTextBlob.cbData = bytesSize;
+					Marshal.Copy(plainText, 0, plainTextBlob.pbData, bytesSize);
+				}
+				catch (Exception ex) {
+					throw new Exception("Exception marshalling data. " + ex.Message);
+				}
+				if (Store.USE_MACHINE_STORE == _Store) {//Using the machine store, should be providing entropy.
+					dwFlags = CRYPTPROTECT_LOCAL_MACHINE | CRYPTPROTECT_UI_FORBIDDEN;
+					//Check to see if the entropy is null
+					if (null == optionalEntropy) {//Allocate something
+						optionalEntropy = new byte[0];
+					}
+					try {
+						int bytesSize = optionalEntropy.Length;
+						entropyBlob.pbData = Marshal.AllocHGlobal(optionalEntropy.Length); ;
+						if (IntPtr.Zero == entropyBlob.pbData) {
+							throw new Exception("Unable to allocate entropy data buffer.");
+						}
+						Marshal.Copy(optionalEntropy, 0, entropyBlob.pbData, bytesSize);
+						entropyBlob.cbData = bytesSize;
+					}
+					catch (Exception ex) {
+						throw new Exception("Exception entropy marshalling data. " +
+																ex.Message);
+					}
+				}
+				else {//Using the user store
+					dwFlags = CRYPTPROTECT_UI_FORBIDDEN;
+				}
+				retVal = CryptProtectData(ref plainTextBlob, "", ref entropyBlob,
+																	IntPtr.Zero, ref prompt, dwFlags,
+																	ref cipherTextBlob);
+				if (false == retVal) {
+					throw new Exception("Encryption failed. " +
+															GetErrorMessage(Marshal.GetLastWin32Error()));
+				}
+			}
+			catch (Exception ex) {
+				throw new Exception("Exception encrypting. " + ex.Message);
+			}
+			byte[] cipherText = new byte[cipherTextBlob.cbData];
+			Marshal.Copy(cipherTextBlob.pbData, cipherText, 0, cipherTextBlob.cbData);
+			return cipherText;
+		}
+
+		public byte[] Decrypt(byte[] cipherText, byte[] optionalEntropy) {
+			bool retVal = false;
+			DATA_BLOB plainTextBlob = new DATA_BLOB();
+			DATA_BLOB cipherBlob = new DATA_BLOB();
+			CRYPTPROTECT_PROMPTSTRUCT prompt = new CRYPTPROTECT_PROMPTSTRUCT();
+			InitPromptstruct(ref prompt);
+			try {
+				try {
+					int cipherTextSize = cipherText.Length;
+					cipherBlob.pbData = Marshal.AllocHGlobal(cipherTextSize);
+					if (IntPtr.Zero == cipherBlob.pbData) {
+						throw new Exception("Unable to allocate cipherText buffer.");
+					}
+					cipherBlob.cbData = cipherTextSize;
+					Marshal.Copy(cipherText, 0, cipherBlob.pbData, cipherBlob.cbData);
+				}
+				catch (Exception ex) {
+					throw new Exception("Exception marshalling data. " + ex.Message);
+				}
+				DATA_BLOB entropyBlob = new DATA_BLOB();
+				int dwFlags;
+				if (Store.USE_MACHINE_STORE == _Store) {//Using the machine store, should be providing entropy.
+					dwFlags = CRYPTPROTECT_LOCAL_MACHINE | CRYPTPROTECT_UI_FORBIDDEN;
+					//Check to see if the entropy is null
+					if (null == optionalEntropy) {//Allocate something
+						optionalEntropy = new byte[0];
+					}
+					try {
+						int bytesSize = optionalEntropy.Length;
+						entropyBlob.pbData = Marshal.AllocHGlobal(bytesSize);
+						if (IntPtr.Zero == entropyBlob.pbData) {
+							throw new Exception("Unable to allocate entropy buffer.");
+						}
+						entropyBlob.cbData = bytesSize;
+						Marshal.Copy(optionalEntropy, 0, entropyBlob.pbData, bytesSize);
+					}
+					catch (Exception ex) {
+						throw new Exception("Exception entropy marshalling data. " +
+																ex.Message);
+					}
+				}
+				else {//Using the user store
+					dwFlags = CRYPTPROTECT_UI_FORBIDDEN;
+				}
+				retVal = CryptUnprotectData(ref cipherBlob, null, ref entropyBlob,
+																		IntPtr.Zero, ref prompt, dwFlags,
+																		ref plainTextBlob);
+				if (false == retVal) {
+					throw new Exception("Decryption failed. " +
+																GetErrorMessage(Marshal.GetLastWin32Error()));
+				}
+				//Free the blob and entropy.
+				if (IntPtr.Zero != cipherBlob.pbData) {
+					Marshal.FreeHGlobal(cipherBlob.pbData);
+				}
+				if (IntPtr.Zero != entropyBlob.pbData) {
+					Marshal.FreeHGlobal(entropyBlob.pbData);
+				}
+			}
+			catch (Exception ex) {
+				throw new Exception("Exception decrypting. " + ex.Message);
+			}
+			byte[] plainText = new byte[plainTextBlob.cbData];
+			Marshal.Copy(plainTextBlob.pbData, plainText, 0, plainTextBlob.cbData);
+			return plainText;
+		}
+
+		private void InitPromptstruct(ref CRYPTPROTECT_PROMPTSTRUCT ps) {
+			ps.cbSize = Marshal.SizeOf(typeof(CRYPTPROTECT_PROMPTSTRUCT));
+			ps.dwPromptFlags = 0;
+			ps.hwndApp = NullPtr;
+			ps.szPrompt = null;
+		}
+
+		private unsafe static String GetErrorMessage(int errorCode) {
+			int FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x00000100;
+			int FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
+			int FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000;
+			int messageSize = 255;
+			String lpMsgBuf = "";
+			int dwFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |
+										FORMAT_MESSAGE_IGNORE_INSERTS;
+			IntPtr ptrlpSource = new IntPtr();
+			IntPtr prtArguments = new IntPtr();
+			int retVal = FormatMessage(dwFlags, ref ptrlpSource, errorCode, 0,
+																 ref lpMsgBuf, messageSize, &prtArguments);
+			if (0 == retVal) {
+				throw new Exception("Failed to format message for error code " +
+														errorCode + ". ");
+			}
+			return lpMsgBuf;
+		}
+
+	}
 }
 
