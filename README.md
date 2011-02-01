@@ -17,4 +17,4 @@ And so that brings us to present day. Gmail Notifier Plus, as it is on this repo
 
 I've kept the author in the copyright for the original code that Reflector had exported, regardless of whether it's actually close to what was originally written, and in the UI. I've removed the donate button from this version as the code has been modified *dramatically*. If anyone wishes to donate to the original author please visit this thread on neowin.net; http://www.neowin.net/forum/topic/777838-rel-gmail-notifier-plus-for-windows-7/.
 
-Unless otherwise stated, I'm releasing this under the MIT license. 
+Unless otherwise stated, the code here is licensed under the MIT license. Have at it!
