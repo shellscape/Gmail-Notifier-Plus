@@ -177,10 +177,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VistaControls\VistaControls.csproj">
-      <Project>{058F123E-D366-4023-94EF-E4AF8EC5D101}</Project>
-      <Name>VistaControls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Windows API Code Pack\Core\Windows API Core.csproj">
       <Project>{2E1FB0DF-F9BB-4909-9F32-2D9D022A8E57}</Project>
       <Name>Windows API Core</Name>

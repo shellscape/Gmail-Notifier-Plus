@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-using VistaControls;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.Shell;
 using GmailNotifierPlus.Controls;
@@ -49,13 +48,13 @@ namespace GmailNotifierPlus.Forms {
 			this._LabelSound = new System.Windows.Forms.Label();
 			this._LabelTitle = new System.Windows.Forms.Label();
 			this._LabelUsername = new System.Windows.Forms.Label();
-			this._TextPassword = new VistaControls.TextBox();
-			this._TextUsername = new VistaControls.TextBox();
-			this._ListViewAccounts = new VistaControls.ListView();
+			this._TextPassword = new System.Windows.Forms.TextBox();
+			this._TextUsername = new System.Windows.Forms.TextBox();
+			this._ListViewAccounts = new System.Windows.Forms.ListView();
 			this._ColumnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this._PictureExclamation = new System.Windows.Forms.PictureBox();
-			this._ComboLanguage = new VistaControls.ComboBox();
-			this._ComboSound = new VistaControls.ComboBox();
+			this._ComboLanguage = new System.Windows.Forms.ComboBox();
+			this._ComboSound = new System.Windows.Forms.ComboBox();
 			this._TextInterval = new System.Windows.Forms.TextBox();
 			this._PanelAbout = new GmailNotifierPlus.Controls.DoubleBufferPanel();
 			this._PanelAboutButtons = new GmailNotifierPlus.Controls.DoubleBufferPanel();
@@ -535,12 +534,12 @@ namespace GmailNotifierPlus.Forms {
 		private ImageButton _ImgButtonAbout;
 		private ImageButton _ImgButtonAdd;
 		private ImageButton _ImgButtonRemove;
-		private VistaControls.TextBox _TextPassword;
-		private VistaControls.TextBox _TextUsername;
-		private VistaControls.ListView _ListViewAccounts;
+		private System.Windows.Forms.TextBox _TextPassword;
+		private System.Windows.Forms.TextBox _TextUsername;
+		private System.Windows.Forms.ListView _ListViewAccounts;
 		private PictureBox _PictureExclamation;
-		private VistaControls.ComboBox _ComboLanguage;
-		private VistaControls.ComboBox _ComboSound;
+		private System.Windows.Forms.ComboBox _ComboLanguage;
+		private System.Windows.Forms.ComboBox _ComboSound;
 		private ColumnHeader _ColumnHeaderName;
 		private System.Windows.Forms.TextBox _TextInterval;
 		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelAbout;
