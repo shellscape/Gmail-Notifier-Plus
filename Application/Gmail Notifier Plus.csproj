@@ -103,12 +103,6 @@
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Notifier-original.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Notifier-original.Designer.cs">
-      <DependentUpon>Notifier-original.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Notifier.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,9 +159,6 @@
     <EmbeddedResource Include="Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Notifier-original.resx">
-      <DependentUpon>Notifier-original.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Notifier.resx">
       <DependentUpon>Notifier.cs</DependentUpon>
     </EmbeddedResource>
@@ -202,13 +193,20 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\WindowsNotify.wav" />
     <EmbeddedResource Include="Resources\Icons\Default.ico" />
-    <EmbeddedResource Include="Resources\Icons\Inbox.ico" />
-    <EmbeddedResource Include="Resources\Icons\Mail.ico" />
+    <EmbeddedResource Include="Resources\Icons\Mail.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Icons\Next.ico" />
     <EmbeddedResource Include="Resources\Icons\Offline.ico" />
     <EmbeddedResource Include="Resources\Icons\Open.ico" />
     <EmbeddedResource Include="Resources\Icons\Previous.ico" />
-    <EmbeddedResource Include="Resources\Icons\Settings.ico" />
+    <EmbeddedResource Include="Resources\Icons\Inbox.ico" />
+    <Content Include="Resources\Icons\Go.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\Settings.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Resources\Icons\Warning.ico" />
     <EmbeddedResource Include="Resources\Images\About.png" />
     <EmbeddedResource Include="Resources\Images\Copyrights.png" />
@@ -235,6 +233,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\%24this.Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Icons\Compose.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Icons\Refresh.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

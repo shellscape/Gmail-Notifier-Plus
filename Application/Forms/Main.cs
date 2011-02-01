@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
@@ -20,13 +21,16 @@ namespace GmailNotifierPlus.Forms {
 		public static extern uint RegisterWindowMessage(string message);
 
 		private const int _UNREAD_MAX = 0x63;
+
 		private Dictionary<string, Notifier> _Instances = new Dictionary<string, Notifier>();
-		private JumpList _JumpListManager;
-		private int _PreviousTotal;
+		private JumpList _JumpList;
 		private Settings _SettingsWindow;
 		private Dictionary<string, Notifier.NotifierStatus> _StatusList = new Dictionary<string, Notifier.NotifierStatus>();
 		private TaskbarManager _TaskbarManager = TaskbarManager.Instance;
+
+		private int _PreviousTotal;
 		private int _UnreadTotal;
+
 		private Icon _IconDigits = null;
 		private Icon _IconWindow = null;
 
@@ -56,8 +60,6 @@ namespace GmailNotifierPlus.Forms {
 			_Timer.Tick += _Timer_Tick;
 			_Timer.Interval = _Config.Interval * 1000;
 			_Timer.Enabled = true;
-
-			//SetUnreadOverlay(99);
 		}
 
 		protected override void WndProc(ref Message m) {
@@ -71,17 +73,17 @@ namespace GmailNotifierPlus.Forms {
 
 		private void Main_FormClosing(object sender, FormClosingEventArgs e) {
 			try {
-				this._JumpListManager.ClearAllCustomCategories();
-				this._JumpListManager.Refresh();
+				this._JumpList.ClearAllCustomCategories();
+				this._JumpList.Refresh();
 			}
 			catch {
 			}
 		}
 
 		private void Main_Load(object sender, EventArgs e) {
-			_JumpListManager = JumpList.CreateJumpListForIndividualWindow(this._TaskbarManager.ApplicationId, base.Handle);
-			_JumpListManager.JumpListItemsRemoved += delegate(object o, UserRemovedJumpListItemsEventArgs ev) { };
-			_JumpListManager.KnownCategoryToDisplay = JumpListKnownCategoryType.Neither;
+			_JumpList = JumpList.CreateJumpListForIndividualWindow(this._TaskbarManager.ApplicationId, base.Handle);
+			_JumpList.JumpListItemsRemoved += delegate(object o, UserRemovedJumpListItemsEventArgs ev) { };
+			_JumpList.KnownCategoryToDisplay = JumpListKnownCategoryType.Neither;
 
 			BuildJumpList();
 		}
@@ -161,40 +163,33 @@ namespace GmailNotifierPlus.Forms {
 
 		private void BuildJumpList() {
 
+			_JumpList.ClearAllUserTasks();
+
 			int defaultAccountIndex = _Config.Accounts.IndexOf(_Config.Accounts.Default);
+			String path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\Icons");
 
-			_JumpListManager.ClearAllUserTasks();
-			IJumpListTask[] taskCompose = new IJumpListTask[1];
-			JumpListLink linkCompose = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Compose);
-			linkCompose.IconReference = new IconReference(Application.ExecutablePath, 1);
-			taskCompose[0] = linkCompose;
+			IJumpListTask compose = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Compose) {
+				IconReference = new IconReference(Path.Combine(path, "Compose.ico"), 0)
+			};
 
-			IJumpListTask[] taskInbox = new IJumpListTask[1];
-			JumpListLink linkInbox = new JumpListLink(UrlHelper.BuildInboxUrl(defaultAccountIndex), Locale.Current.Labels.Inbox);
-			linkInbox.IconReference = new IconReference(Application.ExecutablePath, 2);
-			taskInbox[0] = linkInbox;
+			// we need a different icon name here, there's a really whacky conflict between an embedded resource, and a content resource file name.
 
-			IJumpListTask[] taskCheck = new IJumpListTask[1];
-			JumpListLink linkCheck = new JumpListLink(Application.ExecutablePath, Locale.Current.Labels.CheckMail);
-			linkCheck.Arguments = "-check";
-			linkCheck.IconReference = new IconReference(Application.ExecutablePath, 4);
-			taskCheck[0] = linkCheck;
+			IJumpListTask inbox = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Inbox) {
+				IconReference = new IconReference(Path.Combine(path, "GoInbox.ico"), 0)
+			};
 
-			IJumpListTask[] taskConfig = new IJumpListTask[1];
-			JumpListLink linkConfig = new JumpListLink(Application.ExecutablePath, Locale.Current.Labels.ConfigurationShort);
-			linkConfig.Arguments = "-settings";
-			linkConfig.IconReference = new IconReference(Application.ExecutablePath, 5);
-			taskConfig[0] = linkConfig;
+			IJumpListTask refresh = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.CheckMail) {
+				IconReference = new IconReference(Path.Combine(path, "Refresh.ico"), 0)
+			};
 
-			try {
-				this._JumpListManager.AddUserTasks(taskCompose);
-				this._JumpListManager.AddUserTasks(taskInbox);
-				this._JumpListManager.AddUserTasks(taskCheck);
-				this._JumpListManager.AddUserTasks(taskConfig);
+			IJumpListTask settings = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Configuration) {
+				IconReference = new IconReference(Path.Combine(path, "Settings.ico"), 0)
+			};
 
-				this._JumpListManager.Refresh();
-			}
-			catch { }
+			_JumpList.AddUserTasks(compose);
+			_JumpList.AddUserTasks(inbox);
+			_JumpList.AddUserTasks(refresh);
+			_JumpList.AddUserTasks(settings);
 		}
 
 		private void CheckMail() {
@@ -273,7 +268,7 @@ namespace GmailNotifierPlus.Forms {
 				UpdateMailsJumpList();
 
 				if (_UnreadTotal > _PreviousTotal) {
-					switch (1) { // TODO - config.SoundNotification) {
+					switch (Config.Current.SoundNotification) {
 						case 1:
 							SoundHelper.PlayDefaultSound();
 							break;
@@ -365,46 +360,45 @@ namespace GmailNotifierPlus.Forms {
 
 		private void UpdateMailsJumpList() {
 
-			try {
-				_JumpListManager.ClearAllCustomCategories();
-			}
-			catch { }
+			_JumpList.ClearAllCustomCategories();
 
 			Dictionary<string, List<JumpListLink>> dictionary = new Dictionary<string, List<JumpListLink>>();
 
-			int num = 0;
-			int num2 = Math.Min(_UnreadTotal, (int)_JumpListManager.MaxSlotsInList);
+			int i = 0;
+			int unreadCount = Math.Min(_UnreadTotal, (int)_JumpList.MaxSlotsInList);
 			int index = 0;
-			int num4 = 0;
+			int mailCount = 0;
 
-			while (num < num2) {
-				string str;
+			while (i < unreadCount) {
+				String linkText;
 
 				Notifier notifier = _Instances[_Config.Accounts[index].FullAddress];
 				Account account = _Config.Accounts[notifier.AccountIndex];
 
 				if (Locale.Current.IsRightToLeftLanguage) {
-					str = string.Concat(new object[] { "(", notifier.Unread, ") ", account.FullAddress, " " });
+					linkText = String.Concat("(", notifier.Unread, ") ", account.FullAddress, " ");
 				}
 				else {
-					str = string.Concat(new object[] { account.FullAddress, " (", notifier.Unread, ")" });
+					linkText = String.Concat(account.FullAddress, " (", notifier.Unread, ")");
 				}
 
-				if (!dictionary.ContainsKey(str)) {
-					dictionary.Add(str, new List<JumpListLink>());
+				if (!dictionary.ContainsKey(linkText)) {
+					dictionary.Add(linkText, new List<JumpListLink>());
 				}
 
-				if (num4 < notifier.XmlMail.Count) {
-					XmlNode node = notifier.XmlMail[num4];
+				if (mailCount < notifier.XmlMail.Count) {
+					XmlNode node = notifier.XmlMail[mailCount];
 					String innerText = node.ChildNodes.Item(0).InnerText;
 					String linkTitle = String.IsNullOrEmpty(innerText) ? Locale.Current.Labels.NoSubject : innerText;
 					String linkUrl = UrlHelper.BuildMailUrl(node.ChildNodes.Item(2).Attributes["href"].Value, notifier.AccountIndex);
+					String path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\Icons");
 
-					JumpListLink item = new JumpListLink(linkUrl, linkTitle);
+					JumpListLink item = new JumpListLink(linkUrl, linkTitle) {
+						IconReference = new IconReference(Path.Combine(path, "Mail.ico"), 0)
+					};
 
-					item.IconReference = new IconReference(Application.ExecutablePath, 3);
-					dictionary[str].Add(item);
-					num++;
+					dictionary[linkText].Add(item);
+					i++;
 				}
 
 				if (index < (_Instances.Count - 1)) {
@@ -412,7 +406,7 @@ namespace GmailNotifierPlus.Forms {
 				}
 				else {
 					index = 0;
-					num4++;
+					mailCount++;
 				}
 
 			}
@@ -421,13 +415,10 @@ namespace GmailNotifierPlus.Forms {
 				JumpListCustomCategory category = new JumpListCustomCategory(pair.Key);
 				category.AddJumpListItems(pair.Value.ToArray());
 
-				_JumpListManager.AddCustomCategories(new JumpListCustomCategory[] { category });
+				_JumpList.AddCustomCategories(new JumpListCustomCategory[] { category });
 			}
 
-			try {
-				_JumpListManager.Refresh();
-			}
-			catch { }
+			_JumpList.Refresh();
 		}
 
 

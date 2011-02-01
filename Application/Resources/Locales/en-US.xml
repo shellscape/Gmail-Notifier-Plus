@@ -28,7 +28,7 @@
 		<DefaultSound>Default</DefaultSound>
 		<Edit>Edit account information</Edit>
 		<Error>An account with this username already exists. Please enter a different username.</Error>
-		<Inbox>Go to your inbox</Inbox>
+		<Inbox>Go to your Inbox</Inbox>
 		<Interval>Check every:</Interval>
 		<Language>Display language:</Language>
 		<Login>Username:</Login>

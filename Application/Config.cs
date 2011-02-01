@@ -51,6 +51,10 @@ namespace GmailNotifierPlus {
 			Locale locale = Utilities.ResourceHelper.GetLocale(config.Language);
 			locale.Init();
 
+			for (var i = 0; i < config.Accounts.Count; i++) {
+				config.Accounts[i].Init();
+			}
+
 		}
 
 		public static Config Current {
