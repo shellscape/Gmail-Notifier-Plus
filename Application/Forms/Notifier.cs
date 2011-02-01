@@ -70,7 +70,7 @@ namespace GmailNotifierPlus.Forms {
 		private void Notifier_Activated(object sender, EventArgs e) {
 			this.Refresh();
 
-			TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
+			TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(_PictureLogo);
 			
 			if(thumb !=  null){
 				thumb.InvalidatePreview();
@@ -274,7 +274,7 @@ namespace GmailNotifierPlus.Forms {
 						this.ShowStatus();
 					}
 
-					TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
+					TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this._PictureLogo);
 
 					if (thumb != null) {
 						thumb.InvalidatePreview();
