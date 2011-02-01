@@ -51,7 +51,7 @@ namespace GmailNotifierPlus.Forms {
 			_FontRegular = new Font(_ListViewAccounts.Font, FontStyle.Regular);
 			_FontBold = new Font(_ListViewAccounts.Font, FontStyle.Bold);
 
-			InitTables();
+			InitCombos();
 
 			if (_Config.Accounts.Count > 0) {
 				foreach (Account account in _Config.Accounts) {
@@ -276,10 +276,10 @@ namespace GmailNotifierPlus.Forms {
 			_Config.Accounts[this._DefaultAccountIndex].Default = true;
 
 			if ((_ComboSound.SelectedIndex == 2) && string.IsNullOrEmpty(_ComboSound.SelectedValue.ToString())) {
-				// TODO - config.SoundNotification = 0;
+				_Config.SoundNotification = 0;
 			}
 			else {
-				// TODO - config.SoundNotification = _ComboSound.SelectedIndex;
+				_Config.SoundNotification = _ComboSound.SelectedIndex;
 				_Config.Sound = _ComboSound.SelectedValue.ToString();
 			}
 
@@ -410,7 +410,8 @@ namespace GmailNotifierPlus.Forms {
 
 		}
 
-		private void InitTables() {
+		private void InitCombos() {
+
 			String columnName = "Name";
 			String columnValue = "Value";
 			DataTable table = new DataTable();
@@ -442,7 +443,7 @@ namespace GmailNotifierPlus.Forms {
 			_ComboSound.DataSource = table2;
 			_ComboSound.DisplayMember = columnName;
 			_ComboSound.ValueMember = columnValue;
-			_ComboSound.SelectedIndex = 0; // TODO - config.PlaySound;
+			_ComboSound.SelectedIndex = _Config.SoundNotification;
 
 		}
 

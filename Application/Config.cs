@@ -25,12 +25,6 @@ namespace GmailNotifierPlus {
 			FileInfo file = new FileInfo(Path.Combine(_Path, _FileName));
 
 			if (file.Exists) {
-				//using (FileStream fs = new FileStream(file.FullName, FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
-				//  using (StreamReader sr = new StreamReader(fs)) {
-				//    xml = sr.ReadToEnd();
-				//  }
-				//}
-
 				using (StreamReader sr = file.OpenText()) {
 					xml = sr.ReadToEnd();
 				}
@@ -77,6 +71,7 @@ namespace GmailNotifierPlus {
 		public int Interval { get; set; }
 		public String Language { get; set; }
 		public String Sound { get; set; }
+		public int SoundNotification { get; set; }
 		public Boolean PlaySound { get; set; }
 		public AccountList Accounts { get; set; }
 		public Boolean FirstRun { get; set; }

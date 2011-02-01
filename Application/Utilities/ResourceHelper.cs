@@ -67,6 +67,11 @@
 			return Get<T>(assembly, fileName);
 		}
 
+		public static object GetRaw(String fileName) {
+			Assembly assembly = Assembly.GetCallingAssembly();
+			return assembly.GetManifestResourceStream(String.Concat(_ResourcePrefix, fileName));
+		}
+
 		public static Icon GetIcon(string iconName) {
 			iconName = String.Concat("Icons.", iconName);
 

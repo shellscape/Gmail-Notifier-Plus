@@ -25,10 +25,10 @@
 
 		public static void PlayDefaultSound() {
 			try {
-				Stream stream = Utilities.ResourceHelper.GetStream("WindowsNotify.wav");
+				UnmanagedMemoryStream stream = (UnmanagedMemoryStream)Utilities.ResourceHelper.GetRaw("WindowsNotify.wav");
 				new System.Media.SoundPlayer(stream).Play();
 			}
-			catch {
+			catch(Exception e) {
 			}
 		}
 

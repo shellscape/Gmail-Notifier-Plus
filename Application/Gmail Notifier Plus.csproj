@@ -201,7 +201,7 @@
     <EmbeddedResource Include="Resources\Icons\Open.ico" />
     <EmbeddedResource Include="Resources\Icons\Previous.ico" />
     <EmbeddedResource Include="Resources\Icons\Inbox.ico" />
-    <Content Include="Resources\Icons\Go.ico">
+    <Content Include="Resources\Icons\GoInbox.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Icons\Settings.ico">
