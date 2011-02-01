@@ -166,24 +166,27 @@ namespace GmailNotifierPlus.Forms {
 			_JumpList.ClearAllUserTasks();
 
 			int defaultAccountIndex = _Config.Accounts.IndexOf(_Config.Accounts.Default);
-			String path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\Icons");
-
+			String exePath = Application.ExecutablePath;
+			String path = Path.Combine(Path.GetDirectoryName(exePath), "Resources\\Icons");
+			
 			IJumpListTask compose = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Compose) {
 				IconReference = new IconReference(Path.Combine(path, "Compose.ico"), 0)
 			};
 
 			// we need a different icon name here, there's a really whacky conflict between an embedded resource, and a content resource file name.
 
-			IJumpListTask inbox = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Inbox) {
+			IJumpListTask inbox = new JumpListLink(UrlHelper.BuildInboxUrl(defaultAccountIndex), Locale.Current.Labels.Inbox) {
 				IconReference = new IconReference(Path.Combine(path, "GoInbox.ico"), 0)
 			};
 
-			IJumpListTask refresh = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.CheckMail) {
-				IconReference = new IconReference(Path.Combine(path, "Refresh.ico"), 0)
+			IJumpListTask refresh = new JumpListLink(exePath, Locale.Current.Labels.CheckMail) {
+				IconReference = new IconReference(Path.Combine(path, "Refresh.ico"), 0),
+				Arguments = "-check"
 			};
 
-			IJumpListTask settings = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Configuration) {
-				IconReference = new IconReference(Path.Combine(path, "Settings.ico"), 0)
+			IJumpListTask settings = new JumpListLink(exePath, Locale.Current.Labels.ConfigurationShort) {
+				IconReference = new IconReference(Path.Combine(path, "Settings.ico"), 0),
+				Arguments = "-settings"
 			};
 
 			_JumpList.AddUserTasks(compose);
