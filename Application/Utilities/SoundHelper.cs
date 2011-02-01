@@ -24,12 +24,8 @@
 		}
 
 		public static void PlayDefaultSound() {
-			try {
-				UnmanagedMemoryStream stream = (UnmanagedMemoryStream)Utilities.ResourceHelper.GetRaw("WindowsNotify.wav");
-				new System.Media.SoundPlayer(stream).Play();
-			}
-			catch(Exception e) {
-			}
+			UnmanagedMemoryStream stream = (UnmanagedMemoryStream)Utilities.ResourceHelper.GetRaw("WindowsNotify.wav");
+			new System.Media.SoundPlayer(stream).Play();
 		}
 
 		[DllImport("winmm.dll", SetLastError = true)]
