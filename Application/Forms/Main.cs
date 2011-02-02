@@ -319,13 +319,24 @@ namespace GmailNotifierPlus.Forms {
 				int digitsNumber;
 				Int32.TryParse(count.ToString("00"), out digitsNumber);
 
-				_IconDigits = ImageHelper.GetDigitIcon(digitsNumber);
-
+				using (Bitmap numbers = ImageHelper.GetDigitIcon(digitsNumber)) {
+					_IconDigits = Icon.FromHandle(numbers.GetHicon());
+				}
+				
 				//_TaskbarManager.SetOverlayIcon(base.Handle, _IconDigits, string.Empty);
 				
 				this.Icon = _IconDigits;
 
 			}
+
+			String appName = GmailNotifierPlus.Resources.Resources.WindowTitle;
+			String appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			String path = System.IO.Path.Combine(appData, appName, String.Concat(appName, ".ico"));
+
+			using(FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write)){
+				_IconDigits.Save(fs);
+			}
+
 		}
 
 		internal void SetWarningOverlay() {

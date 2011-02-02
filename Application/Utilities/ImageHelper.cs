@@ -11,7 +11,7 @@ namespace GmailNotifierPlus.Utilities {
 
 	public class ImageHelper {
 
-		public static Icon GetDigitIcon(int number) {
+		public static Bitmap GetDigitIcon(int number) {
 
 			Bitmap bitmap = ResourceHelper.GetImage("Envelope.png");
 
@@ -27,12 +27,7 @@ namespace GmailNotifierPlus.Utilities {
 				}
 			}
 
-			Icon icon = Icon.FromHandle(bitmap.GetHicon());
-
-			bitmap.Dispose();
-			bitmap = null;
-
-			return icon;
+			return bitmap;
 		}
 
 		public static Bitmap GetNumbers(int number) {

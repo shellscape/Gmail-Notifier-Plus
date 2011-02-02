@@ -6,6 +6,7 @@ using System.Security.Principal;
 using System.Threading;
 using System.Windows.Forms;
 
+using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.Shell;
 
@@ -61,6 +62,7 @@ namespace GmailNotifierPlus {
 				}
 				else {
 					InitRemoting();
+
 					Application.EnableVisualStyles();
 					Application.SetCompatibleTextRenderingDefault(false);
 					Application.ThreadException += Application_ThreadException;
