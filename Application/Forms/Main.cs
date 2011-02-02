@@ -74,7 +74,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void Main_FormClosing(object sender, FormClosingEventArgs e) {
 			try {
-				this._JumpList.ClearAllCustomCategories();
+				this._JumpList.RemoveCustomCategories();
 				this._JumpList.Refresh();
 			}
 			catch {
@@ -82,6 +82,8 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void Main_Load(object sender, EventArgs e) {
+
+			AllowTaskbarWindowMessagesThroughUIPI();
 
 			_JumpList = JumpList.CreateJumpListForIndividualWindow(this._TaskbarManager.ApplicationId, base.Handle);
 			_JumpList.JumpListItemsRemoved += delegate(object o, UserRemovedJumpListItemsEventArgs ev) { };
@@ -171,22 +173,22 @@ namespace GmailNotifierPlus.Forms {
 			String exePath = Application.ExecutablePath;
 			String path = Path.Combine(Path.GetDirectoryName(exePath), "Resources\\Icons");
 			
-			IJumpListTask compose = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Compose) {
+			JumpListTask compose = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Compose) {
 				IconReference = new IconReference(Path.Combine(path, "Compose.ico"), 0)
 			};
 
 			// we need a different icon name here, there's a really whacky conflict between an embedded resource, and a content resource file name.
 
-			IJumpListTask inbox = new JumpListLink(UrlHelper.BuildInboxUrl(defaultAccountIndex), Locale.Current.Labels.Inbox) {
+			JumpListTask inbox = new JumpListLink(UrlHelper.BuildInboxUrl(defaultAccountIndex), Locale.Current.Labels.Inbox) {
 				IconReference = new IconReference(Path.Combine(path, "GoInbox.ico"), 0)
 			};
 
-			IJumpListTask refresh = new JumpListLink(exePath, Locale.Current.Labels.CheckMail) {
+			JumpListTask refresh = new JumpListLink(exePath, Locale.Current.Labels.CheckMail) {
 				IconReference = new IconReference(Path.Combine(path, "Refresh.ico"), 0),
 				Arguments = "-check"
 			};
 
-			IJumpListTask settings = new JumpListLink(exePath, Locale.Current.Labels.ConfigurationShort) {
+			JumpListTask settings = new JumpListLink(exePath, Locale.Current.Labels.ConfigurationShort) {
 				IconReference = new IconReference(Path.Combine(path, "Settings.ico"), 0),
 				Arguments = "-settings"
 			};
@@ -299,6 +301,9 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void SetUnreadOverlay(int count) {
+
+			_TaskbarManager.SetOverlayIcon(base.Handle, null, String.Empty);
+
 			if (count == 0) {
 				//_TaskbarManager.SetOverlayIcon(base.Handle, null, string.Empty);
 				this.Icon = _IconWindow;
@@ -365,7 +370,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void UpdateMailsJumpList() {
 
-			_JumpList.ClearAllCustomCategories();
+			_JumpList.RemoveCustomCategories();
 
 			Dictionary<string, List<JumpListLink>> dictionary = new Dictionary<string, List<JumpListLink>>();
 
@@ -428,6 +433,38 @@ namespace GmailNotifierPlus.Forms {
 
 
 		#endregion
+
+#region .    Fix bug in Windows API Code Pack    
+
+		// Resolves a bug with Windows API Code Pack v1.0.1
+		// ThumbnailToolbarButton Click event isn’t fired when process is running elevated (i.e. as Administrator)
+		// Since I run visual studio with elevated privs for debugging IIS attached asp.net apps, this needs to be here.
+		// http://blogs.microsoft.co.il/blogs/arik/archive/2010/03.aspx
+		
+		// Updated to v1.1 of the code pack. Bug still present.
+
+		[DllImport("user32.dll", SetLastError = true)]
+		private static extern IntPtr ChangeWindowMessageFilter(uint message, uint dwFlag);
+
+		private const uint MSGFLT_ADD = 1;
+		private const uint WM_COMMAND = 0x0111;
+		private const uint WM_SYSCOMMAND = 0x112;
+		private const uint WM_ACTIVATE = 0x0006;
+
+		/// <summary>
+		/// Specifies that the taskbar-related windows messages should pass through the Windows UIPI mechanism even if the process is
+		/// running elevated. Calling this method is not required unless the process is running elevated.
+		/// </summary>
+		private static void AllowTaskbarWindowMessagesThroughUIPI() {
+			uint WM_TaskbarButtonCreated = RegisterWindowMessage("TaskbarButtonCreated");
+
+			ChangeWindowMessageFilter(WM_TaskbarButtonCreated, MSGFLT_ADD);
+			ChangeWindowMessageFilter(WM_COMMAND, MSGFLT_ADD);
+			ChangeWindowMessageFilter(WM_SYSCOMMAND, MSGFLT_ADD);
+			ChangeWindowMessageFilter(WM_ACTIVATE, MSGFLT_ADD);
+		}
+
+#endregion
 
 	}
 

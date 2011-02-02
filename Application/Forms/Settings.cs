@@ -474,7 +474,7 @@ namespace GmailNotifierPlus.Forms {
 			dialog.DefaultDirectory = Directory.Exists(path) ? path : KnownFolders.Desktop.Path;
 			dialog.Filters.Add(filter);
 
-			if (dialog.ShowDialog() == CommonFileDialogResult.OK) {
+			if (dialog.ShowDialog() == CommonFileDialogResult.Ok) {
 				DataTable dataSource = (DataTable)_ComboSound.DataSource;
 
 				dataSource.Rows.RemoveAt(2);

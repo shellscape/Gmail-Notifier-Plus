@@ -22,7 +22,10 @@ namespace GmailNotifierPlus {
 
 		public String Login { get; set; }
 		public String Password { get; set; }
+
+		[DataMember(Name="default")]
 		public Boolean Default { get; set; }
+
 		public String Domain { get; private set; }
 		public String FullAddress { get; private set; }
 		public String Name { get; private set; }

@@ -15,9 +15,9 @@ namespace GmailNotifierPlus.Forms {
 		private int _MailIndex;
 		private String _MailUrl;
 
-		private ThumbnailToolbarButton _ButtonInbox;
-		private ThumbnailToolbarButton _ButtonNext;
-		private ThumbnailToolbarButton _ButtonPrev;
+		private ThumbnailToolBarButton _ButtonInbox;
+		private ThumbnailToolBarButton _ButtonNext;
+		private ThumbnailToolBarButton _ButtonPrev;
 		private TaskbarManager _TaskbarManager = TaskbarManager.Instance;
 
 		private Config _Config = Config.Current;
@@ -70,7 +70,7 @@ namespace GmailNotifierPlus.Forms {
 		private void Notifier_Activated(object sender, EventArgs e) {
 			this.Refresh();
 
-			TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(_PictureLogo);
+			TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this); //_PictureLogo);
 			
 			if(thumb !=  null){
 				thumb.InvalidatePreview();
@@ -161,38 +161,47 @@ namespace GmailNotifierPlus.Forms {
 
 		private void CreateThumbButtons() {
 
-			_ButtonPrev = new ThumbnailToolbarButton(Utilities.ResourceHelper.GetIcon("Previous.ico"), Locale.Current.Tooltips.Previous);
+			_ButtonPrev = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Previous.ico"), Locale.Current.Tooltips.Previous);
 			_ButtonPrev.Click += _ButtonPrev_Click;
 
-			_ButtonInbox = new ThumbnailToolbarButton(Utilities.ResourceHelper.GetIcon("Inbox.ico"), Locale.Current.Tooltips.Inbox);
+			_ButtonInbox = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Inbox.ico"), Locale.Current.Tooltips.Inbox);
 			_ButtonInbox.Click += _ButtonInbox_Click;
 
-			_ButtonNext = new ThumbnailToolbarButton(Utilities.ResourceHelper.GetIcon("Next.ico"), Locale.Current.Tooltips.Next);
+			_ButtonNext = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Next.ico"), Locale.Current.Tooltips.Next);
 			_ButtonNext.Click += _ButtonNext_Click;
+			//_ButtonNext.Click += new EventHandler<ThumbnailButtonClickedEventArgs>(this._ButtonNext_Click);
 
-			var buttons = new ThumbnailToolbarButton[] { _ButtonPrev, _ButtonInbox, _ButtonNext };
-			_TaskbarManager.ThumbnailToolbars.AddButtons(base.Handle, buttons);
+			//_ButtonNext.Click += delegate(object sender, ThumbnailButtonClickedEventArgs e) {
+			//  MessageBox.Show("Clicked");
+			//};
+			
+			_TaskbarManager.ThumbnailToolBars.AddButtons(base.Handle, new ThumbnailToolBarButton[] { _ButtonPrev, _ButtonInbox, _ButtonNext });
 		}
 
 		private void SetCheckingPreview() {
 			_LabelStatus.Top = 82;
-			_LabelStatus.Height = 26;
+			//_LabelStatus.Height = 26;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.Connecting;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Checking.png");
 		}
 
 		private void SetNoMailPreview() {
-			_LabelStatus.Top = 0;
-			_LabelStatus.Height = 108;
-			_LabelStatus.ForeColor = System.Drawing.Color.Gray;
 			_LabelStatus.Text = Locale.Current.Labels.NoMail;
+
+			_LabelStatus.Location = new System.Drawing.Point(
+				(this.Width - _LabelStatus.Width) / 2,
+				(this.Height - _LabelStatus.Height) / 2
+			);
+			
+			//_LabelStatus.Height = 108;
+			_LabelStatus.ForeColor = System.Drawing.Color.Gray;
 			_PictureLogo.Image = null;
 		}
 
 		private void SetOfflinePreview() {
 			_LabelStatus.Top = 79;
-			_LabelStatus.Height = 29;
+			//_LabelStatus.Height = 29;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.ConnectionUnavailable;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Offline.png");
@@ -200,7 +209,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void SetWarningPreview() {
 			_LabelStatus.Top = 0x4f;
-			_LabelStatus.Height = 0x1d;
+			//_LabelStatus.Height = 0x1d;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.CheckLogin;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Warning.png");
@@ -274,7 +283,7 @@ namespace GmailNotifierPlus.Forms {
 						this.ShowStatus();
 					}
 
-					TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this._PictureLogo);
+					TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this); //._PictureLogo);
 
 					if (thumb != null) {
 						thumb.InvalidatePreview();
@@ -294,8 +303,9 @@ namespace GmailNotifierPlus.Forms {
 			int num = (Unread > 20) ? 20 : Unread;
 
 			_ButtonPrev.Enabled = _MailIndex != 0;
-			_ButtonNext.Enabled = _MailIndex < (num - 1);
 			_ButtonPrev.Tooltip = Locale.Current.Tooltips.Previous;
+
+			_ButtonNext.Enabled = _MailIndex < (num - 1);
 			_ButtonNext.Tooltip = Locale.Current.Tooltips.Next;
 
 			if (Unread == 0) {

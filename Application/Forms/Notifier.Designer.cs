@@ -140,7 +140,6 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.ClientSize = new System.Drawing.Size(198, 108);
-			this.Controls.Add(this._PictureLogo);
 			this.Controls.Add(this._PanelLine);
 			this.Controls.Add(this._LabelTitle);
 			this.Controls.Add(this._LabelFrom);
@@ -148,6 +147,7 @@
 			this.Controls.Add(this._LabelMessage);
 			this.Controls.Add(this._LabelStatus);
 			this.Controls.Add(this._LabelDate);
+			this.Controls.Add(this._PictureLogo);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "Notifier";
