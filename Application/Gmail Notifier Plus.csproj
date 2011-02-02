@@ -61,7 +61,7 @@
     <RootNamespace>GmailNotifierPlus</RootNamespace>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Icons\Default.ico</ApplicationIcon>
+    <ApplicationIcon>Application.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Gmail Notifier Plus.exe.manifest</ApplicationManifest>
@@ -97,6 +97,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountList.cs" />
+    <Compile Include="Controls\AboutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -203,6 +206,7 @@
     <EmbeddedResource Include="Resources\Icons\Open.ico" />
     <EmbeddedResource Include="Resources\Icons\Previous.ico" />
     <EmbeddedResource Include="Resources\Icons\Inbox.ico" />
+    <Content Include="Application.ico" />
     <Content Include="Resources\Icons\GoInbox.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -211,8 +215,7 @@
     </Content>
     <EmbeddedResource Include="Resources\Icons\Warning.ico" />
     <EmbeddedResource Include="Resources\Images\About.png" />
-    <EmbeddedResource Include="Resources\Images\Copyrights.png" />
-    <EmbeddedResource Include="Resources\Images\Disclaimer.png" />
+    <EmbeddedResource Include="Resources\Images\GetStarted.png" />
     <EmbeddedResource Include="Resources\Images\Welcome.png" />
     <EmbeddedResource Include="Resources\Images\Add.png" />
     <EmbeddedResource Include="Resources\Images\AddDisabled.png" />
@@ -220,7 +223,6 @@
     <EmbeddedResource Include="Resources\Images\AddPressed.png" />
     <EmbeddedResource Include="Resources\Images\Background.png" />
     <EmbeddedResource Include="Resources\Images\Checking.png" />
-    <EmbeddedResource Include="Resources\Images\Donate.gif" />
     <EmbeddedResource Include="Resources\Images\Exclamation.png" />
     <EmbeddedResource Include="Resources\Images\Information.png" />
     <EmbeddedResource Include="Resources\Images\Line.png" />

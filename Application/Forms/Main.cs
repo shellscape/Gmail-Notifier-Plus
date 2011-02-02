@@ -44,7 +44,7 @@ namespace GmailNotifierPlus.Forms {
 
 			this.Location = new Point(-10000, -10000);
 
-			using (Bitmap windowBitmap = ResourceHelper.GetImage("Envelope.png")) {
+			using (System.Drawing.Bitmap windowBitmap = ResourceHelper.GetImage("Envelope.png")) {
 				_IconWindow = Icon.FromHandle(windowBitmap.GetHicon());
 				this.Icon = _IconWindow;
 			}
@@ -254,6 +254,7 @@ namespace GmailNotifierPlus.Forms {
 				preview.TabbedThumbnailClosed += _Preview_TabbedThumbnailClosed;
 				preview.SetWindowIcon(Utilities.ResourceHelper.GetIcon("Default.ico"));
 				preview.Tooltip = String.Empty;
+				preview.Title = account.FullAddress;
 
 				_TaskbarManager.TabbedThumbnail.AddThumbnailPreview(preview);
 
@@ -321,7 +322,7 @@ namespace GmailNotifierPlus.Forms {
 				_IconDigits = ImageHelper.GetDigitIcon(digitsNumber);
 
 				//_TaskbarManager.SetOverlayIcon(base.Handle, _IconDigits, string.Empty);
-
+				
 				this.Icon = _IconDigits;
 
 			}

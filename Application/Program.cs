@@ -15,6 +15,8 @@ namespace GmailNotifierPlus {
 	
 	internal static class Program {
 
+		public static System.Drawing.Icon Icon { get; private set; } 
+
 		internal static String channelName;
 		internal static GmailNotifierPlus.Forms.Main mainForm;
 
@@ -45,6 +47,8 @@ namespace GmailNotifierPlus {
 			bool createdNew;
 
 			channelName = String.Concat(WindowsIdentity.GetCurrent().Name, "@GmailNotifierPlus");
+
+			Program.Icon = Utilities.ResourceHelper.GetIcon("Default.ico");
 
 			String guid = "{421a0043-b2ab-4b86-8dec-63ce3b8bd764}";
 			String name = String.Concat(@"Local\GmailNotifierPlus", guid);

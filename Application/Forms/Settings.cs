@@ -39,10 +39,9 @@ namespace GmailNotifierPlus.Forms {
 		public Settings() {
 			InitializeComponent();
 
-			// now we can play around with the form 
-			//this.Size = new Size(300, 404);
+			this.Icon = Program.Icon;
 			this.ClientSize = new Size(300, 355);
-			this.SetStyle(ControlStyles.AllPaintingInWmPaint | 	ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+			this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
 			ToolTip tip = new ToolTip();
 
@@ -56,7 +55,7 @@ namespace GmailNotifierPlus.Forms {
 					_ListViewAccounts.Items.Add(account.Login);
 					_ListAccounts.Add(account.Login, account);
 				}
-		
+
 				_DefaultAccountIndex = _Config.Accounts.IndexOf(_Config.Accounts.Default);
 
 				if (_DefaultAccountIndex < _ListViewAccounts.Items.Count) {
@@ -67,11 +66,11 @@ namespace GmailNotifierPlus.Forms {
 			tip.SetToolTip(_ImgButtonAbout, Locale.Current.Tooltips.About);
 			tip.SetToolTip(_ImgButtonAdd, Locale.Current.Tooltips.Add);
 			tip.SetToolTip(_ImgButtonRemove, Locale.Current.Tooltips.Remove);
-			
+
 			this.Text = Resources.Resources.WindowTitle;
 			_TextInterval.Text = (_Config.Interval / 60).ToString();
 			_ComboLanguage.SelectedValue = _Config.Language;
-			
+
 			_LabelTitle.Text = Locale.Current.Labels.Configuration;
 			_LabelSound.Text = Locale.Current.Labels.Sound;
 			_LabelAdditional.Text = Locale.Current.Labels.Additional;
@@ -88,6 +87,10 @@ namespace GmailNotifierPlus.Forms {
 			_ButtonOk.Text = _ButtonAboutOk.Text = Locale.Current.Buttons.OK;
 			_ButtonCancel.Text = _ButtonAccountCancel.Text = Locale.Current.Buttons.Cancel;
 
+			_PanelShellscape.Click += this._PanelShellscape_Click;
+
+			_PanelAbout.FirstRun = Config.Current.FirstRun;
+
 			InitImageButtons();
 			UpdateHeaderSize();
 			//AdjustControls();
@@ -99,7 +102,7 @@ namespace GmailNotifierPlus.Forms {
 
 		}
 
-#region .    Event Methods    
+#region .    Event Methods
 
 		private void _ComboSound_SelectedIndexChanged(object sender, EventArgs e) {
 			_ButtonBrowse.Enabled = _ComboSound.SelectedIndex == 2;
@@ -140,7 +143,7 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void _ImgButtonRemove_Click(object sender, EventArgs e) {
-			
+
 			TaskDialog dialog = new TaskDialog();
 			dialog.Caption = Resources.Resources.WindowTitle;
 			dialog.InstructionText = Locale.Current.Labels.RemoveConfirmation;
@@ -153,7 +156,7 @@ namespace GmailNotifierPlus.Forms {
 
 			TaskDialogButton buttonNo = new TaskDialogButton("noButton", Locale.Current.Labels.No);
 			buttonNo.Click += _TaskButtonNo_Click;
-			
+
 			dialog.Controls.Add(buttonYes);
 			dialog.Controls.Add(buttonNo);
 			dialog.Show();
@@ -169,11 +172,16 @@ namespace GmailNotifierPlus.Forms {
 			_ImgButtonRemove.Enabled = _ButtonEdit.Enabled = _ListViewAccounts.SelectedItems.Count > 0;
 			_ButtonDefault.Enabled = (_ListViewAccounts.SelectedItems.Count > 0) && (_ListViewAccounts.SelectedIndices[0] != this._DefaultAccountIndex);
 		}
-		
+
 		private void Settings_Shown(object sender, EventArgs e) {
 			if (!this.Focused) {
 				SetForegroundWindow(base.Handle);
 			}
+		}
+
+		private void _PanelShellscape_Click(object sender, EventArgs e) {
+			System.Diagnostics.Process.Start(UrlHelper.Uris.Shellscape);
+			//Help.ShowHelp(this, UrlHelper.Uris.Shellscape);
 		}
 
 		private void _TextInterval_Leave(object sender, EventArgs e) {
@@ -191,10 +199,10 @@ namespace GmailNotifierPlus.Forms {
 			((TaskDialog)button.HostingDialog).Close();
 
 			int num = _ListViewAccounts.SelectedIndices[0];
-			
+
 			_ListAccounts.Remove(_ListViewAccounts.SelectedItems[0].Text);
 			_ListViewAccounts.SelectedItems[0].Remove();
-			
+
 			if (num == this._DefaultAccountIndex) {
 				this._DefaultAccountIndex = 0;
 				if (_ListViewAccounts.Items.Count > 0) {
@@ -205,9 +213,9 @@ namespace GmailNotifierPlus.Forms {
 			this.UpdateHeaderSize();
 		}
 
-#endregion
+		#endregion
 
-#region .    Button Event Methods    
+		#region .    Button Event Methods
 
 		private void _ButtonAboutOk_Click(object sender, EventArgs e) {
 			this.SwitchToSettings(SourceScreen.About);
@@ -285,9 +293,9 @@ namespace GmailNotifierPlus.Forms {
 			base.Close();
 		}
 
-#endregion
+		#endregion
 
-#region .    Private Methods    
+		#region .    Private Methods
 
 		//private void AdjustControls() {
 
@@ -316,19 +324,19 @@ namespace GmailNotifierPlus.Forms {
 		//  _ButtonBrowse.AutoSize = false;
 		//  _ButtonBrowse.Width = width - num2;
 		//  _ButtonBrowse.Left = _ListViewAccounts.Right - _ButtonBrowse.Width;
-			
+
 		//  _ComboSound.Width = (_ButtonBrowse.Left - num) - _ComboSound.Left;
 
 		//  Size minSize = new Size(((_ButtonDefault.Left - _LabelInterval.Left) - num) + 1, _LabelInterval.Height);
-			
+
 		//  _LabelInterval.MinimumSize = _LabelLanguage.MinimumSize = minSize;
-			
+
 		//  int left = (_LabelInterval.Left + Math.Max(_LabelInterval.Width, _LabelLanguage.Width)) + num;
-			
+
 		//  _TextInterval.Left = left;
-			
+
 		//  _LabelMinutes.Left = (_TextInterval.Left + _TextInterval.Width) + num;
-			
+
 		//  _ComboLanguage.Left = left;
 		//  _ComboLanguage.Width = _ListViewAccounts.Right - left;
 		//}
@@ -345,7 +353,7 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
-		private void InitEvents(){
+		private void InitEvents() {
 
 			_ButtonAboutOk.Click += _ButtonAboutOk_Click;
 			_ButtonAccountCancel.Click += _ButtonAccountCancel_Click;
@@ -373,15 +381,15 @@ namespace GmailNotifierPlus.Forms {
 			_TextUsername.TextChanged += _Credentials_Changed;
 		}
 
-		private void InitImageButtons(){
+		private void InitImageButtons() {
 
-			_PanelAbout.BackgroundImage = ResourceHelper.GetImage("About.png");
-			_PanelAbout.BackgroundImageLayout = ImageLayout.None;
+			//_PanelAbout.BackgroundImage = ResourceHelper.GetImage("About.png");
+			//_PanelAbout.BackgroundImageLayout = ImageLayout.None;
 			//_PictureBackground.Image = ResourceHelper.GetImage("About.png");
 			//_PictureCopyrights.Image = ResourceHelper.GetImage("Copyrights.png");
 			_PictureExclamation.Image = ResourceHelper.GetImage("Exclamation.png");
 			_PictureExclamation.Height = _LabelError.Height;
-			
+
 			_ImgButtonAbout.SetImage(ResourceHelper.GetImage("Information.png"));
 			_ImgButtonAdd.SetImages(ResourceHelper.GetImage("Add.png"), ResourceHelper.GetImage("AddDisabled.png"), ResourceHelper.GetImage("AddHover.png"), ResourceHelper.GetImage("AddPressed.png"));
 			//_ImgButtonDonate.SetImage(ResourceHelper.GetImage("Donate.gif"));
@@ -462,13 +470,13 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void SelectCustomSound() {
-			
+
 			CommonOpenFileDialog dialog = new CommonOpenFileDialog();
 			CommonFileDialogStandardFilters.TextFiles.ShowExtensions = true;
 			CommonFileDialogFilter filter = new CommonFileDialogFilter(Locale.Current.Labels.WaveFiles, ".wav") { ShowExtensions = true };
 
 			String path = string.IsNullOrEmpty(_ComboSound.SelectedValue.ToString()) ? Path.Combine(KnownFolders.Windows.Path, "Media") : Path.GetFullPath(_ComboSound.SelectedValue.ToString());
-			
+
 			dialog.Title = Locale.Current.Labels.BrowseDialog;
 			dialog.Multiselect = false;
 			dialog.DefaultDirectory = Directory.Exists(path) ? path : KnownFolders.Desktop.Path;
@@ -490,24 +498,24 @@ namespace GmailNotifierPlus.Forms {
 			_ListViewAccounts.Columns[0].Width = width;
 		}
 
-#endregion
+		#endregion
 
-#region .    Panel Switching Methods    
+		#region .    Panel Switching Methods
 
 		private void SwitchToAbout() {
 
 			_ButtonAboutOk.Text = Locale.Current.Buttons.Sweet;
 			this.AcceptButton = _ButtonAboutOk;
 			this.CancelButton = _ButtonAboutOk;
-			
-			_ListViewAccounts.TabStop = 
-				_ButtonDefault.TabStop = 
-				_ButtonEdit.TabStop = 
-				_ComboSound.TabStop = 
-				_ButtonBrowse.TabStop = 
-				_TextInterval.TabStop = 
-				_ComboLanguage.TabStop = 
-				_ButtonOk.TabStop = 
+
+			_ListViewAccounts.TabStop =
+				_ButtonDefault.TabStop =
+				_ButtonEdit.TabStop =
+				_ComboSound.TabStop =
+				_ButtonBrowse.TabStop =
+				_TextInterval.TabStop =
+				_ComboLanguage.TabStop =
+				_ButtonOk.TabStop =
 				_ButtonCancel.TabStop = false;
 
 			_ButtonAboutOk.TabStop = true;
@@ -522,7 +530,7 @@ namespace GmailNotifierPlus.Forms {
 			if (this._IsEditing) {
 				_LabelAccountTitle.Text = Locale.Current.Labels.Edit;
 				_ButtonAccountSave.Text = Locale.Current.Buttons.Save;
-				
+
 				Account account = this._ListAccounts[_ListViewAccounts.SelectedItems[0].Text];
 				_TextUsername.Text = account.Login;
 				_TextPassword.Text = account.Password;
@@ -532,20 +540,20 @@ namespace GmailNotifierPlus.Forms {
 				_ButtonAccountSave.Text = Locale.Current.Buttons.OK;
 				_TextUsername.Text = _TextPassword.Text = string.Empty;
 			}
-			
-			_ListViewAccounts.TabStop = 
-				_ButtonDefault.TabStop = 
-				_ButtonEdit.TabStop = 
-				_ComboSound.TabStop = 
-				_ButtonBrowse.TabStop = 
-				_TextInterval.TabStop = 
-				_ComboLanguage.TabStop = 
-				_ButtonOk.TabStop = 
+
+			_ListViewAccounts.TabStop =
+				_ButtonDefault.TabStop =
+				_ButtonEdit.TabStop =
+				_ComboSound.TabStop =
+				_ButtonBrowse.TabStop =
+				_TextInterval.TabStop =
+				_ComboLanguage.TabStop =
+				_ButtonOk.TabStop =
 				_ButtonCancel.TabStop = false;
 
-			_TextUsername.TabStop = 
-				_TextPassword.TabStop = 
-				_ButtonAccountSave.TabStop = 
+			_TextUsername.TabStop =
+				_TextPassword.TabStop =
+				_ButtonAccountSave.TabStop =
 				_ButtonAccountCancel.TabStop = true;
 
 			this.AcceptButton = _ButtonAccountSave;
@@ -565,14 +573,14 @@ namespace GmailNotifierPlus.Forms {
 			this.AcceptButton = _ButtonOk;
 			this.CancelButton = _ButtonCancel;
 
-			_ListViewAccounts.TabStop = 
-				_ButtonDefault.TabStop = 
-				_ButtonEdit.TabStop = 
-				_ComboSound.TabStop = 
-				_ButtonBrowse.TabStop = 
-				_TextInterval.TabStop = 
-				_ComboLanguage.TabStop = 
-				_ButtonOk.TabStop = 
+			_ListViewAccounts.TabStop =
+				_ButtonDefault.TabStop =
+				_ButtonEdit.TabStop =
+				_ComboSound.TabStop =
+				_ButtonBrowse.TabStop =
+				_TextInterval.TabStop =
+				_ComboLanguage.TabStop =
+				_ButtonOk.TabStop =
 				_ButtonCancel.TabStop = true;
 
 			Animate(_PanelMain);
@@ -594,7 +602,7 @@ namespace GmailNotifierPlus.Forms {
 			// if we're moving right, -1. if we're moving left, 1.
 			int multiplier = panel.Left > Math.Abs(_PanelSlider.Left) ? -1 : 1;
 
-			while(Math.Abs(_PanelSlider.Left) != panel.Left){
+			while (Math.Abs(_PanelSlider.Left) != panel.Left) {
 				_PanelSlider.Left += (animationSpeed * multiplier);
 				System.Threading.Thread.Sleep(10); // add a little pause for smoothness
 				Application.DoEvents();
@@ -602,7 +610,7 @@ namespace GmailNotifierPlus.Forms {
 
 		}
 
-#endregion
+		#endregion
 
 	}
 }

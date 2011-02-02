@@ -12,7 +12,7 @@ namespace GmailNotifierPlus.Utilities {
 	public class ImageHelper {
 
 		public static Icon GetDigitIcon(int number) {
-			
+
 			Bitmap bitmap = ResourceHelper.GetImage("Envelope.png");
 
 			using (Graphics graphics = Graphics.FromImage(bitmap)) {
@@ -54,7 +54,7 @@ namespace GmailNotifierPlus.Utilities {
 				using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
 					sz = g.MeasureString(text, font);
 				}
-				
+
 				using (Bitmap bitmap = new Bitmap((int)sz.Width, (int)sz.Height))
 				using (Graphics g = Graphics.FromImage(bitmap))
 				using (SolidBrush brushBack = new SolidBrush(Color.FromArgb(16, colorBack.R, colorBack.G, colorBack.B)))
@@ -80,6 +80,67 @@ namespace GmailNotifierPlus.Utilities {
 							for (int y = 0; y <= blurAmount; y++)
 								graphicsOut.DrawImageUnscaled(bitmap, x, y);
 
+						graphicsOut.DrawString(text, font, brushFore, blurAmount / 2, blurAmount / 2);
+					}
+				}
+			}
+
+			return result;
+		}
+
+		// TODO - GetNumbers should use this.
+
+		public static Bitmap FancyText(String text, int blurAmount, Color colorFore, Color colorBack, Font font, StringFormat format) {
+
+			Bitmap result = null;
+			SizeF sz;
+			int increase = blurAmount / 2;
+
+			if (text.Length == 1) {
+				text = String.Concat(" ", text);
+			}
+
+			using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
+				sz = g.MeasureString(text, font);
+			}
+
+			using (Bitmap bitmap = new Bitmap((int)sz.Width, (int)sz.Height))
+			using (Graphics g = Graphics.FromImage(bitmap))
+			using (SolidBrush brushBack = new SolidBrush(Color.FromArgb(16, colorBack.R, colorBack.G, colorBack.B)))
+			using (SolidBrush brushFore = new SolidBrush(colorFore)) {
+
+				g.SmoothingMode = SmoothingMode.HighQuality;
+				g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+				g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+
+				if (format != null) {
+					RectangleF rect = new RectangleF(new PointF(0, 0), sz);
+					g.DrawString(text, font, brushBack, rect, format);
+				}
+				else {
+					g.DrawString(text, font, brushBack, 0, 0);
+				}
+
+				result = new Bitmap(bitmap.Width + increase, bitmap.Height + increase);
+
+				using (Graphics graphicsOut = Graphics.FromImage(result)) {
+					graphicsOut.SmoothingMode = SmoothingMode.HighQuality;
+					graphicsOut.InterpolationMode = InterpolationMode.HighQualityBilinear;
+					graphicsOut.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+
+					// here for debugging purposes.
+					//graphicsOut.FillRectangle(Brushes.White, 0, 0, result.Width, result.Height);
+
+					for (int x = 0; x <= blurAmount; x++)
+						for (int y = 0; y <= blurAmount; y++)
+							graphicsOut.DrawImageUnscaled(bitmap, x, y);
+
+					if (format != null) {
+						RectangleF rect = new RectangleF(new PointF(blurAmount / 2, blurAmount / 2), sz);
+						g.DrawString(text, font, brushBack, rect, format);
+						graphicsOut.DrawString(text, font, brushFore, rect, format);
+					}
+					else {
 						graphicsOut.DrawString(text, font, brushFore, blurAmount / 2, blurAmount / 2);
 					}
 				}

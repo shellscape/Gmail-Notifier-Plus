@@ -12,6 +12,7 @@
 			public const String Donate = @"https://www.paypal.com/cgi-bin/webscr?cmd=_s-Url_Donate=https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7491288";
 			public const String Feed = @"https://mail.google.com/{0}/feed/atom";
 			public const String Login = @"https://www.google.com/{0}/{1}?continue={2}&service=mail&Email={3}&Passwd={4}&null=Sign+in&GALX={5}";
+			public const String Shellscape = @"http://shellscape.org";
 		}
 
 		public static class Params {

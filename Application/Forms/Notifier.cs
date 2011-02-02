@@ -36,6 +36,8 @@ namespace GmailNotifierPlus.Forms {
 		public Notifier(int accountIndex) {
 			InitializeComponent();
 
+			this.Icon = Program.Icon;
+
 			AccountIndex = accountIndex;
 
 			_Account = _Config.Accounts[accountIndex];
