@@ -8,6 +8,9 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
 using MS.WindowsAPICodePack.Internal;
+using Microsoft.WindowsAPICodePack.Shell.Interop;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
+using Microsoft.WindowsAPICodePack.Shell;
 
 namespace Microsoft.WindowsAPICodePack.Taskbar
 {
@@ -21,8 +24,8 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// Internal dictionary to keep track of the user's window handle and its 
         /// corresponding thumbnail preview objects.
         /// </summary>
-        private IDictionary<IntPtr, TabbedThumbnail> tabbedThumbnailList;
-        private IDictionary<UIElement, TabbedThumbnail> tabbedThumbnailListWPF; // list for WPF controls
+        private Dictionary<IntPtr, TabbedThumbnail> _tabbedThumbnailCache;
+        private Dictionary<UIElement, TabbedThumbnail> _tabbedThumbnailCacheWPF; // list for WPF controls
 
         /// <summary>
         /// Internal constructor that creates a new dictionary for keeping track of the window handles
@@ -30,8 +33,8 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// </summary>
         internal TabbedThumbnailManager()
         {
-            tabbedThumbnailList = new Dictionary<IntPtr, TabbedThumbnail>();
-            tabbedThumbnailListWPF = new Dictionary<UIElement, TabbedThumbnail>();
+            _tabbedThumbnailCache = new Dictionary<IntPtr, TabbedThumbnail>();
+            _tabbedThumbnailCacheWPF = new Dictionary<UIElement, TabbedThumbnail>();
         }
 
         /// <summary>
@@ -42,29 +45,30 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <exception cref="System.ArgumentException">If the tabbed thumbnail has already been added</exception>
         public void AddThumbnailPreview(TabbedThumbnail preview)
         {
-            if (preview.WindowHandle == IntPtr.Zero) // it's most likely a UI Element
+            if (preview == null) { throw new ArgumentNullException("preview"); }
+
+            // UI Element has a windowHandle of zero.
+            if (preview.WindowHandle == IntPtr.Zero)
             {
-                if (tabbedThumbnailListWPF.ContainsKey(preview.WindowsControl))
-                    throw new ArgumentException("This preview has already been added");
+                if (_tabbedThumbnailCacheWPF.ContainsKey(preview.WindowsControl))
+                {
+                    throw new ArgumentException(LocalizedMessages.ThumbnailManagerPreviewAdded, "preview");
+                }
+                _tabbedThumbnailCacheWPF.Add(preview.WindowsControl, preview);
             }
             else
             {
                 // Regular control with a valid handle
-                if (tabbedThumbnailList.ContainsKey(preview.WindowHandle))
-                    throw new ArgumentException("This preview has already been added");
+                if (_tabbedThumbnailCache.ContainsKey(preview.WindowHandle))
+                {
+                    throw new ArgumentException(LocalizedMessages.ThumbnailManagerPreviewAdded, "preview");
+                }
+                _tabbedThumbnailCache.Add(preview.WindowHandle, preview);
             }
 
-            TaskbarWindowManager.Instance.AddTabbedThumbnail(preview);
+            TaskbarWindowManager.AddTabbedThumbnail(preview);
 
-            // Add the preview and window manager to our cache
-
-            // Probably a UIElement control
-            if (preview.WindowHandle == IntPtr.Zero)
-                tabbedThumbnailListWPF.Add(preview.WindowsControl, preview);
-            else
-                tabbedThumbnailList.Add(preview.WindowHandle, preview);
-
-            preview.InvalidatePreview();
+            preview.InvalidatePreview(); // Note: Why this here?
         }
 
         /// <summary>
@@ -75,12 +79,12 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public TabbedThumbnail GetThumbnailPreview(IntPtr windowHandle)
         {
             if (windowHandle == IntPtr.Zero)
-                throw new ArgumentException("Window handle is invalid", "windowHandle");
+            {
+                throw new ArgumentException(LocalizedMessages.ThumbnailManagerInvalidHandle, "windowHandle");
+            }
 
-            if (tabbedThumbnailList.ContainsKey(windowHandle))
-                return tabbedThumbnailList[windowHandle];
-            else
-                return null;
+            TabbedThumbnail thumbnail;
+            return _tabbedThumbnailCache.TryGetValue(windowHandle, out thumbnail) ? thumbnail : null;
         }
 
         /// <summary>
@@ -91,7 +95,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public TabbedThumbnail GetThumbnailPreview(Control control)
         {
             if (control == null)
+            {
                 throw new ArgumentNullException("control");
+            }
 
             return GetThumbnailPreview(control.Handle);
         }
@@ -104,13 +110,12 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public TabbedThumbnail GetThumbnailPreview(UIElement windowsControl)
         {
             if (windowsControl == null)
+            {
                 throw new ArgumentNullException("windowsControl");
+            }
 
-            if (tabbedThumbnailListWPF.ContainsKey(windowsControl))
-                return tabbedThumbnailListWPF[windowsControl];
-            else
-                return null;
-
+            TabbedThumbnail thumbnail;
+            return _tabbedThumbnailCacheWPF.TryGetValue(windowsControl, out thumbnail) ? thumbnail : null;
         }
 
         /// <summary>
@@ -121,12 +126,18 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public void RemoveThumbnailPreview(TabbedThumbnail preview)
         {
             if (preview == null)
+            {
                 throw new ArgumentNullException("preview");
+            }
 
-            if (tabbedThumbnailList.ContainsKey(preview.WindowHandle))
+            if (_tabbedThumbnailCache.ContainsKey(preview.WindowHandle))
+            {
                 RemoveThumbnailPreview(preview.WindowHandle);
-            else if (tabbedThumbnailListWPF.ContainsKey(preview.WindowsControl))
+            }
+            else if (_tabbedThumbnailCacheWPF.ContainsKey(preview.WindowsControl))
+            {
                 RemoveThumbnailPreview(preview.WindowsControl);
+            }
         }
 
         /// <summary>
@@ -136,24 +147,24 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// is to be removed from the taskbar</param>
         public void RemoveThumbnailPreview(IntPtr windowHandle)
         {
-            if (tabbedThumbnailList.ContainsKey(windowHandle))
+            if (!_tabbedThumbnailCache.ContainsKey(windowHandle))
             {
-                TaskbarWindowManager.Instance.UnregisterTab(tabbedThumbnailList[windowHandle].TaskbarWindow);
-
-                tabbedThumbnailList.Remove(windowHandle);
-
-                TaskbarWindow taskbarWindow = TaskbarWindowManager.Instance.GetTaskbarWindow(windowHandle, TaskbarProxyWindowType.TabbedThumbnail);
-
-                if (taskbarWindow != null)
-                {
-                    if (TaskbarWindowManager.Instance.taskbarWindowList.Contains(taskbarWindow))
-                        TaskbarWindowManager.Instance.taskbarWindowList.Remove(taskbarWindow);
-                    taskbarWindow.Dispose();
-                    taskbarWindow = null;
-                }
+                throw new ArgumentException(LocalizedMessages.ThumbnailManagerControlNotAdded, "windowHandle");
             }
-            else
-                throw new ArgumentException("The given control has not been added to the taskbar.");
+
+            TaskbarWindowManager.UnregisterTab(_tabbedThumbnailCache[windowHandle].TaskbarWindow);
+
+            _tabbedThumbnailCache.Remove(windowHandle);
+
+            TaskbarWindow taskbarWindow = TaskbarWindowManager.GetTaskbarWindow(windowHandle, TaskbarProxyWindowType.TabbedThumbnail);
+
+            if (taskbarWindow != null)
+            {
+                if (TaskbarWindowManager._taskbarWindowList.Contains(taskbarWindow))
+                    TaskbarWindowManager._taskbarWindowList.Remove(taskbarWindow);
+                taskbarWindow.Dispose();
+                taskbarWindow = null;
+            }
         }
 
         /// <summary>
@@ -164,7 +175,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public void RemoveThumbnailPreview(Control control)
         {
             if (control == null)
+            {
                 throw new ArgumentNullException("control");
+            }
 
             IntPtr handle = control.Handle;
 
@@ -178,27 +191,28 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// is to be removed from the taskbar</param>
         public void RemoveThumbnailPreview(UIElement windowsControl)
         {
-            if (windowsControl == null)
-                throw new ArgumentNullException("windowsControl");
+            if (windowsControl == null) { throw new ArgumentNullException("windowsControl"); }
 
-            if (tabbedThumbnailListWPF.ContainsKey(windowsControl))
+            if (!_tabbedThumbnailCacheWPF.ContainsKey(windowsControl))
             {
-                TaskbarWindowManager.Instance.UnregisterTab(tabbedThumbnailListWPF[windowsControl].TaskbarWindow);
-
-                tabbedThumbnailListWPF.Remove(windowsControl);
-
-                TaskbarWindow taskbarWindow = TaskbarWindowManager.Instance.GetTaskbarWindow(windowsControl, TaskbarProxyWindowType.TabbedThumbnail);
-
-                if (taskbarWindow != null)
-                {
-                    if (TaskbarWindowManager.Instance.taskbarWindowList.Contains(taskbarWindow))
-                        TaskbarWindowManager.Instance.taskbarWindowList.Remove(taskbarWindow);
-                    taskbarWindow.Dispose();
-                    taskbarWindow = null;
-                }
+                throw new ArgumentException(LocalizedMessages.ThumbnailManagerControlNotAdded, "windowsControl");
             }
-            else
-                throw new ArgumentException("The given control has not been added to the taskbar.");
+
+            TaskbarWindowManager.UnregisterTab(_tabbedThumbnailCacheWPF[windowsControl].TaskbarWindow);
+
+            _tabbedThumbnailCacheWPF.Remove(windowsControl);
+
+            TaskbarWindow taskbarWindow = TaskbarWindowManager.GetTaskbarWindow(windowsControl, TaskbarProxyWindowType.TabbedThumbnail);
+
+            if (taskbarWindow != null)
+            {
+                if (TaskbarWindowManager._taskbarWindowList.Contains(taskbarWindow))
+                {
+                    TaskbarWindowManager._taskbarWindowList.Remove(taskbarWindow);
+                }
+                taskbarWindow.Dispose();
+                taskbarWindow = null;
+            }
         }
 
         /// <summary>
@@ -210,19 +224,23 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <exception cref="System.ArgumentException">If the control/window is not yet added to the tabbed thumbnails list</exception>
         public void SetActiveTab(TabbedThumbnail preview)
         {
+            if (preview == null) { throw new ArgumentNullException("preview"); }
+
             if (preview.WindowHandle != IntPtr.Zero)
             {
-                if (tabbedThumbnailList.ContainsKey(preview.WindowHandle))
-                    TaskbarWindowManager.Instance.SetActiveTab(tabbedThumbnailList[preview.WindowHandle].TaskbarWindow);
-                else
-                    throw new ArgumentException("The given preview has not been added to the taskbar.");
+                if (!_tabbedThumbnailCache.ContainsKey(preview.WindowHandle))
+                {
+                    throw new ArgumentException(LocalizedMessages.ThumbnailManagerPreviewNotAdded, "preview");
+                }
+                TaskbarWindowManager.SetActiveTab(_tabbedThumbnailCache[preview.WindowHandle].TaskbarWindow);
             }
             else if (preview.WindowsControl != null)
             {
-                if (tabbedThumbnailListWPF.ContainsKey(preview.WindowsControl))
-                    TaskbarWindowManager.Instance.SetActiveTab(tabbedThumbnailListWPF[preview.WindowsControl].TaskbarWindow);
-                else
-                    throw new ArgumentException("The given preview has not been added to the taskbar.");
+                if (!_tabbedThumbnailCacheWPF.ContainsKey(preview.WindowsControl))
+                {
+                    throw new ArgumentException(LocalizedMessages.ThumbnailManagerPreviewNotAdded, "preview");
+                }
+                TaskbarWindowManager.SetActiveTab(_tabbedThumbnailCacheWPF[preview.WindowsControl].TaskbarWindow);
             }
         }
 
@@ -235,10 +253,11 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <exception cref="System.ArgumentException">If the control/window is not yet added to the tabbed thumbnails list</exception>
         public void SetActiveTab(IntPtr windowHandle)
         {
-            if (tabbedThumbnailList.ContainsKey(windowHandle))
-                TaskbarWindowManager.Instance.SetActiveTab(tabbedThumbnailList[windowHandle].TaskbarWindow);
-            else
-                throw new ArgumentException("The given control has not been added to the taskbar.");
+            if (!_tabbedThumbnailCache.ContainsKey(windowHandle))
+            {
+                throw new ArgumentException(LocalizedMessages.ThumbnailManagerPreviewNotAdded, "windowHandle");
+            }
+            TaskbarWindowManager.SetActiveTab(_tabbedThumbnailCache[windowHandle].TaskbarWindow);
         }
 
         /// <summary>
@@ -251,8 +270,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public void SetActiveTab(Control control)
         {
             if (control == null)
+            {
                 throw new ArgumentNullException("control");
-
+            }
             SetActiveTab(control.Handle);
         }
 
@@ -266,12 +286,16 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public void SetActiveTab(UIElement windowsControl)
         {
             if (windowsControl == null)
+            {
                 throw new ArgumentNullException("windowsControl");
+            }
 
-            if (tabbedThumbnailListWPF.ContainsKey(windowsControl))
-                TaskbarWindowManager.Instance.SetActiveTab(tabbedThumbnailListWPF[windowsControl].TaskbarWindow);
-            else
-                throw new ArgumentException("The given control has not been added to the taskbar.");
+            if (!_tabbedThumbnailCacheWPF.ContainsKey(windowsControl))
+            {
+                throw new ArgumentException(LocalizedMessages.ThumbnailManagerPreviewNotAdded, "windowsControl");
+            }
+            TaskbarWindowManager.SetActiveTab(_tabbedThumbnailCacheWPF[windowsControl].TaskbarWindow);
+
         }
 
         /// <summary>
@@ -282,14 +306,20 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public bool IsThumbnailPreviewAdded(TabbedThumbnail preview)
         {
             if (preview == null)
+            {
                 throw new ArgumentNullException("preview");
+            }
 
-            if (preview.WindowHandle != IntPtr.Zero && tabbedThumbnailList.ContainsKey(preview.WindowHandle))
+            if (preview.WindowHandle != IntPtr.Zero && _tabbedThumbnailCache.ContainsKey(preview.WindowHandle))
+            {
                 return true;
-            else if (preview.WindowsControl != null && tabbedThumbnailListWPF.ContainsKey(preview.WindowsControl))
+            }
+            else if (preview.WindowsControl != null && _tabbedThumbnailCacheWPF.ContainsKey(preview.WindowsControl))
+            {
                 return true;
-            else
-                return false;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -300,12 +330,11 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public bool IsThumbnailPreviewAdded(IntPtr windowHandle)
         {
             if (windowHandle == IntPtr.Zero)
-                throw new ArgumentException("windowHandle");
+            {
+                throw new ArgumentException(LocalizedMessages.ThumbnailManagerInvalidHandle, "windowHandle");
+            }
 
-            if (tabbedThumbnailList.ContainsKey(windowHandle))
-                return true;
-            else
-                return false;
+            return _tabbedThumbnailCache.ContainsKey(windowHandle);            
         }
 
         /// <summary>
@@ -316,12 +345,11 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public bool IsThumbnailPreviewAdded(Control control)
         {
             if (control == null)
+            {
                 throw new ArgumentNullException("control");
+            }
 
-            if (tabbedThumbnailList.ContainsKey(control.Handle))
-                return true;
-            else
-                return false;
+            return _tabbedThumbnailCache.ContainsKey(control.Handle);
         }
 
         /// <summary>
@@ -332,12 +360,11 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public bool IsThumbnailPreviewAdded(UIElement control)
         {
             if (control == null)
+            {
                 throw new ArgumentNullException("control");
+            }
 
-            if (tabbedThumbnailListWPF.ContainsKey(control))
-                return true;
-            else
-                return false;
+            return _tabbedThumbnailCacheWPF.ContainsKey(control);
         }
 
         /// <summary>
@@ -350,20 +377,27 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         {
             // Invalidate all the previews currently in our cache.
             // This will ensure we get updated bitmaps next time
-            tabbedThumbnailList.Values.ToList<TabbedThumbnail>().ForEach(thumbPreview => TaskbarWindowManager.Instance.InvalidatePreview(tabbedThumbnailList[thumbPreview.WindowHandle].TaskbarWindow));
-            tabbedThumbnailListWPF.Values.ToList<TabbedThumbnail>().ForEach(thumbPreview => TaskbarWindowManager.Instance.InvalidatePreview(tabbedThumbnailListWPF[thumbPreview.WindowsControl].TaskbarWindow));
 
-            tabbedThumbnailList.Values.ToList<TabbedThumbnail>().ForEach(thumbPreview => thumbPreview.SetImage(IntPtr.Zero));
-            tabbedThumbnailListWPF.Values.ToList<TabbedThumbnail>().ForEach(thumbPreview => thumbPreview.SetImage(IntPtr.Zero));
+            foreach (TabbedThumbnail thumbnail in _tabbedThumbnailCache.Values)
+            {
+                TaskbarWindowManager.InvalidatePreview(thumbnail.TaskbarWindow);
+                thumbnail.SetImage(IntPtr.Zero); // TODO: Investigate this, and why it needs to be called.
+            }
+
+            foreach (TabbedThumbnail thumbnail in _tabbedThumbnailCacheWPF.Values)
+            {
+                TaskbarWindowManager.InvalidatePreview(thumbnail.TaskbarWindow);
+                thumbnail.SetImage(IntPtr.Zero);
+            }
         }
 
         /// <summary>
         /// Clear a clip that is already in place and return to the default display of the thumbnail.
         /// </summary>
         /// <param name="windowHandle">The handle to a window represented in the taskbar. This has to be a top-level window.</param>
-        public void ClearThumbnailClip(IntPtr windowHandle)
+        public static void ClearThumbnailClip(IntPtr windowHandle)
         {
-            TaskbarManager.Instance.TaskbarList.SetThumbnailClip(windowHandle, IntPtr.Zero);
+            TaskbarList.Instance.SetThumbnailClip(windowHandle, IntPtr.Zero);
         }
 
         /// <summary>
@@ -377,21 +411,21 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         {
             if (clippingRectangle == null)
             {
-                TaskbarManager.Instance.TaskbarList.SetThumbnailClip(windowHandle, IntPtr.Zero);
+                ClearThumbnailClip(windowHandle);
                 return;
             }
 
-            CoreNativeMethods.RECT rect = new CoreNativeMethods.RECT();
-            rect.left = clippingRectangle.Value.Left;
-            rect.top = clippingRectangle.Value.Top;
-            rect.right = clippingRectangle.Value.Right;
-            rect.bottom = clippingRectangle.Value.Bottom;
+            NativeRect rect = new NativeRect();
+            rect.Left = clippingRectangle.Value.Left;
+            rect.Top = clippingRectangle.Value.Top;
+            rect.Right = clippingRectangle.Value.Right;
+            rect.Bottom = clippingRectangle.Value.Bottom;
 
             IntPtr rectPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(rect));
             try
             {
                 Marshal.StructureToPtr(rect, rectPtr, true);
-                TaskbarManager.Instance.TaskbarList.SetThumbnailClip(windowHandle, rectPtr);
+                TaskbarList.Instance.SetThumbnailClip(windowHandle, rectPtr);
             }
             finally
             {
@@ -407,20 +441,23 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="insertBeforePreview">The preview of the tab window whose thumbnail that previewToChange is inserted to the left of. 
         /// This preview must already be added via AddThumbnailPreview. If this value is null, the previewToChange tab is added to the end of the list.
         /// </param>
-        public void SetTabOrder(TabbedThumbnail previewToChange, TabbedThumbnail insertBeforePreview)
+        public static void SetTabOrder(TabbedThumbnail previewToChange, TabbedThumbnail insertBeforePreview)
         {
             if (previewToChange == null)
+            {
                 throw new ArgumentNullException("previewToChange");
+            }
 
             IntPtr handleToReorder = previewToChange.TaskbarWindow.WindowToTellTaskbarAbout;
 
             if (insertBeforePreview == null)
-                TaskbarManager.Instance.TaskbarList.SetTabOrder(handleToReorder, IntPtr.Zero);
+            {
+                TaskbarList.Instance.SetTabOrder(handleToReorder, IntPtr.Zero);
+            }
             else
             {
                 IntPtr handleBefore = insertBeforePreview.TaskbarWindow.WindowToTellTaskbarAbout;
-
-                TaskbarManager.Instance.TaskbarList.SetTabOrder(handleToReorder, handleBefore);
+                TaskbarList.Instance.SetTabOrder(handleToReorder, handleBefore);
             }
         }
     }

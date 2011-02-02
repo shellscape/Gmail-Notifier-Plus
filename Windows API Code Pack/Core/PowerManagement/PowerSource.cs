@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// or a similar device, such as a laptop powered 
         /// by a 12V automotive adapter.
         /// </summary>
-        AC = 0, 
+        AC = 0,
         /// <summary>
         /// The computer is powered by a built-in battery. 
         /// A battery has a limited 

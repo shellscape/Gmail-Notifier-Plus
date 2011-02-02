@@ -7,11 +7,10 @@ namespace Microsoft.WindowsAPICodePack.Shell
     /// <summary>
     /// A Serch Connector folder in the Shell Namespace
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "This will complicate the class hierarchy and naming convention used in the Shell area")]
     public sealed class ShellSearchConnector : ShellSearchCollection
     {
 
-        #region Private Constructor
+        #region Internal Constructor
 
         internal ShellSearchConnector()
         {
@@ -19,9 +18,8 @@ namespace Microsoft.WindowsAPICodePack.Shell
         }
 
         internal ShellSearchConnector(IShellItem2 shellItem)
-        {
-            CoreHelpers.ThrowIfNotWin7();
-
+            : this()
+        {            
             nativeShellItem = shellItem;
         }
 

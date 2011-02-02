@@ -2,7 +2,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Taskbar
@@ -15,18 +14,18 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         void SetAppID(
             [MarshalAs(UnmanagedType.LPWStr)] string pszAppID);
         [PreserveSig]
-        HRESULT BeginList(
+        HResult BeginList(
             out uint cMaxSlots,
             ref Guid riid,
             [Out(), MarshalAs(UnmanagedType.Interface)] out object ppvObject);
         [PreserveSig]
-        HRESULT AppendCategory(
+        HResult AppendCategory(
             [MarshalAs(UnmanagedType.LPWStr)] string pszCategory,
             [MarshalAs(UnmanagedType.Interface)] IObjectArray poa);
         void AppendKnownCategory(
-            [MarshalAs(UnmanagedType.I4)] KNOWNDESTCATEGORY category);
+            [MarshalAs(UnmanagedType.I4)] KnownDestinationCategory category);
         [PreserveSig]
-        HRESULT AddUserTasks(
+        HResult AddUserTasks(
             [MarshalAs(UnmanagedType.Interface)] IObjectArray poa);
         void CommitList();
         void GetRemovedDestinations(
@@ -109,7 +108,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         [PreserveSig]
         void SetProgressValue(IntPtr hwnd, UInt64 ullCompleted, UInt64 ullTotal);
         [PreserveSig]
-        void SetProgressState(IntPtr hwnd, TBPFLAG tbpFlags);
+        void SetProgressState(IntPtr hwnd, TaskbarProgressBarStatus tbpFlags);
         [PreserveSig]
         void RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
         [PreserveSig]
@@ -119,15 +118,15 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         [PreserveSig]
         void SetTabActive(IntPtr hwndTab, IntPtr hwndInsertBefore, uint dwReserved);
         [PreserveSig]
-        HRESULT ThumbBarAddButtons(
+        HResult ThumbBarAddButtons(
             IntPtr hwnd,
             uint cButtons,
-            [MarshalAs(UnmanagedType.LPArray)] THUMBBUTTON[] pButtons);
+            [MarshalAs(UnmanagedType.LPArray)] ThumbButton[] pButtons);
         [PreserveSig]
-        HRESULT ThumbBarUpdateButtons(
+        HResult ThumbBarUpdateButtons(
             IntPtr hwnd,
             uint cButtons,
-            [MarshalAs(UnmanagedType.LPArray)] THUMBBUTTON[] pButtons);
+            [MarshalAs(UnmanagedType.LPArray)] ThumbButton[] pButtons);
         [PreserveSig]
         void ThumbBarSetImageList(IntPtr hwnd, IntPtr himl);
         [PreserveSig]
@@ -145,7 +144,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             IntPtr prcClip);
 
         // ITaskbarList4
-        void SetTabProperties(IntPtr hwndTab, STPFLAG stpFlags);
+        void SetTabProperties(IntPtr hwndTab, SetTabPropertiesOption stpFlags);
     }
 
     [GuidAttribute("56FDF344-FD6D-11d0-958A-006097C9A090")]

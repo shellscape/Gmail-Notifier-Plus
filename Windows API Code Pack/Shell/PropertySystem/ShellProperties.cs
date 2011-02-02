@@ -3,6 +3,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
@@ -12,10 +13,10 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
     /// using a canonical name, property key, or a strongly-typed property. Also provides
     /// access to all the strongly-typed system properties and default properties collections.
     /// </summary>
-    public partial class ShellProperties
+    public partial class ShellProperties : IDisposable
     {
         private ShellObject ParentShellObject { get; set; }
-        private ShellPropertyCollection defaultPropertyCollection = null;
+        private ShellPropertyCollection defaultPropertyCollection;
 
         internal ShellProperties(ShellObject parent)
         {
@@ -68,7 +69,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             return CreateTypedProperty(canonicalName) as ShellProperty<T>;
         }
 
-        private PropertySystem propertySystem = null;
+        private PropertySystem propertySystem;
         /// <summary>
         /// Gets all the properties for the system through an accessor.
         /// </summary>
@@ -77,7 +78,9 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             get
             {
                 if (propertySystem == null)
+                {
                     propertySystem = new PropertySystem(ParentShellObject);
+                }
 
                 return propertySystem;
             }
@@ -91,7 +94,9 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             get
             {
                 if (defaultPropertyCollection == null)
+                {
                     defaultPropertyCollection = new ShellPropertyCollection(ParentShellObject);
+                }
 
                 return defaultPropertyCollection;
             }
@@ -107,147 +112,17 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         public ShellPropertyWriter GetPropertyWriter()
         {
             return new ShellPropertyWriter(ParentShellObject);
-
         }
 
         internal IShellProperty CreateTypedProperty<T>(PropertyKey propKey)
         {
             ShellPropertyDescription desc = ShellPropertyDescriptionsCache.Cache.GetPropertyDescription(propKey);
-            return (new ShellProperty<T>(propKey, desc, ParentShellObject));
+            return new ShellProperty<T>(propKey, desc, ParentShellObject);
         }
 
         internal IShellProperty CreateTypedProperty(PropertyKey propKey)
         {
-            ShellPropertyDescription desc = ShellPropertyDescriptionsCache.Cache.GetPropertyDescription(propKey);
-
-            switch (desc.VarEnumType)
-            {
-                case (VarEnum.VT_EMPTY):
-                case (VarEnum.VT_NULL):
-                    {
-                        return (new ShellProperty<Object>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_UI1):
-                    {
-                        return (new ShellProperty<Byte?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_I2):
-                    {
-                        return (new ShellProperty<Int16?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_UI2):
-                    {
-                        return (new ShellProperty<UInt16?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_I4):
-                    {
-                        return (new ShellProperty<Int32?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_UI4):
-                    {
-                        return (new ShellProperty<UInt32?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_I8):
-                    {
-                        return (new ShellProperty<Int64?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_UI8):
-                    {
-                        return (new ShellProperty<UInt64?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_R8):
-                    {
-                        return (new ShellProperty<Double?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_BOOL):
-                    {
-                        return (new ShellProperty<Boolean?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_FILETIME):
-                    {
-                        return (new ShellProperty<DateTime?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_CLSID):
-                    {
-                        return (new ShellProperty<IntPtr?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_CF):
-                    {
-                        return (new ShellProperty<IntPtr?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_BLOB):
-                    {
-                        return (new ShellProperty<Byte[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_LPWSTR):
-                    {
-                        return (new ShellProperty<String>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_UNKNOWN):
-                    {
-                        return (new ShellProperty<IntPtr?>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_STREAM):
-                    {
-                        return (new ShellProperty<IStream>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_UI1):
-                    {
-                        return (new ShellProperty<Byte[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_I2):
-                    {
-                        return (new ShellProperty<Int16[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_UI2):
-                    {
-                        return (new ShellProperty<UInt16[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_I4):
-                    {
-                        return (new ShellProperty<Int32[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_UI4):
-                    {
-                        return (new ShellProperty<UInt32[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_I8):
-                    {
-                        return (new ShellProperty<Int64[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_UI8):
-                    {
-                        return (new ShellProperty<UInt64[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_R8):
-                    {
-                        return (new ShellProperty<Double[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_BOOL):
-                    {
-                        return (new ShellProperty<Boolean[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_FILETIME):
-                    {
-                        return (new ShellProperty<DateTime[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_CLSID):
-                    {
-                        return (new ShellProperty<IntPtr[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_CF):
-                    {
-                        return (new ShellProperty<IntPtr[]>(propKey, desc, ParentShellObject));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_LPWSTR):
-                    {
-                        return (new ShellProperty<String[]>(propKey, desc, ParentShellObject));
-                    }
-                default:
-                    {
-                        return (new ShellProperty<Object>(propKey, desc, ParentShellObject));
-                    }
-            }
+            return ShellPropertyFactory.CreateShellProperty(propKey, ParentShellObject);
         }
 
         internal IShellProperty CreateTypedProperty(string canonicalName)
@@ -260,13 +135,34 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             if (!CoreErrorHelper.Succeeded(result))
             {
                 throw new ArgumentException(
-                    "This CanonicalName is not valid",
+                    LocalizedMessages.ShellInvalidCanonicalName,
                     Marshal.GetExceptionForHR(result));
             }
-            else
+            return CreateTypedProperty(propKey);
+        }
+
+        #region IDisposable Members
+
+        /// <summary>
+        /// Cleans up memory
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Cleans up memory
+        /// </summary>
+        protected virtual void Dispose(bool disposed)
+        {
+            if (disposed && defaultPropertyCollection != null)
             {
-                return CreateTypedProperty(propKey);
+                defaultPropertyCollection.Dispose();
             }
         }
+
+        #endregion
     }
 }

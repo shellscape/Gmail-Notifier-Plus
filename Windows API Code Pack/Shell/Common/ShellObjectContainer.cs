@@ -31,24 +31,17 @@ namespace Microsoft.WindowsAPICodePack.Shell
                 if (nativeShellFolder == null)
                 {
                     Guid guid = new Guid(ShellIIDGuid.IShellFolder);
-                    Guid handler = new Guid( ShellBHIDGuid.ShellFolderObject );
+                    Guid handler = new Guid(ShellBHIDGuid.ShellFolderObject);
 
-                    HRESULT hr = NativeShellItem.BindToHandler( 
-                        IntPtr.Zero, ref handler, ref guid, out nativeShellFolder );
+                    HResult hr = NativeShellItem.BindToHandler(
+                        IntPtr.Zero, ref handler, ref guid, out nativeShellFolder);
 
                     if (CoreErrorHelper.Failed(hr))
                     {
                         string str = ShellHelper.GetParsingName(NativeShellItem);
-                        if (str != null)
+                        if (str != null && str != Environment.GetFolderPath(Environment.SpecialFolder.Desktop))
                         {
-                            if (str == Environment.GetFolderPath(Environment.SpecialFolder.Desktop))
-                            {
-                                return null;
-                            }
-                            else
-                            {
-                                throw Marshal.GetExceptionForHR((int) hr);
-                            }
+                            throw new ShellException(hr);
                         }
                     }
                 }
@@ -61,15 +54,9 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         #region Internal Constructor
 
-        internal ShellContainer()
-        {
+        internal ShellContainer() { }
 
-        }
-
-        internal ShellContainer(IShellItem2 shellItem):base(shellItem)
-        {
-            
-        }
+        internal ShellContainer(IShellItem2 shellItem) : base(shellItem) { }
 
         #endregion
 
@@ -101,9 +88,9 @@ namespace Microsoft.WindowsAPICodePack.Shell
         #region IEnumerable<ShellObject> Members
 
         /// <summary>
-        /// 
+        /// Enumerates through contents of the ShellObjectContainer
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Enumerated contents</returns>
         public IEnumerator<ShellObject> GetEnumerator()
         {
             if (NativeShellFolder == null)

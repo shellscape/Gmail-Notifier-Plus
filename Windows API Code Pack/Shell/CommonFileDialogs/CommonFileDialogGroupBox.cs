@@ -21,12 +21,12 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         {
             get { return items; }
         }
-        
+
         /// <summary>
         /// Creates a new instance of this class.
         /// </summary>
         public CommonFileDialogGroupBox()
-            : base(String.Empty)
+            : base(string.Empty)
         {
             Initialize();
         }
@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         {
             Initialize();
         }
-        
+
         /// <summary>
         /// Initializes the item collection for this class.
         /// </summary>
@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         internal override void Attach(IFileDialogCustomize dialog)
         {
             Debug.Assert(dialog != null, "CommonFileDialogGroupBox.Attach: dialog parameter can not be null");
-            
+
             // Start a visual group
             dialog.StartVisualGroup(this.Id, this.Text);
 
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
                 item.HostingDialog = HostingDialog;
                 item.Attach(dialog);
             }
-            
+
             // End visual group
             dialog.EndVisualGroup();
 

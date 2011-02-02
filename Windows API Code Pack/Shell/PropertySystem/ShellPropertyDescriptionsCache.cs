@@ -7,10 +7,13 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
 {
     internal class ShellPropertyDescriptionsCache
     {
-        private ShellPropertyDescriptionsCache() { propsDictionary = new Dictionary<PropertyKey, ShellPropertyDescription>(); }
-        private IDictionary<PropertyKey, ShellPropertyDescription> propsDictionary = null;
-        
-        private static ShellPropertyDescriptionsCache cacheInstance = null;
+        private ShellPropertyDescriptionsCache()
+        {
+            propsDictionary = new Dictionary<PropertyKey, ShellPropertyDescription>();
+        }
+
+        private IDictionary<PropertyKey, ShellPropertyDescription> propsDictionary;
+        private static ShellPropertyDescriptionsCache cacheInstance;
 
         public static ShellPropertyDescriptionsCache Cache
         {
@@ -21,7 +24,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     cacheInstance = new ShellPropertyDescriptionsCache();
                 }
                 return cacheInstance;
-            }        
+            }
         }
 
         public ShellPropertyDescription GetPropertyDescription(PropertyKey key)

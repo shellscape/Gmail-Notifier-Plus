@@ -1,5 +1,7 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
+using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 namespace Microsoft.WindowsAPICodePack.Taskbar
 {
     /// <summary>
@@ -16,7 +18,8 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
     /// <summary>
     /// Interface for jump list tasks
     /// </summary>
-    public interface IJumpListTask
+    public abstract class JumpListTask
     {
+        internal abstract IShellLinkW NativeShellLink { get; }
     }
 }

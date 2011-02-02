@@ -7,7 +7,6 @@ namespace Microsoft.WindowsAPICodePack.Controls
     /// <summary>
     /// Indicates the viewing mode of the explorer browser
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Justification = "This is following the native API")]
     public enum ExplorerBrowserViewMode
     {
         /// <summary>
@@ -50,7 +49,7 @@ namespace Microsoft.WindowsAPICodePack.Controls
         /// </summary>
         ThumbStrip = 7,
 
-            /// <summary>
+        /// <summary>
         /// The view should display large icons. 
         /// </summary>
         Tile = 6
@@ -62,7 +61,7 @@ namespace Microsoft.WindowsAPICodePack.Controls
     /// flags to specify how the explorer browser navigates.
     /// </summary>
     [Flags]
-    public enum ExplorerBrowserNavigationFlags
+    public enum ExplorerBrowserNavigateOptions
     {
         /// <summary>
         /// Always navigate, even if you are attempting to navigate to the current folder.
@@ -81,9 +80,13 @@ namespace Microsoft.WindowsAPICodePack.Controls
     /// flags to specify how conent should appear in the
     /// explorer browser control
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2217:DoNotMarkEnumsWithFlags", Justification = "This is following the native API"), Flags]
-    public enum ExplorerBrowserContentFlags : uint
+    [Flags]
+    public enum ExplorerBrowserContentSectionOptions
     {
+        /// <summary>
+        /// No options.
+        /// </summary>
+        None = 0,
         /// <summary>
         /// The view should be left-aligned. 
         /// </summary>
@@ -146,7 +149,7 @@ namespace Microsoft.WindowsAPICodePack.Controls
         /// <summary>
         /// Allow the explorer browser to determine if this pane is displayed.
         /// </summary>
-        DontCare,
+        DoNotCare,
         /// <summary>
         /// Hide the pane
         /// </summary>

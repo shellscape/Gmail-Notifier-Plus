@@ -15,7 +15,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// </summary>
         /// <param name="windowHandle">Window handle for the control/window related to the event</param>
         /// <param name="button">Thumbnail toolbar button that was clicked</param>
-        public ThumbnailButtonClickedEventArgs(IntPtr windowHandle, ThumbnailToolbarButton button)
+        public ThumbnailButtonClickedEventArgs(IntPtr windowHandle, ThumbnailToolBarButton button)
         {
             ThumbnailButton = button;
             WindowHandle = windowHandle;
@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// </summary>
         /// <param name="windowsControl">WPF Control (UIElement) related to the event</param>
         /// <param name="button">Thumbnail toolbar button that was clicked</param>
-        public ThumbnailButtonClickedEventArgs(UIElement windowsControl, ThumbnailToolbarButton button)
+        public ThumbnailButtonClickedEventArgs(UIElement windowsControl, ThumbnailToolBarButton button)
         {
             ThumbnailButton = button;
             WindowHandle = IntPtr.Zero;
@@ -39,29 +39,17 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// </summary>
         /// <remarks>For WPF Controls (UIElement) the WindowHandle will be IntPtr.Zero. 
         /// Check the WindowsControl property to get the specific control associated with this event.</remarks>
-        public IntPtr WindowHandle
-        {
-            get;
-            private set;
-        }
+        public IntPtr WindowHandle { get; private set; }
 
         /// <summary>
         /// Gets the WPF Control (UIElement) that is related to this event. This property may be null
         /// for non-WPF applications.
         /// </summary>
-        public UIElement WindowsControl
-        {
-            get;
-            private set;
-        }
+        public UIElement WindowsControl { get; private set; }
 
         /// <summary>
-        /// Gets the ThumbnailToolbarButton that was clicked
+        /// Gets the ThumbnailToolBarButton that was clicked
         /// </summary>
-        public ThumbnailToolbarButton ThumbnailButton
-        {
-            get;
-            private set;
-        }
+        public ThumbnailToolBarButton ThumbnailButton { get; private set; }
     }
 }

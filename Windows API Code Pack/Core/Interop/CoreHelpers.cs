@@ -1,14 +1,16 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System;
+using System.Globalization;
 using System.Text;
+using Microsoft.WindowsAPICodePack.Resources;
 
 namespace MS.WindowsAPICodePack.Internal
 {
     /// <summary>
     /// Common Helper methods
     /// </summary>
-    static public class CoreHelpers
+    public static class CoreHelpers
     {
         /// <summary>
         /// Determines if the application is running on XP
@@ -17,7 +19,8 @@ namespace MS.WindowsAPICodePack.Internal
         {
             get
             {
-                return Environment.OSVersion.Version.Major >= 5;
+                return Environment.OSVersion.Platform == PlatformID.Win32NT &&
+                    Environment.OSVersion.Version.Major >= 5;
             }
         }
 
@@ -28,7 +31,7 @@ namespace MS.WindowsAPICodePack.Internal
         {
             if (!CoreHelpers.RunningOnXP)
             {
-                throw new PlatformNotSupportedException("Only supported on Windows XP or newer.");
+                throw new PlatformNotSupportedException(LocalizedMessages.CoreHelpersRunningOnXp);
             }
         }
 
@@ -50,7 +53,7 @@ namespace MS.WindowsAPICodePack.Internal
         {
             if (!CoreHelpers.RunningOnVista)
             {
-                throw new PlatformNotSupportedException("Only supported on Windows Vista or newer.");
+                throw new PlatformNotSupportedException(LocalizedMessages.CoreHelpersRunningOnVista);
             }
         }
 
@@ -61,8 +64,9 @@ namespace MS.WindowsAPICodePack.Internal
         {
             get
             {
-                return (Environment.OSVersion.Version.Major > 6) ||
-                    (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor >= 1);
+                // Verifies that OS version is 6.1 or greater, and the Platform is WinNT.
+                return Environment.OSVersion.Platform == PlatformID.Win32NT &&
+                    Environment.OSVersion.Version.CompareTo(new Version(6, 1)) >= 0;
             }
         }
 
@@ -73,7 +77,7 @@ namespace MS.WindowsAPICodePack.Internal
         {
             if (!CoreHelpers.RunningOnWin7)
             {
-                throw new PlatformNotSupportedException("Only supported on Windows 7 or newer.");
+                throw new PlatformNotSupportedException(LocalizedMessages.CoreHelpersRunningOn7);
             }
         }
 
@@ -89,10 +93,8 @@ namespace MS.WindowsAPICodePack.Internal
             string library;
             int index;
 
-            if (String.IsNullOrEmpty(resourceId))
-            {
-                return String.Empty;
-            }
+            if (string.IsNullOrEmpty(resourceId)) { return string.Empty; }
+
             // Known folder "Recent" has a malformed resource id
             // for its tooltip. This causes the resource id to
             // parse into 3 parts instead of 2 parts if we don't fix.
@@ -100,21 +102,17 @@ namespace MS.WindowsAPICodePack.Internal
             parts = resourceId.Split(new char[] { ',' });
 
             library = parts[0];
-            library = library.Replace(@"@", String.Empty);
-
-            parts[1] = parts[1].Replace("-", String.Empty);
-            index = Int32.Parse(parts[1]);
-
+            library = library.Replace(@"@", string.Empty);
             library = Environment.ExpandEnvironmentVariables(library);
             IntPtr handle = CoreNativeMethods.LoadLibrary(library);
-            StringBuilder stringValue = new StringBuilder(255);
-            int retval = CoreNativeMethods.LoadString(
-                handle, index, stringValue, 255);
 
-            if (retval == 0)
-                return null;
-            else
-                return stringValue.ToString();
+            parts[1] = parts[1].Replace("-", string.Empty);
+            index = int.Parse(parts[1], CultureInfo.InvariantCulture);
+
+            StringBuilder stringValue = new StringBuilder(255);
+            int retval = CoreNativeMethods.LoadString(handle, index, stringValue, 255);
+
+            return retval != 0 ? stringValue.ToString() : null;
         }
     }
 }

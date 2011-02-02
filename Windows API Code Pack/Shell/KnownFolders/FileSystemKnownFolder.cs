@@ -9,22 +9,18 @@ namespace Microsoft.WindowsAPICodePack.Shell
     /// <summary>
     /// Represents a registered file system Known Folder
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "This will complicate the class hierarchy and naming convention used in the Shell area")]
     public class FileSystemKnownFolder : ShellFileSystemFolder, IKnownFolder, IDisposable
     {
         #region Private Fields
 
         private IKnownFolderNative knownFolderNative;
-        private KnownFolderSettings knownFolderSettings = null;
+        private KnownFolderSettings knownFolderSettings;
 
         #endregion
 
         #region Internal Constructors
 
-        internal FileSystemKnownFolder(IShellItem2 shellItem)
-            : base(shellItem)
-        {
-        }
+        internal FileSystemKnownFolder(IShellItem2 shellItem) : base(shellItem) { }
 
         internal FileSystemKnownFolder(IKnownFolderNative kf)
         {
@@ -51,21 +47,27 @@ namespace Microsoft.WindowsAPICodePack.Shell
                     // or from base class's property (if someone already set it on us).
                     // Need to use the PIDL to get the native IKnownFolder interface.
 
-                    // Get teh PIDL for the ShellItem
+                    // Get the PIDL for the ShellItem
                     if (nativeShellItem != null && base.PIDL == IntPtr.Zero)
+                    {
                         base.PIDL = ShellHelper.PidlFromShellItem(nativeShellItem);
+                    }
 
                     // If we have a valid PIDL, get the native IKnownFolder
                     if (base.PIDL != IntPtr.Zero)
+                    {
                         knownFolderNative = KnownFolderHelper.FromPIDL(base.PIDL);
+                    }
 
                     Debug.Assert(knownFolderNative != null);
                 }
-                
+
                 // If this is the first time this property is being called,
                 // get the native Folder Defination (KnownFolder properties)
                 if (knownFolderSettings == null)
+                {
                     knownFolderSettings = new KnownFolderSettings(knownFolderNative);
+                }
 
                 return knownFolderSettings;
             }
@@ -245,12 +247,12 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// can have its path set to a new value, 
         /// including any restrictions on the redirection.
         /// </summary>
-        /// <value>A <see cref="RedirectionCapabilities"/> value.</value>
-        public RedirectionCapabilities Redirection
+        /// <value>A <see cref="RedirectionCapability"/> value.</value>
+        public RedirectionCapability Redirection
         {
             get { return KnownFolderSettings.Redirection; }
         }
-   
+
         #endregion
 
         #region IDisposable Members

@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <summary>
         /// Currently Closing
         /// </summary>
-        Closing, 
+        Closing,
 
         /// <summary>
         /// Closed

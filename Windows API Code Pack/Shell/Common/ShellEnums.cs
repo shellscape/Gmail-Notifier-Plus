@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
     /// <summary>
     /// One of the values that indicates how the ShellObject DisplayName should look.
     /// </summary>
-    public enum DisplayNameType : uint
+    public enum DisplayNameType
     {
         /// <summary>
         /// Returns the display name relative to the desktop.
@@ -33,38 +33,38 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Returns the parsing name relative to the parent folder.
         /// </summary>
-        RelativeToParent = 0x80018001,
+        RelativeToParent = unchecked((int)0x80018001),
 
         /// <summary>
         /// Returns the path relative to the parent folder in a 
         /// friendly format as displayed in an address bar.
         /// </summary>
-        RelativeToParentAddressBar = 0x8007c001,
+        RelativeToParentAddressBar = unchecked((int)0x8007c001),
 
         /// <summary>
         /// Returns the parsing name relative to the desktop.
         /// </summary>
-        RelativeToDesktop = 0x80028000,
+        RelativeToDesktop = unchecked((int)0x80028000),
 
         /// <summary>
         /// Returns the editing name relative to the parent folder.
         /// </summary>
-        RelativeToParentEditing = 0x80031001,
+        RelativeToParentEditing = unchecked((int)0x80031001),
 
         /// <summary>
         /// Returns the editing name relative to the desktop.
         /// </summary>
-        RelativeToDesktopEditing = 0x8004c000,
+        RelativeToDesktopEditing = unchecked((int)0x8004c000),
 
         /// <summary>
         /// Returns the display name relative to the file system path.
         /// </summary>
-        FileSystemPath = 0x80058000,
+        FileSystemPath = unchecked((int)0x80058000),
 
         /// <summary>
         /// Returns the display name relative to a URL.
         /// </summary>
-        Url = 0x80068000,
+        Url = unchecked((int)0x80068000),
     }
     /// <summary>
     /// Available Library folder types
@@ -101,7 +101,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
     /// <summary>
     /// Flags controlling the appearance of a window
     /// </summary>
-    public enum WindowShowCommand : uint
+    public enum WindowShowCommand
     {
         /// <summary>
         /// Hides the window and activates another window.
@@ -237,8 +237,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// The value of the property must match the value of the constant, where '?' 
         /// matches any single character and '*' matches any sequence of characters.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOS")]
-        DOSWildcards = 11,
+        DosWildcards = 11,
 
         /// <summary>
         /// The value of the property must contain a word that is the value of the constant.
@@ -294,6 +293,11 @@ namespace Microsoft.WindowsAPICodePack.Shell
         Unspecified = -1,
 
         /// <summary>
+        /// This should have the same affect as Unspecified.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// The minimum valid enumeration value. Used for validation purposes only.
         /// </summary>
         First = 1,
@@ -334,6 +338,12 @@ namespace Microsoft.WindowsAPICodePack.Shell
     /// </summary>
     public enum SortDirection
     {
+        /// <summary>
+        /// A default value for sort direction, this value should not be used;
+        /// instead use Descending or Ascending.
+        /// </summary>
+        Default = 0,
+
         /// <summary>
         /// The items are sorted in descending order. Whether the sort is alphabetical, numerical, 
         /// and so on, is determined by the data type of the column indicated in propkey.
@@ -484,7 +494,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// The default value is StructuredQuerySchema.bin for the SystemIndex catalog 
         /// and StructuredQuerySchemaTrivial.bin for the trivial catalog.
         /// </summary>
-        SchemaBiaryName = 0,
+        SchemaBinaryName = 0,
 
         /// <summary>
         /// Either a VT_BOOL or a VT_LPWSTR. If the value is a VT_BOOL and is FALSE, 
@@ -494,34 +504,32 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// contain the full path of the folder in which the pre-localized schema binary can be found. 
         /// The default value is VT_BOOL with TRUE.
         /// </summary>
-        PreLocalizedSchemaBinaryPath = (SchemaBiaryName + 1),
+        PreLocalizedSchemaBinaryPath = 1,
 
         /// <summary>
         /// A VT_LPWSTR containing the full path to the folder that contains the 
         /// unlocalized schema binary. The default value is "%SYSTEMROOT%\System32".
         /// </summary>
-        UnLocalizedSchemaBinaryPath = (PreLocalizedSchemaBinaryPath + 1),
+        UnlocalizedSchemaBinaryPath = 2,
 
         /// <summary>
         /// A VT_LPWSTR containing the full path to the folder that contains the 
         /// localized schema binary that can be read and written to as needed. 
         /// The default value is "%LOCALAPPDATA%\Microsoft\Windows".
         /// </summary>
-        LocalizedSchemaBinaryPath = (UnLocalizedSchemaBinaryPath + 1),
+        LocalizedSchemaBinaryPath = 3,
 
         /// <summary>
         /// A VT_BOOL. If TRUE, then the paths for pre-localized and localized binaries 
         /// have "\(LCID)" appended to them, where language code identifier (LCID) is 
         /// the decimal locale ID for the localized language. The default is TRUE.
         /// </summary>
-        AppendLCIDToLocalizedPath = (LocalizedSchemaBinaryPath + 1),
+        AppendLCIDToLocalizedPath = 4,
 
         /// <summary>
         /// A VT_UNKNOWN with an object supporting ISchemaLocalizerSupport. 
         /// This object will be used instead of the default localizer support object.
         /// </summary>
-        LocalizerSupport = (AppendLCIDToLocalizedPath + 1)
+        LocalizerSupport = 5
     }
-
-
 }

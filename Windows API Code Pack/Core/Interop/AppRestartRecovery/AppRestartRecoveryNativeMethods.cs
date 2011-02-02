@@ -10,14 +10,10 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
     {
         #region Application Restart and Recovery Definitions
 
-        internal delegate UInt32 InternalRecoveryCallback(IntPtr state); 
-        
-        internal static InternalRecoveryCallback internalCallback;
+        internal delegate UInt32 InternalRecoveryCallback(IntPtr state);
 
-        static AppRestartRecoveryNativeMethods()
-        {
-            internalCallback = new InternalRecoveryCallback(InternalRecoveryHandler);
-        }
+        private static InternalRecoveryCallback internalCallback = new InternalRecoveryCallback(InternalRecoveryHandler);
+        internal static InternalRecoveryCallback InternalCallback { get { return internalCallback; } }
 
         private static UInt32 InternalRecoveryHandler(IntPtr parameter)
         {
@@ -40,47 +36,29 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
 
         [DllImport("kernel32.dll")]
         [PreserveSig]
-        internal static extern HRESULT ApplicationRecoveryInProgress(
+        internal static extern HResult ApplicationRecoveryInProgress(
             [Out, MarshalAs(UnmanagedType.Bool)] out bool canceled);
-
-        [DllImport("kernel32.dll")]
-        [PreserveSig]
-        internal static extern HRESULT GetApplicationRecoveryCallback(
-            IntPtr processHandle,
-            out RecoveryCallback recoveryCallback,
-            out object state,
-            out uint pingInterval,
-            out uint flags);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
         [PreserveSig]
-        internal static extern HRESULT RegisterApplicationRecoveryCallback(
+        internal static extern HResult RegisterApplicationRecoveryCallback(
             InternalRecoveryCallback callback, IntPtr param,
             uint pingInterval,
             uint flags); // Unused.
 
-
         [DllImport("kernel32.dll")]
         [PreserveSig]
-        internal static extern HRESULT RegisterApplicationRestart(
+        internal static extern HResult RegisterApplicationRestart(
             [MarshalAs(UnmanagedType.BStr)] string commandLineArgs,
             RestartRestrictions flags);
 
-        [DllImport("KERNEL32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport("kernel32.dll")]
         [PreserveSig]
-        internal static extern HRESULT GetApplicationRestartSettings(
-            IntPtr process,
-            IntPtr commandLine,
-            ref uint size,
-            out RestartRestrictions flags);
+        internal static extern HResult UnregisterApplicationRecoveryCallback();
 
         [DllImport("kernel32.dll")]
         [PreserveSig]
-        internal static extern HRESULT UnregisterApplicationRecoveryCallback();
-
-        [DllImport("kernel32.dll")]
-        [PreserveSig]
-        internal static extern HRESULT UnregisterApplicationRestart();
+        internal static extern HResult UnregisterApplicationRestart();
 
         #endregion
     }

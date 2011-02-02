@@ -12,10 +12,10 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
     /// </summary>
     public abstract class PropertyStoreItems
     {
-
+        // Left empty for base class
     }
 
-
+    // TODO: FIX THIS!!!
     public partial class ShellProperties
     {
 
@@ -24,9 +24,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// </summary>
         public class PropertySystem : PropertyStoreItems
         {
-
-
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystem(ShellObject parent)
@@ -1242,11 +1240,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Boolean -- VT_BOOL</para>
             /// <para>FormatID: {5D76B67F-9B3D-44BB-B6AE-25DA4F638A67}, 2</para>
             /// </summary>
-            public ShellProperty<Boolean?> IsPinnedToNameSpaceTree
+            public ShellProperty<Boolean?> IsPinnedToNamespaceTree
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.IsPinnedToNameSpaceTree;
+                    PropertyKey key = SystemProperties.System.IsPinnedToNamespaceTree;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -2010,11 +2008,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Guid -- VT_CLSID</para>
             /// <para>FormatID: (FMTID_ShellDetails) {28636AA6-953D-11D2-B5D6-00C04FD918D0}, 6</para>
             /// </summary>
-            public ShellProperty<IntPtr?> NamespaceCLSID
+            public ShellProperty<IntPtr?> NamespaceClsid
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.NamespaceCLSID;
+                    PropertyKey key = SystemProperties.System.NamespaceClsid;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -2117,11 +2115,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: {5D76B67F-9B3D-44BB-B6AE-25DA4F638A67}, 6</para>
             /// </summary>
-            public ShellProperty<String> OwnerSID
+            public ShellProperty<String> OwnerSid
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.OwnerSID;
+                    PropertyKey key = SystemProperties.System.OwnerSid;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -2867,7 +2865,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
 
 
             #region sub-namespaces
-            private PropertySystemAppUserModel internalPropertySystemAppUserModel = null;
+            private PropertySystemAppUserModel internalPropertySystemAppUserModel;
             /// <summary>
             /// System.AppUserModel Properties
             /// </summary>
@@ -2883,7 +2881,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemAppUserModel;
                 }
             }
-            private PropertySystemAudio internalPropertySystemAudio = null;
+            private PropertySystemAudio internalPropertySystemAudio;
             /// <summary>
             /// System.Audio Properties
             /// </summary>
@@ -2899,7 +2897,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemAudio;
                 }
             }
-            private PropertySystemCalendar internalPropertySystemCalendar = null;
+            private PropertySystemCalendar internalPropertySystemCalendar;
             /// <summary>
             /// System.Calendar Properties
             /// </summary>
@@ -2915,7 +2913,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemCalendar;
                 }
             }
-            private PropertySystemCommunication internalPropertySystemCommunication = null;
+            private PropertySystemCommunication internalPropertySystemCommunication;
             /// <summary>
             /// System.Communication Properties
             /// </summary>
@@ -2931,7 +2929,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemCommunication;
                 }
             }
-            private PropertySystemComputer internalPropertySystemComputer = null;
+            private PropertySystemComputer internalPropertySystemComputer;
             /// <summary>
             /// System.Computer Properties
             /// </summary>
@@ -2947,7 +2945,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemComputer;
                 }
             }
-            private PropertySystemContact internalPropertySystemContact = null;
+            private PropertySystemContact internalPropertySystemContact;
             /// <summary>
             /// System.Contact Properties
             /// </summary>
@@ -2963,7 +2961,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemContact;
                 }
             }
-            private PropertySystemDevice internalPropertySystemDevice = null;
+            private PropertySystemDevice internalPropertySystemDevice;
             /// <summary>
             /// System.Device Properties
             /// </summary>
@@ -2979,7 +2977,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemDevice;
                 }
             }
-            private PropertySystemDeviceInterface internalPropertySystemDeviceInterface = null;
+            private PropertySystemDeviceInterface internalPropertySystemDeviceInterface;
             /// <summary>
             /// System.DeviceInterface Properties
             /// </summary>
@@ -2995,7 +2993,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemDeviceInterface;
                 }
             }
-            private PropertySystemDevices internalPropertySystemDevices = null;
+            private PropertySystemDevices internalPropertySystemDevices;
             /// <summary>
             /// System.Devices Properties
             /// </summary>
@@ -3011,7 +3009,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemDevices;
                 }
             }
-            private PropertySystemDocument internalPropertySystemDocument = null;
+            private PropertySystemDocument internalPropertySystemDocument;
             /// <summary>
             /// System.Document Properties
             /// </summary>
@@ -3027,7 +3025,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemDocument;
                 }
             }
-            private PropertySystemDRM internalPropertySystemDRM = null;
+            private PropertySystemDRM internalPropertySystemDRM;
             /// <summary>
             /// System.DRM Properties
             /// </summary>
@@ -3043,7 +3041,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemDRM;
                 }
             }
-            private PropertySystemGPS internalPropertySystemGPS = null;
+            private PropertySystemGPS internalPropertySystemGPS;
             /// <summary>
             /// System.GPS Properties
             /// </summary>
@@ -3059,7 +3057,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemGPS;
                 }
             }
-            private PropertySystemIdentity internalPropertySystemIdentity = null;
+            private PropertySystemIdentity internalPropertySystemIdentity;
             /// <summary>
             /// System.Identity Properties
             /// </summary>
@@ -3075,7 +3073,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemIdentity;
                 }
             }
-            private PropertySystemIdentityProvider internalPropertySystemIdentityProvider = null;
+            private PropertySystemIdentityProvider internalPropertySystemIdentityProvider;
             /// <summary>
             /// System.IdentityProvider Properties
             /// </summary>
@@ -3091,7 +3089,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemIdentityProvider;
                 }
             }
-            private PropertySystemImage internalPropertySystemImage = null;
+            private PropertySystemImage internalPropertySystemImage;
             /// <summary>
             /// System.Image Properties
             /// </summary>
@@ -3107,7 +3105,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemImage;
                 }
             }
-            private PropertySystemJournal internalPropertySystemJournal = null;
+            private PropertySystemJournal internalPropertySystemJournal;
             /// <summary>
             /// System.Journal Properties
             /// </summary>
@@ -3123,7 +3121,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemJournal;
                 }
             }
-            private PropertySystemLayoutPattern internalPropertySystemLayoutPattern = null;
+            private PropertySystemLayoutPattern internalPropertySystemLayoutPattern;
             /// <summary>
             /// System.LayoutPattern Properties
             /// </summary>
@@ -3139,7 +3137,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemLayoutPattern;
                 }
             }
-            private PropertySystemLink internalPropertySystemLink = null;
+            private PropertySystemLink internalPropertySystemLink;
             /// <summary>
             /// System.Link Properties
             /// </summary>
@@ -3155,7 +3153,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemLink;
                 }
             }
-            private PropertySystemMedia internalPropertySystemMedia = null;
+            private PropertySystemMedia internalPropertySystemMedia;
             /// <summary>
             /// System.Media Properties
             /// </summary>
@@ -3171,7 +3169,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemMedia;
                 }
             }
-            private PropertySystemMessage internalPropertySystemMessage = null;
+            private PropertySystemMessage internalPropertySystemMessage;
             /// <summary>
             /// System.Message Properties
             /// </summary>
@@ -3187,7 +3185,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemMessage;
                 }
             }
-            private PropertySystemMusic internalPropertySystemMusic = null;
+            private PropertySystemMusic internalPropertySystemMusic;
             /// <summary>
             /// System.Music Properties
             /// </summary>
@@ -3203,7 +3201,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemMusic;
                 }
             }
-            private PropertySystemNote internalPropertySystemNote = null;
+            private PropertySystemNote internalPropertySystemNote;
             /// <summary>
             /// System.Note Properties
             /// </summary>
@@ -3219,7 +3217,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemNote;
                 }
             }
-            private PropertySystemPhoto internalPropertySystemPhoto = null;
+            private PropertySystemPhoto internalPropertySystemPhoto;
             /// <summary>
             /// System.Photo Properties
             /// </summary>
@@ -3235,7 +3233,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemPhoto;
                 }
             }
-            private PropertySystemPropGroup internalPropertySystemPropGroup = null;
+            private PropertySystemPropGroup internalPropertySystemPropGroup;
             /// <summary>
             /// System.PropGroup Properties
             /// </summary>
@@ -3251,7 +3249,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemPropGroup;
                 }
             }
-            private PropertySystemPropList internalPropertySystemPropList = null;
+            private PropertySystemPropList internalPropertySystemPropList;
             /// <summary>
             /// System.PropList Properties
             /// </summary>
@@ -3267,7 +3265,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemPropList;
                 }
             }
-            private PropertySystemRecordedTV internalPropertySystemRecordedTV = null;
+            private PropertySystemRecordedTV internalPropertySystemRecordedTV;
             /// <summary>
             /// System.RecordedTV Properties
             /// </summary>
@@ -3283,7 +3281,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemRecordedTV;
                 }
             }
-            private PropertySystemSearch internalPropertySystemSearch = null;
+            private PropertySystemSearch internalPropertySystemSearch;
             /// <summary>
             /// System.Search Properties
             /// </summary>
@@ -3299,7 +3297,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemSearch;
                 }
             }
-            private PropertySystemShell internalPropertySystemShell = null;
+            private PropertySystemShell internalPropertySystemShell;
             /// <summary>
             /// System.Shell Properties
             /// </summary>
@@ -3315,7 +3313,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemShell;
                 }
             }
-            private PropertySystemSoftware internalPropertySystemSoftware = null;
+            private PropertySystemSoftware internalPropertySystemSoftware;
             /// <summary>
             /// System.Software Properties
             /// </summary>
@@ -3331,7 +3329,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemSoftware;
                 }
             }
-            private PropertySystemSync internalPropertySystemSync = null;
+            private PropertySystemSync internalPropertySystemSync;
             /// <summary>
             /// System.Sync Properties
             /// </summary>
@@ -3347,7 +3345,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemSync;
                 }
             }
-            private PropertySystemTask internalPropertySystemTask = null;
+            private PropertySystemTask internalPropertySystemTask;
             /// <summary>
             /// System.Task Properties
             /// </summary>
@@ -3363,7 +3361,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemTask;
                 }
             }
-            private PropertySystemVideo internalPropertySystemVideo = null;
+            private PropertySystemVideo internalPropertySystemVideo;
             /// <summary>
             /// System.Video Properties
             /// </summary>
@@ -3379,7 +3377,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     return internalPropertySystemVideo;
                 }
             }
-            private PropertySystemVolume internalPropertySystemVolume = null;
+            private PropertySystemVolume internalPropertySystemVolume;
             /// <summary>
             /// System.Volume Properties
             /// </summary>
@@ -3405,7 +3403,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemAppUserModel(ShellObject parent)
@@ -3463,11 +3461,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Boolean -- VT_BOOL</para>
             /// <para>FormatID: {9F4C2855-9F79-4B39-A8D0-E1D42DE1D5F3}, 6</para>
             /// </summary>
-            public ShellProperty<Boolean?> IsDestListSeparator
+            public ShellProperty<Boolean?> IsDestinationListSeparator
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.AppUserModel.IsDestListSeparator;
+                    PropertyKey key = SystemProperties.System.AppUserModel.IsDestinationListSeparator;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -3575,7 +3573,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemAudio(ShellObject parent)
@@ -3679,11 +3677,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Boolean -- VT_BOOL</para>
             /// <para>FormatID: {E6822FEE-8C17-4D62-823C-8E9CFCBD1D5C}, 100</para>
             /// </summary>
-            public ShellProperty<Boolean?> IsVariableBitRate
+            public ShellProperty<Boolean?> IsVariableBitrate
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.Audio.IsVariableBitRate;
+                    PropertyKey key = SystemProperties.System.Audio.IsVariableBitrate;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -3816,7 +3814,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemCalendar(ShellObject parent)
@@ -4150,9 +4148,6 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             }
             #endregion
 
-
-            #region sub-namespaces
-            #endregion
         }
 
         /// <summary>
@@ -4162,7 +4157,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemCommunication(ShellObject parent)
@@ -4223,11 +4218,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Int32 -- VT_I4</para>
             /// <para>FormatID: {83A6347E-6FE4-4F40-BA9C-C4865240D1F4}, 100</para>
             /// </summary>
-            public ShellProperty<Int32?> FollowupIconIndex
+            public ShellProperty<Int32?> FollowUpIconIndex
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.Communication.FollowupIconIndex;
+                    PropertyKey key = SystemProperties.System.Communication.FollowUpIconIndex;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -4382,7 +4377,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemComputer(ShellObject parent)
@@ -4427,7 +4422,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemContact(ShellObject parent)
@@ -4696,11 +4691,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: {56310920-2491-4919-99CE-EADB06FAFDB2}, 100</para>
             /// </summary>
-            public ShellProperty<String> BusinessHomePage
+            public ShellProperty<String> BusinessHomepage
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.Contact.BusinessHomePage;
+                    PropertyKey key = SystemProperties.System.Contact.BusinessHomepage;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -5431,11 +5426,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: {176DC63C-2688-4E89-8143-A347800F25E9}, 74</para>
             /// </summary>
-            public ShellProperty<String> NickName
+            public ShellProperty<String> Nickname
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.Contact.NickName;
+                    PropertyKey key = SystemProperties.System.Contact.Nickname;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -5935,11 +5930,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: {E3E0584C-B788-4A5A-BB20-7F5A44C9ACDD}, 18</para>
             /// </summary>
-            public ShellProperty<String> WebPage
+            public ShellProperty<String> Webpage
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.Contact.WebPage;
+                    PropertyKey key = SystemProperties.System.Contact.Webpage;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -5953,7 +5948,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
 
 
             #region sub-namespaces
-            private PropertyContactJA internalPropertyContactJA = null;
+            private PropertyContactJA internalPropertyContactJA;
             /// <summary>
             /// Contact.JA Properties
             /// </summary>
@@ -5979,7 +5974,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertyContactJA(ShellObject parent)
@@ -6068,7 +6063,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemDevice(ShellObject parent)
@@ -6085,11 +6080,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: {0B48F35A-BE6E-4F17-B108-3C4073D1669A}, 15</para>
             /// </summary>
-            public ShellProperty<String> PrinterURL
+            public ShellProperty<String> PrinterUrl
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.Device.PrinterURL;
+                    PropertyKey key = SystemProperties.System.Device.PrinterUrl;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -6113,7 +6108,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemDeviceInterface(ShellObject parent)
@@ -6224,7 +6219,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemDevices(ShellObject parent)
@@ -7249,7 +7244,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
 
 
             #region sub-namespaces
-            private PropertyDevicesNotifications internalPropertyDevicesNotifications = null;
+            private PropertyDevicesNotifications internalPropertyDevicesNotifications;
             /// <summary>
             /// Devices.Notifications Properties
             /// </summary>
@@ -7275,7 +7270,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertyDevicesNotifications(ShellObject parent)
@@ -7430,7 +7425,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemDocument(ShellObject parent)
@@ -7998,7 +7993,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemDRM(ShellObject parent)
@@ -8131,7 +8126,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemGPS(ShellObject parent)
@@ -8282,11 +8277,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Double -- VT_R8</para>
             /// <para>FormatID: {C66D4B3C-E888-47CC-B99F-9DCA3EE34DEA}, 100</para>
             /// </summary>
-            public ShellProperty<Double?> DestBearing
+            public ShellProperty<Double?> DestinationBearing
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestBearing;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationBearing;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8304,11 +8299,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     UInt32 -- VT_UI4</para>
             /// <para>FormatID: {7ABCF4F8-7C3F-4988-AC91-8D2C2E97ECA5}, 100</para>
             /// </summary>
-            public ShellProperty<UInt32?> DestBearingDenominator
+            public ShellProperty<UInt32?> DestinationBearingDenominator
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestBearingDenominator;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationBearingDenominator;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8326,11 +8321,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     UInt32 -- VT_UI4</para>
             /// <para>FormatID: {BA3B1DA9-86EE-4B5D-A2A4-A271A429F0CF}, 100</para>
             /// </summary>
-            public ShellProperty<UInt32?> DestBearingNumerator
+            public ShellProperty<UInt32?> DestinationBearingNumerator
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestBearingNumerator;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationBearingNumerator;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8348,11 +8343,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: {9AB84393-2A0F-4B75-BB22-7279786977CB}, 100</para>
             /// </summary>
-            public ShellProperty<String> DestBearingRef
+            public ShellProperty<String> DestinationBearingRef
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestBearingRef;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationBearingRef;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8371,11 +8366,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Double -- VT_R8</para>
             /// <para>FormatID: {A93EAE04-6804-4F24-AC81-09B266452118}, 100</para>
             /// </summary>
-            public ShellProperty<Double?> DestDistance
+            public ShellProperty<Double?> DestinationDistance
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestDistance;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationDistance;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8393,11 +8388,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     UInt32 -- VT_UI4</para>
             /// <para>FormatID: {9BC2C99B-AC71-4127-9D1C-2596D0D7DCB7}, 100</para>
             /// </summary>
-            public ShellProperty<UInt32?> DestDistanceDenominator
+            public ShellProperty<UInt32?> DestinationDistanceDenominator
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestDistanceDenominator;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationDistanceDenominator;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8415,11 +8410,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     UInt32 -- VT_UI4</para>
             /// <para>FormatID: {2BDA47DA-08C6-4FE1-80BC-A72FC517C5D0}, 100</para>
             /// </summary>
-            public ShellProperty<UInt32?> DestDistanceNumerator
+            public ShellProperty<UInt32?> DestinationDistanceNumerator
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestDistanceNumerator;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationDistanceNumerator;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8437,11 +8432,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: {ED4DF2D3-8695-450B-856F-F5C1C53ACB66}, 100</para>
             /// </summary>
-            public ShellProperty<String> DestDistanceRef
+            public ShellProperty<String> DestinationDistanceRef
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestDistanceRef;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationDistanceRef;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8461,11 +8456,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Multivalue Double -- VT_VECTOR | VT_R8  (For variants: VT_ARRAY | VT_R8)</para>
             /// <para>FormatID: {9D1D7CC5-5C39-451C-86B3-928E2D18CC47}, 100</para>
             /// </summary>
-            public ShellProperty<Double[]> DestLatitude
+            public ShellProperty<Double[]> DestinationLatitude
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestLatitude;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationLatitude;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8483,11 +8478,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Multivalue UInt32 -- VT_VECTOR | VT_UI4  (For variants: VT_ARRAY | VT_UI4)</para>
             /// <para>FormatID: {3A372292-7FCA-49A7-99D5-E47BB2D4E7AB}, 100</para>
             /// </summary>
-            public ShellProperty<UInt32[]> DestLatitudeDenominator
+            public ShellProperty<UInt32[]> DestinationLatitudeDenominator
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestLatitudeDenominator;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationLatitudeDenominator;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8505,11 +8500,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Multivalue UInt32 -- VT_VECTOR | VT_UI4  (For variants: VT_ARRAY | VT_UI4)</para>
             /// <para>FormatID: {ECF4B6F6-D5A6-433C-BB92-4076650FC890}, 100</para>
             /// </summary>
-            public ShellProperty<UInt32[]> DestLatitudeNumerator
+            public ShellProperty<UInt32[]> DestinationLatitudeNumerator
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestLatitudeNumerator;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationLatitudeNumerator;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8527,11 +8522,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: {CEA820B9-CE61-4885-A128-005D9087C192}, 100</para>
             /// </summary>
-            public ShellProperty<String> DestLatitudeRef
+            public ShellProperty<String> DestinationLatitudeRef
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestLatitudeRef;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationLatitudeRef;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8551,11 +8546,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Multivalue Double -- VT_VECTOR | VT_R8  (For variants: VT_ARRAY | VT_R8)</para>
             /// <para>FormatID: {47A96261-CB4C-4807-8AD3-40B9D9DBC6BC}, 100</para>
             /// </summary>
-            public ShellProperty<Double[]> DestLongitude
+            public ShellProperty<Double[]> DestinationLongitude
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestLongitude;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationLongitude;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8573,11 +8568,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Multivalue UInt32 -- VT_VECTOR | VT_UI4  (For variants: VT_ARRAY | VT_UI4)</para>
             /// <para>FormatID: {425D69E5-48AD-4900-8D80-6EB6B8D0AC86}, 100</para>
             /// </summary>
-            public ShellProperty<UInt32[]> DestLongitudeDenominator
+            public ShellProperty<UInt32[]> DestinationLongitudeDenominator
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestLongitudeDenominator;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationLongitudeDenominator;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8595,11 +8590,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Multivalue UInt32 -- VT_VECTOR | VT_UI4  (For variants: VT_ARRAY | VT_UI4)</para>
             /// <para>FormatID: {A3250282-FB6D-48D5-9A89-DBCACE75CCCF}, 100</para>
             /// </summary>
-            public ShellProperty<UInt32[]> DestLongitudeNumerator
+            public ShellProperty<UInt32[]> DestinationLongitudeNumerator
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestLongitudeNumerator;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationLongitudeNumerator;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8617,11 +8612,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: {182C1EA6-7C1C-4083-AB4B-AC6C9F4ED128}, 100</para>
             /// </summary>
-            public ShellProperty<String> DestLongitudeRef
+            public ShellProperty<String> DestinationLongitudeRef
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.DestLongitudeRef;
+                    PropertyKey key = SystemProperties.System.GPS.DestinationLongitudeRef;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8728,11 +8723,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Double -- VT_R8</para>
             /// <para>FormatID: {16473C91-D017-4ED9-BA4D-B6BAA55DBCF8}, 100</para>
             /// </summary>
-            public ShellProperty<Double?> ImgDirection
+            public ShellProperty<Double?> ImageDirection
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.ImgDirection;
+                    PropertyKey key = SystemProperties.System.GPS.ImageDirection;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8750,11 +8745,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     UInt32 -- VT_UI4</para>
             /// <para>FormatID: {10B24595-41A2-4E20-93C2-5761C1395F32}, 100</para>
             /// </summary>
-            public ShellProperty<UInt32?> ImgDirectionDenominator
+            public ShellProperty<UInt32?> ImageDirectionDenominator
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.ImgDirectionDenominator;
+                    PropertyKey key = SystemProperties.System.GPS.ImageDirectionDenominator;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8772,11 +8767,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     UInt32 -- VT_UI4</para>
             /// <para>FormatID: {DC5877C7-225F-45F7-BAC7-E81334B6130A}, 100</para>
             /// </summary>
-            public ShellProperty<UInt32?> ImgDirectionNumerator
+            public ShellProperty<UInt32?> ImageDirectionNumerator
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.ImgDirectionNumerator;
+                    PropertyKey key = SystemProperties.System.GPS.ImageDirectionNumerator;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -8794,11 +8789,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: {A4AAA5B7-1AD0-445F-811A-0F8F6E67F6B5}, 100</para>
             /// </summary>
-            public ShellProperty<String> ImgDirectionRef
+            public ShellProperty<String> ImageDirectionRef
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.GPS.ImgDirectionRef;
+                    PropertyKey key = SystemProperties.System.GPS.ImageDirectionRef;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -9312,7 +9307,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemIdentity(ShellObject parent)
@@ -9489,7 +9484,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemIdentityProvider(ShellObject parent)
@@ -9556,7 +9551,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemImage(ShellObject parent)
@@ -9886,7 +9881,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemJournal(ShellObject parent)
@@ -9951,7 +9946,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemLayoutPattern(ShellObject parent)
@@ -10020,7 +10015,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemLink(ShellObject parent)
@@ -10265,7 +10260,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemMedia(ShellObject parent)
@@ -10851,11 +10846,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: (FMTID_MUSIC) {56A3372E-CE9C-11D2-9F0E-006097C686F6}, 38 (PIDSI_MUSIC_SUB_TITLE)</para>
             /// </summary>
-            public ShellProperty<String> SubTitle
+            public ShellProperty<String> Subtitle
             {
                 get
                 {
-                    PropertyKey key = SystemProperties.System.Media.SubTitle;
+                    PropertyKey key = SystemProperties.System.Media.Subtitle;
 
                     if (!hashtable.ContainsKey(key))
                     {
@@ -10989,7 +10984,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemMessage(ShellObject parent)
@@ -11534,7 +11529,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemMusic(ShellObject parent)
@@ -11954,7 +11949,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemNote(ShellObject parent)
@@ -12021,7 +12016,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemPhoto(ShellObject parent)
@@ -13930,7 +13925,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemPropGroup(ShellObject parent)
@@ -14352,7 +14347,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemPropList(ShellObject parent)
@@ -14673,7 +14668,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemRecordedTV(ShellObject parent)
@@ -15036,7 +15031,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemSearch(ShellObject parent)
@@ -15391,7 +15386,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemShell(ShellObject parent)
@@ -15458,7 +15453,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemSoftware(ShellObject parent)
@@ -15525,7 +15520,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemSync(ShellObject parent)
@@ -15846,7 +15841,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemTask(ShellObject parent)
@@ -15932,7 +15927,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemVideo(ShellObject parent)
@@ -16264,7 +16259,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
 
 
-            private ShellObject shellObjectParent = null;
+            private ShellObject shellObjectParent;
             private Hashtable hashtable = new Hashtable();
 
             internal PropertySystemVolume(ShellObject parent)

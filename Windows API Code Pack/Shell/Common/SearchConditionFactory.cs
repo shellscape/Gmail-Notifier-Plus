@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using MS.WindowsAPICodePack.Internal;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 
 namespace Microsoft.WindowsAPICodePack.Shell
 {
@@ -30,10 +31,10 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// </remarks>
         public static SearchCondition CreateLeafCondition(string propertyName, string value, SearchConditionOperation operation)
         {
-            PropVariant propVar = new PropVariant();
-            propVar.SetString(value);
-
-            return CreateLeafCondition(propertyName, propVar, null, operation);
+            using (PropVariant propVar = new PropVariant(value))
+            {
+                return CreateLeafCondition(propertyName, propVar, null, operation);
+            }
         }
 
         /// <summary>
@@ -52,10 +53,10 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// </remarks>
         public static SearchCondition CreateLeafCondition(string propertyName, DateTime value, SearchConditionOperation operation)
         {
-            PropVariant propVar = new PropVariant();
-            propVar.SetDateTime(value);
-
-            return CreateLeafCondition(propertyName, propVar, "System.StructuredQuery.CustomProperty.DateTime", operation);
+            using (PropVariant propVar = new PropVariant(value))
+            {
+                return CreateLeafCondition(propertyName, propVar, "System.StructuredQuery.CustomProperty.DateTime", operation);
+            }
         }
 
         /// <summary>
@@ -73,10 +74,10 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// </remarks>
         public static SearchCondition CreateLeafCondition(string propertyName, int value, SearchConditionOperation operation)
         {
-            PropVariant propVar = new PropVariant();
-            propVar.SetInt(value);
-
-            return CreateLeafCondition(propertyName, propVar, "System.StructuredQuery.CustomProperty.Integer", operation);
+            using (PropVariant propVar = new PropVariant(value))
+            {
+                return CreateLeafCondition(propertyName, propVar, "System.StructuredQuery.CustomProperty.Integer", operation);
+            }
         }
 
         /// <summary>
@@ -94,10 +95,10 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// </remarks>
         public static SearchCondition CreateLeafCondition(string propertyName, bool value, SearchConditionOperation operation)
         {
-            PropVariant propVar = new PropVariant();
-            propVar.SetBool(value);
-
-            return CreateLeafCondition(propertyName, propVar, "System.StructuredQuery.CustomProperty.Boolean", operation);
+            using (PropVariant propVar = new PropVariant(value))
+            {
+                return CreateLeafCondition(propertyName, propVar, "System.StructuredQuery.CustomProperty.Boolean", operation);
+            }
         }
 
         /// <summary>
@@ -115,13 +116,13 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// </remarks>
         public static SearchCondition CreateLeafCondition(string propertyName, double value, SearchConditionOperation operation)
         {
-            PropVariant propVar = new PropVariant();
-            propVar.SetDouble(value);
-
-            return CreateLeafCondition(propertyName, propVar, "System.StructuredQuery.CustomProperty.FloatingPoint", operation);
+            using (PropVariant propVar = new PropVariant(value))
+            {
+                return CreateLeafCondition(propertyName, propVar, "System.StructuredQuery.CustomProperty.FloatingPoint", operation);
+            }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1304:SpecifyCultureInfo", MessageId = "System.String.ToLower")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private static SearchCondition CreateLeafCondition(string propertyName, PropVariant propVar, string valueType, SearchConditionOperation operation)
         {
             IConditionFactory nativeConditionFactory = null;
@@ -134,16 +135,20 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
                 ICondition nativeCondition = null;
 
-                if (string.IsNullOrEmpty(propertyName) || propertyName.ToLower() == "system.null")
+                if (string.IsNullOrEmpty(propertyName) || propertyName.ToUpperInvariant() == "SYSTEM.NULL")
+                {
                     propertyName = null;
+                }
 
-                HRESULT hr = HRESULT.E_FAIL;
+                HResult hr = HResult.Fail;
 
                 hr = nativeConditionFactory.MakeLeaf(propertyName, operation, valueType,
-                    ref propVar, null, null, null, false, out nativeCondition);
+                    propVar, null, null, null, false, out nativeCondition);
 
-                if (!CoreErrorHelper.Succeeded((int)hr))
-                    Marshal.ThrowExceptionForHR((int)hr);
+                if (!CoreErrorHelper.Succeeded(hr))
+                {
+                    throw new ShellException(hr);
+                }
 
                 // Create our search condition and set the various properties.
                 condition = new SearchCondition(nativeCondition);
@@ -151,7 +156,9 @@ namespace Microsoft.WindowsAPICodePack.Shell
             finally
             {
                 if (nativeConditionFactory != null)
+                {
                     Marshal.ReleaseComObject(nativeConditionFactory);
+                }
             }
 
             return condition;
@@ -174,10 +181,12 @@ namespace Microsoft.WindowsAPICodePack.Shell
             string canonicalName;
             PropertySystemNativeMethods.PSGetNameFromPropertyKey(ref propertyKey, out canonicalName);
 
-            if (!string.IsNullOrEmpty(canonicalName))
-                return CreateLeafCondition(canonicalName, value, operation);
-            else
-                throw new ArgumentException("Given property key is invalid", "propertyKey");
+            if (string.IsNullOrEmpty(canonicalName))
+            {
+                throw new ArgumentException(LocalizedMessages.SearchConditionFactoryInvalidProperty, "propertyKey");
+            }
+
+            return CreateLeafCondition(canonicalName, value, operation);
         }
 
         /// <summary>
@@ -198,10 +207,11 @@ namespace Microsoft.WindowsAPICodePack.Shell
             string canonicalName;
             PropertySystemNativeMethods.PSGetNameFromPropertyKey(ref propertyKey, out canonicalName);
 
-            if (!string.IsNullOrEmpty(canonicalName))
-                return CreateLeafCondition(canonicalName, value, operation);
-            else
-                throw new ArgumentException("Given property key is invalid", "propertyKey");
+            if (string.IsNullOrEmpty(canonicalName))
+            {
+                throw new ArgumentException(LocalizedMessages.SearchConditionFactoryInvalidProperty, "propertyKey");
+            }
+            return CreateLeafCondition(canonicalName, value, operation);
         }
 
         /// <summary>
@@ -222,10 +232,11 @@ namespace Microsoft.WindowsAPICodePack.Shell
             string canonicalName;
             PropertySystemNativeMethods.PSGetNameFromPropertyKey(ref propertyKey, out canonicalName);
 
-            if (!string.IsNullOrEmpty(canonicalName))
-                return CreateLeafCondition(canonicalName, value, operation);
-            else
-                throw new ArgumentException("Given property key is invalid", "propertyKey");
+            if (string.IsNullOrEmpty(canonicalName))
+            {
+                throw new ArgumentException(LocalizedMessages.SearchConditionFactoryInvalidProperty, "propertyKey");
+            }
+            return CreateLeafCondition(canonicalName, value, operation);
         }
 
         /// <summary>
@@ -246,10 +257,11 @@ namespace Microsoft.WindowsAPICodePack.Shell
             string canonicalName;
             PropertySystemNativeMethods.PSGetNameFromPropertyKey(ref propertyKey, out canonicalName);
 
-            if (!string.IsNullOrEmpty(canonicalName))
-                return CreateLeafCondition(canonicalName, value, operation);
-            else
-                throw new ArgumentException("Given property key is invalid", "propertyKey");
+            if (string.IsNullOrEmpty(canonicalName))
+            {
+                throw new ArgumentException(LocalizedMessages.SearchConditionFactoryInvalidProperty, "propertyKey");
+            }
+            return CreateLeafCondition(canonicalName, value, operation);
         }
 
         /// <summary>
@@ -270,10 +282,11 @@ namespace Microsoft.WindowsAPICodePack.Shell
             string canonicalName;
             PropertySystemNativeMethods.PSGetNameFromPropertyKey(ref propertyKey, out canonicalName);
 
-            if (!string.IsNullOrEmpty(canonicalName))
-                return CreateLeafCondition(canonicalName, value, operation);
-            else
-                throw new ArgumentException("Given property key is invalid", "propertyKey");
+            if (string.IsNullOrEmpty(canonicalName))
+            {
+                throw new ArgumentException(LocalizedMessages.SearchConditionFactoryInvalidProperty, "propertyKey");
+            }
+            return CreateLeafCondition(canonicalName, value, operation);
         }
 
         /// <summary>
@@ -282,13 +295,13 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// </summary>
         /// <param name="conditionType">The SearchConditionType of the condition node. 
         /// Must be either AndCondition or OrCondition.</param>
-        /// <param name="simplyfy">TRUE to logically simplify the result, if possible; 
+        /// <param name="simplify">TRUE to logically simplify the result, if possible; 
         /// then the result will not necessarily to be of the specified kind. FALSE if the result should 
         /// have exactly the prescribed structure. An application that plans to execute a query based on the 
         /// condition tree would typically benefit from setting this parameter to TRUE. </param>
         /// <param name="conditionNodes">Array of subconditions</param>
         /// <returns>New SearchCondition based on the operation</returns>
-        public static SearchCondition CreateAndOrCondition(SearchConditionType conditionType, bool simplyfy, params SearchCondition[] conditionNodes)
+        public static SearchCondition CreateAndOrCondition(SearchConditionType conditionType, bool simplify, params SearchCondition[] conditionNodes)
         {
             // Same as the native "IConditionFactory:MakeAndOr" method
             IConditionFactory nativeConditionFactory = (IConditionFactory)new ConditionFactoryCoClass();
@@ -298,20 +311,26 @@ namespace Microsoft.WindowsAPICodePack.Shell
             {
                 // 
                 List<ICondition> conditionList = new List<ICondition>();
-                foreach (SearchCondition c in conditionNodes)
-                    conditionList.Add(c.NativeSearchCondition);
+                if (conditionNodes != null)
+                {
+                    foreach (SearchCondition c in conditionNodes)
+                    {
+                        conditionList.Add(c.NativeSearchCondition);
+                    }
+                }
 
                 IEnumUnknown subConditions = new EnumUnknownClass(conditionList.ToArray());
 
-                HRESULT hr = nativeConditionFactory.MakeAndOr(conditionType, subConditions, simplyfy, out result);
+                HResult hr = nativeConditionFactory.MakeAndOr(conditionType, subConditions, simplify, out result);
 
-                if (!CoreErrorHelper.Succeeded((int)hr))
-                    Marshal.ThrowExceptionForHR((int)hr);
+                if (!CoreErrorHelper.Succeeded(hr)) { throw new ShellException(hr); }
             }
             finally
             {
                 if (nativeConditionFactory != null)
+                {
                     Marshal.ReleaseComObject(nativeConditionFactory);
+                }
             }
 
             return new SearchCondition(result);
@@ -322,26 +341,32 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// (a subnode of this node). 
         /// </summary>
         /// <param name="conditionToBeNegated">SearchCondition node to be negated.</param>
-        /// <param name="simplyfy">True to logically simplify the result if possible; False otherwise. 
+        /// <param name="simplify">True to logically simplify the result if possible; False otherwise. 
         /// In a query builder scenario, simplyfy should typically be set to false.</param>
         /// <returns>New SearchCondition</returns>
-        public static SearchCondition CreateNotCondition(SearchCondition conditionToBeNegated, bool simplyfy)
+        public static SearchCondition CreateNotCondition(SearchCondition conditionToBeNegated, bool simplify)
         {
+            if (conditionToBeNegated == null)
+            {
+                throw new ArgumentNullException("conditionToBeNegated");
+            }
+
             // Same as the native "IConditionFactory:MakeNot" method
             IConditionFactory nativeConditionFactory = (IConditionFactory)new ConditionFactoryCoClass();
             ICondition result;
 
             try
             {
-                HRESULT hr = nativeConditionFactory.MakeNot(conditionToBeNegated.NativeSearchCondition, simplyfy, out result);
+                HResult hr = nativeConditionFactory.MakeNot(conditionToBeNegated.NativeSearchCondition, simplify, out result);
 
-                if (!CoreErrorHelper.Succeeded((int)hr))
-                    Marshal.ThrowExceptionForHR((int)hr);
+                if (!CoreErrorHelper.Succeeded(hr)) { throw new ShellException(hr); }
             }
             finally
             {
                 if (nativeConditionFactory != null)
+                {
                     Marshal.ReleaseComObject(nativeConditionFactory);
+                }
             }
 
             return new SearchCondition(result);
@@ -359,7 +384,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         {
             return ParseStructuredQuery(query, null);
         }
-        
+
         /// <summary>
         /// Parses an input string that contains Structured Query keywords (using Advanced Query Syntax 
         /// or Natural Query Syntax) and produces a SearchCondition object.
@@ -372,72 +397,83 @@ namespace Microsoft.WindowsAPICodePack.Shell
         public static SearchCondition ParseStructuredQuery(string query, CultureInfo cultureInfo)
         {
             if (string.IsNullOrEmpty(query))
-                throw new ArgumentNullException("query");
-            else
             {
-                IQueryParserManager nativeQueryParserManager = (IQueryParserManager)new QueryParserManagerCoClass();
-                IQueryParser queryParser = null;
-                IQuerySolution querySolution = null;
-                ICondition result = null;
+                throw new ArgumentNullException("query");
+            }
 
-                IEntity mainType = null;
+            IQueryParserManager nativeQueryParserManager = (IQueryParserManager)new QueryParserManagerCoClass();
+            IQueryParser queryParser = null;
+            IQuerySolution querySolution = null;
+            ICondition result = null;
 
-                try
+            IEntity mainType = null;
+            SearchCondition searchCondition = null;
+            try
+            {
+                // First, try to create a new IQueryParser using IQueryParserManager
+                Guid guid = new Guid(ShellIIDGuid.IQueryParser);
+                HResult hr = nativeQueryParserManager.CreateLoadedParser(
+                    "SystemIndex",
+                    cultureInfo == null ? (ushort)0 : (ushort)cultureInfo.LCID,
+                    ref guid,
+                    out queryParser);
+
+                if (!CoreErrorHelper.Succeeded(hr)) { throw new ShellException(hr); }
+
+                if (queryParser != null)
                 {
-                    // First, try to create a new IQueryParser using IQueryParserManager
-                    Guid guid = new Guid(ShellIIDGuid.IQueryParser);
-                    HRESULT hr = nativeQueryParserManager.CreateLoadedParser(
-                        "SystemIndex",
-                        cultureInfo == null ? (ushort)0 : (ushort)cultureInfo.LCID,
-                        ref guid,
-                        out queryParser);
-
-                    if (!CoreErrorHelper.Succeeded((int)hr))
-                        throw Marshal.GetExceptionForHR((int)hr);
-
-                    if (queryParser != null)
+                    // If user specified natural query, set the option on the query parser
+                    using (PropVariant optionValue = new PropVariant(true))
                     {
-                        // If user specified natural query, set the option on the query parser
-                        PropVariant optionValue = new PropVariant();
-                        optionValue.SetBool(true);
-                        hr = queryParser.SetOption(StructuredQuerySingleOption.NaturalSyntax, ref optionValue);
-
-                        if (!CoreErrorHelper.Succeeded((int)hr))
-                            throw Marshal.GetExceptionForHR((int)hr);
-
-                        // Next, try to parse the query.
-                        // Result would be IQuerySolution that we can use for getting the ICondition and other
-                        // details about the parsed query.
-                        hr = queryParser.Parse(query, null, out querySolution);
-
-                        if (!CoreErrorHelper.Succeeded((int)hr))
-                            throw Marshal.GetExceptionForHR((int)hr);
-
-                        if (querySolution != null)
-                        {
-                            // Lastly, try to get the ICondition from this parsed query
-                            hr = querySolution.GetQuery(out result, out mainType);
-
-                            if (!CoreErrorHelper.Succeeded((int)hr))
-                                throw Marshal.GetExceptionForHR((int)hr);
-                        }
+                        hr = queryParser.SetOption(StructuredQuerySingleOption.NaturalSyntax, optionValue);
                     }
 
-                    return new SearchCondition(result);
-                }
-                finally
-                {
-                    if (nativeQueryParserManager != null)
-                        Marshal.ReleaseComObject(nativeQueryParserManager);
+                    if (!CoreErrorHelper.Succeeded(hr)) { throw new ShellException(hr); }
 
-                    if (queryParser != null)
-                        Marshal.ReleaseComObject(queryParser);
+                    // Next, try to parse the query.
+                    // Result would be IQuerySolution that we can use for getting the ICondition and other
+                    // details about the parsed query.
+                    hr = queryParser.Parse(query, null, out querySolution);
+
+                    if (!CoreErrorHelper.Succeeded(hr)) { throw new ShellException(hr); }
 
                     if (querySolution != null)
-                        Marshal.ReleaseComObject(querySolution);
+                    {
+                        // Lastly, try to get the ICondition from this parsed query
+                        hr = querySolution.GetQuery(out result, out mainType);
 
-                    if (mainType != null)
-                        Marshal.ReleaseComObject(mainType);
+                        if (!CoreErrorHelper.Succeeded(hr)) { throw new ShellException(hr); }
+                    }
+                }
+
+                searchCondition = new SearchCondition(result);
+                return searchCondition;
+            }
+            catch
+            {
+                if (searchCondition != null) { searchCondition.Dispose(); }
+                throw;
+            }
+            finally
+            {
+                if (nativeQueryParserManager != null)
+                {
+                    Marshal.ReleaseComObject(nativeQueryParserManager);
+                }
+
+                if (queryParser != null)
+                {
+                    Marshal.ReleaseComObject(queryParser);
+                }
+
+                if (querySolution != null)
+                {
+                    Marshal.ReleaseComObject(querySolution);
+                }
+
+                if (mainType != null)
+                {
+                    Marshal.ReleaseComObject(mainType);
                 }
             }
         }

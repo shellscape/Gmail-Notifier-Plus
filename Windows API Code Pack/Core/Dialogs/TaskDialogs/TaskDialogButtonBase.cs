@@ -43,15 +43,13 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// Raised when the task dialog button is clicked.
         /// </summary>
         public event EventHandler Click;
+
         internal void RaiseClickEvent()
         {
             // Only perform click if the button is enabled.
-            if (!enabled)
-                return;
-
-            EventHandler handler = Click;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
+            if (!enabled) { return; }
+            
+            if (Click != null) { Click(this, EventArgs.Empty); }
         }
 
         private string text;
@@ -101,15 +99,14 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
                 ApplyPropertyChange("Default");
             }
         }
+
         /// <summary>
         /// Returns the Text property value for this button.
         /// </summary>
         /// <returns>A <see cref="System.String"/>.</returns>
         public override string ToString()
         {
-            if (text == null)
-                return "";
-            return text;
+            return text ?? string.Empty;
         }
     }
 }

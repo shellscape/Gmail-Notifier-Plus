@@ -2,76 +2,50 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using MS.WindowsAPICodePack.Internal;
+using Microsoft.WindowsAPICodePack.Resources;
 
 namespace Microsoft.WindowsAPICodePack.ApplicationServices
-{
+{    
     internal static class Power
-    {
-        internal static PowerManagementNativeMethods.SystemPowerCapabilities 
+    {        
+        internal static PowerManagementNativeMethods.SystemPowerCapabilities
             GetSystemPowerCapabilities()
         {
-            IntPtr status = IntPtr.Zero;
             PowerManagementNativeMethods.SystemPowerCapabilities powerCap;
 
-            try
+            uint retval = PowerManagementNativeMethods.CallNtPowerInformation(
+              PowerManagementNativeMethods.PowerInformationLevel.SystemPowerCapabilities,
+              IntPtr.Zero, 0, out powerCap,
+              (UInt32)Marshal.SizeOf(typeof(PowerManagementNativeMethods.SystemPowerCapabilities))
+              );
+
+            if (retval == CoreNativeMethods.StatusAccessDenied)
             {
-                status = Marshal.AllocCoTaskMem(
-                Marshal.SizeOf(typeof(PowerManagementNativeMethods.SystemPowerCapabilities)));
-
-                uint retval = PowerManagementNativeMethods.CallNtPowerInformation(
-                  4,  // SystemPowerCapabilities
-                  (IntPtr)null,
-                  0,
-                  status,
-                  (UInt32)Marshal.SizeOf(typeof(PowerManagementNativeMethods.SystemPowerCapabilities))
-                  );
-
-                if (retval == CoreNativeMethods.STATUS_ACCESS_DENIED)
-                {
-                    throw new UnauthorizedAccessException("The caller had insufficient access rights to get the system power capabilities.");
-                }
-
-                powerCap = (PowerManagementNativeMethods.SystemPowerCapabilities)Marshal.PtrToStructure(status, typeof(PowerManagementNativeMethods.SystemPowerCapabilities));
-            }
-            finally
-            {
-                Marshal.FreeCoTaskMem(status);
+                throw new UnauthorizedAccessException(LocalizedMessages.PowerInsufficientAccessCapabilities);
             }
 
             return powerCap;
         }
-
+        
         internal static PowerManagementNativeMethods.SystemBatteryState GetSystemBatteryState()
         {
-            IntPtr status = IntPtr.Zero;
-            PowerManagementNativeMethods.SystemBatteryState batt_status;
-        
-            try
-            {
-                status = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(PowerManagementNativeMethods.SystemBatteryState)));
-                uint retval = PowerManagementNativeMethods.CallNtPowerInformation(
-                  5,  // SystemBatteryState
-                  (IntPtr)null,
-                  0,
-                  status,
-                  (UInt32)Marshal.SizeOf(typeof(PowerManagementNativeMethods.SystemBatteryState))
-                  );
+            PowerManagementNativeMethods.SystemBatteryState batteryState;
 
-                if (retval == CoreNativeMethods.STATUS_ACCESS_DENIED)
-                {
-                    throw new UnauthorizedAccessException("The caller had insufficient access rights to get the system battery state.");
-                }
+            uint retval = PowerManagementNativeMethods.CallNtPowerInformation(
+              PowerManagementNativeMethods.PowerInformationLevel.SystemBatteryState,
+              IntPtr.Zero, 0, out batteryState,
+              (UInt32)Marshal.SizeOf(typeof(PowerManagementNativeMethods.SystemBatteryState))
+              );
 
-                batt_status = (PowerManagementNativeMethods.SystemBatteryState)Marshal.PtrToStructure(status, typeof(PowerManagementNativeMethods.SystemBatteryState));
-            }
-            finally
+            if (retval == CoreNativeMethods.StatusAccessDenied)
             {
-                Marshal.FreeCoTaskMem(status);
+                throw new UnauthorizedAccessException(LocalizedMessages.PowerInsufficientAccessBatteryState);
             }
 
-            return batt_status;
+            return batteryState;
         }
 
         /// <summary>
@@ -88,26 +62,11 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
             IntPtr handle, Guid powerSetting)
         {
             int outHandle = PowerManagementNativeMethods.RegisterPowerSettingNotification(
-                handle, 
-                ref powerSetting, 
+                handle,
+                ref powerSetting,
                 0);
 
             return outHandle;
-        }
-
-        /// <summary>
-        /// Allows an application to inform the system that it 
-        /// is in use, thereby preventing the system from entering 
-        /// the sleeping power state or turning off the display 
-        /// while the application is running.
-        /// </summary>
-        /// <param name="flags">The thread's execution requirements.</param>
-        /// <exception cref="Win32Exception">Thrown if the SetThreadExecutionState call fails.</exception>
-        internal static void SetThreadExecutionState(ExecutionState flags)
-        {
-            ExecutionState? ret = PowerManagementNativeMethods.SetThreadExecutionState(flags);
-            if (ret == null)
-                throw new Win32Exception("SetThreadExecutionState call failed.");
-        }
+        }        
     }
 }

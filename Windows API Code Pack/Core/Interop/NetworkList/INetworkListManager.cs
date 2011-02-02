@@ -41,6 +41,6 @@ namespace Microsoft.WindowsAPICodePack.Net
         }
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        Connectivity GetConnectivity();
+        ConnectivityStates GetConnectivity();
     }
 }

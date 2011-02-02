@@ -11,6 +11,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// The window placed in the center of the screen.
         /// </summary>
         CenterScreen,
+
         /// <summary>
         /// The window centered relative to the window that launched the dialog.
         /// </summary>

@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAPICodePack.Net
         /// Gets a value that indicates the connectivity of this connection.
         /// </summary>
         /// <value>A <see cref="Connectivity"/> value.</value>
-        public Connectivity Connectivity
+        public ConnectivityStates Connectivity
         {
             get
             {

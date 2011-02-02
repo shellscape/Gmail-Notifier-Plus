@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
     ClassInterface(ClassInterfaceType.None),
     TypeLibType(TypeLibTypeFlags.FCanCreate),
     Guid(ShellCLSIDGuid.ShellLibrary)]
-    internal class ShellLibraryCoClass 
+    internal class ShellLibraryCoClass
     {
     }
 }

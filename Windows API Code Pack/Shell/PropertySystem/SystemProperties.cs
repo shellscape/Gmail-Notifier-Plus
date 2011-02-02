@@ -1,7 +1,9 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
@@ -38,12 +40,9 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
 
             if (!CoreErrorHelper.Succeeded(result))
             {
-                throw new ArgumentException("This CanonicalName is not valid", Marshal.GetExceptionForHR(result));
+                throw new ArgumentException(LocalizedMessages.ShellInvalidCanonicalName, Marshal.GetExceptionForHR(result));
             }
-            else
-            {
-                return ShellPropertyDescriptionsCache.Cache.GetPropertyDescription(propKey);
-            }
+            return ShellPropertyDescriptionsCache.Cache.GetPropertyDescription(propKey);
         }
 
         /// <summary>
@@ -67,7 +66,6 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 get
                 {
                     PropertyKey key = new PropertyKey(new Guid("{65A98875-3C80-40AB-ABBC-EFDAF77DBEE2}"), 100);
-
                     return key;
                 }
             }
@@ -996,7 +994,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Boolean -- VT_BOOL</para>
             /// <para>FormatID: {5D76B67F-9B3D-44BB-B6AE-25DA4F638A67}, 2</para>
             /// </summary>
-            public static PropertyKey IsPinnedToNameSpaceTree
+            public static PropertyKey IsPinnedToNamespaceTree
             {
                 get
                 {
@@ -1634,7 +1632,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     Guid -- VT_CLSID</para>
             /// <para>FormatID: (FMTID_ShellDetails) {28636AA6-953D-11D2-B5D6-00C04FD918D0}, 6</para>
             /// </summary>
-            public static PropertyKey NamespaceCLSID
+            public static PropertyKey NamespaceClsid
             {
                 get
                 {
@@ -1716,7 +1714,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
             /// <para>FormatID: {5D76B67F-9B3D-44BB-B6AE-25DA4F638A67}, 6</para>
             /// </summary>
-            public static PropertyKey OwnerSID
+            public static PropertyKey OwnerSid
             {
                 get
                 {
@@ -2012,6 +2010,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             /// <para>Type:     UInt32 -- VT_UI4</para>
             /// <para>FormatID: (FMTID_ShellDetails) {28636AA6-953D-11D2-B5D6-00C04FD918D0}, 25</para>
             /// </summary>
+            [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flags")]
             public static PropertyKey SFGAOFlags
             {
                 get
@@ -2344,7 +2343,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Boolean -- VT_BOOL</para>
                 /// <para>FormatID: {9F4C2855-9F79-4B39-A8D0-E1D42DE1D5F3}, 6</para>
                 /// </summary>
-                public static PropertyKey IsDestListSeparator
+                public static PropertyKey IsDestinationListSeparator
                 {
                     get
                     {
@@ -2419,9 +2418,6 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 }
                 #endregion
 
-
-                #region sub-classes
-                #endregion
             }
 
             /// <summary>
@@ -2507,7 +2503,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Boolean -- VT_BOOL</para>
                 /// <para>FormatID: {E6822FEE-8C17-4D62-823C-8E9CFCBD1D5C}, 100</para>
                 /// </summary>
-                public static PropertyKey IsVariableBitRate
+                public static PropertyKey IsVariableBitrate
                 {
                     get
                     {
@@ -2603,8 +2599,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -2866,8 +2861,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -2920,7 +2914,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Int32 -- VT_I4</para>
                 /// <para>FormatID: {83A6347E-6FE4-4F40-BA9C-C4865240D1F4}, 100</para>
                 /// </summary>
-                public static PropertyKey FollowupIconIndex
+                public static PropertyKey FollowUpIconIndex
                 {
                     get
                     {
@@ -3033,8 +3027,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -3065,8 +3058,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -3277,7 +3269,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
                 /// <para>FormatID: {56310920-2491-4919-99CE-EADB06FAFDB2}, 100</para>
                 /// </summary>
-                public static PropertyKey BusinessHomePage
+                public static PropertyKey BusinessHomepage
                 {
                     get
                     {
@@ -3837,7 +3829,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
                 /// <para>FormatID: {176DC63C-2688-4E89-8143-A347800F25E9}, 74</para>
                 /// </summary>
-                public static PropertyKey NickName
+                public static PropertyKey Nickname
                 {
                     get
                     {
@@ -4221,7 +4213,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
                 /// <para>FormatID: {E3E0584C-B788-4A5A-BB20-7F5A44C9ACDD}, 18</para>
                 /// </summary>
-                public static PropertyKey WebPage
+                public static PropertyKey Webpage
                 {
                     get
                     {
@@ -4296,9 +4288,6 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     }
                     #endregion
 
-
-                    #region sub-classes
-                    #endregion
                 }
                 #endregion
             }
@@ -4365,8 +4354,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -4385,7 +4373,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
                 /// <para>FormatID: {0B48F35A-BE6E-4F17-B108-3C4073D1669A}, 15</para>
                 /// </summary>
-                public static PropertyKey PrinterURL
+                public static PropertyKey PrinterUrl
                 {
                     get
                     {
@@ -4397,8 +4385,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -4480,8 +4467,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -5392,8 +5378,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     #endregion
 
 
-                    #region sub-classes
-                    #endregion
+
                 }
                 #endregion
             }
@@ -5511,8 +5496,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -5946,8 +5930,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -6046,8 +6029,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -6170,7 +6152,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Double -- VT_R8</para>
                 /// <para>FormatID: {C66D4B3C-E888-47CC-B99F-9DCA3EE34DEA}, 100</para>
                 /// </summary>
-                public static PropertyKey DestBearing
+                public static PropertyKey DestinationBearing
                 {
                     get
                     {
@@ -6187,7 +6169,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     UInt32 -- VT_UI4</para>
                 /// <para>FormatID: {7ABCF4F8-7C3F-4988-AC91-8D2C2E97ECA5}, 100</para>
                 /// </summary>
-                public static PropertyKey DestBearingDenominator
+                public static PropertyKey DestinationBearingDenominator
                 {
                     get
                     {
@@ -6204,7 +6186,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     UInt32 -- VT_UI4</para>
                 /// <para>FormatID: {BA3B1DA9-86EE-4B5D-A2A4-A271A429F0CF}, 100</para>
                 /// </summary>
-                public static PropertyKey DestBearingNumerator
+                public static PropertyKey DestinationBearingNumerator
                 {
                     get
                     {
@@ -6221,7 +6203,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
                 /// <para>FormatID: {9AB84393-2A0F-4B75-BB22-7279786977CB}, 100</para>
                 /// </summary>
-                public static PropertyKey DestBearingRef
+                public static PropertyKey DestinationBearingRef
                 {
                     get
                     {
@@ -6239,7 +6221,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Double -- VT_R8</para>
                 /// <para>FormatID: {A93EAE04-6804-4F24-AC81-09B266452118}, 100</para>
                 /// </summary>
-                public static PropertyKey DestDistance
+                public static PropertyKey DestinationDistance
                 {
                     get
                     {
@@ -6256,7 +6238,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     UInt32 -- VT_UI4</para>
                 /// <para>FormatID: {9BC2C99B-AC71-4127-9D1C-2596D0D7DCB7}, 100</para>
                 /// </summary>
-                public static PropertyKey DestDistanceDenominator
+                public static PropertyKey DestinationDistanceDenominator
                 {
                     get
                     {
@@ -6273,7 +6255,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     UInt32 -- VT_UI4</para>
                 /// <para>FormatID: {2BDA47DA-08C6-4FE1-80BC-A72FC517C5D0}, 100</para>
                 /// </summary>
-                public static PropertyKey DestDistanceNumerator
+                public static PropertyKey DestinationDistanceNumerator
                 {
                     get
                     {
@@ -6290,7 +6272,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
                 /// <para>FormatID: {ED4DF2D3-8695-450B-856F-F5C1C53ACB66}, 100</para>
                 /// </summary>
-                public static PropertyKey DestDistanceRef
+                public static PropertyKey DestinationDistanceRef
                 {
                     get
                     {
@@ -6309,7 +6291,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Multivalue Double -- VT_VECTOR | VT_R8  (For variants: VT_ARRAY | VT_R8)</para>
                 /// <para>FormatID: {9D1D7CC5-5C39-451C-86B3-928E2D18CC47}, 100</para>
                 /// </summary>
-                public static PropertyKey DestLatitude
+                public static PropertyKey DestinationLatitude
                 {
                     get
                     {
@@ -6326,7 +6308,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Multivalue UInt32 -- VT_VECTOR | VT_UI4  (For variants: VT_ARRAY | VT_UI4)</para>
                 /// <para>FormatID: {3A372292-7FCA-49A7-99D5-E47BB2D4E7AB}, 100</para>
                 /// </summary>
-                public static PropertyKey DestLatitudeDenominator
+                public static PropertyKey DestinationLatitudeDenominator
                 {
                     get
                     {
@@ -6343,7 +6325,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Multivalue UInt32 -- VT_VECTOR | VT_UI4  (For variants: VT_ARRAY | VT_UI4)</para>
                 /// <para>FormatID: {ECF4B6F6-D5A6-433C-BB92-4076650FC890}, 100</para>
                 /// </summary>
-                public static PropertyKey DestLatitudeNumerator
+                public static PropertyKey DestinationLatitudeNumerator
                 {
                     get
                     {
@@ -6360,7 +6342,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
                 /// <para>FormatID: {CEA820B9-CE61-4885-A128-005D9087C192}, 100</para>
                 /// </summary>
-                public static PropertyKey DestLatitudeRef
+                public static PropertyKey DestinationLatitudeRef
                 {
                     get
                     {
@@ -6379,7 +6361,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Multivalue Double -- VT_VECTOR | VT_R8  (For variants: VT_ARRAY | VT_R8)</para>
                 /// <para>FormatID: {47A96261-CB4C-4807-8AD3-40B9D9DBC6BC}, 100</para>
                 /// </summary>
-                public static PropertyKey DestLongitude
+                public static PropertyKey DestinationLongitude
                 {
                     get
                     {
@@ -6396,7 +6378,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Multivalue UInt32 -- VT_VECTOR | VT_UI4  (For variants: VT_ARRAY | VT_UI4)</para>
                 /// <para>FormatID: {425D69E5-48AD-4900-8D80-6EB6B8D0AC86}, 100</para>
                 /// </summary>
-                public static PropertyKey DestLongitudeDenominator
+                public static PropertyKey DestinationLongitudeDenominator
                 {
                     get
                     {
@@ -6413,7 +6395,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Multivalue UInt32 -- VT_VECTOR | VT_UI4  (For variants: VT_ARRAY | VT_UI4)</para>
                 /// <para>FormatID: {A3250282-FB6D-48D5-9A89-DBCACE75CCCF}, 100</para>
                 /// </summary>
-                public static PropertyKey DestLongitudeNumerator
+                public static PropertyKey DestinationLongitudeNumerator
                 {
                     get
                     {
@@ -6430,7 +6412,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
                 /// <para>FormatID: {182C1EA6-7C1C-4083-AB4B-AC6C9F4ED128}, 100</para>
                 /// </summary>
-                public static PropertyKey DestLongitudeRef
+                public static PropertyKey DestinationLongitudeRef
                 {
                     get
                     {
@@ -6516,7 +6498,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Double -- VT_R8</para>
                 /// <para>FormatID: {16473C91-D017-4ED9-BA4D-B6BAA55DBCF8}, 100</para>
                 /// </summary>
-                public static PropertyKey ImgDirection
+                public static PropertyKey ImageDirection
                 {
                     get
                     {
@@ -6533,7 +6515,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     UInt32 -- VT_UI4</para>
                 /// <para>FormatID: {10B24595-41A2-4E20-93C2-5761C1395F32}, 100</para>
                 /// </summary>
-                public static PropertyKey ImgDirectionDenominator
+                public static PropertyKey ImageDirectionDenominator
                 {
                     get
                     {
@@ -6550,7 +6532,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     UInt32 -- VT_UI4</para>
                 /// <para>FormatID: {DC5877C7-225F-45F7-BAC7-E81334B6130A}, 100</para>
                 /// </summary>
-                public static PropertyKey ImgDirectionNumerator
+                public static PropertyKey ImageDirectionNumerator
                 {
                     get
                     {
@@ -6567,7 +6549,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
                 /// <para>FormatID: {A4AAA5B7-1AD0-445F-811A-0F8F6E67F6B5}, 100</para>
                 /// </summary>
-                public static PropertyKey ImgDirectionRef
+                public static PropertyKey ImageDirectionRef
                 {
                     get
                     {
@@ -6959,8 +6941,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -7093,8 +7074,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -7142,8 +7122,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -7394,8 +7373,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -7441,8 +7419,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -7492,8 +7469,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -7679,8 +7655,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -8138,7 +8113,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     String -- VT_LPWSTR  (For variants: VT_BSTR)</para>
                 /// <para>FormatID: (FMTID_MUSIC) {56A3372E-CE9C-11D2-9F0E-006097C686F6}, 38 (PIDSI_MUSIC_SUB_TITLE)</para>
                 /// </summary>
-                public static PropertyKey SubTitle
+                public static PropertyKey Subtitle
                 {
                     get
                     {
@@ -8235,8 +8210,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -8652,8 +8626,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -8974,8 +8947,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -9023,8 +8995,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -10499,8 +10470,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -10818,8 +10788,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -11066,8 +11035,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -11341,8 +11309,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -11613,8 +11580,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -11650,6 +11616,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 /// <para>Type:     Multivalue String -- VT_VECTOR | VT_LPWSTR  (For variants: VT_ARRAY | VT_BSTR)</para>
                 /// <para>FormatID: {D6942081-D53B-443D-AD47-5E059D9CD27A}, 2</para>
                 /// </summary>
+                [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flags")]
                 public static PropertyKey SFGAOFlagsStrings
                 {
                     get
@@ -11662,8 +11629,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -11711,8 +11677,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -11954,8 +11919,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -12017,8 +11981,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -12271,8 +12234,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
 
             /// <summary>
@@ -12336,8 +12298,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 #endregion
 
 
-                #region sub-classes
-                #endregion
+
             }
             #endregion
         }

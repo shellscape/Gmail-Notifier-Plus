@@ -4,23 +4,24 @@ using System;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
-using MS.WindowsAPICodePack.Internal;
 using Microsoft.WindowsAPICodePack.Shell;
+using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Controls.WindowsForms
 {
     /// <summary>
     /// Implements a CommandLink button that can be used in 
     /// WinForms user interfaces.
-    /// </summary>
+    /// </summary>    
     public class CommandLink : Button
     {
         /// <summary>
         /// Gets a System.Windows.Forms.CreateParams on the base class when 
         /// creating a window.
-        /// </summary>
+        /// </summary>        
         protected override CreateParams CreateParams
         {
+
             get
             {
                 // Add BS_COMMANDLINK style before control creation.
@@ -28,7 +29,7 @@ namespace Microsoft.WindowsAPICodePack.Controls.WindowsForms
 
                 cp.Style = AddCommandLinkStyle(cp.Style);
 
-                return (cp);
+                return cp;
             }
         }
 
@@ -38,7 +39,6 @@ namespace Microsoft.WindowsAPICodePack.Controls.WindowsForms
         /// </summary>
         public CommandLink()
         {
-            // Throw PlatformNotSupportedException if the user is not running Vista or beyond
             CoreHelpers.ThrowIfNotVista();
 
             FlatStyle = FlatStyle.System;
@@ -77,39 +77,37 @@ namespace Microsoft.WindowsAPICodePack.Controls.WindowsForms
         [Description("Indicates whether the button should be decorated with the security shield icon (Windows Vista only).")]
         [BrowsableAttribute(true)]
         [DefaultValue(false)]
-        public bool ShieldIcon
+        public bool UseElevationIcon
         {
-            get { return (shieldIconDisplayed); }
+            get { return (useElevationIcon); }
             set
             {
-                shieldIconDisplayed = value;
-                SetShieldIcon(this, this.shieldIconDisplayed);
+                useElevationIcon = value;
+                SetShieldIcon(this, this.useElevationIcon);
             }
         }
-        private bool shieldIconDisplayed;
+        private bool useElevationIcon;
 
 
         #region Interop helpers
 
-        private static int AddCommandLinkStyle(int Style)
+        private static int AddCommandLinkStyle(int style)
         {
-            int newStyle = Style;
-
             // Only add BS_COMMANDLINK style on Windows Vista or above.
             // Otherwise, button creation will fail.
-            if (Environment.OSVersion.Version.Major >= 6)
+            if (CoreHelpers.RunningOnVista)
             {
-                newStyle |= ShellNativeMethods.BS_COMMANDLINK;
+                style |= ShellNativeMethods.CommandLink;
             }
 
-            return (newStyle);
+            return style;
         }
 
         private static string GetNote(System.Windows.Forms.Button Button)
         {
             IntPtr retVal = CoreNativeMethods.SendMessage(
                 Button.Handle,
-                ShellNativeMethods.BCM_GETNOTELENGTH,
+                ShellNativeMethods.GetNoteLength,
                 IntPtr.Zero,
                 IntPtr.Zero);
 
@@ -117,24 +115,22 @@ namespace Microsoft.WindowsAPICodePack.Controls.WindowsForms
             int len = ((int)retVal) + 1;
             StringBuilder strBld = new StringBuilder(len);
 
-            retVal = CoreNativeMethods.SendMessage(Button.Handle, ShellNativeMethods.BCM_GETNOTE, ref len, strBld);
-            return (strBld.ToString());
+            retVal = CoreNativeMethods.SendMessage(Button.Handle, ShellNativeMethods.GetNote, ref len, strBld);
+            return strBld.ToString();
         }
 
         private static void SetNote(System.Windows.Forms.Button button, string text)
         {
-            // This call will be ignored on versions earlier than 
-            // Windows Vista.
-            CoreNativeMethods.SendMessage(button.Handle, ShellNativeMethods.BCM_SETNOTE, 0, text);
+            // This call will be ignored on versions earlier than Windows Vista.
+            CoreNativeMethods.SendMessage(button.Handle, ShellNativeMethods.SetNote, 0, text);
         }
 
-        static internal void SetShieldIcon(
-         System.Windows.Forms.Button Button, bool Show)
+        static internal void SetShieldIcon(System.Windows.Forms.Button Button, bool Show)
         {
             IntPtr fRequired = new IntPtr(Show ? 1 : 0);
             CoreNativeMethods.SendMessage(
                Button.Handle,
-                ShellNativeMethods.BCM_SETSHIELD,
+                ShellNativeMethods.SetShield,
                 IntPtr.Zero,
                 fRequired);
         }

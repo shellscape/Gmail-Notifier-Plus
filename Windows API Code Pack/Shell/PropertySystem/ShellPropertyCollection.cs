@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
@@ -28,11 +29,15 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             AddProperties(nativePropertyStore);
         }
 
+        #endregion
+
+        #region Public Constructor
+
         /// <summary>
         /// Creates a new Property collection given an IShellItem2 native interface
         /// </summary>
         /// <param name="parent">Parent ShellObject</param>
-        internal ShellPropertyCollection(ShellObject parent)
+        public ShellPropertyCollection(ShellObject parent)
             : base(new List<IShellProperty>())
         {
             ParentShellObject = parent;
@@ -41,6 +46,14 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             {
                 nativePropertyStore = CreateDefaultPropertyStore(ParentShellObject);
                 AddProperties(nativePropertyStore);
+            }
+            catch
+            {
+                if (parent != null)
+                {
+                    parent.Dispose();
+                }
+                throw;
             }
             finally
             {
@@ -52,18 +65,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             }
         }
 
-        #endregion
-
-        #region Public Constructor
-
         /// <summary>
         /// Creates a new <c>ShellPropertyCollection</c> object with the specified file or folder path.
         /// </summary>
-        /// <param name="path">The path to the file or folder.</param>
-        public ShellPropertyCollection(string path) :
-            this(ShellObjectFactory.Create(path))
-        {
-        }
+        /// <param name="path">The path to the file or folder.</param>        
+        public ShellPropertyCollection(string path) : this(ShellObjectFactory.Create(path)) { }
 
         #endregion
 
@@ -85,9 +91,13 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 nativePropertyStore.GetAt(i, out propKey);
 
                 if (ParentShellObject != null)
+                {
                     Items.Add(ParentShellObject.Properties.CreateTypedProperty(propKey));
+                }
                 else
+                {
                     Items.Add(CreateTypedProperty(propKey, NativePropertyStore));
+                }
             }
         }
 
@@ -97,14 +107,14 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
 
             Guid guid = new Guid(ShellIIDGuid.IPropertyStore);
             int hr = shellObj.NativeShellItem2.GetPropertyStore(
-                   ShellNativeMethods.GETPROPERTYSTOREFLAGS.GPS_BESTEFFORT,
+                   ShellNativeMethods.GetPropertyStoreOptions.BestEffort,
                    ref guid,
                    out nativePropertyStore);
 
             // throw on failure 
             if (nativePropertyStore == null || !CoreErrorHelper.Succeeded(hr))
             {
-                Marshal.ThrowExceptionForHR(hr);
+                throw new ShellException(hr);
             }
 
             return nativePropertyStore;
@@ -126,12 +136,10 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
             if (string.IsNullOrEmpty(canonicalName))
             {
-                throw new ArgumentException("Argument CanonicalName cannot be null or empty.", "canonicalName");
+                throw new ArgumentException(LocalizedMessages.PropertyCollectionNullCanonicalName, "canonicalName");
             }
 
-            return Items.
-                Where(p => p.CanonicalName == canonicalName).
-                Count() > 0;
+            return Items.Any(p => p.CanonicalName == canonicalName);
 
         }
 
@@ -142,9 +150,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// <returns><B>True</B> if available, <B>false</B> otherwise.</returns>
         public bool Contains(PropertyKey key)
         {
-            return Items.
-                Where(p => p.PropertyKey == key).
-                Count() > 0;
+            return Items.Any(p => p.PropertyKey == key);
         }
 
         /// <summary>
@@ -162,16 +168,15 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             {
                 if (string.IsNullOrEmpty(canonicalName))
                 {
-                    throw new ArgumentException("Argument CanonicalName cannot be null or empty.", "canonicalName");
+                    throw new ArgumentException(LocalizedMessages.PropertyCollectionNullCanonicalName, "canonicalName");
                 }
 
-                IShellProperty[] props = Items
-                    .Where(p => p.CanonicalName == canonicalName).ToArray();
-
-                if (props != null && props.Length > 0)
-                    return props[0];
-
-                throw new IndexOutOfRangeException("This CanonicalName is not a valid index.");
+                IShellProperty prop = Items.FirstOrDefault(p => p.CanonicalName == canonicalName);
+                if (prop == null)
+                {
+                    throw new IndexOutOfRangeException(LocalizedMessages.PropertyCollectionCanonicalInvalidIndex);
+                }
+                return prop;
             }
         }
 
@@ -183,20 +188,14 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// <returns>The property associated with the property key, if found.</returns>
         /// <exception cref="IndexOutOfRangeException">Throws IndexOutOfRangeException 
         /// if no matching property is found.</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1043:UseIntegralOrStringArgumentForIndexers", Justification = "We need the ability to get item from the collection using a property key")]
         public IShellProperty this[PropertyKey key]
         {
             get
             {
-                IShellProperty[] props =
-                    Items
-                    .Where(p => p.PropertyKey == key)
-                    .ToArray();
+                IShellProperty prop = Items.FirstOrDefault(p => p.PropertyKey == key);
+                if (prop != null) return prop;
 
-                if (props != null && props.Length > 0)
-                    return props[0];
-
-                throw new IndexOutOfRangeException("This PropertyKey is not a valid index.");
+                throw new IndexOutOfRangeException(LocalizedMessages.PropertyCollectionInvalidIndex);
             }
         }
 
@@ -207,136 +206,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         // common location.
         internal static IShellProperty CreateTypedProperty(PropertyKey propKey, IPropertyStore NativePropertyStore)
         {
-            ShellPropertyDescription desc = ShellPropertyDescriptionsCache.Cache.GetPropertyDescription(propKey);
-
-            switch (desc.VarEnumType)
-            {
-                case (VarEnum.VT_EMPTY):
-                case (VarEnum.VT_NULL):
-                    {
-                        return (new ShellProperty<Object>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_UI1):
-                    {
-                        return (new ShellProperty<Byte?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_I2):
-                    {
-                        return (new ShellProperty<Int16?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_UI2):
-                    {
-                        return (new ShellProperty<UInt16?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_I4):
-                    {
-                        return (new ShellProperty<Int32?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_UI4):
-                    {
-                        return (new ShellProperty<UInt32?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_I8):
-                    {
-                        return (new ShellProperty<Int64?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_UI8):
-                    {
-                        return (new ShellProperty<UInt64?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_R8):
-                    {
-                        return (new ShellProperty<Double?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_BOOL):
-                    {
-                        return (new ShellProperty<Boolean?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_FILETIME):
-                    {
-                        return (new ShellProperty<DateTime?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_CLSID):
-                    {
-                        return (new ShellProperty<IntPtr?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_CF):
-                    {
-                        return (new ShellProperty<IntPtr?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_BLOB):
-                    {
-                        return (new ShellProperty<Byte[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_LPWSTR):
-                    {
-                        return (new ShellProperty<String>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_UNKNOWN):
-                    {
-                        return (new ShellProperty<IntPtr?>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_STREAM):
-                    {
-                        return (new ShellProperty<IStream>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_UI1):
-                    {
-                        return (new ShellProperty<Byte[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_I2):
-                    {
-                        return (new ShellProperty<Int16[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_UI2):
-                    {
-                        return (new ShellProperty<UInt16[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_I4):
-                    {
-                        return (new ShellProperty<Int32[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_UI4):
-                    {
-                        return (new ShellProperty<UInt32[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_I8):
-                    {
-                        return (new ShellProperty<Int64[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_UI8):
-                    {
-                        return (new ShellProperty<UInt64[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_R8):
-                    {
-                        return (new ShellProperty<Double[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_BOOL):
-                    {
-                        return (new ShellProperty<Boolean[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_FILETIME):
-                    {
-                        return (new ShellProperty<DateTime[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_CLSID):
-                    {
-                        return (new ShellProperty<IntPtr[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_CF):
-                    {
-                        return (new ShellProperty<IntPtr[]>(propKey, desc, NativePropertyStore));
-                    }
-                case (VarEnum.VT_VECTOR | VarEnum.VT_LPWSTR):
-                    {
-                        return (new ShellProperty<String[]>(propKey, desc, NativePropertyStore));
-                    }
-                default:
-                    {
-                        return (new ShellProperty<Object>(propKey, desc, NativePropertyStore));
-                    }
-            }
+            return ShellPropertyFactory.CreateShellProperty(propKey, NativePropertyStore);
         }
 
         #region IDisposable Members
@@ -372,6 +242,5 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         }
 
         #endregion
-
     }
 }

@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAPICodePack.Net
         /// <remarks>Connectivity provides information on whether
         /// the network is connected, and the protocols
         /// in use for network traffic.</remarks>
-        public Connectivity Connectivity
+        public ConnectivityStates Connectivity
         {
             get
             {

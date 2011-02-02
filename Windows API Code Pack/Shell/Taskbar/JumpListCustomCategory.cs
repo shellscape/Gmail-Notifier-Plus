@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 
 namespace Microsoft.WindowsAPICodePack.Taskbar
 {
@@ -22,13 +23,12 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <summary>
         /// Category name
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1307:SpecifyStringComparison", MessageId = "System.String.Compare(System.String,System.String)", Justification="We are not currently handling globalization or localization")]
         public string Name
         {
             get { return name; }
             set
             {
-                if (String.Compare(name, value) != 0)
+                if (value != name)
                 {
                     name = value;
                     this.CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -36,15 +36,20 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             }
         }
 
-        
+
         /// <summary>
         /// Add JumpList items for this category
         /// </summary>
         /// <param name="items">The items to add to the JumpList.</param>
         public void AddJumpListItems(params IJumpListItem[] items)
         {
-            foreach (IJumpListItem item in items)
-                JumpListItems.Add(item);
+            if (items != null)
+            {
+                foreach (IJumpListItem item in items)
+                {
+                    JumpListItems.Add(item);
+                }
+            }
         }
 
         /// <summary>
@@ -70,19 +75,12 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         }
 
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1307:SpecifyStringComparison", MessageId = "System.String.Compare(System.String,System.String,System.Boolean)"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1304:SpecifyCultureInfo", MessageId = "System.String.Compare(System.String,System.String,System.Boolean)", Justification = "We are not currently handling globalization or localization")]
         internal void RemoveJumpListItem(string path)
         {
-            List<IJumpListItem> itemsToRemove = new List<IJumpListItem>();
-
-            // Check for items to remove
-            foreach (IJumpListItem item in JumpListItems)
-            {
-                if (string.Compare(path, item.Path, true) == 0)
-                {
-                    itemsToRemove.Add(item);
-                }
-            }
+            List<IJumpListItem> itemsToRemove = new List<IJumpListItem>(
+                from i in JumpListItems
+                where string.Equals(path, i.Path, StringComparison.OrdinalIgnoreCase)
+                select i);
 
             // Remove matching items
             for (int i = 0; i < itemsToRemove.Count; i++)

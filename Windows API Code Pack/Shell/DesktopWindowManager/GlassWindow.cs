@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Runtime.InteropServices;
 using MS.WindowsAPICodePack.Internal;
-
+using Microsoft.WindowsAPICodePack.Shell.Interop;
+using System.Windows;
 
 namespace Microsoft.WindowsAPICodePack.Shell
 {
-    
+
     /// <summary>
     /// WPF Glass Window
     /// Inherit from this window class to enable glass on a WPF window
@@ -20,16 +19,16 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Get determines if AeroGlass is enabled on the desktop. Set enables/disables AreoGlass on the desktop.
         /// </summary>
-        public bool AeroGlassCompositionEnabled
+        public static bool AeroGlassCompositionEnabled
         {
             set
             {
                 DesktopWindowManagerNativeMethods.DwmEnableComposition(
-                    value ? CompositionEnable.DWM_EC_ENABLECOMPOSITION : CompositionEnable.DWM_EC_DISABLECOMPOSITION );
+                    value ? CompositionEnable.Enable : CompositionEnable.Disable);
             }
             get
             {
-                return DesktopWindowManagerNativeMethods.DwmIsCompositionEnabled( );
+                return DesktopWindowManagerNativeMethods.DwmIsCompositionEnabled();
             }
         }
 
@@ -40,7 +39,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Fires when the availability of Glass effect changes.
         /// </summary>
-        public event AeroGlassCompositionChangedEvent AeroGlassCompositionChanged;
+        public event EventHandler<AeroGlassCompositionChangedEventArgs> AeroGlassCompositionChanged;
 
         #endregion
 
@@ -49,10 +48,10 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Makes the background of current window transparent from both Wpf and Windows Perspective
         /// </summary>
-        public void SetAeroGlassTransparency( )
+        public void SetAeroGlassTransparency()
         {
             // Set the Background to transparent from Win32 perpective 
-            HwndSource.FromHwnd( windowHandle ).CompositionTarget.BackgroundColor = System.Windows.Media.Colors.Transparent;
+            HwndSource.FromHwnd(windowHandle).CompositionTarget.BackgroundColor = System.Windows.Media.Colors.Transparent;
 
             // Set the Background to transparent from WPF perpective 
             this.Background = Brushes.Transparent;
@@ -64,50 +63,46 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <param name="element">The element to exclude.</param>
         /// <remarks>Many non-WPF rendered controls (i.e., the ExplorerBrowser control) will not 
         /// render properly on top of an AeroGlass frame. </remarks>
-        public void ExcludeElementFromAeroGlass( FrameworkElement element )
+        public void ExcludeElementFromAeroGlass(FrameworkElement element)
         {
-            if( AeroGlassCompositionEnabled )
+            if (AeroGlassCompositionEnabled && element != null)
             {
                 // calculate total size of window nonclient area
-                HwndSource hwndSource = PresentationSource.FromVisual( this ) as HwndSource;
-                CoreNativeMethods.RECT windowRect = new CoreNativeMethods.RECT( );
-                CoreNativeMethods.RECT clientRect = new CoreNativeMethods.RECT( );
-                DesktopWindowManagerNativeMethods.GetWindowRect( hwndSource.Handle, ref windowRect );
-                DesktopWindowManagerNativeMethods.GetClientRect( hwndSource.Handle, ref clientRect );
-                Size nonClientSize =
-                    new Size(
-                        (double)(windowRect.right - windowRect.left) - (double)(clientRect.right - clientRect.left),
-                        (double)(windowRect.bottom - windowRect.top) - (double)(clientRect.bottom - clientRect.top) );
+                HwndSource hwndSource = PresentationSource.FromVisual(this) as HwndSource;
+                NativeRect windowRect;
+                NativeRect clientRect;
+                DesktopWindowManagerNativeMethods.GetWindowRect(hwndSource.Handle, out windowRect);
+                DesktopWindowManagerNativeMethods.GetClientRect(hwndSource.Handle, out clientRect);
+                Size nonClientSize = new Size(
+                        (double)(windowRect.Right - windowRect.Left) - (double)(clientRect.Right - clientRect.Left),
+                        (double)(windowRect.Bottom - windowRect.Top) - (double)(clientRect.Bottom - clientRect.Top));
 
                 // calculate size of element relative to nonclient area
-                GeneralTransform transform = element.TransformToAncestor( this );
-                Point topLeftFrame =
-                    transform.Transform( new Point( 0, 0 ) );
-                Point bottomRightFrame =
-                    transform.Transform(
-                        new Point(
+                GeneralTransform transform = element.TransformToAncestor(this);
+                Point topLeftFrame = transform.Transform(new Point(0, 0));
+                Point bottomRightFrame = transform.Transform(new Point(
                             element.ActualWidth + nonClientSize.Width,
-                            element.ActualHeight + nonClientSize.Height ) );
+                            element.ActualHeight + nonClientSize.Height));
 
                 // Create a margin structure
-                MARGINS margins = new MARGINS( );
-                margins.cxLeftWidth = (int)topLeftFrame.X;
-                margins.cxRightWidth = (int)(this.ActualWidth - bottomRightFrame.X);
-                margins.cyTopHeight = (int)(topLeftFrame.Y);
-                margins.cyBottomHeight = (int)(this.ActualHeight - bottomRightFrame.Y);
+                Margins margins = new Margins();
+                margins.LeftWidth = (int)topLeftFrame.X;
+                margins.RightWidth = (int)(this.ActualWidth - bottomRightFrame.X);
+                margins.TopHeight = (int)(topLeftFrame.Y);
+                margins.BottomHeight = (int)(this.ActualHeight - bottomRightFrame.Y);
 
                 // Extend the Frame into client area
-                DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea( windowHandle, ref margins );
+                DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea(windowHandle, ref margins);
             }
         }
 
         /// <summary>
         /// Resets the AeroGlass exclusion area.
         /// </summary>
-        public void ResetAreoGlass()
+        public void ResetAeroGlass()
         {
-            MARGINS margins = new MARGINS( true );
-            DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea( windowHandle, ref margins );
+            Margins margins = new Margins(true);
+            DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea(windowHandle, ref margins);
         }
 
         #endregion
@@ -115,16 +110,15 @@ namespace Microsoft.WindowsAPICodePack.Shell
         #region implementation
         private IntPtr windowHandle;
 
-        private IntPtr WndProc( IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled )
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if( msg == DWMMessages.WM_DWMCOMPOSITIONCHANGED
-                || msg == DWMMessages.WM_DWMNCRENDERINGCHANGED )
+            if (msg == DWMMessages.WM_DWMCOMPOSITIONCHANGED
+                || msg == DWMMessages.WM_DWMNCRENDERINGCHANGED)
             {
-                if( AeroGlassCompositionChanged != null )
+                if (AeroGlassCompositionChanged != null)
                 {
-                    AeroGlassCompositionChanged.Invoke(
-                        this,
-                        new AeroGlassCompositionChangedEvenArgs( AeroGlassCompositionEnabled ) );
+                    AeroGlassCompositionChanged.Invoke(this,
+                        new AeroGlassCompositionChangedEventArgs(AeroGlassCompositionEnabled));
                 }
 
                 handled = true;
@@ -138,17 +132,17 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// A valid windowHandle is available only after the sourceInitialized is completed
         /// </summary>
         /// <param name="e">EventArgs</param>
-        protected override void OnSourceInitialized( EventArgs e )
+        protected override void OnSourceInitialized(EventArgs e)
         {
-            base.OnSourceInitialized( e );
-            WindowInteropHelper interopHelper = new WindowInteropHelper( this );
+            base.OnSourceInitialized(e);
+            WindowInteropHelper interopHelper = new WindowInteropHelper(this);
             this.windowHandle = interopHelper.Handle;
 
             // add Window Proc hook to capture DWM messages
-            HwndSource source = HwndSource.FromHwnd( windowHandle );
-            source.AddHook( new HwndSourceHook( WndProc ) );
+            HwndSource source = HwndSource.FromHwnd(windowHandle);
+            source.AddHook(new HwndSourceHook(WndProc));
 
-            ResetAreoGlass( );
+            ResetAeroGlass();
         }
 
         #endregion

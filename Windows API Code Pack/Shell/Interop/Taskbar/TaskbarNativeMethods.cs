@@ -1,174 +1,143 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System;
-using System.Text;
 using System.Runtime.InteropServices;
-using System.Drawing;
-using MS.WindowsAPICodePack.Internal;
 using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Taskbar
 {
     #region Enums
-    internal enum KNOWNDESTCATEGORY
+    internal enum KnownDestinationCategory
     {
-        KDC_FREQUENT = 1,
-        KDC_RECENT
+        Frequent = 1,
+        Recent
     }
 
-    internal enum SHARD
+    internal enum ShellAddToRecentDocs
     {
-        SHARD_PIDL = 0x1,
-        SHARD_PATHA = 0x2,
-        SHARD_PATHW = 0x3,
-        SHARD_APPIDINFO = 0x4,       // indicates the data type is a pointer to a SHARDAPPIDINFO structure
-        SHARD_APPIDINFOIDLIST = 0x5, // indicates the data type is a pointer to a SHARDAPPIDINFOIDLIST structure
-        SHARD_LINK = 0x6,            // indicates the data type is a pointer to an IShellLink instance
-        SHARD_APPIDINFOLINK = 0x7,   // indicates the data type is a pointer to a SHARDAPPIDINFOLINK structure 
-    }
-    
-    internal enum TBPFLAG
-    {
-        TBPF_NOPROGRESS = 0,
-        TBPF_INDETERMINATE = 0x1,
-        TBPF_NORMAL = 0x2,
-        TBPF_ERROR = 0x4,
-        TBPF_PAUSED = 0x8
+        Pidl = 0x1,
+        PathA = 0x2,
+        PathW = 0x3,
+        AppIdInfo = 0x4,       // indicates the data type is a pointer to a SHARDAPPIDINFO structure
+        AppIdInfoIdList = 0x5, // indicates the data type is a pointer to a SHARDAPPIDINFOIDLIST structure
+        Link = 0x6,            // indicates the data type is a pointer to an IShellLink instance
+        AppIdInfoLink = 0x7,   // indicates the data type is a pointer to a SHARDAPPIDINFOLINK structure 
     }
 
-    internal enum TBATFLAG
+    internal enum TaskbarProgressBarStatus
     {
-        TBATF_USEMDITHUMBNAIL = 0x1,
-        TBATF_USEMDILIVEPREVIEW = 0x2
+        NoProgress = 0,
+        Indeterminate = 0x1,
+        Normal = 0x2,
+        Error = 0x4,
+        Paused = 0x8
     }
 
-    internal enum THBMASK
+    internal enum TaskbarActiveTabSetting
     {
-        THB_BITMAP = 0x1,
-        THB_ICON = 0x2,
-        THB_TOOLTIP = 0x4,
+        UseMdiThumbnail = 0x1,
+        UseMdiLivePreview = 0x2
+    }
+
+    internal enum ThumbButtonMask
+    {
+        Bitmap = 0x1,
+        Icon = 0x2,
+        Tooltip = 0x4,
         THB_FLAGS = 0x8
     }
 
     [Flags]
-    internal enum THBFLAGS
+    internal enum ThumbButtonOptions
     {
-        THBF_ENABLED = 0x00000000,
-        THBF_DISABLED = 0x00000001,
-        THBF_DISMISSONCLICK = 0x00000002,
-        THBF_NOBACKGROUND = 0x00000004,
-        THBF_HIDDEN = 0x00000008,
-        THBF_NONINTERACTIVE = 0x00000010
+        Enabled = 0x00000000,
+        Disabled = 0x00000001,
+        DismissOnClick = 0x00000002,
+        NoBackground = 0x00000004,
+        Hidden = 0x00000008,
+        NonInteractive = 0x00000010
     }
 
-    internal enum STPFLAG
+    internal enum SetTabPropertiesOption
     {
-        STPF_NONE = 0x0,
-        STPF_USEAPPTHUMBNAILALWAYS = 0x1,
-        STPF_USEAPPTHUMBNAILWHENACTIVE = 0x2,
-        STPF_USEAPPPEEKALWAYS = 0x4,
-        STPF_USEAPPPEEKWHENACTIVE = 0x8
+        None = 0x0,
+        UseAppThumbnailAlways = 0x1,
+        UseAppThumbnailWhenActive = 0x2,
+        UseAppPeekAlways = 0x4,
+        UseAppPeekWhenActive = 0x8
     }
 
     #endregion
 
     #region Structs
 
-    [StructLayout(LayoutKind.Explicit)]
-    internal struct CALPWSTR
-    {
-        [FieldOffset(0)]
-        internal uint cElems;
-        [FieldOffset(4)]
-        internal IntPtr pElems;
-    }
-    
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    internal struct THUMBBUTTON
+    internal struct ThumbButton
     {
         /// <summary>
         /// WPARAM value for a THUMBBUTTON being clicked.
         /// </summary>
-        internal const int THBN_CLICKED = 0x1800;
+        internal const int Clicked = 0x1800;
 
         [MarshalAs(UnmanagedType.U4)]
-        internal THBMASK dwMask;
-        internal uint iId;
-        internal uint iBitmap;
-        internal IntPtr hIcon;
+        internal ThumbButtonMask Mask;
+        internal uint Id;
+        internal uint Bitmap;
+        internal IntPtr Icon;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-        internal string szTip;
+        internal string Tip;
         [MarshalAs(UnmanagedType.U4)]
-        internal THBFLAGS dwFlags;
+        internal ThumbButtonOptions Flags;
     }
     #endregion;
 
-    internal class TaskbarNativeMethods
+    internal static class TaskbarNativeMethods
     {
-        internal static readonly uint DWM_SIT_DISPLAYFRAME = 0x00000001;
-
-        internal static Guid IID_IObjectArray = new Guid("92CA9DCD-5622-4BBA-A805-5E9F541BD8C9");
-        internal static Guid IID_IUnknown = new Guid("00000000-0000-0000-C000-000000000046");
-
-        internal const int WM_COMMAND = 0x0111;
-
-        // Register Window Message used by Shell to notify that the corresponding taskbar button has been added to the taskbar.
-        internal static readonly uint WM_TASKBARBUTTONCREATED = RegisterWindowMessage("TaskbarButtonCreated");
-
-        internal static readonly uint WM_DWMSENDICONICTHUMBNAIL = 0x0323;
-        internal static readonly uint WM_DWMSENDICONICLIVEPREVIEWBITMAP = 0x0326;
-
-        private TaskbarNativeMethods()
+        internal static class TaskbarGuids
         {
-            // Hide the default constructor as this is a static class and we don't want to instantiate it.
+            internal static Guid IObjectArray = new Guid("92CA9DCD-5622-4BBA-A805-5E9F541BD8C9");
+            internal static Guid IUnknown = new Guid("00000000-0000-0000-C000-000000000046");
         }
 
+        internal const int WmCommand = 0x0111;
+
+        // Register Window Message used by Shell to notify that the corresponding taskbar button has been added to the taskbar.
+        internal static readonly uint WmTaskbarButtonCreated = RegisterWindowMessage("TaskbarButtonCreated");
+
+        internal const uint WmDwmSendIconThumbnail = 0x0323;
+        internal const uint WmDwmSendIconicLivePreviewBitmap = 0x0326;
 
         #region Methods
 
-        [DllImport(CommonDllNames.Shell32,
-            CharSet = CharSet.Auto,
-            SetLastError = true)]
-        internal static extern uint SHCreateItemFromParsingName(
-            [MarshalAs(UnmanagedType.LPWStr)] string path,
-            // The following parameter is not used - binding context.
-            IntPtr pbc,
-            ref Guid riid,
-            [MarshalAs(UnmanagedType.Interface)] out IShellItem shellItem);
-
-        [DllImport(CommonDllNames.Shell32)]
+        [DllImport("shell32.dll")]
         internal static extern void SetCurrentProcessExplicitAppUserModelID(
             [MarshalAs(UnmanagedType.LPWStr)] string AppID);
 
-        [DllImport(CommonDllNames.Shell32)]
+        [DllImport("shell32.dll")]
         internal static extern void GetCurrentProcessExplicitAppUserModelID(
             [Out(), MarshalAs(UnmanagedType.LPWStr)] out string AppID);
 
-        [DllImport(CommonDllNames.Shell32)]
+        [DllImport("shell32.dll")]
         internal static extern void SHAddToRecentDocs(
-            SHARD flags,
+            ShellAddToRecentDocs flags,
             [MarshalAs(UnmanagedType.LPWStr)] string path);
 
         internal static void SHAddToRecentDocs(string path)
         {
-            SHAddToRecentDocs(SHARD.SHARD_PATHW, path);
+            SHAddToRecentDocs(ShellAddToRecentDocs.PathW, path);
         }
 
-        [DllImport(CommonDllNames.User32)]
-        internal static extern int GetWindowText(
-            IntPtr hwnd, StringBuilder str, int maxCount);
-
-        [DllImport(CommonDllNames.User32, EntryPoint = "RegisterWindowMessage", SetLastError = true, CharSet = CharSet.Unicode)]
+        [DllImport("user32.dll", EntryPoint = "RegisterWindowMessage", SetLastError = true, CharSet = CharSet.Unicode)]
         internal static extern uint RegisterWindowMessage([MarshalAs(UnmanagedType.LPWStr)] string lpString);
 
 
-        [DllImport(CommonDllNames.Shell32)]
+        [DllImport("shell32.dll")]
         public static extern int SHGetPropertyStoreForWindow(
             IntPtr hwnd,
             ref Guid iid /*IID_IPropertyStore*/,
-            [Out(), MarshalAs(UnmanagedType.Interface)]
-                out IPropertyStore propertyStore);
+            [Out(), MarshalAs(UnmanagedType.Interface)]out IPropertyStore propertyStore);
 
         /// <summary>
         /// Sets the window's application id by its window handle.
@@ -184,14 +153,20 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         {
             // Get the IPropertyStore for the given window handle
             IPropertyStore propStore = GetWindowPropertyStore(hwnd);
-            
+
             // Set the value
-            PropVariant pv = new PropVariant();
-            propStore.SetValue(ref propkey, ref pv);
+            using (PropVariant pv = new PropVariant(value))
+            {
+                HResult result = propStore.SetValue(ref propkey, pv);
+                if (!CoreErrorHelper.Succeeded(result))
+                {
+                    throw new ShellException(result);
+                }
+            }
+
 
             // Dispose the IPropertyStore and PropVariant
             Marshal.ReleaseComObject(propStore);
-            pv.Clear();
         }
 
         internal static IPropertyStore GetWindowPropertyStore(IntPtr hwnd)
@@ -203,10 +178,33 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                 ref guid,
                 out propStore);
             if (rc != 0)
+            {
                 throw Marshal.GetExceptionForHR(rc);
+            }
             return propStore;
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// Thumbnail Alpha Types
+    /// </summary>
+    public enum ThumbnailAlphaType
+    {
+        /// <summary>
+        /// Let the system decide.
+        /// </summary>
+        Unknown = 0,
+
+        /// <summary>
+        /// No transparency
+        /// </summary>
+        NoAlphaChannel = 1,
+
+        /// <summary>
+        /// Has transparency
+        /// </summary>
+        HasAlphaChannel = 2,
     }
 }

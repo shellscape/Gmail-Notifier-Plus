@@ -2,76 +2,69 @@
 
 using System;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
+using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Taskbar
 {
     internal class ThumbnailToolbarProxyWindow : NativeWindow, IDisposable
     {
-        private ThumbnailToolbarButton[] thumbnailButtons;
-        private IntPtr internalWindowHandle;
+        private ThumbnailToolBarButton[] _thumbnailButtons;
+        private IntPtr _internalWindowHandle;
 
-        internal System.Windows.UIElement WindowsControl
-        {
-            get;
-            set;
-        }
+        internal System.Windows.UIElement WindowsControl { get; set; }
 
         internal IntPtr WindowToTellTaskbarAbout
         {
             get
             {
-                if (internalWindowHandle == IntPtr.Zero)
-                    return this.Handle;
-                else
-                    return internalWindowHandle;
+                return _internalWindowHandle != IntPtr.Zero ? _internalWindowHandle : this.Handle;
             }
         }
 
-        internal TaskbarWindow TaskbarWindow
-        {
-            get;
-            set;
-        }
+        internal TaskbarWindow TaskbarWindow { get; set; }
 
-        internal ThumbnailToolbarProxyWindow(IntPtr windowHandle, ThumbnailToolbarButton[] buttons)
+        internal ThumbnailToolbarProxyWindow(IntPtr windowHandle, ThumbnailToolBarButton[] buttons)
         {
             if (windowHandle == IntPtr.Zero)
-                throw new ArgumentException("Window handle cannot be empty", "windowHandle");
+            {
+                throw new ArgumentException(LocalizedMessages.CommonFileDialogInvalidHandle, "windowHandle");
+            }
             if (buttons != null && buttons.Length == 0)
-                throw new ArgumentException("Null or empty arrays are not allowed.", "buttons");
+            {
+                throw new ArgumentException(LocalizedMessages.ThumbnailToolbarManagerNullEmptyArray, "buttons");
+            }
 
-            //
-            internalWindowHandle = windowHandle;
-            thumbnailButtons = buttons;
+            _internalWindowHandle = windowHandle;
+            _thumbnailButtons = buttons;
 
             // Set the window handle on the buttons (for future updates)
-            Array.ForEach(thumbnailButtons, new Action<ThumbnailToolbarButton>(UpdateHandle));
+            Array.ForEach(_thumbnailButtons, new Action<ThumbnailToolBarButton>(UpdateHandle));
 
             // Assign the window handle (coming from the user) to this native window
             // so we can intercept the window messages sent from the taskbar to this window.
             this.AssignHandle(windowHandle);
         }
 
-        internal ThumbnailToolbarProxyWindow(System.Windows.UIElement windowsControl, ThumbnailToolbarButton[] buttons)
+        internal ThumbnailToolbarProxyWindow(System.Windows.UIElement windowsControl, ThumbnailToolBarButton[] buttons)
         {
-            if (windowsControl == null)
-                throw new ArgumentNullException("Control cannot be null", "windowsControl");
+            if (windowsControl == null) { throw new ArgumentNullException("windowsControl"); }
             if (buttons != null && buttons.Length == 0)
-                throw new ArgumentException("Null or empty arrays are not allowed.", "buttons");
+            {
+                throw new ArgumentException(LocalizedMessages.ThumbnailToolbarManagerNullEmptyArray, "buttons");
+            }
 
-            //
-            internalWindowHandle = IntPtr.Zero;
+            _internalWindowHandle = IntPtr.Zero;
             WindowsControl = windowsControl;
-            thumbnailButtons = buttons;
+            _thumbnailButtons = buttons;
 
             // Set the window handle on the buttons (for future updates)
-            Array.ForEach(thumbnailButtons, new Action<ThumbnailToolbarButton>(UpdateHandle));
+            Array.ForEach(_thumbnailButtons, new Action<ThumbnailToolBarButton>(UpdateHandle));
         }
 
-
-        private void UpdateHandle(ThumbnailToolbarButton button)
+        private void UpdateHandle(ThumbnailToolBarButton button)
         {
-            button.WindowHandle = internalWindowHandle;
+            button.WindowHandle = _internalWindowHandle;
             button.AddedToTaskbar = false;
         }
 
@@ -79,17 +72,19 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         {
             bool handled = false;
 
-            handled = TaskbarWindowManager.Instance.DispatchMessage(ref m, this.TaskbarWindow);
+            handled = TaskbarWindowManager.DispatchMessage(ref m, this.TaskbarWindow);
 
             // If it's a WM_Destroy message, then also forward it to the base class (our native window)
-            if ((m.Msg == (int)TabbedThumbnailNativeMethods.WM_DESTROY) ||
-               (m.Msg == (int)TabbedThumbnailNativeMethods.WM_NCDESTROY) ||
-               ((m.Msg == (int)TabbedThumbnailNativeMethods.WM_SYSCOMMAND) && (((int)m.WParam) == TabbedThumbnailNativeMethods.SC_CLOSE)))
+            if ((m.Msg == (int)WindowMessage.Destroy) ||
+               (m.Msg == (int)WindowMessage.NCDestroy) ||
+               ((m.Msg == (int)WindowMessage.SystemCommand) && (((int)m.WParam) == TabbedThumbnailNativeMethods.ScClose)))
             {
                 base.WndProc(ref m);
             }
             else if (!handled)
+            {
                 base.WndProc(ref m);
+            }
         }
 
         #region IDisposable Members
@@ -120,7 +115,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                 // Don't dispose the thumbnail buttons
                 // as they might be used in another window.
                 // Setting them to null will indicate we don't need use anymore.
-                thumbnailButtons = null;
+                _thumbnailButtons = null;
             }
         }
 

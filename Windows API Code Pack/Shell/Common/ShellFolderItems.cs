@@ -12,8 +12,8 @@ namespace Microsoft.WindowsAPICodePack.Shell
     {
         #region Private Fields
 
-        private IEnumIDList nativeEnumIdList = null;
-        private ShellObject currentItem = null;
+        private IEnumIDList nativeEnumIdList;
+        private ShellObject currentItem;
         ShellContainer nativeShellFolder;
 
         #endregion
@@ -24,23 +24,25 @@ namespace Microsoft.WindowsAPICodePack.Shell
         {
             this.nativeShellFolder = nativeShellFolder;
 
-            HRESULT hr = nativeShellFolder.NativeShellFolder.EnumObjects(
+            HResult hr = nativeShellFolder.NativeShellFolder.EnumObjects(
                 IntPtr.Zero,
-                ShellNativeMethods.SHCONT.SHCONTF_FOLDERS | ShellNativeMethods.SHCONT.SHCONTF_NONFOLDERS,
+                ShellNativeMethods.ShellFolderEnumerationOptions.Folders | ShellNativeMethods.ShellFolderEnumerationOptions.NonFolders,
                 out nativeEnumIdList);
 
 
-            if( !CoreErrorHelper.Succeeded( (int)hr ) )
+            if (!CoreErrorHelper.Succeeded(hr))
             {
-                if( hr == HRESULT.E_ERROR_CANCELLED )
+                if (hr == HResult.Canceled)
                 {
-                    throw new System.IO.FileNotFoundException( );
+                    throw new System.IO.FileNotFoundException();
                 }
                 else
                 {
-                    Marshal.ThrowExceptionForHR( (int)hr );
+                    throw new ShellException(hr);
                 }
             }
+
+
         }
 
         #endregion
@@ -64,8 +66,8 @@ namespace Microsoft.WindowsAPICodePack.Shell
             if (nativeEnumIdList != null)
             {
                 Marshal.ReleaseComObject(nativeEnumIdList);
-                nativeEnumIdList = null;
-            }
+                nativeEnumIdList = null;                
+            }            
         }
 
         #endregion
@@ -74,10 +76,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         object IEnumerator.Current
         {
-            get
-            {
-                return currentItem;
-            }
+            get { return currentItem; }
 
         }
 
@@ -87,16 +86,14 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <returns></returns>
         public bool MoveNext()
         {
-            if (nativeEnumIdList == null)
-                return false;
+            if (nativeEnumIdList == null) { return false; }
 
             IntPtr item;
             uint numItemsReturned;
             uint itemsRequested = 1;
-            HRESULT hr = nativeEnumIdList.Next(itemsRequested, out item, out numItemsReturned);
+            HResult hr = nativeEnumIdList.Next(itemsRequested, out item, out numItemsReturned);
 
-            if (numItemsReturned < itemsRequested || hr != HRESULT.S_OK)
-                return false;
+            if (numItemsReturned < itemsRequested || hr != HResult.Ok) { return false; }
 
             currentItem = ShellObjectFactory.Create(item, nativeShellFolder);
 
@@ -108,8 +105,10 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// </summary>
         public void Reset()
         {
-            if(nativeEnumIdList != null)
+            if (nativeEnumIdList != null)
+            {
                 nativeEnumIdList.Reset();
+            }
         }
 
 

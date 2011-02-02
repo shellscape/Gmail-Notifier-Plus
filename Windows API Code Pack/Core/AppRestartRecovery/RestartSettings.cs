@@ -1,6 +1,7 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System;
+using Microsoft.WindowsAPICodePack.Resources;
 
 namespace Microsoft.WindowsAPICodePack.ApplicationServices
 {
@@ -20,16 +21,16 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// <summary>
         /// Creates a new instance of the RestartSettings class.
         /// </summary>
-        /// <param name="commandLine">The command line arguments 
+        /// <param name="command">The command line arguments 
         /// used to restart the application.</param>
-        /// <param name="restrict">A bitwise combination of the RestartRestrictions 
+        /// <param name="restrictions">A bitwise combination of the RestartRestrictions 
         /// values that specify  
         /// when the application should not be restarted.
         /// </param>
-        public RestartSettings(string commandLine, RestartRestrictions restrict)
+        public RestartSettings(string command, RestartRestrictions restrictions)
         {
-            command = commandLine;
-            restrictions = restrict;
+            this.command = command;
+            this.restrictions = restrictions;
         }
 
         /// <summary>
@@ -58,11 +59,11 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// <returns>A <see cref="System.String"/> that displays 
         /// the command line arguments 
         /// and restrictions for restarting the application.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.String.Format(System.String,System.Object,System.Object)",
-            Justification = "We are not currently handling globalization or localization")]
         public override string ToString()
         {
-            return String.Format("command: {0} restrictions: {1}", command, restrictions.ToString());
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                LocalizedMessages.RestartSettingsFormatString,
+                command, restrictions.ToString());
         }
     }
 }

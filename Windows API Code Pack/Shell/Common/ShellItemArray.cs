@@ -18,49 +18,49 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         #region IShellItemArray Members
 
-        public HRESULT BindToHandler(IntPtr pbc, ref Guid rbhid, ref Guid riid, out IntPtr ppvOut)
+        public HResult BindToHandler(IntPtr pbc, ref Guid rbhid, ref Guid riid, out IntPtr ppvOut)
         {
             throw new NotSupportedException();
         }
 
-        public HRESULT GetPropertyStore(int Flags, ref Guid riid, out IntPtr ppv)
+        public HResult GetPropertyStore(int Flags, ref Guid riid, out IntPtr ppv)
         {
             throw new NotSupportedException();
         }
 
-        public HRESULT GetPropertyDescriptionList(ref PropertyKey keyType, ref Guid riid, out IntPtr ppv)
+        public HResult GetPropertyDescriptionList(ref PropertyKey keyType, ref Guid riid, out IntPtr ppv)
         {
             throw new NotSupportedException();
         }
 
-        public HRESULT GetAttributes(ShellNativeMethods.SIATTRIBFLAGS dwAttribFlags, ShellNativeMethods.SFGAO sfgaoMask, out ShellNativeMethods.SFGAO psfgaoAttribs)
+        public HResult GetAttributes(ShellNativeMethods.ShellItemAttributeOptions dwAttribFlags, ShellNativeMethods.ShellFileGetAttributesOptions sfgaoMask, out ShellNativeMethods.ShellFileGetAttributesOptions psfgaoAttribs)
         {
             throw new NotSupportedException();
         }
 
-        public HRESULT GetCount(out uint pdwNumItems)
+        public HResult GetCount(out uint pdwNumItems)
         {
             pdwNumItems = (uint)shellItemsList.Count;
-            return HRESULT.S_OK;
+            return HResult.Ok;
         }
 
-        public HRESULT GetItemAt(uint dwIndex, out IShellItem ppsi)
+        public HResult GetItemAt(uint dwIndex, out IShellItem ppsi)
         {
             int index = (int)dwIndex;
 
             if (index < shellItemsList.Count)
             {
                 ppsi = shellItemsList[index];
-                return HRESULT.S_OK;
+                return HResult.Ok;
             }
             else
             {
                 ppsi = null;
-                return HRESULT.E_FAIL;
+                return HResult.Fail;
             }
         }
 
-        public HRESULT EnumItems(out IntPtr ppenumShellItems)
+        public HResult EnumItems(out IntPtr ppenumShellItems)
         {
             throw new NotSupportedException();
         }

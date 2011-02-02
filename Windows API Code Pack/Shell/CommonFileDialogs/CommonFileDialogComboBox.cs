@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Markup;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 
 namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
 {
@@ -33,7 +34,8 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         /// Creates a new instance of this class with the specified name.
         /// </summary>
         /// <param name="name">Text to display for this control</param>
-        public CommonFileDialogComboBox(string name): base (name, String.Empty)
+        public CommonFileDialogComboBox(string name)
+            : base(name, string.Empty)
         {
         }
 
@@ -43,6 +45,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         /// <summary>
         /// Gets or sets the current index of the selected item.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes")]
         public int SelectedIndex
         {
             get { return selectedIndex; }
@@ -66,7 +69,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
                 }
                 else
                 {
-                    throw new IndexOutOfRangeException("Index was outside the bounds of the CommonFileDialogComboBox.");
+                    throw new IndexOutOfRangeException(LocalizedMessages.ComboBoxIndexOutsideBounds);
                 }
             }
         }
@@ -105,10 +108,11 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         /// Attach the ComboBox control to the dialog object
         /// </summary>
         /// <param name="dialog">The target dialog</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes")]
         internal override void Attach(IFileDialogCustomize dialog)
         {
             Debug.Assert(dialog != null, "CommonFileDialogComboBox.Attach: dialog parameter can not be null");
-            
+
             // Add the combo box control
             dialog.AddComboBox(this.Id);
 
@@ -123,7 +127,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
             }
             else if (selectedIndex != -1)
             {
-                throw new IndexOutOfRangeException("Index was outside the bounds of the CommonFileDialogComboBox.");
+                throw new IndexOutOfRangeException(LocalizedMessages.ComboBoxIndexOutsideBounds);
             }
 
             // Make this control prominent if needed
@@ -141,7 +145,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
     /// </summary>
     public class CommonFileDialogComboBoxItem
     {
-        private string text = String.Empty;
+        private string text = string.Empty;
         /// <summary>
         /// Gets or sets the string that is displayed for this item.
         /// </summary>

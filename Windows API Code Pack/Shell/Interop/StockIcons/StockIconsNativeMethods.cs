@@ -6,7 +6,7 @@ using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Shell
 {
-    internal class StockIconsNativeMethods
+    internal static class StockIconsNativeMethods
     {
         #region StockIcon declarations
 
@@ -15,9 +15,8 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// stock icon.
         /// </summary>
         [Flags]
-        internal enum StockIconOptions //: uint
+        internal enum StockIconOptions
         {
-
             /// <summary>
             /// Retrieve the small version of the icon, as specified by  
             /// SM_CXICON and SM_CYICON system metrics.
@@ -74,7 +73,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         [PreserveSig]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode,
         ExactSpelling = true, SetLastError = false)]
-        internal static extern HRESULT SHGetStockIconInfo(
+        internal static extern HResult SHGetStockIconInfo(
             StockIconIdentifier identifier,
             StockIconOptions flags,
             ref StockIconInfo info);

@@ -1,8 +1,9 @@
 //Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Microsoft.WindowsAPICodePack.Resources;
 
 namespace Microsoft.WindowsAPICodePack.Dialogs
 {
@@ -33,14 +34,17 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
             // Check for duplicates, lack of host, 
             // and during-show adds.
             if (Items.Contains(control))
-                throw new InvalidOperationException(
-                    "Dialog cannot have more than one control with the same name.");
+            {
+                throw new InvalidOperationException(LocalizedMessages.DialogCollectionCannotHaveDuplicateNames);
+            }
             if (control.HostingDialog != null)
-                throw new InvalidOperationException(
-                    "Dialog control must be removed from current collections first.");
+            {
+                throw new InvalidOperationException(LocalizedMessages.DialogCollectionControlAlreadyHosted);
+            }
             if (!hostingDialog.IsCollectionChangeAllowed())
-                throw new InvalidOperationException(
-                    "Modifying controls collection while dialog is showing is not supported.");
+            {
+                throw new InvalidOperationException(LocalizedMessages.DialogCollectionModifyShowingDialog);
+            }
 
             // Reparent, add control.
             control.HostingDialog = hostingDialog;
@@ -62,8 +66,9 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
             // Notify that we're about to remove a control.
             // Throw if dialog showing.
             if (!hostingDialog.IsCollectionChangeAllowed())
-                throw new InvalidOperationException(
-                    "Modifying controls collection while dialog is showing is not supported.");
+            {
+                throw new InvalidOperationException(LocalizedMessages.DialogCollectionModifyShowingDialog);
+            }
 
             DialogControl control = (DialogControl)Items[index];
 
@@ -88,23 +93,17 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         {
             get
             {
-                if (String.IsNullOrEmpty(name))
-                    throw new ArgumentException(
-                        "Control name must not be null or zero length.");
-
-                foreach (T control in base.Items)
+                if (string.IsNullOrEmpty(name))
                 {
-                    // NOTE: we don't ToLower() the strings - casing effects 
-                    // hash codes, so we are case-sensitive.
-                    if (control.Name == name)
-                        return control;
+                    throw new ArgumentException(LocalizedMessages.DialogCollectionControlNameNull, "name");
                 }
-                return null;
+
+                return Items.FirstOrDefault(x => x.Name == name);
             }
         }
 
         /// <summary>
-        /// Recursively searches for the control who's id matches the value
+        /// Searches for the control who's id matches the value
         /// passed in the <paramref name="id"/> parameter.
         /// </summary>
         /// 
@@ -112,53 +111,10 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// control being searched for.</param>
         /// 
         /// <returns>A DialogControl who's id matches the value of the
-        /// <paramref name="id"/> parameter.</returns>
-        /// 
+        /// <paramref name="id"/> parameter.</returns>        
         internal DialogControl GetControlbyId(int id)
         {
-            //return ( Items.Count == 0 ? null :  
-            //    GetSubControlbyId(Items as IEnumerable<T>,
-            //    id) 
-            //);
-            return GetSubControlbyId(
-                Items as IEnumerable<T>,
-                id);
+            return Items.FirstOrDefault(x => x.Id == id);
         }
-
-
-        /// <summary>
-        /// Recursively searches for a given control id in the 
-        /// collection passed via the <paramref name="ctrlColl"/> parameter.
-        /// </summary>
-        /// 
-        /// <param name="ctrlColl">A Collection&lt;CommonFileDialogControl&gt;</param>
-        /// <param name="id">An int containing the identifier of the control 
-        /// being searched for.</param>
-        /// 
-        /// <returns>A DialogControl who's Id matches the value of the
-        /// <paramref name="id"/> parameter.</returns>
-        /// 
-        internal DialogControl GetSubControlbyId( IEnumerable<T> ctrlColl, 
-            int id )
-        {
-            // if ctrlColl is null, it will throw in the foreach.
-            if (ctrlColl == null)
-                return null;
-
-            foreach (DialogControl control in ctrlColl)
-            {
-                // Match?
-                if (control.Id == id)
-                {
-                    return control;
-                }
-            }
-
-            // Control id not found - likely an error, but the calling 
-            // function should ultimately decide.
-            return null;
-
-        }
-    
     }
 }

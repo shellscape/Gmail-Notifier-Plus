@@ -1,6 +1,7 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System;
+using Microsoft.WindowsAPICodePack.Resources;
 
 namespace Microsoft.WindowsAPICodePack.ApplicationServices
 {
@@ -53,21 +54,17 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// By default, the interval is 5 seconds. 
         /// If you specify zero, the default interval is used. 
         /// </remarks>
-        public uint PingInterval
-        {
-            get { return pingInterval; }
-        }
+        public uint PingInterval { get { return pingInterval; } }
 
         /// <summary>
         /// Returns a string representation of the current state
         /// of this object.
         /// </summary>
         /// <returns>A <see cref="System.String"/> object.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.String.Format(System.String,System.Object,System.Object,System.Object)", 
-            Justification = "We are not currently handling globalization or localization")]
         public override string ToString()
         {
-            return String.Format("delegate: {0}, state: {1}, ping: {2}",
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                LocalizedMessages.RecoverySettingsFormatString,
                 this.recoveryData.Callback.Method.ToString(),
                 this.recoveryData.State.ToString(),
                 this.PingInterval);

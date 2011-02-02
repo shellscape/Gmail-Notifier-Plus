@@ -2,6 +2,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Security.Permissions;
 
 namespace MS.WindowsAPICodePack.Internal
 {

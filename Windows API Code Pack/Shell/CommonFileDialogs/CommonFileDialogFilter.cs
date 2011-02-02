@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         {
             extensions = new Collection<string>();
         }
+
         /// <summary>
         /// Creates a new instance of this class with the specified display name and 
         /// file extension list.
@@ -42,10 +43,10 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         public CommonFileDialogFilter(string rawDisplayName, string extensionList)
             : this()
         {
-            if (String.IsNullOrEmpty(extensionList))
-                throw new ArgumentNullException(
-                    "extensionList",
-                    "extensionList must be non-null.");
+            if (string.IsNullOrEmpty(extensionList))
+            {
+                throw new ArgumentNullException("extensionList");
+            }
 
             this.rawDisplayName = rawDisplayName;
 
@@ -54,7 +55,9 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
             // Can support leading "." or "*." - these will be stripped.
             string[] rawExtensions = extensionList.Split(',', ';');
             foreach (string extension in rawExtensions)
+            {
                 extensions.Add(CommonFileDialogFilter.NormalizeExtension(extension));
+            }
         }
         /// <summary>
         /// Gets or sets the display name for this filter.
@@ -62,25 +65,28 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <permission cref="System.ArgumentNullException">
         /// The value for this property cannot be set to null or a 
         /// zero-length string. 
-        /// </permission>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.String.Format(System.String,System.Object,System.Object)", Justification = "We are not currently handling globalization or localization")]
+        /// </permission>        
         public string DisplayName
         {
             get
             {
                 if (showExtensions)
-                    return String.Format("{0} ({1})", 
-                        rawDisplayName, CommonFileDialogFilter.GetDisplayExtensionList(extensions));
-                else
-                    return rawDisplayName;
+                {
+                    return string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        "{0} ({1})",
+                        rawDisplayName, 
+                        CommonFileDialogFilter.GetDisplayExtensionList(extensions));
+                }
+
+                return rawDisplayName;
             }
 
             set
             {
-                if (String.IsNullOrEmpty(value))
-                    throw new ArgumentNullException(
-                        "value",
-                        "DisplayName must be non-null.");
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentNullException("value");
+                }
                 rawDisplayName = value;
             }
         }
@@ -117,8 +123,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
             StringBuilder extensionList = new StringBuilder();
             foreach (string extension in extensions)
             {
-                if (extensionList.Length > 0)
-                    extensionList.Append(", ");
+                if (extensionList.Length > 0) { extensionList.Append(", "); }
                 extensionList.Append("*.");
                 extensionList.Append(extension);
             }
@@ -132,19 +137,18 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// </summary>
         /// <returns>Filter specification for this filter</returns>
         /// 
-        internal ShellNativeMethods.COMDLG_FILTERSPEC GetFilterSpec()
+        internal ShellNativeMethods.FilterSpec GetFilterSpec()
         {
             StringBuilder filterList = new StringBuilder();
             foreach (string extension in extensions)
             {
-                if (filterList.Length > 0)
-                    filterList.Append(";");
+                if (filterList.Length > 0) { filterList.Append(";"); }
 
                 filterList.Append("*.");
                 filterList.Append(extension);
-                
+
             }
-            return new ShellNativeMethods.COMDLG_FILTERSPEC(DisplayName, filterList.ToString());
+            return new ShellNativeMethods.FilterSpec(DisplayName, filterList.ToString());
         }
 
         /// <summary>
@@ -152,11 +156,11 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// the display name and the list of extensions.
         /// </summary>
         /// <returns>A <see cref="System.String"/>.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.String.Format(System.String,System.Object,System.Object)", Justification = "We are not currently handling globalization or localization")]
         public override string ToString()
         {
-            return String.Format("{0} ({1})", 
-                rawDisplayName, 
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                "{0} ({1})",
+                rawDisplayName,
                 CommonFileDialogFilter.GetDisplayExtensionList(extensions));
         }
     }

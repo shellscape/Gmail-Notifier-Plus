@@ -6,16 +6,17 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Shell
 {
-    internal enum SICHINTF : uint
+    internal enum SICHINTF
     {
         SICHINT_DISPLAY = 0x00000000,
         SICHINT_CANONICAL = 0x10000000,
         SICHINT_TEST_FILESYSPATH_IF_NOT_EQUAL = 0x20000000,
-        SICHINT_ALLFIELDS = 0x80000000
+        SICHINT_ALLFIELDS = unchecked((int)0x80000000)
     }
 
     // Disable warning if a method declaration hides another inherited from a parent COM interface
@@ -43,7 +44,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         // Not supported: IBindCtx.
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT BindToHandler(
+        HResult BindToHandler(
             [In] IntPtr pbc,
             [In] ref Guid bhid,
             [In] ref Guid riid,
@@ -54,16 +55,16 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT GetDisplayName(
-            [In] ShellNativeMethods.SIGDN sigdnName,
+        HResult GetDisplayName(
+            [In] ShellNativeMethods.ShellItemDesignNameOptions sigdnName,
             out IntPtr ppszName);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetAttributes([In] ShellNativeMethods.SFGAO sfgaoMask, out ShellNativeMethods.SFGAO psfgaoAttribs);
+        void GetAttributes([In] ShellNativeMethods.ShellFileGetAttributesOptions sfgaoMask, out ShellNativeMethods.ShellFileGetAttributesOptions psfgaoAttribs);
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT Compare(
+        HResult Compare(
             [In, MarshalAs(UnmanagedType.Interface)] IShellItem psi,
             [In] SICHINTF hint,
             out int piOrder);
@@ -77,7 +78,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         // Not supported: IBindCtx.
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT BindToHandler(
+        HResult BindToHandler(
             [In] IntPtr pbc,
             [In] ref Guid bhid,
             [In] ref Guid riid,
@@ -85,16 +86,16 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT GetParent([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi);
+        HResult GetParent([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi);
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT GetDisplayName(
-            [In] ShellNativeMethods.SIGDN sigdnName,
+        HResult GetDisplayName(
+            [In] ShellNativeMethods.ShellItemDesignNameOptions sigdnName,
             [MarshalAs(UnmanagedType.LPWStr)] out string ppszName);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetAttributes([In] ShellNativeMethods.SFGAO sfgaoMask, out ShellNativeMethods.SFGAO psfgaoAttribs);
+        void GetAttributes([In] ShellNativeMethods.ShellFileGetAttributesOptions sfgaoMask, out ShellNativeMethods.ShellFileGetAttributesOptions psfgaoAttribs);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void Compare(
@@ -104,24 +105,24 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), PreserveSig]
         int GetPropertyStore(
-            [In] ShellNativeMethods.GETPROPERTYSTOREFLAGS Flags,
+            [In] ShellNativeMethods.GetPropertyStoreOptions Flags,
             [In] ref Guid riid,
             [Out, MarshalAs(UnmanagedType.Interface)] out IPropertyStore ppv);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetPropertyStoreWithCreateObject([In] ShellNativeMethods.GETPROPERTYSTOREFLAGS Flags, [In, MarshalAs(UnmanagedType.IUnknown)] object punkCreateObject, [In] ref Guid riid, out IntPtr ppv);
+        void GetPropertyStoreWithCreateObject([In] ShellNativeMethods.GetPropertyStoreOptions Flags, [In, MarshalAs(UnmanagedType.IUnknown)] object punkCreateObject, [In] ref Guid riid, out IntPtr ppv);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetPropertyStoreForKeys([In] ref PropertyKey rgKeys, [In] uint cKeys, [In] ShellNativeMethods.GETPROPERTYSTOREFLAGS Flags, [In] ref Guid riid, [Out, MarshalAs(UnmanagedType.IUnknown)] out IPropertyStore ppv);
+        void GetPropertyStoreForKeys([In] ref PropertyKey rgKeys, [In] uint cKeys, [In] ShellNativeMethods.GetPropertyStoreOptions Flags, [In] ref Guid riid, [Out, MarshalAs(UnmanagedType.IUnknown)] out IPropertyStore ppv);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetPropertyDescriptionList([In] ref PropertyKey keyType, [In] ref Guid riid, out IntPtr ppv);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void Update([In, MarshalAs(UnmanagedType.Interface)] IBindCtx pbc);
+        HResult Update([In, MarshalAs(UnmanagedType.Interface)] IBindCtx pbc);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetProperty([In] ref PropertyKey key, out PropVariant ppropvar);
+        void GetProperty([In] ref PropertyKey key, [Out] PropVariant ppropvar);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetCLSID([In] ref PropertyKey key, out Guid pclsid);
@@ -134,7 +135,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT GetString([In] ref PropertyKey key, [MarshalAs(UnmanagedType.LPWStr)] out string ppsz);
+        HResult GetString([In] ref PropertyKey key, [MarshalAs(UnmanagedType.LPWStr)] out string ppsz);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetUInt32([In] ref PropertyKey key, out uint pui);
@@ -154,7 +155,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         // Not supported: IBindCtx.
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT BindToHandler(
+        HResult BindToHandler(
             [In, MarshalAs(UnmanagedType.Interface)] IntPtr pbc,
             [In] ref Guid rbhid,
             [In] ref Guid riid,
@@ -162,39 +163,39 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT GetPropertyStore(
+        HResult GetPropertyStore(
             [In] int Flags,
             [In] ref Guid riid,
             out IntPtr ppv);
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT GetPropertyDescriptionList(
+        HResult GetPropertyDescriptionList(
             [In] ref PropertyKey keyType,
             [In] ref Guid riid,
             out IntPtr ppv);
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT GetAttributes(
-            [In] ShellNativeMethods.SIATTRIBFLAGS dwAttribFlags,
-            [In] ShellNativeMethods.SFGAO sfgaoMask,
-            out ShellNativeMethods.SFGAO psfgaoAttribs);
+        HResult GetAttributes(
+            [In] ShellNativeMethods.ShellItemAttributeOptions dwAttribFlags,
+            [In] ShellNativeMethods.ShellFileGetAttributesOptions sfgaoMask,
+            out ShellNativeMethods.ShellFileGetAttributesOptions psfgaoAttribs);
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT GetCount(out uint pdwNumItems);
+        HResult GetCount(out uint pdwNumItems);
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT GetItemAt(
+        HResult GetItemAt(
             [In] uint dwIndex,
             [MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi);
 
         // Not supported: IEnumShellItems (will use GetCount and GetItemAt instead).
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT EnumItems([MarshalAs(UnmanagedType.Interface)] out IntPtr ppenumShellItems);
+        HResult EnumItems([MarshalAs(UnmanagedType.Interface)] out IntPtr ppenumShellItems);
     }
 
     [ComImport,
@@ -204,14 +205,14 @@ namespace Microsoft.WindowsAPICodePack.Shell
     {
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT LoadLibraryFromItem(
+        HResult LoadLibraryFromItem(
             [In, MarshalAs(UnmanagedType.Interface)] IShellItem library,
-            [In] ShellNativeMethods.STGM grfMode);
+            [In] AccessModes grfMode);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void LoadLibraryFromKnownFolder(
             [In] ref Guid knownfidLibrary,
-            [In] ShellNativeMethods.STGM grfMode);
+            [In] AccessModes grfMode);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void AddFolder([In, MarshalAs(UnmanagedType.Interface)] IShellItem location);
@@ -221,8 +222,8 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT GetFolders(
-            [In] ShellNativeMethods.LIBRARYFOLDERFILTER lff,
+        HResult GetFolders(
+            [In] ShellNativeMethods.LibraryFolderFilter lff,
             [In] ref Guid riid,
             [MarshalAs(UnmanagedType.Interface)] out IShellItemArray ppv);
 
@@ -235,23 +236,23 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetDefaultSaveFolder(
-            [In] ShellNativeMethods.DEFAULTSAVEFOLDERTYPE dsft,
+            [In] ShellNativeMethods.DefaultSaveFolderType dsft,
             [In] ref Guid riid,
             [MarshalAs(UnmanagedType.Interface)] out IShellItem ppv);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SetDefaultSaveFolder(
-            [In] ShellNativeMethods.DEFAULTSAVEFOLDERTYPE dsft,
+            [In] ShellNativeMethods.DefaultSaveFolderType dsft,
             [In, MarshalAs(UnmanagedType.Interface)] IShellItem si);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetOptions(
-            out ShellNativeMethods.LIBRARYOPTIONFLAGS lofOptions);
+            out ShellNativeMethods.LibraryOptions lofOptions);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SetOptions(
-            [In] ShellNativeMethods.LIBRARYOPTIONFLAGS lofMask,
-            [In] ShellNativeMethods.LIBRARYOPTIONFLAGS lofOptions);
+            [In] ShellNativeMethods.LibraryOptions lofMask,
+            [In] ShellNativeMethods.LibraryOptions lofOptions);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetFolderType(out Guid ftid);
@@ -272,14 +273,14 @@ namespace Microsoft.WindowsAPICodePack.Shell
         void Save(
             [In, MarshalAs(UnmanagedType.Interface)] IShellItem folderToSaveIn,
             [In, MarshalAs(UnmanagedType.LPWStr)] string libraryName,
-            [In] ShellNativeMethods.LIBRARYSAVEFLAGS lsf,
+            [In] ShellNativeMethods.LibrarySaveOptions lsf,
             [MarshalAs(UnmanagedType.Interface)] out IShellItem2 savedTo);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SaveInKnownFolder(
             [In] ref Guid kfidToSaveIn,
             [In, MarshalAs(UnmanagedType.LPWStr)] string libraryName,
-            [In] ShellNativeMethods.LIBRARYSAVEFLAGS lsf,
+            [In] ShellNativeMethods.LibrarySaveOptions lsf,
             [MarshalAs(UnmanagedType.Interface)] out IShellItem2 savedTo);
     };
 
@@ -289,8 +290,8 @@ namespace Microsoft.WindowsAPICodePack.Shell
     interface IShellItemImageFactory
     {
         [PreserveSig]
-        HRESULT GetImage(
-        [In, MarshalAs(UnmanagedType.Struct)] CoreNativeMethods.SIZE size,
+        HResult GetImage(
+        [In, MarshalAs(UnmanagedType.Struct)] CoreNativeMethods.Size size,
         [In] ShellNativeMethods.SIIGBF flags,
         [Out] out IntPtr phbm);
     }
@@ -302,15 +303,15 @@ namespace Microsoft.WindowsAPICodePack.Shell
     {
         void GetThumbnail([In] IShellItem pShellItem,
         [In] uint cxyRequestedThumbSize,
-        [In] Microsoft.WindowsAPICodePack.Shell.ShellNativeMethods.WTS_FLAGS flags,
+        [In] Microsoft.WindowsAPICodePack.Shell.ShellNativeMethods.ThumbnailOptions flags,
         [Out] out ISharedBitmap ppvThumb,
-        [Out] out Microsoft.WindowsAPICodePack.Shell.ShellNativeMethods.WTS_CACHEFLAGS pOutFlags,
-        [Out] Microsoft.WindowsAPICodePack.Shell.ShellNativeMethods.WTS_THUMBNAILID pThumbnailID);
+        [Out] out Microsoft.WindowsAPICodePack.Shell.ShellNativeMethods.ThumbnailCacheOptions pOutFlags,
+        [Out] Microsoft.WindowsAPICodePack.Shell.ShellNativeMethods.ThumbnailId pThumbnailID);
 
-        void GetThumbnailByID([In] Microsoft.WindowsAPICodePack.Shell.ShellNativeMethods.WTS_THUMBNAILID thumbnailID,
+        void GetThumbnailByID([In] Microsoft.WindowsAPICodePack.Shell.ShellNativeMethods.ThumbnailId thumbnailID,
         [In] uint cxyRequestedThumbSize,
         [Out] out ISharedBitmap ppvThumb,
-        [Out] out Microsoft.WindowsAPICodePack.Shell.ShellNativeMethods.WTS_CACHEFLAGS pOutFlags);
+        [Out] out Microsoft.WindowsAPICodePack.Shell.ShellNativeMethods.ThumbnailCacheOptions pOutFlags);
     }
 
     [ComImport,
@@ -319,9 +320,9 @@ namespace Microsoft.WindowsAPICodePack.Shell
     interface ISharedBitmap
     {
         void GetSharedBitmap([Out] out IntPtr phbm);
-        void GetSize([Out] out CoreNativeMethods.SIZE pSize);
-        void GetFormat([Out] out ShellNativeMethods.WTS_ALPHATYPE pat);
-        void InitializeBitmap([In] IntPtr hbm, [In] ShellNativeMethods.WTS_ALPHATYPE wtsAT);
+        void GetSize([Out] out CoreNativeMethods.Size pSize);
+        void GetFormat([Out] out ThumbnailAlphaType pat);
+        void InitializeBitmap([In] IntPtr hbm, [In] ThumbnailAlphaType wtsAT);
         void Detach([Out] out IntPtr phbm);
     }
     [ComImport,
@@ -334,11 +335,11 @@ namespace Microsoft.WindowsAPICodePack.Shell
         void ParseDisplayName(IntPtr hwnd, [In, MarshalAs(UnmanagedType.Interface)] IBindCtx pbc, [In, MarshalAs(UnmanagedType.LPWStr)] string pszDisplayName, [In, Out] ref uint pchEaten, [Out] IntPtr ppidl, [In, Out] ref uint pdwAttributes);
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT EnumObjects([In] IntPtr hwnd, [In] ShellNativeMethods.SHCONT grfFlags, [MarshalAs(UnmanagedType.Interface)] out IEnumIDList ppenumIDList);
+        HResult EnumObjects([In] IntPtr hwnd, [In] ShellNativeMethods.ShellFolderEnumerationOptions grfFlags, [MarshalAs(UnmanagedType.Interface)] out IEnumIDList ppenumIDList);
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT BindToObject([In] IntPtr pidl, /*[In, MarshalAs(UnmanagedType.Interface)] IBindCtx*/ IntPtr pbc, [In] ref Guid riid, [Out, MarshalAs(UnmanagedType.Interface)] out IShellFolder ppv);
+        HResult BindToObject([In] IntPtr pidl, /*[In, MarshalAs(UnmanagedType.Interface)] IBindCtx*/ IntPtr pbc, [In] ref Guid riid, [Out, MarshalAs(UnmanagedType.Interface)] out IShellFolder ppv);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void BindToStorage([In] ref IntPtr pidl, [In, MarshalAs(UnmanagedType.Interface)] IBindCtx pbc, [In] ref Guid riid, out IntPtr ppv);
@@ -373,7 +374,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         void ParseDisplayName([In] IntPtr hwnd, [In, MarshalAs(UnmanagedType.Interface)] IBindCtx pbc, [In, MarshalAs(UnmanagedType.LPWStr)] string pszDisplayName, [In, Out] ref uint pchEaten, [Out] IntPtr ppidl, [In, Out] ref uint pdwAttributes);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void EnumObjects([In] IntPtr hwnd, [In] ShellNativeMethods.SHCONT grfFlags, [MarshalAs(UnmanagedType.Interface)] out IEnumIDList ppenumIDList);
+        void EnumObjects([In] IntPtr hwnd, [In] ShellNativeMethods.ShellFolderEnumerationOptions grfFlags, [MarshalAs(UnmanagedType.Interface)] out IEnumIDList ppenumIDList);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void BindToObject([In] IntPtr pidl, /*[In, MarshalAs(UnmanagedType.Interface)] IBindCtx*/ IntPtr pbc, [In] ref Guid riid, [Out, MarshalAs(UnmanagedType.Interface)] out IShellFolder ppv);
@@ -428,19 +429,19 @@ namespace Microsoft.WindowsAPICodePack.Shell
     {
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT Next(uint celt, out IntPtr rgelt, out uint pceltFetched);
+        HResult Next(uint celt, out IntPtr rgelt, out uint pceltFetched);
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT Skip([In] uint celt);
+        HResult Skip([In] uint celt);
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT Reset();
+        HResult Reset();
 
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT Clone([MarshalAs(UnmanagedType.Interface)] out IEnumIDList ppenum);
+        HResult Clone([MarshalAs(UnmanagedType.Interface)] out IEnumIDList ppenum);
     }
 
     [ComImport,
@@ -521,16 +522,16 @@ namespace Microsoft.WindowsAPICodePack.Shell
         //     S_OK if the file has changed since it was last saved; S_FALSE if the file
         //     has not changed since it was last saved.
         [PreserveSig]
-        HRESULT IsDirty();
+        HResult IsDirty();
 
         [PreserveSig]
-        HRESULT Load([In, MarshalAs(UnmanagedType.Interface)] IStream stm);
+        HResult Load([In, MarshalAs(UnmanagedType.Interface)] IStream stm);
 
         [PreserveSig]
-        HRESULT Save([In, MarshalAs(UnmanagedType.Interface)] IStream stm, bool fRemember);
+        HResult Save([In, MarshalAs(UnmanagedType.Interface)] IStream stm, bool fRemember);
 
         [PreserveSig]
-        HRESULT GetSizeMax(out ulong cbSize);
+        HResult GetSizeMax(out ulong cbSize);
     }
 
     [ComImport(),
@@ -555,40 +556,41 @@ namespace Microsoft.WindowsAPICodePack.Shell
         //     S_OK if the file has changed since it was last saved; S_FALSE if the file
         //     has not changed since it was last saved.
         [PreserveSig]
-        HRESULT IsDirty();
+        HResult IsDirty();
 
         [PreserveSig]
-        HRESULT Load([In, MarshalAs(UnmanagedType.Interface)] IStream stm);
+        HResult Load([In, MarshalAs(UnmanagedType.Interface)] IStream stm);
 
         [PreserveSig]
-        HRESULT Save([In, MarshalAs(UnmanagedType.Interface)] IStream stm, bool fRemember);
+        HResult Save([In, MarshalAs(UnmanagedType.Interface)] IStream stm, bool fRemember);
 
         [PreserveSig]
-        HRESULT GetSizeMax(out ulong cbSize);
+        HResult GetSizeMax(out ulong cbSize);
 
         // For any node, return what kind of node it is.
         [PreserveSig]
-        HRESULT GetConditionType([Out()] out SearchConditionType pNodeType);
+        HResult GetConditionType([Out()] out SearchConditionType pNodeType);
 
         // riid must be IID_IEnumUnknown, IID_IEnumVARIANT or IID_IObjectArray, or in the case of a negation node IID_ICondition.
         // If this is a leaf node, E_FAIL will be returned.
         // If this is a negation node, then if riid is IID_ICondition, *ppv will be set to a single ICondition, otherwise an enumeration of one.
         // If this is a conjunction or a disjunction, *ppv will be set to an enumeration of the subconditions.
         [PreserveSig]
-        HRESULT GetSubConditions([In] ref Guid riid, [Out, MarshalAs(UnmanagedType.Interface)] out object ppv);
+        HResult GetSubConditions([In] ref Guid riid, [Out, MarshalAs(UnmanagedType.Interface)] out object ppv);
 
         // If this is not a leaf node, E_FAIL will be returned.
         // Retrieve the property name, operation and value from the leaf node.
         // Any one of ppszPropertyName, pcop and ppropvar may be NULL.
         [PreserveSig]
-        HRESULT GetComparisonInfo([Out(), MarshalAs(UnmanagedType.LPWStr)] out string ppszPropertyName,
-            [Out()] out SearchConditionOperation pcop,
-            [Out()] out PropVariant ppropvar);
+        HResult GetComparisonInfo(
+            [Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszPropertyName,
+            [Out] out SearchConditionOperation pcop,
+            [Out] PropVariant ppropvar);
 
         // If this is not a leaf node, E_FAIL will be returned.
         // *ppszValueTypeName will be set to the semantic type of the value, or to NULL if this is not meaningful.
         [PreserveSig]
-        HRESULT GetValueType([Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszValueTypeName);
+        HResult GetValueType([Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszValueTypeName);
 
         // If this is not a leaf node, E_FAIL will be returned.
         // If the value of the leaf node is VT_EMPTY, *ppszNormalization will be set to an empty string.
@@ -596,7 +598,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         // character-normalized form of the value.
         // Otherwise, *ppszNormalization will be set to some (character-normalized) string representation of the value.
         [PreserveSig]
-        HRESULT GetValueNormalization([Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszNormalization);
+        HResult GetValueNormalization([Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszNormalization);
 
         // Return information about what parts of the input produced the property, the operation and the value.
         // Any one of ppPropertyTerm, ppOperationTerm and ppValueTerm may be NULL.
@@ -604,11 +606,11 @@ namespace Microsoft.WindowsAPICodePack.Shell
         // contributed the property/operation/value, the string value is the corresponding part of the input string, and
         // the PROPVARIANT is VT_EMPTY.
         [PreserveSig]
-        HRESULT GetInputTerms([Out] out IRichChunk ppPropertyTerm, [Out] out IRichChunk ppOperationTerm, [Out] out IRichChunk ppValueTerm);
+        HResult GetInputTerms([Out] out IRichChunk ppPropertyTerm, [Out] out IRichChunk ppOperationTerm, [Out] out IRichChunk ppValueTerm);
 
         // Make a deep copy of this ICondition.
         [PreserveSig]
-        HRESULT Clone([Out()] out ICondition ppc);
+        HResult Clone([Out()] out ICondition ppc);
     };
 
     [ComImport,
@@ -619,7 +621,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         // The position *pFirstPos is zero-based.
         // Any one of pFirstPos, pLength, ppsz and pValue may be NULL.
         [PreserveSig]
-        HRESULT GetData(/*[out, annotation("__out_opt")] ULONG* pFirstPos, [out, annotation("__out_opt")] ULONG* pLength, [out, annotation("__deref_opt_out_opt")] LPWSTR* ppsz, [out, annotation("__out_opt")] PROPVARIANT* pValue*/);
+        HResult GetData(/*[out, annotation("__out_opt")] ULONG* pFirstPos, [out, annotation("__out_opt")] ULONG* pLength, [out, annotation("__deref_opt_out_opt")] LPWSTR* ppsz, [out, annotation("__out_opt")] PROPVARIANT* pValue*/);
     }
 
     [ComImport]
@@ -628,13 +630,13 @@ namespace Microsoft.WindowsAPICodePack.Shell
     internal interface IEnumUnknown
     {
         [PreserveSig]
-        HRESULT Next(UInt32 requestedNumber, ref IntPtr buffer, ref UInt32 fetchedNumber);
+        HResult Next(UInt32 requestedNumber, ref IntPtr buffer, ref UInt32 fetchedNumber);
         [PreserveSig]
-        HRESULT Skip(UInt32 number);
+        HResult Skip(UInt32 number);
         [PreserveSig]
-        HRESULT Reset();
+        HResult Reset();
         [PreserveSig]
-        HRESULT Clone(out IEnumUnknown result);
+        HResult Clone(out IEnumUnknown result);
     }
 
 
@@ -644,17 +646,17 @@ namespace Microsoft.WindowsAPICodePack.Shell
     internal interface IConditionFactory
     {
         [PreserveSig]
-        HRESULT MakeNot([In] ICondition pcSub, [In] bool fSimplify, [Out] out ICondition ppcResult);
+        HResult MakeNot([In] ICondition pcSub, [In] bool fSimplify, [Out] out ICondition ppcResult);
 
         [PreserveSig]
-        HRESULT MakeAndOr([In] SearchConditionType ct, [In] IEnumUnknown peuSubs, [In] bool fSimplify, [Out] out ICondition ppcResult);
+        HResult MakeAndOr([In] SearchConditionType ct, [In] IEnumUnknown peuSubs, [In] bool fSimplify, [Out] out ICondition ppcResult);
 
         [PreserveSig]
-        HRESULT MakeLeaf(
+        HResult MakeLeaf(
             [In, MarshalAs(UnmanagedType.LPWStr)] string pszPropertyName,
             [In] SearchConditionOperation cop,
             [In, MarshalAs(UnmanagedType.LPWStr)] string pszValueType,
-            [In] ref PropVariant ppropvar,
+            [In] PropVariant ppropvar,
             IRichChunk richChunk1,
             IRichChunk richChunk2,
             IRichChunk richChunk3,
@@ -662,7 +664,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
             [Out] out ICondition ppcResult);
 
         [PreserveSig]
-        HRESULT Resolve(/*[In] ICondition pc, [In] STRUCTURED_QUERY_RESOLVE_OPTION sqro, [In] ref SYSTEMTIME pstReferenceTime, [Out] out ICondition ppcResolved*/);
+        HResult Resolve(/*[In] ICondition pc, [In] STRUCTURED_QUERY_RESOLVE_OPTION sqro, [In] ref SYSTEMTIME pstReferenceTime, [Out] out ICondition ppcResolved*/);
 
     };
 
@@ -689,40 +691,40 @@ namespace Microsoft.WindowsAPICodePack.Shell
     internal interface ISearchFolderItemFactory
     {
         [PreserveSig]
-        HRESULT SetDisplayName([In, MarshalAs(UnmanagedType.LPWStr)] string pszDisplayName);
+        HResult SetDisplayName([In, MarshalAs(UnmanagedType.LPWStr)] string pszDisplayName);
 
         [PreserveSig]
-        HRESULT SetFolderTypeID([In] Guid ftid);
+        HResult SetFolderTypeID([In] Guid ftid);
 
         [PreserveSig]
-        HRESULT SetFolderLogicalViewMode([In] FolderLogicalViewMode flvm);
+        HResult SetFolderLogicalViewMode([In] FolderLogicalViewMode flvm);
 
         [PreserveSig]
-        HRESULT SetIconSize([In] int iIconSize);
+        HResult SetIconSize([In] int iIconSize);
 
         [PreserveSig]
-        HRESULT SetVisibleColumns([In] uint cVisibleColumns, [In, MarshalAs(UnmanagedType.LPArray)] PropertyKey[] rgKey);
+        HResult SetVisibleColumns([In] uint cVisibleColumns, [In, MarshalAs(UnmanagedType.LPArray)] PropertyKey[] rgKey);
 
         [PreserveSig]
-        HRESULT SetSortColumns([In] uint cSortColumns, [In, MarshalAs(UnmanagedType.LPArray)] SortColumn[] rgSortColumns);
+        HResult SetSortColumns([In] uint cSortColumns, [In, MarshalAs(UnmanagedType.LPArray)] SortColumn[] rgSortColumns);
 
         [PreserveSig]
-        HRESULT SetGroupColumn([In] ref PropertyKey keyGroup);
+        HResult SetGroupColumn([In] ref PropertyKey keyGroup);
 
         [PreserveSig]
-        HRESULT SetStacks([In] uint cStackKeys, [In, MarshalAs(UnmanagedType.LPArray)] PropertyKey[] rgStackKeys);
+        HResult SetStacks([In] uint cStackKeys, [In, MarshalAs(UnmanagedType.LPArray)] PropertyKey[] rgStackKeys);
 
         [PreserveSig]
-        HRESULT SetScope([In, MarshalAs(UnmanagedType.Interface)] IShellItemArray ppv);
+        HResult SetScope([In, MarshalAs(UnmanagedType.Interface)] IShellItemArray ppv);
 
         [PreserveSig]
-        HRESULT SetCondition([In] ICondition pCondition);
+        HResult SetCondition([In] ICondition pCondition);
 
         [PreserveSig]
         int GetShellItem(ref Guid riid, [Out, MarshalAs(UnmanagedType.Interface)] out IShellItem ppv);
 
         [PreserveSig]
-        HRESULT GetIDList([Out] IntPtr ppidl);
+        HResult GetIDList([Out] IntPtr ppidl);
     };
 
     [ComImport,
@@ -746,17 +748,17 @@ namespace Microsoft.WindowsAPICodePack.Shell
     interface IQuerySolution : IConditionFactory
     {
         [PreserveSig]
-        HRESULT MakeNot([In] ICondition pcSub, [In] bool fSimplify, [Out] out ICondition ppcResult);
+        HResult MakeNot([In] ICondition pcSub, [In] bool fSimplify, [Out] out ICondition ppcResult);
 
         [PreserveSig]
-        HRESULT MakeAndOr([In] SearchConditionType ct, [In] IEnumUnknown peuSubs, [In] bool fSimplify, [Out] out ICondition ppcResult);
+        HResult MakeAndOr([In] SearchConditionType ct, [In] IEnumUnknown peuSubs, [In] bool fSimplify, [Out] out ICondition ppcResult);
 
         [PreserveSig]
-        HRESULT MakeLeaf(
+        HResult MakeLeaf(
             [In, MarshalAs(UnmanagedType.LPWStr)] string pszPropertyName,
             [In] SearchConditionOperation cop,
             [In, MarshalAs(UnmanagedType.LPWStr)] string pszValueType,
-            [In] ref PropVariant ppropvar,
+            [In] PropVariant ppropvar,
             IRichChunk richChunk1,
             IRichChunk richChunk2,
             IRichChunk richChunk3,
@@ -764,12 +766,12 @@ namespace Microsoft.WindowsAPICodePack.Shell
             [Out] out ICondition ppcResult);
 
         [PreserveSig]
-        HRESULT Resolve([In] ICondition pc, [In] int sqro, [In] ref SYSTEMTIME pstReferenceTime, [Out] out ICondition ppcResolved);
+        HResult Resolve(/*[In] ICondition pc, [In] int sqro, [In] ref SYSTEMTIME pstReferenceTime, [Out] out ICondition ppcResolved*/);
 
         // Retrieve the condition tree and the "main type" of the solution.
         // ppQueryNode and ppMainType may be NULL.
         [PreserveSig]
-        HRESULT GetQuery([Out, MarshalAs(UnmanagedType.Interface)] out ICondition ppQueryNode, [Out, MarshalAs(UnmanagedType.Interface)] out IEntity ppMainType);
+        HResult GetQuery([Out, MarshalAs(UnmanagedType.Interface)] out ICondition ppQueryNode, [Out, MarshalAs(UnmanagedType.Interface)] out IEntity ppMainType);
 
         // Identify parts of the input string not accounted for.
         // Each parse error is represented by an IRichChunk where the position information
@@ -777,12 +779,12 @@ namespace Microsoft.WindowsAPICodePack.Shell
         // where lVal is from the ParseErrorType enumeration. The valid
         // values for riid are IID_IEnumUnknown and IID_IEnumVARIANT.
         [PreserveSig]
-        HRESULT GetErrors([In] ref Guid riid, [Out] out /* void** */ IntPtr ppParseErrors);
+        HResult GetErrors([In] ref Guid riid, [Out] out /* void** */ IntPtr ppParseErrors);
 
         // Report the query string, how it was tokenized and what LCID and word breaker were used (for recognizing keywords).
         // ppszInputString, ppTokens, pLocale and ppWordBreaker may be NULL.
         [PreserveSig]
-        HRESULT GetLexicalData([MarshalAs(UnmanagedType.LPWStr)] out string ppszInputString, [Out] /* ITokenCollection** */ out IntPtr ppTokens, [Out] out uint plcid, [Out] /* IUnknown** */ out IntPtr ppWordBreaker);
+        HResult GetLexicalData([MarshalAs(UnmanagedType.LPWStr)] out string ppszInputString, [Out] /* ITokenCollection** */ out IntPtr ppTokens, [Out] out uint plcid, [Out] /* IUnknown** */ out IntPtr ppWordBreaker);
     }
 
     [ComImport,
@@ -796,36 +798,36 @@ namespace Microsoft.WindowsAPICodePack.Shell
         // For each IRichChunk, the position information identifies the character span of the custom property,
         // the string value should be the name of an actual property, and the PROPVARIANT is completely ignored.
         [PreserveSig]
-        HRESULT Parse([In, MarshalAs(UnmanagedType.LPWStr)] string pszInputString, [In] IEnumUnknown pCustomProperties, [Out] out IQuerySolution ppSolution);
+        HResult Parse([In, MarshalAs(UnmanagedType.LPWStr)] string pszInputString, [In] IEnumUnknown pCustomProperties, [Out] out IQuerySolution ppSolution);
 
         // Set a single option. See STRUCTURED_QUERY_SINGLE_OPTION above.
         [PreserveSig]
-        HRESULT SetOption([In] StructuredQuerySingleOption option, [In] ref PropVariant pOptionValue);
+        HResult SetOption([In] StructuredQuerySingleOption option, [In] PropVariant pOptionValue);
 
         [PreserveSig]
-        HRESULT GetOption([In] StructuredQuerySingleOption option, [Out] out PropVariant pOptionValue);
+        HResult GetOption([In] StructuredQuerySingleOption option, [Out] PropVariant pOptionValue);
 
         // Set a multi option. See STRUCTURED_QUERY_MULTIOPTION above.
         [PreserveSig]
-        HRESULT SetMultiOption([In] StructuredQueryMultipleOption option, [In, MarshalAs(UnmanagedType.LPWStr)] string pszOptionKey, [In] PropVariant pOptionValue);
+        HResult SetMultiOption([In] StructuredQueryMultipleOption option, [In, MarshalAs(UnmanagedType.LPWStr)] string pszOptionKey, [In] PropVariant pOptionValue);
 
         // Get a schema provider for browsing the currently loaded schema.
         [PreserveSig]
-        HRESULT GetSchemaProvider([Out] out /*ISchemaProvider*/ IntPtr ppSchemaProvider);
+        HResult GetSchemaProvider([Out] out /*ISchemaProvider*/ IntPtr ppSchemaProvider);
 
         // Restate a condition as a query string according to the currently selected syntax.
         // The parameter fUseEnglish is reserved for future use; must be FALSE.
         [PreserveSig]
-        HRESULT RestateToString([In] ICondition pCondition, [In] bool fUseEnglish, [Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszQueryString);
+        HResult RestateToString([In] ICondition pCondition, [In] bool fUseEnglish, [Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszQueryString);
 
         // Parse a condition for a given property. It can be anything that would go after 'PROPERTY:' in an AQS expession.
         [PreserveSig]
-        HRESULT ParsePropertyValue([In, MarshalAs(UnmanagedType.LPWStr)] string pszPropertyName, [In, MarshalAs(UnmanagedType.LPWStr)] string pszInputString, [Out] out IQuerySolution ppSolution);
+        HResult ParsePropertyValue([In, MarshalAs(UnmanagedType.LPWStr)] string pszPropertyName, [In, MarshalAs(UnmanagedType.LPWStr)] string pszInputString, [Out] out IQuerySolution ppSolution);
 
         // Restate a condition for a given property. If the condition contains a leaf with any other property name, or no property name at all,
         // E_INVALIDARG will be returned.
         [PreserveSig]
-        HRESULT RestatePropertyValueToString([In] ICondition pCondition, [In] bool fUseEnglish, [Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszPropertyName, [Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszQueryString);
+        HResult RestatePropertyValueToString([In] ICondition pCondition, [In] bool fUseEnglish, [Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszPropertyName, [Out, MarshalAs(UnmanagedType.LPWStr)] out string ppszQueryString);
     }
 
     [ComImport,
@@ -836,17 +838,17 @@ namespace Microsoft.WindowsAPICodePack.Shell
         // Create a query parser loaded with the schema for a certain catalog localize to a certain language, and initialized with
         // standard defaults. One valid value for riid is IID_IQueryParser.
         [PreserveSig]
-        HRESULT CreateLoadedParser([In, MarshalAs(UnmanagedType.LPWStr)] string pszCatalog, [In] ushort langidForKeywords, [In] ref Guid riid, [Out] out IQueryParser ppQueryParser);
+        HResult CreateLoadedParser([In, MarshalAs(UnmanagedType.LPWStr)] string pszCatalog, [In] ushort langidForKeywords, [In] ref Guid riid, [Out] out IQueryParser ppQueryParser);
 
         // In addition to setting AQS/NQS and automatic wildcard for the given query parser, this sets up standard named entity handlers and
         // sets the keyboard locale as locale for word breaking.
         [PreserveSig]
-        HRESULT InitializeOptions([In] bool fUnderstandNQS, [In] bool fAutoWildCard, [In] IQueryParser pQueryParser);
+        HResult InitializeOptions([In] bool fUnderstandNQS, [In] bool fAutoWildCard, [In] IQueryParser pQueryParser);
 
         // Change one of the settings for the query parser manager, such as the name of the schema binary, or the location of the localized and unlocalized
         // schema binaries. By default, the settings point to the schema binaries used by Windows Shell.
         [PreserveSig]
-        HRESULT SetOption([In] QueryParserManagerOption option, [In] PropVariant pOptionValue);
+        HResult SetOption([In] QueryParserManagerOption option, [In] PropVariant pOptionValue);
 
     };
 
@@ -872,57 +874,6 @@ namespace Microsoft.WindowsAPICodePack.Shell
     {
         // TODO
     }
-
-    /// <summary>
-    /// SYSTEMTIME structure with some useful methods
-    /// </summary>
-    internal struct SYSTEMTIME
-    {
-        internal ushort wYear;
-        internal ushort wMonth;
-        internal ushort wDayOfWeek;
-        internal ushort wDay;
-        internal ushort wHour;
-        internal ushort wMinute;
-        internal ushort wSecond;
-        internal ushort wMilliseconds;
-
-        /// <summary>
-        /// Convert form System.DateTime
-        /// </summary>
-        /// <param name="time"></param>
-        internal void FromDateTime(DateTime time)
-        {
-            wYear = (ushort)time.Year;
-            wMonth = (ushort)time.Month;
-            wDayOfWeek = (ushort)time.DayOfWeek;
-            wDay = (ushort)time.Day;
-            wHour = (ushort)time.Hour;
-            wMinute = (ushort)time.Minute;
-            wSecond = (ushort)time.Second;
-            wMilliseconds = (ushort)time.Millisecond;
-        }
-
-        /// <summary>
-        /// Convert to System.DateTime
-        /// </summary>
-        /// <returns></returns>
-        internal DateTime ToDateTime()
-        {
-            return new DateTime(wYear, wMonth, wDay, wHour, wMinute, wSecond, wMilliseconds);
-        }
-
-        /// <summary>
-        /// Convert to System.DateTime
-        /// </summary>
-        /// <param name="time"></param>
-        /// <returns></returns>
-        internal static DateTime ToDateTime(SYSTEMTIME time)
-        {
-            return time.ToDateTime();
-        }
-    }
-
     #endregion
 
 #pragma warning restore 108

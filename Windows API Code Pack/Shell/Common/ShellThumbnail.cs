@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Shell
@@ -19,7 +20,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Native shellItem
         /// </summary>
-        private IShellItem shellItemNative = null;
+        private IShellItem shellItemNative;
 
         /// <summary>
         /// Internal member to keep track of the current size
@@ -37,16 +38,12 @@ namespace Microsoft.WindowsAPICodePack.Shell
         internal ShellThumbnail(ShellObject shellObject)
         {
             if (shellObject == null || shellObject.NativeShellItem == null)
+            {
                 throw new ArgumentNullException("shellObject");
+            }
 
             shellItemNative = shellObject.NativeShellItem;
         }
-
-        /// <summary>
-        /// No public default constructor. User should not be able to create a ShellThumbnail,
-        /// only retrive it from an existing ShellFolder
-        /// </summary>
-        private ShellThumbnail() { }
 
         #endregion
 
@@ -59,29 +56,25 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <remarks>If the size specified is larger than the maximum size of 1024x1024 for thumbnails and 256x256 for icons,
         /// an <see cref="System.ArgumentOutOfRangeException"/> is thrown.
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.String.Format(System.String,System.Object)", Justification = "We are not currently handling globalization or localization")]
         public System.Windows.Size CurrentSize
         {
-            get
-            {
-                return currentSize;
-            }
+            get { return currentSize; }
             set
             {
                 // Check for 0; negative number check not required as System.Windows.Size only allows positive numbers.
                 if (value.Height == 0 || value.Width == 0)
-                    throw new System.ArgumentOutOfRangeException("value", "CurrentSize (width or height) cannot be 0");
-
-                if (FormatOption == ShellThumbnailFormatOptions.IconOnly)
                 {
-                    if (value.Height > DefaultIconSize.Maximum.Height || value.Width > DefaultIconSize.Maximum.Width)
-                        throw new System.ArgumentOutOfRangeException("value", string.Format("CurrentSize (width or height) cannot be greater than the maximum size", DefaultIconSize.Maximum));
+                    throw new System.ArgumentOutOfRangeException("value", LocalizedMessages.ShellThumbnailSizeCannotBe0);
                 }
-                else
+
+                System.Windows.Size size = (FormatOption == ShellThumbnailFormatOption.IconOnly) ?
+                    DefaultIconSize.Maximum : DefaultThumbnailSize.Maximum;
+
+                if (value.Height > size.Height || value.Width > size.Width)
                 {
-                    // Covers the default mode (Thumbnail Or Icon) as well as ThumbnailOnly
-                    if (value.Height > DefaultThumbnailSize.Maximum.Height || value.Width > DefaultThumbnailSize.Maximum.Width)
-                        throw new System.ArgumentOutOfRangeException("value", string.Format("CurrentSize (width or height) cannot be greater than the maximum size", DefaultThumbnailSize.Maximum));
+                    throw new System.ArgumentOutOfRangeException("value",
+                        string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        LocalizedMessages.ShellThumbnailCurrentSizeRange, size.ToString()));
                 }
 
                 currentSize = value;
@@ -92,37 +85,19 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// Gets the thumbnail or icon image in <see cref="System.Drawing.Bitmap"/> format.
         /// Null is returned if the ShellObject does not have a thumbnail or icon image.
         /// </summary>
-        public Bitmap Bitmap
-        {
-            get
-            {
-                return GetBitmap(CurrentSize);
-            }
-        }
+        public Bitmap Bitmap { get { return GetBitmap(CurrentSize); } }
 
         /// <summary>
         /// Gets the thumbnail or icon image in <see cref="System.Windows.Media.Imaging.BitmapSource"/> format. 
         /// Null is returned if the ShellObject does not have a thumbnail or icon image.
         /// </summary>
-        public BitmapSource BitmapSource
-        {
-            get
-            {
-                return GetBitmapSource(CurrentSize);
-            }
-        }
+        public BitmapSource BitmapSource { get { return GetBitmapSource(CurrentSize); } }
 
         /// <summary>
         /// Gets the thumbnail or icon image in <see cref="System.Drawing.Icon"/> format. 
         /// Null is returned if the ShellObject does not have a thumbnail or icon image.
         /// </summary>
-        public Icon Icon
-        {
-            get
-            {
-                return Icon.FromHandle(Bitmap.GetHicon());
-            }
-        }
+        public Icon Icon { get { return Icon.FromHandle(Bitmap.GetHicon()); } }
 
         /// <summary>
         /// Gets the thumbnail or icon in small size and <see cref="System.Drawing.Bitmap"/> format.
@@ -131,10 +106,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         {
             get
             {
-                if (FormatOption == ShellThumbnailFormatOptions.IconOnly)
-                    return GetBitmap(DefaultIconSize.Small);
-                else
-                    return GetBitmap(DefaultThumbnailSize.Small);
+                return GetBitmap(DefaultIconSize.Small, DefaultThumbnailSize.Small);
             }
         }
 
@@ -145,23 +117,14 @@ namespace Microsoft.WindowsAPICodePack.Shell
         {
             get
             {
-                if (FormatOption == ShellThumbnailFormatOptions.IconOnly)
-                    return GetBitmapSource(DefaultIconSize.Small);
-                else
-                    return GetBitmapSource(DefaultThumbnailSize.Small);
+                return GetBitmapSource(DefaultIconSize.Small, DefaultThumbnailSize.Small);
             }
         }
 
         /// <summary>
         /// Gets the thumbnail or icon in small size and <see cref="System.Drawing.Icon"/> format.
         /// </summary>
-        public Icon SmallIcon
-        {
-            get
-            {
-                return Icon.FromHandle(SmallBitmap.GetHicon());
-            }
-        }
+        public Icon SmallIcon { get { return Icon.FromHandle(SmallBitmap.GetHicon()); } }
 
         /// <summary>
         /// Gets the thumbnail or icon in Medium size and <see cref="System.Drawing.Bitmap"/> format.
@@ -170,10 +133,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         {
             get
             {
-                if (FormatOption == ShellThumbnailFormatOptions.IconOnly)
-                    return GetBitmap(DefaultIconSize.Medium);
-                else
-                    return GetBitmap(DefaultThumbnailSize.Medium);
+                return GetBitmap(DefaultIconSize.Medium, DefaultThumbnailSize.Medium);
             }
         }
 
@@ -184,23 +144,14 @@ namespace Microsoft.WindowsAPICodePack.Shell
         {
             get
             {
-                if (FormatOption == ShellThumbnailFormatOptions.IconOnly)
-                    return GetBitmapSource(DefaultIconSize.Medium);
-                else
-                    return GetBitmapSource(DefaultThumbnailSize.Medium);
+                return GetBitmapSource(DefaultIconSize.Medium, DefaultThumbnailSize.Medium);
             }
         }
 
         /// <summary>
         /// Gets the thumbnail or icon in Medium size and <see cref="System.Drawing.Icon"/> format.
         /// </summary>
-        public Icon MediumIcon
-        {
-            get
-            {
-                return Icon.FromHandle(MediumBitmap.GetHicon());
-            }
-        }
+        public Icon MediumIcon { get { return Icon.FromHandle(MediumBitmap.GetHicon()); } }
 
         /// <summary>
         /// Gets the thumbnail or icon in large size and <see cref="System.Drawing.Bitmap"/> format.
@@ -209,10 +160,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         {
             get
             {
-                if (FormatOption == ShellThumbnailFormatOptions.IconOnly)
-                    return GetBitmap(DefaultIconSize.Large);
-                else
-                    return GetBitmap(DefaultThumbnailSize.Large);
+                return GetBitmap(DefaultIconSize.Large, DefaultThumbnailSize.Large);
             }
         }
 
@@ -223,23 +171,14 @@ namespace Microsoft.WindowsAPICodePack.Shell
         {
             get
             {
-                if (FormatOption == ShellThumbnailFormatOptions.IconOnly)
-                    return GetBitmapSource(DefaultIconSize.Large);
-                else
-                    return GetBitmapSource(DefaultThumbnailSize.Large);
+                return GetBitmapSource(DefaultIconSize.Large, DefaultThumbnailSize.Large);
             }
         }
 
         /// <summary>
         /// Gets the thumbnail or icon in Large size and <see cref="System.Drawing.Icon"/> format.
         /// </summary>
-        public Icon LargeIcon
-        {
-            get
-            {
-                return Icon.FromHandle(LargeBitmap.GetHicon());
-            }
-        }
+        public Icon LargeIcon { get { return Icon.FromHandle(LargeBitmap.GetHicon()); } }
 
         /// <summary>
         /// Gets the thumbnail or icon in extra large size and <see cref="System.Drawing.Bitmap"/> format.
@@ -248,11 +187,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         {
             get
             {
-                if (FormatOption == ShellThumbnailFormatOptions.IconOnly)
-                    return GetBitmap(DefaultIconSize.ExtraLarge);
-                else
-                    return GetBitmap(DefaultThumbnailSize.ExtraLarge);
-
+                return GetBitmap(DefaultIconSize.ExtraLarge, DefaultThumbnailSize.ExtraLarge);
             }
         }
 
@@ -263,45 +198,29 @@ namespace Microsoft.WindowsAPICodePack.Shell
         {
             get
             {
-                if (FormatOption == ShellThumbnailFormatOptions.IconOnly)
-                    return GetBitmapSource(DefaultIconSize.ExtraLarge);
-                else
-                    return GetBitmapSource(DefaultThumbnailSize.ExtraLarge);
+                return GetBitmapSource(DefaultIconSize.ExtraLarge, DefaultThumbnailSize.ExtraLarge);
             }
         }
 
         /// <summary>
         /// Gets the thumbnail or icon in Extra Large size and <see cref="System.Drawing.Icon"/> format.
         /// </summary>
-        public Icon ExtraLargeIcon
-        {
-            get
-            {
-                return Icon.FromHandle(ExtraLargeBitmap.GetHicon());
-            }
-        }
+        public Icon ExtraLargeIcon { get { return Icon.FromHandle(ExtraLargeBitmap.GetHicon()); } }
 
         /// <summary>
         /// Gets or sets a value that determines if the current retrieval option is cache or extract, cache only, or from memory only.
         /// The default is cache or extract.
         /// </summary>
-        public ShellThumbnailRetrievalOptions RetrievalOption
-        {
-            get;
-            set;
-        }
+        public ShellThumbnailRetrievalOption RetrievalOption { get; set; }
 
-        private ShellThumbnailFormatOptions formatOption = ShellThumbnailFormatOptions.Default;
+        private ShellThumbnailFormatOption formatOption = ShellThumbnailFormatOption.Default;
         /// <summary>
         /// Gets or sets a value that determines if the current format option is thumbnail or icon, thumbnail only, or icon only.
         /// The default is thumbnail or icon.
         /// </summary>
-        public ShellThumbnailFormatOptions FormatOption
+        public ShellThumbnailFormatOption FormatOption
         {
-            get
-            {
-                return formatOption;
-            }
+            get { return formatOption; }
             set
             {
                 formatOption = value;
@@ -309,10 +228,10 @@ namespace Microsoft.WindowsAPICodePack.Shell
                 // Do a similar check as we did in CurrentSize property setter,
                 // If our mode is IconOnly, then our max is defined by DefaultIconSize.Maximum. We should make sure 
                 // our CurrentSize is within this max range
-                if (FormatOption == ShellThumbnailFormatOptions.IconOnly)
+                if (FormatOption == ShellThumbnailFormatOption.IconOnly
+                    && (CurrentSize.Height > DefaultIconSize.Maximum.Height || CurrentSize.Width > DefaultIconSize.Maximum.Width))
                 {
-                    if (CurrentSize.Height > DefaultIconSize.Maximum.Height || CurrentSize.Width > DefaultIconSize.Maximum.Width)
-                        CurrentSize = DefaultIconSize.Maximum;
+                    CurrentSize = DefaultIconSize.Maximum;
                 }
             }
 
@@ -328,11 +247,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// the image themselves anyway. Note that the Shell implementation performs a GDI stretch blit. 
         /// If the caller wants a higher quality image stretch, they should pass this flag and do it themselves.
         /// </remarks>
-        public bool AllowBiggerSize
-        {
-            get;
-            set;
-        }
+        public bool AllowBiggerSize { get; set; }
 
         #endregion
 
@@ -343,17 +258,27 @@ namespace Microsoft.WindowsAPICodePack.Shell
             ShellNativeMethods.SIIGBF flags = 0x0000;
 
             if (AllowBiggerSize)
-                flags |= ShellNativeMethods.SIIGBF.SIIGBF_BIGGERSIZEOK;
+            {
+                flags |= ShellNativeMethods.SIIGBF.BiggerSizeOk;
+            }
 
-            if (RetrievalOption == ShellThumbnailRetrievalOptions.CacheOnly)
-                flags |= ShellNativeMethods.SIIGBF.SIIGBF_INCACHEONLY;
-            else if (RetrievalOption == ShellThumbnailRetrievalOptions.MemoryOnly)
-                flags |= ShellNativeMethods.SIIGBF.SIIGBF_MEMORYONLY;
+            if (RetrievalOption == ShellThumbnailRetrievalOption.CacheOnly)
+            {
+                flags |= ShellNativeMethods.SIIGBF.InCacheOnly;
+            }
+            else if (RetrievalOption == ShellThumbnailRetrievalOption.MemoryOnly)
+            {
+                flags |= ShellNativeMethods.SIIGBF.MemoryOnly;
+            }
 
-            if (FormatOption == ShellThumbnailFormatOptions.IconOnly)
-                flags |= ShellNativeMethods.SIIGBF.SIIGBF_ICONONLY;
-            else if (FormatOption == ShellThumbnailFormatOptions.ThumbnailOnly)
-                flags |= ShellNativeMethods.SIIGBF.SIIGBF_THUMBNAILONLY;
+            if (FormatOption == ShellThumbnailFormatOption.IconOnly)
+            {
+                flags |= ShellNativeMethods.SIIGBF.IconOnly;
+            }
+            else if (FormatOption == ShellThumbnailFormatOption.ThumbnailOnly)
+            {
+                flags |= ShellNativeMethods.SIIGBF.ThumbnailOnly;
+            }
 
             return flags;
         }
@@ -363,27 +288,31 @@ namespace Microsoft.WindowsAPICodePack.Shell
             IntPtr hbitmap = IntPtr.Zero;
 
             // Create a size structure to pass to the native method
-            CoreNativeMethods.SIZE nativeSIZE = new CoreNativeMethods.SIZE();
-            nativeSIZE.cx = Convert.ToInt32(size.Width);
-            nativeSIZE.cy = Convert.ToInt32(size.Height);
+            CoreNativeMethods.Size nativeSIZE = new CoreNativeMethods.Size();
+            nativeSIZE.Width = Convert.ToInt32(size.Width);
+            nativeSIZE.Height = Convert.ToInt32(size.Height);
 
             // Use IShellItemImageFactory to get an icon
             // Options passed in: Resize to fit
-            HRESULT hr = ((IShellItemImageFactory)shellItemNative).GetImage(nativeSIZE, CalculateFlags(), out hbitmap);
+            HResult hr = ((IShellItemImageFactory)shellItemNative).GetImage(nativeSIZE, CalculateFlags(), out hbitmap);
 
-            if (hr == HRESULT.S_OK)
-                return hbitmap;
-            else if ((uint)hr == 0x8004B200 && FormatOption == ShellThumbnailFormatOptions.ThumbnailOnly)
+            if (hr == HResult.Ok) { return hbitmap; }
+            else if ((uint)hr == 0x8004B200 && FormatOption == ShellThumbnailFormatOption.ThumbnailOnly)
             {
                 // Thumbnail was requested, but this ShellItem doesn't have a thumbnail.
-                throw new InvalidOperationException("The current ShellObject does not have a thumbnail. Try using ShellThumbnailFormatOptions.Default to get the icon for this item.", Marshal.GetExceptionForHR((int)hr));
+                throw new InvalidOperationException(LocalizedMessages.ShellThumbnailDoesNotHaveThumbnail, Marshal.GetExceptionForHR((int)hr));
             }
             else if ((uint)hr == 0x80040154) // REGDB_E_CLASSNOTREG
             {
-                throw new NotSupportedException("The current ShellObject does not have a valid thumbnail handler or there was a problem in extracting the thumbnail for this specific shell object.", Marshal.GetExceptionForHR((int)hr));
+                throw new NotSupportedException(LocalizedMessages.ShellThumbnailNoHandler, Marshal.GetExceptionForHR((int)hr));
             }
-            else
-                throw Marshal.GetExceptionForHR((int)hr);
+
+            throw new ShellException(hr);
+        }
+
+        private Bitmap GetBitmap(System.Windows.Size iconOnlySize, System.Windows.Size thumbnailSize)
+        {
+            return GetBitmap(FormatOption == ShellThumbnailFormatOption.IconOnly ? iconOnlySize : thumbnailSize);
         }
 
         private Bitmap GetBitmap(System.Windows.Size size)
@@ -399,13 +328,22 @@ namespace Microsoft.WindowsAPICodePack.Shell
             return returnValue;
         }
 
+        private BitmapSource GetBitmapSource(System.Windows.Size iconOnlySize, System.Windows.Size thumbnailSize)
+        {
+            return GetBitmapSource(FormatOption == ShellThumbnailFormatOption.IconOnly ? iconOnlySize : thumbnailSize);
+        }
+
         private BitmapSource GetBitmapSource(System.Windows.Size size)
         {
             IntPtr hBitmap = GetHBitmap(size);
 
             // return a System.Media.Imaging.BitmapSource
             // Use interop to create a BitmapSource from hBitmap.
-            BitmapSource returnValue = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            BitmapSource returnValue = Imaging.CreateBitmapSourceFromHBitmap(
+                hBitmap,
+                IntPtr.Zero,
+                System.Windows.Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
 
             // delete HBitmap to avoid memory leaks
             ShellNativeMethods.DeleteObject(hBitmap);

@@ -5,7 +5,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
     /// <summary>
     /// Specifies the redirection capabilities for known folders. 
     /// </summary>
-    public enum RedirectionCapabilities
+    public enum RedirectionCapability
     {
         /// <summary>
         /// Redirection capability is unknown.
@@ -20,9 +20,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// Currently, redirection exists only for 
         ///  common and user folders; fixed and virtual folders 
         /// cannot be redirected.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Redirectable", Justification = "This is following the native API"
-)]
+        /// </summary>       
         Redirectable = 0x1,
         /// <summary>
         /// Redirection is not allowed.

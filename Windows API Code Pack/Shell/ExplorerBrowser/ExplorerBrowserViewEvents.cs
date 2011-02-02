@@ -2,47 +2,54 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Microsoft.WindowsAPICodePack.Controls.WindowsForms;
 using Microsoft.WindowsAPICodePack.Controls;
+using Microsoft.WindowsAPICodePack.Controls.WindowsForms;
 
 namespace MS.WindowsAPICodePack.Internal
 {
     /// <summary>
     /// This provides a connection point container compatible dispatch interface for
     /// hooking into the ExplorerBrowser view.
-    /// </summary>
-    [ComVisible( true )]
-    [ClassInterface( ClassInterfaceType.AutoDual )]
-    public class ExplorerBrowserViewEvents
+    /// </summary>    
+    [ComVisible(true)]
+    [ClassInterface(ClassInterfaceType.AutoDual)]
+    public class ExplorerBrowserViewEvents : IDisposable
     {
         #region implementation
-        private uint viewConnectionPointCookie = 0;
-        private object viewDispatch = null;
+        private uint viewConnectionPointCookie;
+        private object viewDispatch;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2006:UseSafeHandleToEncapsulateNativeResources")]
         private IntPtr nullPtr = IntPtr.Zero;
 
-        private Guid IID_DShellFolderViewEvents = new Guid( ExplorerBrowserIIDGuid.DShellFolderViewEvents );
-        private Guid IID_IDispatch = new Guid( ExplorerBrowserIIDGuid.IDispatch );
-        private ExplorerBrowser parent = null;
+        private Guid IID_DShellFolderViewEvents = new Guid(ExplorerBrowserIIDGuid.DShellFolderViewEvents);
+        private Guid IID_IDispatch = new Guid(ExplorerBrowserIIDGuid.IDispatch);
+        private ExplorerBrowser parent;
         #endregion
 
         #region contstruction
-        internal ExplorerBrowserViewEvents( ExplorerBrowser parent )
+        /// <summary>
+        /// Default constructor for ExplorerBrowserViewEvents
+        /// </summary>
+        public ExplorerBrowserViewEvents() : this(null) { }
+
+        internal ExplorerBrowserViewEvents(ExplorerBrowser parent)
         {
             this.parent = parent;
         }
         #endregion
 
         #region operations
-        internal void ConnectToView( IShellView psv )
+        internal void ConnectToView(IShellView psv)
         {
-            DisconnectFromView( );
+            DisconnectFromView();
 
-            HRESULT hr = psv.GetItemObject(
-                SVGIO.SVGIO_BACKGROUND,
+            HResult hr = psv.GetItemObject(
+                ShellViewGetItemObject.Background,
                 ref IID_IDispatch,
-                out viewDispatch );
+                out viewDispatch);
 
-            if( hr == HRESULT.S_OK )
+            if (hr == HResult.Ok)
             {
                 hr = ExplorerBrowserNativeMethods.ConnectToConnectionPoint(
                     this,
@@ -50,18 +57,18 @@ namespace MS.WindowsAPICodePack.Internal
                     true,
                     viewDispatch,
                     ref viewConnectionPointCookie,
-                    ref nullPtr );
+                    ref nullPtr);
 
-                if( hr != HRESULT.S_OK )
+                if (hr != HResult.Ok)
                 {
-                    Marshal.ReleaseComObject( viewDispatch );
+                    Marshal.ReleaseComObject(viewDispatch);
                 }
             }
         }
 
-        internal void DisconnectFromView( )
+        internal void DisconnectFromView()
         {
-            if( viewDispatch != null )
+            if (viewDispatch != null)
             {
                 ExplorerBrowserNativeMethods.ConnectToConnectionPoint(
                     IntPtr.Zero,
@@ -69,9 +76,9 @@ namespace MS.WindowsAPICodePack.Internal
                     false,
                     viewDispatch,
                     ref viewConnectionPointCookie,
-                    ref nullPtr );
+                    ref nullPtr);
 
-                Marshal.ReleaseComObject( viewDispatch );
+                Marshal.ReleaseComObject(viewDispatch);
                 viewDispatch = null;
                 viewConnectionPointCookie = 0;
             }
@@ -84,38 +91,71 @@ namespace MS.WindowsAPICodePack.Internal
         /// <summary>
         /// The view selection has changed
         /// </summary>
-        [DispId( ExplorerBrowserViewDispatchIds.SelectionChanged )]
-        public void ViewSelectionChanged( )
+        [DispId(ExplorerBrowserViewDispatchIds.SelectionChanged)]
+        public void ViewSelectionChanged()
         {
-            parent.FireSelectionChanged( );
+            parent.FireSelectionChanged();
         }
 
         /// <summary>
         /// The contents of the view have changed
         /// </summary>
-        [DispId( ExplorerBrowserViewDispatchIds.ContentsChanged )]
-        public void ViewContentsChanged( )
+        [DispId(ExplorerBrowserViewDispatchIds.ContentsChanged)]
+        public void ViewContentsChanged()
         {
-            parent.FireContentChanged( );
+            parent.FireContentChanged();
         }
 
         /// <summary>
         /// The enumeration of files in the view is complete
         /// </summary>
-        [DispId( ExplorerBrowserViewDispatchIds.FileListEnumDone )]
-        public void ViewFileListEnumDone( )
+        [DispId(ExplorerBrowserViewDispatchIds.FileListEnumDone)]
+        public void ViewFileListEnumDone()
         {
-            parent.FireContentEnumerationComplete( );
+            parent.FireContentEnumerationComplete();
         }
 
         /// <summary>
         /// The selected item in the view has changed (not the same as the selection has changed)
         /// </summary>
-        [DispId( ExplorerBrowserViewDispatchIds.SelectedItemChanged )]
-        public void ViewSelectedItemChanged( )
+        [DispId(ExplorerBrowserViewDispatchIds.SelectedItemChanged)]
+        public void ViewSelectedItemChanged()
         {
-            parent.FireSelectedItemChanged( );
+            parent.FireSelectedItemChanged();
         }
+        #endregion
+
+        /// <summary>
+        /// Finalizer for ExplorerBrowserViewEvents
+        /// </summary>
+        ~ExplorerBrowserViewEvents()
+        {
+            Dispose(false);
+        }
+
+        #region IDisposable Members
+
+        /// <summary>
+        /// Disconnects and disposes object.
+        /// </summary>        
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disconnects and disposes object.
+        /// </summary>
+        /// <param name="disposed"></param>
+        protected virtual void Dispose(bool disposed)
+        {
+            if (disposed)
+            {
+                DisconnectFromView();
+            }
+        }
+
         #endregion
     }
 }

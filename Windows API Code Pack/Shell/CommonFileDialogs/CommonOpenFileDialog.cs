@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
 using Microsoft.WindowsAPICodePack.Shell;
 
 namespace Microsoft.WindowsAPICodePack.Dialogs
@@ -14,7 +13,6 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
     /// Creates a Vista or Windows 7 Common File Dialog, allowing the user to select one or more files.
     /// </summary>
     /// 
-    [FileDialogPermissionAttribute(SecurityAction.LinkDemand, Open = true)]
     public sealed class CommonOpenFileDialog : CommonFileDialog
     {
         private NativeFileOpenDialog openDialogCoClass;
@@ -22,7 +20,8 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <summary>
         /// Creates a new instance of this class.
         /// </summary>
-        public CommonOpenFileDialog() : base() 
+        public CommonOpenFileDialog()
+            : base()
         {
             // For Open file dialog, allow read only files.
             base.EnsureReadOnly = true;
@@ -32,7 +31,8 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// Creates a new instance of this class with the specified name.
         /// </summary>
         /// <param name="name">The name of this dialog.</param>
-        public CommonOpenFileDialog(string name) : base(name) 
+        public CommonOpenFileDialog(string name)
+            : base(name)
         {
             // For Open file dialog, allow read only files.
             base.EnsureReadOnly = true;
@@ -46,12 +46,12 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <remarks>This property should only be used when the
         /// <see cref="CommonOpenFileDialog.Multiselect"/>
         /// property is <b>true</b>.</remarks>
-        public Collection<string> FileNames
+        public IEnumerable<string> FileNames
         {
             get
             {
                 CheckFileNamesAvailable();
-                return fileNames;
+                return base.FileNameCollection;
             }
         }
 
@@ -74,7 +74,9 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
                 // Loop through our existing list of filenames, and try to create a concrete type of
                 // ShellObject (e.g. ShellLibrary, FileSystemFolder, ShellFile, etc)
                 foreach (IShellItem si in items)
+                {
                     resultItems.Add(ShellObjectFactory.Create(si));
+                }
 
                 return resultItems;
             }
@@ -85,7 +87,6 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <summary>
         /// Gets or sets a value that determines whether the user can select more than one file.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Multiselect", Justification="This is following the same convention as the Winforms CFD")]
         public bool Multiselect
         {
             get { return multiselect; }
@@ -117,21 +118,25 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
 
         internal override IFileDialog GetNativeFileDialog()
         {
-            Debug.Assert(openDialogCoClass != null,
-                "Must call Initialize() before fetching dialog interface");
+            Debug.Assert(openDialogCoClass != null, "Must call Initialize() before fetching dialog interface");
+
             return (IFileDialog)openDialogCoClass;
         }
 
         internal override void InitializeNativeFileDialog()
         {
             if (openDialogCoClass == null)
+            {
                 openDialogCoClass = new NativeFileOpenDialog();
+            }
         }
 
         internal override void CleanUpNativeFileDialog()
         {
             if (openDialogCoClass != null)
+            {
                 Marshal.ReleaseComObject(openDialogCoClass);
+            }
         }
 
         internal override void PopulateWithFileNames(Collection<string> names)
@@ -143,7 +148,9 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
             resultsArray.GetCount(out count);
             names.Clear();
             for (int i = 0; i < count; i++)
+            {
                 names.Add(GetFileNameFromShellItem(GetShellItemAt(resultsArray, i)));
+            }
         }
 
         internal override void PopulateWithIShellItems(Collection<IShellItem> items)
@@ -155,19 +162,30 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
             resultsArray.GetCount(out count);
             items.Clear();
             for (int i = 0; i < count; i++)
+            {
                 items.Add(GetShellItemAt(resultsArray, i));
+            }
         }
 
-        internal override ShellNativeMethods.FOS GetDerivedOptionFlags(ShellNativeMethods.FOS flags)
+        internal override ShellNativeMethods.FileOpenOptions GetDerivedOptionFlags(ShellNativeMethods.FileOpenOptions flags)
         {
             if (multiselect)
-                flags |= ShellNativeMethods.FOS.FOS_ALLOWMULTISELECT;
+            {
+                flags |= ShellNativeMethods.FileOpenOptions.AllowMultiSelect;
+            }
             if (isFolderPicker)
-                flags |= ShellNativeMethods.FOS.FOS_PICKFOLDERS;
+            {
+                flags |= ShellNativeMethods.FileOpenOptions.PickFolders;
+            }
+            
             if (!allowNonFileSystem)
-                flags |= ShellNativeMethods.FOS.FOS_FORCEFILESYSTEM;
-            if (allowNonFileSystem)
-                flags |= ShellNativeMethods.FOS.FOS_ALLNONSTORAGEITEMS;
+            {
+                flags |= ShellNativeMethods.FileOpenOptions.ForceFilesystem;
+            }
+            else if (allowNonFileSystem)
+            {
+                flags |= ShellNativeMethods.FileOpenOptions.AllNonStorageItems;
+            }
 
             return flags;
         }

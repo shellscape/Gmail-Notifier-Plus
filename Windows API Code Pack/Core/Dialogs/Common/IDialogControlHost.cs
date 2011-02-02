@@ -9,12 +9,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
     public interface IDialogControlHost
     {
         /// <summary>
-        /// Handle notifications of pseudo-controls being added 
-        /// or removed from the collection.
-        /// PreFilter should throw if a control cannot 
-        /// be added/removed in the dialog's current state.
-        /// PostProcess should pass on changes to native control, 
-        /// if appropriate.
+        /// Returns if changes to the collection are allowed.
         /// </summary>
         /// <returns>true if collection change is allowed.</returns>
         bool IsCollectionChangeAllowed();

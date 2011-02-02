@@ -12,7 +12,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
     /// Defines properties for known folders that identify the path of standard known folders.
     /// </summary>
     public static class KnownFolders
-    {
+    {        
         /// <summary>
         /// Gets a strongly-typed read-only collection of all the registered known folders.
         /// </summary>
@@ -32,35 +32,37 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
             IList<IKnownFolder> foldersList = new List<IKnownFolder>();
             uint count;
-            IntPtr folders;
+            IntPtr folders = IntPtr.Zero;
 
-            IKnownFolderManager knownFolderManager = (IKnownFolderManager)new KnownFolderManagerClass();
-            knownFolderManager.GetFolderIds(out folders, out count);
-
-            if (count > 0 && folders != IntPtr.Zero)
+            try
             {
-                // Loop through all the KnownFolderID elements
-                for (int i = 0; i < count; i++)
+
+                KnownFolderManagerClass knownFolderManager = new KnownFolderManagerClass();
+                knownFolderManager.GetFolderIds(out folders, out count);
+
+                if (count > 0 && folders != IntPtr.Zero)
                 {
-                    // Read the current pointer
-                    IntPtr current = new IntPtr(folders.ToInt64() + (Marshal.SizeOf(typeof(Guid)) * i));
+                    // Loop through all the KnownFolderID elements
+                    for (int i = 0; i < count; i++)
+                    {
+                        // Read the current pointer
+                        IntPtr current = new IntPtr(folders.ToInt64() + (Marshal.SizeOf(typeof(Guid)) * i));
 
-                    // Convert to Guid
-                    Guid knownFolderID = (Guid)Marshal.PtrToStructure(current, typeof(Guid));
+                        // Convert to Guid
+                        Guid knownFolderID = (Guid)Marshal.PtrToStructure(current, typeof(Guid));
 
-                    IKnownFolder kf = null;
+                        IKnownFolder kf = KnownFolderHelper.FromKnownFolderIdInternal(knownFolderID);
 
-                    // Get the known folder
-                    kf = KnownFolderHelper.FromKnownFolderIdInternal(knownFolderID);
-
-                    // Add to our collection if it's not null (some folders might not exist on the system
-                    // or we could have an exception that resulted in the null return from above method call
-                    if (kf != null)
-                        foldersList.Add(kf);
+                        // Add to our collection if it's not null (some folders might not exist on the system
+                        // or we could have an exception that resulted in the null return from above method call
+                        if (kf != null) { foldersList.Add(kf); }
+                    }
                 }
             }
-
-            Marshal.FreeCoTaskMem(folders);
+            finally
+            {
+                if (folders != IntPtr.Zero) { Marshal.FreeCoTaskMem(folders); }
+            }
 
             return new ReadOnlyCollection<IKnownFolder>(foldersList);
         }
@@ -762,8 +764,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// Gets the metadata for the <b>CommonOEMLinks</b> folder. 
         /// </summary>
         /// <value>An <see cref="IKnownFolder"/> object.</value>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "OEM", Justification = "This is following the native API")]
-        public static IKnownFolder CommonOEMLinks
+        public static IKnownFolder CommonOemLinks
         {
             get
             {
@@ -799,7 +800,6 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// Gets the metadata for the <b>Playlists</b> folder.
         /// </summary>
         /// <value>An <see cref="IKnownFolder"/> object.</value>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Playlists", Justification = "This is following the native API")]
         public static IKnownFolder Playlists
         {
             get
@@ -812,7 +812,6 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// Gets the metadata for the <b>SamplePlaylists</b> folder.
         /// </summary>
         /// <value>An <see cref="IKnownFolder"/> object.</value>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Playlists", Justification = "This is following the native API")]
         public static IKnownFolder SamplePlaylists
         {
             get
@@ -1090,7 +1089,6 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// Gets the metadata for the <b>SearchCsc</b> folder.
         /// </summary>
         /// <value>An <see cref="IKnownFolder"/> object.</value>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Csc", Justification = "This is following the native API")]
         public static IKnownFolder SearchCsc
         {
             get
@@ -1174,7 +1172,6 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Gets the metadata for the <b>Ringtones</b> folder.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Ringtones", Justification = "This is following the native API")]
         public static IKnownFolder Ringtones
         {
             get
@@ -1187,7 +1184,6 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Gets the metadata for the <b>PublicRingtones</b> folder.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Ringtones", Justification = "This is following the native API")]
         public static IKnownFolder PublicRingtones
         {
             get

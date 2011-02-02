@@ -1,9 +1,10 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 
 namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
 {
@@ -34,17 +35,25 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
             // Check for duplicates, lack of host, 
             // and during-show adds.
             if (Items.Contains(control))
+            {
                 throw new InvalidOperationException(
-                    "Dialog cannot have more than one control with the same name.");
+                    LocalizedMessages.DialogControlCollectionMoreThanOneControl);
+            }
             if (control.HostingDialog != null)
+            {
                 throw new InvalidOperationException(
-                    "Dialog control must be removed from current collections first.");
+                    LocalizedMessages.DialogControlCollectionRemoveControlFirst);
+            }
             if (!hostingDialog.IsCollectionChangeAllowed())
+            {
                 throw new InvalidOperationException(
-                    "Modifying controls collection while dialog is showing is not supported.");
+                    LocalizedMessages.DialogControlCollectionModifyingControls);
+            }
             if (control is CommonFileDialogMenuItem)
+            {
                 throw new InvalidOperationException(
-                    "CommonFileDialogMenuItem controls can only be added to CommonFileDialogMenu controls.");
+                    LocalizedMessages.DialogControlCollectionMenuItemControlsCannotBeAdded);
+            }
 
             // Reparent, add control.
             control.HostingDialog = hostingDialog;
@@ -63,9 +72,9 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         /// showing and cannot be modified.</permission>
         protected override void RemoveItem(int index)
         {
-            throw new NotSupportedException("Custom controls cannot be removed from a File dialog once added.");
+            throw new NotSupportedException(LocalizedMessages.DialogControlCollectionCannotRemoveControls);
         }
-        
+
         /// <summary>
         /// Defines the indexer that supports accessing controls by name. 
         /// </summary>
@@ -80,22 +89,25 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         {
             get
             {
-                if (String.IsNullOrEmpty(name))
-                    throw new ArgumentException(
-                        "Control name must not be null or zero length.");
+                if (string.IsNullOrEmpty(name))
+                {
+                    throw new ArgumentException(LocalizedMessages.DialogControlCollectionEmptyName, "name");
+                }
 
                 foreach (T control in base.Items)
                 {
+                    CommonFileDialogGroupBox groupBox;
                     // NOTE: we don't ToLower() the strings - casing effects 
                     // hash codes, so we are case-sensitive.
                     if (control.Name == name)
-                        return control;
-                    else if (control is CommonFileDialogGroupBox)
                     {
-                        foreach (T subControl in (control as CommonFileDialogGroupBox).Items)
+                        return control;
+                    }
+                    else if ((groupBox = control as CommonFileDialogGroupBox) != null)
+                    {
+                        foreach (T subControl in groupBox.Items)
                         {
-                            if (subControl.Name == name)
-                                return subControl;
+                            if (subControl.Name == name) { return subControl; }
                         }
                     }
                 }
@@ -116,70 +128,40 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         /// 
         internal DialogControl GetControlbyId(int id)
         {
-            return GetSubControlbyId(
-                Items as IEnumerable<T>,
-                id);
+            return GetSubControlbyId(Items.Cast<DialogControl>(), id);
         }
-
 
         /// <summary>
         /// Recursively searches for a given control id in the 
-        /// collection passed via the <paramref name="ctrlColl"/> parameter.
+        /// collection passed via the <paramref name="controlCollection"/> parameter.
         /// </summary>
         /// 
-        /// <param name="ctrlColl">A Collection&lt;CommonFileDialogControl&gt;</param>
+        /// <param name="controlCollection">A Collection&lt;CommonFileDialogControl&gt;</param>
         /// <param name="id">An int containing the identifier of the control 
         /// being searched for.</param>
         /// 
         /// <returns>A DialogControl who's Id matches the value of the
         /// <paramref name="id"/> parameter.</returns>
         /// 
-        internal DialogControl GetSubControlbyId(IEnumerable ctrlColl,
-            int id)
+        internal DialogControl GetSubControlbyId(IEnumerable<DialogControl> controlCollection, int id)
         {
-            DialogControl foundControl = null;
-            int iSubCtrlCount = 0;
-
             // if ctrlColl is null, it will throw in the foreach.
-            if (ctrlColl == null)
-                return null;
+            if (controlCollection == null) { return null; }
 
-            foreach (DialogControl control in ctrlColl)
+            foreach (DialogControl control in controlCollection)
             {
-                // Match?
-                if (control.Id == id)
-                {
-                    return control;
-                }
+                if (control.Id == id) { return control; }
 
                 // Search GroupBox child items
-                if (control is CommonFileDialogGroupBox)
+                CommonFileDialogGroupBox groupBox = control as CommonFileDialogGroupBox;
+                if (groupBox != null)
                 {
-                    CommonFileDialogGroupBox groupBox = control as CommonFileDialogGroupBox;
-
-                    // recurse and search the GroupBox
-                    iSubCtrlCount =
-                        ((CommonFileDialogGroupBox)control).Items.Count;
-
-                    if (iSubCtrlCount > 0)
-                    {
-                        foundControl = this.GetSubControlbyId(
-                            groupBox.Items as IEnumerable,
-                            id);
-
-                        // make sure something was actually found
-                        if (foundControl != null)
-                        {
-                            return foundControl;
-                        }
-                    }
+                    var temp = GetSubControlbyId(groupBox.Items, id);
+                    if (temp != null) { return temp; }
                 }
             }
 
-            // Control id not found - likely an error, but the calling 
-            // function should ultimately decide.
             return null;
-
         }
 
     }

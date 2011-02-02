@@ -9,11 +9,10 @@ namespace Microsoft.WindowsAPICodePack.Net
 {
     [ComImport, ClassInterface((short)0), Guid("DCB00C01-570F-4A9B-8D69-199FDBA5723B")]
     [ComSourceInterfaces("Microsoft.Windows.NetworkList.Internal.INetworkEvents\0Microsoft.Windows.NetworkList.Internal.INetworkConnectionEvents\0Microsoft.Windows.NetworkList.Internal.INetworkListManagerEvents\0"), TypeLibType((short)2)]
-
     internal class NetworkListManagerClass : INetworkListManager
     {
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(7)]
-        public virtual extern Connectivity GetConnectivity();
+        public virtual extern ConnectivityStates GetConnectivity();
 
         [return: MarshalAs(UnmanagedType.Interface)]
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(2)]
@@ -34,16 +33,14 @@ namespace Microsoft.WindowsAPICodePack.Net
         [DispId(6)]
         public virtual extern bool IsConnected
         {
-            [MethodImpl(MethodImplOptions.InternalCall,
-                MethodCodeType = MethodCodeType.Runtime), DispId(6)]
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(6)]
             get;
         }
 
         [DispId(5)]
         public virtual extern bool IsConnectedToInternet
         {
-            [MethodImpl(MethodImplOptions.InternalCall,
-                MethodCodeType = MethodCodeType.Runtime), DispId(5)]
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(5)]
             get;
         }
     }

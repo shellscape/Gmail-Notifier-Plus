@@ -10,7 +10,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
     /// </summary>
     public class CommonFileDialogCheckBox : CommonFileDialogProminentControl
     {
-        private bool isChecked = false;
+        private bool isChecked;
         /// <summary>
         /// Gets or sets the state of the check box.
         /// </summary>
@@ -31,28 +31,20 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         /// <summary>
         /// Creates a new instance of this class.
         /// </summary>
-        public CommonFileDialogCheckBox()
-        {
-        }
+        public CommonFileDialogCheckBox() { }
 
         /// <summary>
         /// Creates a new instance of this class with the specified text.
         /// </summary>
         /// <param name="text">The text to display for this control.</param>
-        public CommonFileDialogCheckBox(string text)
-            : base(text)
-        {
-        }
+        public CommonFileDialogCheckBox(string text) : base(text) { }
 
         /// <summary>
         /// Creates a new instance of this class with the specified name and text.
         /// </summary>
         /// <param name="name">The name of this control.</param>
         /// <param name="text">The text to display for this control.</param>
-        public CommonFileDialogCheckBox(string name, string text)
-            : base(name, text)
-        {
-        }
+        public CommonFileDialogCheckBox(string name, string text) : base(name, text) { }
 
         /// <summary>
         /// Creates a new instance of this class with the specified text and check state.
@@ -85,7 +77,9 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         {
             // Make sure that this control is enabled and has a specified delegate
             if (Enabled)
+            {
                 this.CheckedChanged(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -95,13 +89,12 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         internal override void Attach(IFileDialogCustomize dialog)
         {
             Debug.Assert(dialog != null, "CommonFileDialogCheckBox.Attach: dialog parameter can not be null");
-            
+
             // Add a check button control
             dialog.AddCheckButton(this.Id, this.Text, this.isChecked);
 
             // Make this control prominent if needed
-            if (IsProminent)
-                dialog.MakeProminent(this.Id);
+            if (IsProminent) { dialog.MakeProminent(this.Id); }
 
             // Make sure this property is set
             ApplyPropertyChange("IsChecked");

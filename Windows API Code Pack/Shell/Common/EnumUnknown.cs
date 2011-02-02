@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         #region IEnumUnknown Members
 
-        public HRESULT Next(uint requestedNumber, ref IntPtr buffer, ref uint fetchedNumber)
+        public HResult Next(uint requestedNumber, ref IntPtr buffer, ref uint fetchedNumber)
         {
             current++;
 
@@ -27,37 +27,35 @@ namespace Microsoft.WindowsAPICodePack.Shell
             {
                 buffer = Marshal.GetIUnknownForObject(conditionList[current]);
                 fetchedNumber = 1;
-                return HRESULT.S_OK;
+                return HResult.Ok;
             }
-            else
-            {
-                return HRESULT.S_FALSE;
-            }
+
+            return HResult.False;
         }
 
-        public HRESULT Skip(uint number)
+        public HResult Skip(uint number)
         {
             int temp = current + (int)number;
 
             if (temp > (conditionList.Count - 1))
-                return HRESULT.S_FALSE;
-            else
             {
-                current = temp;
-                return HRESULT.S_OK;
+                return HResult.False;
             }
+
+            current = temp;
+            return HResult.Ok;
         }
 
-        public HRESULT Reset()
+        public HResult Reset()
         {
             current = -1;
-            return HRESULT.S_OK;
+            return HResult.Ok;
         }
 
-        public HRESULT Clone(out IEnumUnknown result)
+        public HResult Clone(out IEnumUnknown result)
         {
             result = new EnumUnknownClass(this.conditionList.ToArray());
-            return HRESULT.S_OK;
+            return HResult.Ok;
         }
 
         #endregion

@@ -1,5 +1,4 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
-using System;
 using Microsoft.WindowsAPICodePack.Controls.WindowsForms;
 
 namespace Microsoft.WindowsAPICodePack.Controls
@@ -12,10 +11,10 @@ namespace Microsoft.WindowsAPICodePack.Controls
     {
         #region construction
         ExplorerBrowser eb;
-        internal ExplorerBrowserNavigationOptions( ExplorerBrowser eb )
+        internal ExplorerBrowserNavigationOptions(ExplorerBrowser eb)
         {
             this.eb = eb;
-            PaneVisibility = new ExplorerBrowserPaneVisibility( );
+            PaneVisibility = new ExplorerBrowserPaneVisibility();
         }
         #endregion
 
@@ -23,25 +22,25 @@ namespace Microsoft.WindowsAPICodePack.Controls
         /// <summary>
         /// The binary flags that are passed to the explorer browser control's GetOptions/SetOptions methods
         /// </summary>
-        public ExplorerBrowserNavigationFlags Flags
+        public ExplorerBrowserNavigateOptions Flags
         {
             get
             {
-                EXPLORER_BROWSER_OPTIONS ebo = new EXPLORER_BROWSER_OPTIONS( );
-                if( eb.explorerBrowserControl != null )
+                ExplorerBrowserOptions ebo = new ExplorerBrowserOptions();
+                if (eb.explorerBrowserControl != null)
                 {
-                    eb.explorerBrowserControl.GetOptions( out ebo );
-                    return (ExplorerBrowserNavigationFlags)ebo;
+                    eb.explorerBrowserControl.GetOptions(out ebo);
+                    return (ExplorerBrowserNavigateOptions)ebo;
                 }
-                return (ExplorerBrowserNavigationFlags)ebo;
+                return (ExplorerBrowserNavigateOptions)ebo;
             }
             set
             {
-                EXPLORER_BROWSER_OPTIONS ebo = (EXPLORER_BROWSER_OPTIONS)value;
-                if( eb.explorerBrowserControl != null )
+                ExplorerBrowserOptions ebo = (ExplorerBrowserOptions)value;
+                if (eb.explorerBrowserControl != null)
                 {
                     // Always forcing SHOWFRAMES because we handle IExplorerPaneVisibility
-                    eb.explorerBrowserControl.SetOptions( ebo | EXPLORER_BROWSER_OPTIONS.EBO_SHOWFRAMES );
+                    eb.explorerBrowserControl.SetOptions(ebo | ExplorerBrowserOptions.ShowFrames);
                 }
             }
         }
@@ -55,11 +54,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserNavigationFlags.NavigateOnce );
+                return IsFlagSet(ExplorerBrowserNavigateOptions.NavigateOnce);
             }
             set
             {
-                SetFlag( ExplorerBrowserNavigationFlags.NavigateOnce, value );
+                SetFlag(ExplorerBrowserNavigateOptions.NavigateOnce, value);
             }
         }
         /// <summary>
@@ -69,25 +68,29 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserNavigationFlags.AlwaysNavigate );
+                return IsFlagSet(ExplorerBrowserNavigateOptions.AlwaysNavigate);
             }
             set
             {
-                SetFlag( ExplorerBrowserNavigationFlags.AlwaysNavigate, value );
+                SetFlag(ExplorerBrowserNavigateOptions.AlwaysNavigate, value);
             }
         }
 
-        private bool IsFlagSet( ExplorerBrowserNavigationFlags flag )
+        private bool IsFlagSet(ExplorerBrowserNavigateOptions flag)
         {
-            return ( Flags & flag ) != 0;
+            return (Flags & flag) != 0;
         }
 
-        private void SetFlag( ExplorerBrowserNavigationFlags flag, bool value )
+        private void SetFlag(ExplorerBrowserNavigateOptions flag, bool value)
         {
-            if( value )
+            if (value)
+            {
                 Flags |= flag;
+            }
             else
+            {
                 Flags = Flags & ~flag;
+            }
         }
         #endregion
 
@@ -95,11 +98,7 @@ namespace Microsoft.WindowsAPICodePack.Controls
         /// <summary>
         /// Controls the visibility of the various ExplorerBrowser panes on subsequent navigation
         /// </summary>
-        public ExplorerBrowserPaneVisibility PaneVisibility
-        {
-            get;
-            private set;
-        }
+        public ExplorerBrowserPaneVisibility PaneVisibility { get; private set; }
 
         #endregion
     }

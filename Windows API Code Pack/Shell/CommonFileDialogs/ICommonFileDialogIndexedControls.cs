@@ -14,11 +14,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
     /// </remarks>
     interface ICommonFileDialogIndexedControls
     {
-        int SelectedIndex
-        {
-            get;
-            set;
-        }
+        int SelectedIndex { get; set; }
 
         event EventHandler SelectedIndexChanged;
 

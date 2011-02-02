@@ -11,10 +11,12 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// Do not show the content.
         /// </summary>
         Hide, 
+
         /// <summary>
         /// Show the content.
         /// </summary>
         ExpandContent,
+
         /// <summary>
         /// Expand the footer content.
         /// </summary>

@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Shell
@@ -18,9 +19,9 @@ namespace Microsoft.WindowsAPICodePack.Shell
         #region Private Members
 
         private StockIconIdentifier identifier = StockIconIdentifier.Application;
-        private StockIconSizes currentSize = StockIconSizes.Large;
-        private bool linkOverlay = false;
-        private bool selected = false;
+        private StockIconSize currentSize = StockIconSize.Large;
+        private bool linkOverlay;
+        private bool selected;
         private bool invalidateIcon = true;
         private IntPtr hIcon = IntPtr.Zero;
 
@@ -46,7 +47,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <param name="size">A value that indicates the size of the stock icon.</param>
         /// <param name="isLinkOverlay">A bool value that indicates whether the icon has a link overlay.</param>
         /// <param name="isSelected">A bool value that indicates whether the icon is in a selected state.</param>
-        public StockIcon(StockIconIdentifier id, StockIconSizes size, bool isLinkOverlay, bool isSelected)
+        public StockIcon(StockIconIdentifier id, StockIconSize size, bool isLinkOverlay, bool isSelected)
         {
             identifier = id;
             linkOverlay = isLinkOverlay;
@@ -90,8 +91,8 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Gets or sets a value that controls the size of the Stock Icon.
         /// </summary>
-        /// <value>A <see cref="Microsoft.WindowsAPICodePack.Shell.StockIconSizes"/> value.</value>
-        public StockIconSizes CurrentSize
+        /// <value>A <see cref="Microsoft.WindowsAPICodePack.Shell.StockIconSize"/> value.</value>
+        public StockIconSize CurrentSize
         {
             get { return currentSize; }
             set
@@ -136,10 +137,8 @@ namespace Microsoft.WindowsAPICodePack.Shell
             {
                 UpdateHIcon();
 
-                if (hIcon != IntPtr.Zero)
-                    return Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, null);
-                else
-                    return null;
+                return (hIcon != IntPtr.Zero) ?
+                    Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, null) : null;
             }
         }
 
@@ -173,41 +172,55 @@ namespace Microsoft.WindowsAPICodePack.Shell
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.String.Format(System.String,System.Object)")]
         private IntPtr GetHIcon()
         {
             // Create our internal flag to pass to the native method
             StockIconsNativeMethods.StockIconOptions flags = StockIconsNativeMethods.StockIconOptions.Handle;
 
             // Based on the current settings, update the flags
-            if (CurrentSize == StockIconSizes.Small)
+            if (CurrentSize == StockIconSize.Small)
+            {
                 flags |= StockIconsNativeMethods.StockIconOptions.Small;
-            else if (CurrentSize == StockIconSizes.ShellSize)
+            }
+            else if (CurrentSize == StockIconSize.ShellSize)
+            {
                 flags |= StockIconsNativeMethods.StockIconOptions.ShellSize;
+            }
             else
+            {
                 flags |= StockIconsNativeMethods.StockIconOptions.Large;  // default
+            }
 
             if (Selected)
+            {
                 flags |= StockIconsNativeMethods.StockIconOptions.Selected;
+            }
 
             if (LinkOverlay)
+            {
                 flags |= StockIconsNativeMethods.StockIconOptions.LinkOverlay;
+            }
 
             // Create a StockIconInfo structure to pass to the native method.
             StockIconsNativeMethods.StockIconInfo info = new StockIconsNativeMethods.StockIconInfo();
             info.StuctureSize = (UInt32)Marshal.SizeOf(typeof(StockIconsNativeMethods.StockIconInfo));
 
             // Pass the struct to the native method
-            HRESULT hr = StockIconsNativeMethods.SHGetStockIconInfo(identifier, flags, ref info);
+            HResult hr = StockIconsNativeMethods.SHGetStockIconInfo(identifier, flags, ref info);
 
             // If we get an error, return null as the icon requested might not be supported
             // on the current system
-            if (hr != HRESULT.S_OK)
+            if (hr != HResult.Ok)
             {
-                if (hr == HRESULT.E_INVALIDARG)
-                    throw new ArgumentException(string.Format("The Stock Icon identifier given is invalid ({0})", identifier));
-                else
-                    return IntPtr.Zero;
+                if (hr == HResult.InvalidArguments)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        LocalizedMessages.StockIconInvalidGuid,
+                        identifier));
+                }
+
+                return IntPtr.Zero;
             }
 
             // If we succeed, return the HIcon
@@ -222,7 +235,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// Release the native and managed objects
         /// </summary>
         /// <param name="disposing">Indicates that this is being called from Dispose(), rather than the finalizer.</param>
-        public void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {

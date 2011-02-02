@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 
 namespace Microsoft.WindowsAPICodePack.Shell
 {
@@ -11,16 +12,14 @@ namespace Microsoft.WindowsAPICodePack.Shell
     /// </summary>
     internal static class FolderIdentifiers
     {
-        internal static Dictionary<Guid, string> folders;
+        private static Dictionary<Guid, string> folders;
 
         static FolderIdentifiers()
         {
             folders = new Dictionary<Guid, string>();
             Type folderIDs = typeof(FolderIdentifiers);
 
-            FieldInfo[] fields = folderIDs.GetFields(
-                BindingFlags.NonPublic | BindingFlags.Static);
-
+            FieldInfo[] fields = folderIDs.GetFields(BindingFlags.NonPublic | BindingFlags.Static);
             foreach (FieldInfo f in fields)
             {
                 // Ignore dictionary field.
@@ -39,11 +38,12 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <returns>A <see cref="T:System.String"/> value.</returns>
         internal static string NameForGuid(Guid folderId)
         {
-            if (!folders.ContainsKey(folderId))
-                throw new ArgumentException(
-                    "Guid does not identify a known folder.",
-                    "folderId");
-            return folders[folderId];
+            string folder;
+            if (!folders.TryGetValue(folderId, out folder))
+            {
+                throw new ArgumentException(LocalizedMessages.FolderIdsUnknownGuid, "folderId");
+            }
+            return folder;
         }
         /// <summary>
         /// Returns a sorted list of name, guid pairs for 
@@ -62,8 +62,12 @@ namespace Microsoft.WindowsAPICodePack.Shell
             {
                 slist.Add(folders[g], g);
             }
+
             return slist;
         }
+
+        #region KnownFolder Guids
+
         /// <summary>
         /// Computer
         /// </summary>
@@ -504,6 +508,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// </summary>
         internal static Guid OriginalImages = new Guid(0x2C36C0AA, 0x5812, 0x4b87, 0xbf, 0xd0, 0x4c, 0xd0, 0xdf, 0xb1, 0x9b, 0x39);
 
+        #endregion
 
         #region Win7 KnownFolders Guids
 

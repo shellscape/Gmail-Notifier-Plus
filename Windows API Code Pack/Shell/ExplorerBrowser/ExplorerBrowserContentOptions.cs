@@ -1,10 +1,9 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
-using System;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
-using MS.WindowsAPICodePack.Internal;
 using Microsoft.WindowsAPICodePack.Controls.WindowsForms;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
+using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Controls
 {
@@ -16,7 +15,7 @@ namespace Microsoft.WindowsAPICodePack.Controls
     {
         #region construction
         ExplorerBrowser eb;
-        internal ExplorerBrowserContentOptions( ExplorerBrowser eb )
+        internal ExplorerBrowserContentOptions(ExplorerBrowser eb)
         {
             this.eb = eb;
         }
@@ -25,7 +24,7 @@ namespace Microsoft.WindowsAPICodePack.Controls
         #region ViewMode property
         // This is a one-way property of the explorer browser. 
         // Keeping it around for the get implementations.
-        internal FOLDERSETTINGS folderSettings = new FOLDERSETTINGS( );
+        internal FolderSettings folderSettings = new FolderSettings();
 
         /// <summary>
         /// The viewing mode of the Explorer Browser
@@ -38,10 +37,12 @@ namespace Microsoft.WindowsAPICodePack.Controls
             }
             set
             {
-                folderSettings.ViewMode = (FOLDERVIEWMODE)value;
-                HRESULT hr = HRESULT.S_OK;
-                if( eb.explorerBrowserControl != null )
-                    hr = eb.explorerBrowserControl.SetFolderSettings( folderSettings );
+                folderSettings.ViewMode = (FolderViewMode)value;
+
+                if (eb.explorerBrowserControl != null)
+                {
+                    eb.explorerBrowserControl.SetFolderSettings(folderSettings);
+                }
             }
         }
         #endregion
@@ -50,17 +51,19 @@ namespace Microsoft.WindowsAPICodePack.Controls
         /// <summary>
         /// The binary representation of the ExplorerBrowser content flags
         /// </summary>
-        public ExplorerBrowserContentFlags Flags
+        public ExplorerBrowserContentSectionOptions Flags
         {
             get
             {
-                return (ExplorerBrowserContentFlags)folderSettings.fFlags;
+                return (ExplorerBrowserContentSectionOptions)folderSettings.Options;
             }
             set
             {
-                folderSettings.fFlags = (FOLDERFLAGS)value | FOLDERFLAGS.FWF_USESEARCHFOLDER | FOLDERFLAGS.FWF_NOWEBVIEW;
-                if( eb.explorerBrowserControl != null )
-                    eb.explorerBrowserControl.SetFolderSettings( folderSettings );
+                folderSettings.Options = (FolderOptions)value | FolderOptions.UseSearchFolders | FolderOptions.NoWebView;
+                if (eb.explorerBrowserControl != null)
+                {
+                    eb.explorerBrowserControl.SetFolderSettings(folderSettings);
+                }
             }
         }
         #endregion
@@ -73,11 +76,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.AlignLeft );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.AlignLeft);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.AlignLeft, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.AlignLeft, value);
             }
         }
         /// <summary>
@@ -87,11 +90,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.AutoArrange );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.AutoArrange);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.AutoArrange, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.AutoArrange, value);
             }
         }
         /// <summary>
@@ -101,11 +104,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.CheckSelect );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.CheckSelect);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.CheckSelect, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.CheckSelect, value);
             }
         }
         /// <summary>
@@ -115,11 +118,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.ExtendedTiles );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.ExtendedTiles);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.ExtendedTiles, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.ExtendedTiles, value);
             }
         }
         /// <summary>
@@ -129,11 +132,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.FullRowSelect );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.FullRowSelect);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.FullRowSelect, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.FullRowSelect, value);
             }
         }
         /// <summary>
@@ -143,11 +146,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.HideFileNames );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.HideFileNames);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.HideFileNames, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.HideFileNames, value);
             }
         }
         /// <summary>
@@ -157,11 +160,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.NoBrowserViewState );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.NoBrowserViewState);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.NoBrowserViewState, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.NoBrowserViewState, value);
             }
         }
         /// <summary>
@@ -171,11 +174,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.NoColumnHeader );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.NoColumnHeader);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.NoColumnHeader, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.NoColumnHeader, value);
             }
         }
         /// <summary>
@@ -185,11 +188,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.NoHeaderInAllViews );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.NoHeaderInAllViews);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.NoHeaderInAllViews, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.NoHeaderInAllViews, value);
             }
         }
         /// <summary>
@@ -199,11 +202,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.NoIcons );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.NoIcons);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.NoIcons, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.NoIcons, value);
             }
         }
         /// <summary>
@@ -213,11 +216,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.NoSubfolders );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.NoSubfolders);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.NoSubfolders, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.NoSubfolders, value);
             }
         }
         /// <summary>
@@ -227,11 +230,11 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.SingleClickActivate );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.SingleClickActivate);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.SingleClickActivate, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.SingleClickActivate, value);
             }
         }
         /// <summary>
@@ -241,28 +244,28 @@ namespace Microsoft.WindowsAPICodePack.Controls
         {
             get
             {
-                return IsFlagSet( ExplorerBrowserContentFlags.SingleSelection );
+                return IsFlagSet(ExplorerBrowserContentSectionOptions.SingleSelection);
             }
             set
             {
-                SetFlag( ExplorerBrowserContentFlags.SingleSelection, value );
+                SetFlag(ExplorerBrowserContentSectionOptions.SingleSelection, value);
             }
         }
 
-        private bool IsFlagSet( ExplorerBrowserContentFlags flag )
+        private bool IsFlagSet(ExplorerBrowserContentSectionOptions flag)
         {
-            return ( folderSettings.fFlags & (FOLDERFLAGS)flag ) != 0;
+            return (folderSettings.Options & (FolderOptions)flag) != 0;
         }
 
-        private void SetFlag( ExplorerBrowserContentFlags flag, bool value )
+        private void SetFlag(ExplorerBrowserContentSectionOptions flag, bool value)
         {
-            if( value )
-                folderSettings.fFlags |= (FOLDERFLAGS)flag;
+            if (value)
+                folderSettings.Options |= (FolderOptions)flag;
             else
-                folderSettings.fFlags = folderSettings.fFlags & ~(FOLDERFLAGS)flag;
+                folderSettings.Options = folderSettings.Options & ~(FolderOptions)flag;
 
-            if( eb.explorerBrowserControl != null )
-                eb.explorerBrowserControl.SetFolderSettings( folderSettings );
+            if (eb.explorerBrowserControl != null)
+                eb.explorerBrowserControl.SetFolderSettings(folderSettings);
         }
 
         #endregion
@@ -276,19 +279,21 @@ namespace Microsoft.WindowsAPICodePack.Controls
             get
             {
                 int iconSize = 0;
-                IFolderView2 iFV2 = eb.GetFolderView2( );
-                if( iFV2 != null )
+                IFolderView2 iFV2 = eb.GetFolderView2();
+                if (iFV2 != null)
                 {
                     try
                     {
                         int fvm = 0;
-                        HRESULT hr = iFV2.GetViewModeAndIconSize( out fvm, out iconSize );
-                        if( hr != HRESULT.S_OK )
-                            throw new COMException("unable to get icon size", (int)hr );
+                        HResult hr = iFV2.GetViewModeAndIconSize(out fvm, out iconSize);
+                        if (hr != HResult.Ok)
+                        {
+                            throw new CommonControlException(LocalizedMessages.ExplorerBrowserIconSize, hr);
+                        }
                     }
                     finally
                     {
-                        Marshal.ReleaseComObject( iFV2 );
+                        Marshal.ReleaseComObject(iFV2);
                         iFV2 = null;
                     }
                 }
@@ -297,23 +302,27 @@ namespace Microsoft.WindowsAPICodePack.Controls
             }
             set
             {
-                IFolderView2 iFV2 = eb.GetFolderView2( );
-                if( iFV2 != null )
+                IFolderView2 iFV2 = eb.GetFolderView2();
+                if (iFV2 != null)
                 {
                     try
                     {
                         int fvm = 0;
                         int iconSize = 0;
-                        HRESULT hr = iFV2.GetViewModeAndIconSize( out fvm, out iconSize );
-                        if( hr != HRESULT.S_OK )
-                            throw new COMException( "unable to get icon size", (int)hr );
-                        hr = iFV2.SetViewModeAndIconSize( fvm, value );
-                        if( hr != HRESULT.S_OK )
-                            throw new COMException( "unable to set icon size", (int)hr );
+                        HResult hr = iFV2.GetViewModeAndIconSize(out fvm, out iconSize);
+                        if (hr != HResult.Ok)
+                        {
+                            throw new CommonControlException(LocalizedMessages.ExplorerBrowserIconSize, hr);
+                        }
+                        hr = iFV2.SetViewModeAndIconSize(fvm, value);
+                        if (hr != HResult.Ok)
+                        {
+                            throw new CommonControlException(LocalizedMessages.ExplorerBrowserIconSize, hr);
+                        }
                     }
                     finally
                     {
-                        Marshal.ReleaseComObject( iFV2 );
+                        Marshal.ReleaseComObject(iFV2);
                         iFV2 = null;
                     }
                 }

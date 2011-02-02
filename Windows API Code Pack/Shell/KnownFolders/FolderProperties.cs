@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         internal Guid folderId;
         internal string path;
         internal bool pathExists;
-        internal RedirectionCapabilities redirection;
+        internal RedirectionCapability redirection;
         internal string security;
     }
 }

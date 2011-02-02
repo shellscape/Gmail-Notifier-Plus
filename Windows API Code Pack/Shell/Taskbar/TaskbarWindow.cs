@@ -1,116 +1,107 @@
-// Copyright (c) Microsoft Corporation.  All rights reserved.
+﻿// Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System;
 using System.Windows;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 
 namespace Microsoft.WindowsAPICodePack.Taskbar
 {
     internal class TaskbarWindow : IDisposable
     {
-        internal TabbedThumbnailProxyWindow TabbedThumbnailProxyWindow
-        {
-            get;
-            set;
-        }
+        internal TabbedThumbnailProxyWindow TabbedThumbnailProxyWindow { get; set; }
 
-        internal ThumbnailToolbarProxyWindow ThumbnailToolbarProxyWindow
-        {
-            get;
-            set;
-        }
+        internal ThumbnailToolbarProxyWindow ThumbnailToolbarProxyWindow { get; set; }
 
-        internal bool EnableTabbedThumbnails
-        {
-            get;
-            set;
-        }
+        internal bool EnableTabbedThumbnails { get; set; }
 
-        internal bool EnableThumbnailToolbars
-        {
-            get;
-            set;
-        }
+        internal bool EnableThumbnailToolbars { get; set; }
 
-        internal IntPtr UserWindowHandle
-        {
-            get;
-            set;
-        }
+        internal IntPtr UserWindowHandle { get; set; }
 
-        internal UIElement WindowsControl
-        {
-            get;
-            set;
-        }
+        internal UIElement WindowsControl { get; set; }
 
-        private TabbedThumbnail tabbedThumbnailPreview = null;
+        private TabbedThumbnail _tabbedThumbnailPreview;
         internal TabbedThumbnail TabbedThumbnail
         {
-            get { return tabbedThumbnailPreview; }
+            get { return _tabbedThumbnailPreview; }
             set
             {
-                if (tabbedThumbnailPreview == null)
+                if (_tabbedThumbnailPreview != null)
                 {
-                    TabbedThumbnailProxyWindow = new TabbedThumbnailProxyWindow(value);
-                    tabbedThumbnailPreview = value;
+                    throw new InvalidOperationException(LocalizedMessages.TaskbarWindowValueSet);
                 }
-                else
-                    throw new InvalidOperationException("Value is already set. It cannot be set more than once.");
+
+                TabbedThumbnailProxyWindow = new TabbedThumbnailProxyWindow(value);
+                _tabbedThumbnailPreview = value;
+                _tabbedThumbnailPreview.TaskbarWindow = this;
             }
         }
 
-        private ThumbnailToolbarButton[] thumbnailButtons;
-        internal ThumbnailToolbarButton[] ThumbnailButtons
+        private ThumbnailToolBarButton[] _thumbnailButtons;
+        internal ThumbnailToolBarButton[] ThumbnailButtons
         {
-            get { return thumbnailButtons; }
+            get { return _thumbnailButtons; }
             set
             {
-                thumbnailButtons = value;
-
-                // Set the window handle on the buttons (for future updates)
-                Array.ForEach(thumbnailButtons, new Action<ThumbnailToolbarButton>(UpdateHandle));
+                _thumbnailButtons = value;
+                UpdateHandles();
             }
         }
 
-        private void UpdateHandle(ThumbnailToolbarButton button)
+        private void UpdateHandles()
         {
-            button.WindowHandle = WindowToTellTaskbarAbout;
-            button.AddedToTaskbar = false;
+            foreach (ThumbnailToolBarButton button in _thumbnailButtons)
+            {
+                button.WindowHandle = WindowToTellTaskbarAbout;
+                button.AddedToTaskbar = false;
+            }
         }
 
+
+        // TODO: Verify the logic of this property. There are situations where this will throw InvalidOperationException when it shouldn't.
         internal IntPtr WindowToTellTaskbarAbout
         {
             get
             {
                 if (EnableThumbnailToolbars && !EnableTabbedThumbnails && ThumbnailToolbarProxyWindow != null)
+                {
                     return ThumbnailToolbarProxyWindow.WindowToTellTaskbarAbout;
+                }
                 else if (!EnableThumbnailToolbars && EnableTabbedThumbnails && TabbedThumbnailProxyWindow != null)
+                {
                     return TabbedThumbnailProxyWindow.WindowToTellTaskbarAbout;
+                }
+                // Bug: What should happen when TabedThumbnailProxyWindow IS null, but it is enabled?
+                // This occurs during the TabbedThumbnailProxyWindow constructor at line 31.   
                 else if (EnableTabbedThumbnails && EnableThumbnailToolbars && TabbedThumbnailProxyWindow != null)
+                {
                     return TabbedThumbnailProxyWindow.WindowToTellTaskbarAbout;
-                else
-                    throw new InvalidOperationException();
+                }
+
+                throw new InvalidOperationException();
             }
         }
 
-        internal string Title
+        internal void SetTitle(string title)
         {
-            set
+            if (TabbedThumbnailProxyWindow == null)
             {
-                if (TabbedThumbnailProxyWindow != null)
-                    TabbedThumbnailProxyWindow.Text = value;
-                else
-                    throw new InvalidOperationException();
+                throw new InvalidOperationException(LocalizedMessages.TasbarWindowProxyWindowSet);                
             }
+            TabbedThumbnailProxyWindow.Text = title;
         }
 
-        internal TaskbarWindow(IntPtr userWindowHandle, params ThumbnailToolbarButton[] buttons)
+        internal TaskbarWindow(IntPtr userWindowHandle, params ThumbnailToolBarButton[] buttons)
         {
             if (userWindowHandle == IntPtr.Zero)
-                throw new ArgumentException("userWindowHandle");
+            {
+                throw new ArgumentException(LocalizedMessages.CommonFileDialogInvalidHandle, "userWindowHandle");
+            }
 
             if (buttons == null || buttons.Length == 0)
-                throw new ArgumentException("buttons");
+            {
+                throw new ArgumentException(LocalizedMessages.TaskbarWindowEmptyButtonArray, "buttons");
+            }
 
             // Create our proxy window
             ThumbnailToolbarProxyWindow = new ThumbnailToolbarProxyWindow(userWindowHandle, buttons);
@@ -126,13 +117,17 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             WindowsControl = null;
         }
 
-        internal TaskbarWindow(System.Windows.UIElement windowsControl, params ThumbnailToolbarButton[] buttons)
+        internal TaskbarWindow(System.Windows.UIElement windowsControl, params ThumbnailToolBarButton[] buttons)
         {
             if (windowsControl == null)
+            {
                 throw new ArgumentNullException("windowsControl");
+            }
 
             if (buttons == null || buttons.Length == 0)
-                throw new ArgumentException("buttons");
+            {
+                throw new ArgumentException(LocalizedMessages.TaskbarWindowEmptyButtonArray, "buttons");
+            }
 
             // Create our proxy window
             ThumbnailToolbarProxyWindow = new ThumbnailToolbarProxyWindow(windowsControl, buttons);
@@ -141,7 +136,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             // Set our current state
             EnableThumbnailToolbars = true;
             EnableTabbedThumbnails = false;
-            
+
             this.ThumbnailButtons = buttons;
             UserWindowHandle = IntPtr.Zero;
             WindowsControl = windowsControl;
@@ -149,22 +144,22 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
 
         internal TaskbarWindow(TabbedThumbnail preview)
         {
-            if (preview == null)
-                throw new ArgumentException("preview");
+            if (preview == null) { throw new ArgumentNullException("preview"); }
 
             // Create our proxy window
+            // Bug: This is only called in this constructor.  Which will cause the property 
+            // to fail if TaskbarWindow is initialized from a different constructor.
             TabbedThumbnailProxyWindow = new TabbedThumbnailProxyWindow(preview);
 
             // set our current state
             EnableThumbnailToolbars = false;
             EnableTabbedThumbnails = true;
 
-            //
+            // copy values
             UserWindowHandle = preview.WindowHandle;
-            WindowsControl = preview.WindowsControl; 
+            WindowsControl = preview.WindowsControl;
             TabbedThumbnail = preview;
         }
-
 
         #region IDisposable Members
 
@@ -190,22 +185,27 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             if (disposing)
             {
                 // Dispose managed resources
-                if (tabbedThumbnailPreview != null)
-                    tabbedThumbnailPreview.Dispose();
-                tabbedThumbnailPreview = null;
+                if (_tabbedThumbnailPreview != null)
+                {
+                    _tabbedThumbnailPreview.Dispose();
+                }
+                _tabbedThumbnailPreview = null;
 
                 if (ThumbnailToolbarProxyWindow != null)
+                {
                     ThumbnailToolbarProxyWindow.Dispose();
+                }
                 ThumbnailToolbarProxyWindow = null;
 
                 if (TabbedThumbnailProxyWindow != null)
+                {
                     TabbedThumbnailProxyWindow.Dispose();
+                }
                 TabbedThumbnailProxyWindow = null;
 
-                // Don't dispose the thumbnail buttons
-                // as they might be used in another window.
+                // Don't dispose the thumbnail buttons as they might be used in another window.
                 // Setting them to null will indicate we don't need use anymore.
-                thumbnailButtons = null;
+                _thumbnailButtons = null;
             }
         }
 

@@ -13,29 +13,20 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
-        public CommonFileDialogButton()
-            : base(String.Empty)
-        {
-        }
+        public CommonFileDialogButton() : base(string.Empty) { }
 
         /// <summary>
         /// Initializes a new instance of this class with the text only.
         /// </summary>
         /// <param name="text">The text to display for this control.</param>
-        public CommonFileDialogButton(string text)
-            : base(text)
-        {
-        }
+        public CommonFileDialogButton(string text) : base(text) { }
 
         /// <summary>
         /// Initializes a new instance of this class with the specified name and text.
         /// </summary>
         /// <param name="name">The name of this control.</param>
         /// <param name="text">The text to display for this control.</param>
-        public CommonFileDialogButton(string name, string text)
-            : base(name, text)
-        {   
-        }
+        public CommonFileDialogButton(string name, string text) : base(name, text) { }
 
         /// <summary>
         /// Attach the PushButton control to the dialog object
@@ -44,13 +35,12 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         internal override void Attach(IFileDialogCustomize dialog)
         {
             Debug.Assert(dialog != null, "CommonFileDialogButton.Attach: dialog parameter can not be null");
-            
+
             // Add a push button control
             dialog.AddPushButton(this.Id, this.Text);
 
             // Make this control prominent if needed
-            if (IsProminent)
-                dialog.MakeProminent(this.Id);
+            if (IsProminent) { dialog.MakeProminent(this.Id); }
 
             // Sync unmanaged properties with managed properties
             SyncUnmanagedProperties();
@@ -63,8 +53,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         internal void RaiseClickEvent()
         {
             // Make sure that this control is enabled and has a specified delegate
-            if (Enabled)
-                this.Click(this, EventArgs.Empty);
+            if (Enabled) { this.Click(this, EventArgs.Empty); }
         }
     }
 }

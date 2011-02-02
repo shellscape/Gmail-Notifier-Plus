@@ -4,6 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Taskbar
@@ -11,7 +12,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
     /// <summary>
     /// Represents a jump list link object.
     /// </summary>
-    public class JumpListLink : IJumpListTask, IJumpListItem, IDisposable
+    public class JumpListLink : JumpListTask, IJumpListItem, IDisposable
     {
         internal static PropertyKey PKEY_Title = SystemProperties.System.Title;
 
@@ -23,10 +24,14 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public JumpListLink(string pathValue, string titleValue)
         {
             if (string.IsNullOrEmpty(pathValue))
-                throw new ArgumentNullException("pathValue", "JumpListLink's path is required and cannot be null.");
+            {
+                throw new ArgumentNullException("pathValue", LocalizedMessages.JumpListLinkPathRequired);
+            }
 
             if (string.IsNullOrEmpty(titleValue))
-                throw new ArgumentNullException("titleValue", "JumpListLink's title is required and cannot be null.");
+            {
+                throw new ArgumentNullException("titleValue", LocalizedMessages.JumpListLinkTitleRequired);
+            }
 
             Path = pathValue;
             Title = titleValue;
@@ -42,7 +47,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             set
             {
                 if (string.IsNullOrEmpty(value))
-                    throw new ArgumentNullException("value", "JumpListLink's title is required and cannot be null.");
+                {
+                    throw new ArgumentNullException("value", LocalizedMessages.JumpListLinkTitleRequired);
+                }
 
                 title = value;
             }
@@ -58,7 +65,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             set
             {
                 if (string.IsNullOrEmpty(value))
-                    throw new ArgumentNullException("value", "JumpListLink's title is required and cannot be null.");
+                {
+                    throw new ArgumentNullException("value", LocalizedMessages.JumpListLinkTitleRequired);
+                }
 
                 path = value;
             }
@@ -89,7 +98,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <summary>
         /// Gets an IShellLinkW representation of this object
         /// </summary>
-        internal IShellLinkW NativeShellLink
+        internal override IShellLinkW NativeShellLink
         {
             get
             {
@@ -109,42 +118,47 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
 
                 nativePropertyStore = (IPropertyStore)nativeShellLink;
 
-                PropVariant propVariant = new PropVariant();
-
                 nativeShellLink.SetPath(Path);
 
-                if (!String.IsNullOrEmpty(IconReference.ModuleName))
+                if (!string.IsNullOrEmpty(IconReference.ModuleName))
+                {
                     nativeShellLink.SetIconLocation(IconReference.ModuleName, IconReference.ResourceId);
+                }
 
-                if (!String.IsNullOrEmpty(Arguments))
+                if (!string.IsNullOrEmpty(Arguments))
+                {
                     nativeShellLink.SetArguments(Arguments);
+                }
 
-                if (!String.IsNullOrEmpty(WorkingDirectory))
+                if (!string.IsNullOrEmpty(WorkingDirectory))
+                {
                     nativeShellLink.SetWorkingDirectory(WorkingDirectory);
+                }
 
                 nativeShellLink.SetShowCmd((uint)ShowCommand);
 
-                propVariant.SetString(Title);
-                nativePropertyStore.SetValue(ref PKEY_Title, ref propVariant);
-                propVariant.Clear();
+                using (PropVariant propVariant = new PropVariant(Title))
+                {
+                    HResult result =  nativePropertyStore.SetValue(ref PKEY_Title, propVariant);
+                    if (!CoreErrorHelper.Succeeded(result))
+                    {
+                        throw new ShellException(result);
+                    }
 
-                nativePropertyStore.Commit();
+                    nativePropertyStore.Commit();
+                }
 
                 return nativeShellLink;
             }
         }
-
-        #region IJumpListTask Members
-
-        #endregion
-
+        
         #region IDisposable Members
 
         /// <summary>
         /// Release the native and managed objects
         /// </summary>
         /// <param name="disposing">Indicates that this is being called from Dispose(), rather than the finalizer.</param>
-        public void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {

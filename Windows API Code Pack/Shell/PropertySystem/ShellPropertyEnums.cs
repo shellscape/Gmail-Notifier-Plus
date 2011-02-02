@@ -7,6 +7,27 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
     #region Property System Enumerations
 
     /// <summary>
+    /// Property store cache state
+    /// </summary>
+    public enum PropertyStoreCacheState
+    {
+        /// <summary>
+        /// Contained in file, not updated.
+        /// </summary>
+        Normal = 0,
+
+        /// <summary>
+        /// Not contained in file.
+        /// </summary>
+        NotInSource = 1,
+
+        /// <summary>
+        /// Contained in file, has been updated since file was consumed.
+        /// </summary>
+        Dirty = 2
+    }
+
+    /// <summary>
     /// Delineates the format of a property string.
     /// </summary>
     /// <remarks>
@@ -14,13 +35,13 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
     /// these flags, to specify the format. Some flags are mutually exclusive, 
     /// so combinations like <c>ShortTime | LongTime | HideTime</c> are not allowed.
     /// </remarks>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1714:FlagsEnumsShouldHavePluralNames"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Justification = "This is following the native API"), Flags]
-    public enum PropertyDescriptionFormat
+    [Flags]
+    public enum PropertyDescriptionFormatOptions
     {
         /// <summary>
         /// The format settings specified in the property's .propdesc file.
         /// </summary>
-        Default = 0,
+        None = 0,
 
         /// <summary>
         /// The value preceded with the property's display name.
@@ -229,13 +250,13 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
     /// <summary>
     /// Describes how a property should be treated for display purposes.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1714:FlagsEnumsShouldHavePluralNames"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2217:DoNotMarkEnumsWithFlags"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1028:EnumStorageShouldBeInt32", Justification = "This is following the native API"), Flags]
-    public enum PropertyColumnState : uint
+    [Flags]
+    public enum PropertyColumnStateOptions
     {
         /// <summary>
         /// Default value
         /// </summary>
-        DefaultValue = 0x00000000,
+        None = 0x00000000,
 
         /// <summary>
         /// The value is displayed as a string.
@@ -285,9 +306,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// <summary>
         /// VarCmp produces same result as IShellFolder::CompareIDs.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Perfer", Justification = "This is following the native API")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Cmp", Justification = "This is following the native API")]
-        PerferVarCmp = 0x00000200,
+        PreferVariantCompare = 0x00000200,
 
         /// <summary>
         /// PSFormatForDisplay produces same result as IShellFolder::CompareIDs.
@@ -322,8 +341,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// <summary>
         /// The width is the same in all dots per inch (dpi)s.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DPI", Justification = "This is following the native API")]
-        NoDPIScale = 0x00002000,
+        NoDpiScale = 0x00002000,
 
         /// <summary>
         /// Fixed width and height ratio.
@@ -436,8 +454,6 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// <summary>
         /// The value of the property must match the value of the constant, where '?' matches any single character and '*' matches any sequence of characters.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOS", Justification = "This is following the native API")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WildCards", Justification = "This is following the native API")]
         DOSWildCards,
 
         /// <summary>
@@ -479,8 +495,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// <summary>
         /// The dynamically-created ranges.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Dymamic", Justification = "This is following the native API")]
-        Dymamic = 3,
+        Dynamic = 3,
 
         /// <summary>
         /// The month and year groups.
@@ -536,13 +551,13 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
     /// <summary>
     /// Describes the attributes of the <c>typeInfo</c> element in the property's <c>.propdesc</c> file.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1028:EnumStorageShouldBeInt32"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Justification = "This is following the native API"), Flags]
-    public enum PropertyTypeFlags : uint
+    [Flags]
+    public enum PropertyTypeOptions
     {
         /// <summary>
         /// The property uses the default values for all attributes.
         /// </summary>
-        Default = 0x00000000,
+        None = 0x00000000,
 
         /// <summary>
         /// The property can have multiple values.   
@@ -633,24 +648,24 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// <summary>
         /// This property is owned by the system.
         /// </summary>
-        IsSystemProperty = 0x80000000,
+        IsSystemProperty = unchecked((int)0x80000000),
 
         /// <summary>
         /// A mask used to retrieve all flags.
         /// </summary>
-        MaskAll = 0x800001FF,
+        MaskAll = unchecked((int)0x800001FF),
     }
 
     /// <summary>
     /// Associates property names with property description list strings.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1028:EnumStorageShouldBeInt32"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue"), Flags]
-    public enum PropertyViewFlags : uint
+    [Flags]
+    public enum PropertyViewOptions
     {
         /// <summary>
         /// The property is shown by default.
         /// </summary>
-        Default = 0x00000000,
+        None = 0x00000000,
 
         /// <summary>
         /// The property is centered.

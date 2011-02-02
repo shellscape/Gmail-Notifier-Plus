@@ -16,47 +16,36 @@ namespace Microsoft.WindowsAPICodePack.Shell
         internal SearchCondition(ICondition nativeSearchCondition)
         {
             if (nativeSearchCondition == null)
+            {
                 throw new ArgumentNullException("nativeSearchCondition");
+            }
 
             NativeSearchCondition = nativeSearchCondition;
 
-            HRESULT hr = NativeSearchCondition.GetConditionType(out conditionType);
+            HResult hr = NativeSearchCondition.GetConditionType(out conditionType);
 
-            if (!CoreErrorHelper.Succeeded((int)hr))
-                Marshal.ThrowExceptionForHR((int)hr);
+            if (!CoreErrorHelper.Succeeded(hr))
+            {
+                throw new ShellException(hr);
+            }
 
             if (ConditionType == SearchConditionType.Leaf)
             {
-                PropVariant propVar;
-                hr = NativeSearchCondition.GetComparisonInfo(out canonicalName, out conditionOperation, out propVar);
-
-                if (!CoreErrorHelper.Succeeded((int)hr))
-                    Marshal.ThrowExceptionForHR((int)hr);
-
-                try
+                using (PropVariant propVar = new PropVariant())
                 {
-                    propertyValue = propVar.Value.ToString();
-                }
-                finally
-                {
-                    propVar.Clear();
-                }
+                    hr = NativeSearchCondition.GetComparisonInfo(out canonicalName, out conditionOperation, propVar);
 
+                    if (!CoreErrorHelper.Succeeded(hr))
+                    {
+                        throw new ShellException(hr);
+                    }
+
+                    PropertyValue = propVar.Value.ToString();
+                }
             }
         }
 
-        private ICondition searchCondition = null;
-        internal ICondition NativeSearchCondition
-        {
-            get
-            {
-                return searchCondition;
-            }
-            set
-            {
-                searchCondition = value;
-            }
-        }
+        internal ICondition NativeSearchCondition { get; set; }
 
         private string canonicalName;
         /// <summary>
@@ -65,14 +54,13 @@ namespace Microsoft.WindowsAPICodePack.Shell
         public string PropertyCanonicalName
         {
             get { return canonicalName; }
-            internal set { canonicalName = value; }
         }
 
         private PropertyKey propertyKey;
         private PropertyKey emptyPropertyKey = new PropertyKey();
         /// <summary>
         /// The property key for the property that is to be compared.
-        /// </summary>
+        /// </summary>        
         public PropertyKey PropertyKey
         {
             get
@@ -80,45 +68,38 @@ namespace Microsoft.WindowsAPICodePack.Shell
                 if (propertyKey == emptyPropertyKey)
                 {
                     int hr = PropertySystemNativeMethods.PSGetPropertyKeyFromName(PropertyCanonicalName, out propertyKey);
-
                     if (!CoreErrorHelper.Succeeded(hr))
-                        Marshal.ThrowExceptionForHR(hr);
+                    {
+                        throw new ShellException(hr);
+                    }
                 }
 
                 return propertyKey;
-            }
-            internal set { propertyKey = value; }
+            }            
         }
 
-        private string propertyValue;
         /// <summary>
         /// A value (in <see cref="System.String"/> format) to which the property is compared. 
         /// </summary>
-        public string PropertyValue
-        {
-            get { return propertyValue; }
-            internal set { propertyValue = value; }
-        }
-
+        public string PropertyValue { get; internal set; }
+        
         private SearchConditionOperation conditionOperation = SearchConditionOperation.Implicit;
         /// <summary>
         /// Search condition operation to be performed on the property/value combination.
         /// See <see cref="Microsoft.WindowsAPICodePack.Shell.SearchConditionOperation"/> for more details.
-        /// </summary>
+        /// </summary>        
         public SearchConditionOperation ConditionOperation
         {
             get { return conditionOperation; }
-            internal set { conditionOperation = value; }
         }
 
         private SearchConditionType conditionType = SearchConditionType.Leaf;
         /// <summary>
         /// Represents the condition type for the given node. 
-        /// </summary>
+        /// </summary>        
         public SearchConditionType ConditionType
         {
             get { return conditionType; }
-            internal set { conditionType = value; }
         }
 
         /// <summary>
@@ -133,10 +114,12 @@ namespace Microsoft.WindowsAPICodePack.Shell
             object subConditionObj;
             Guid guid = new Guid(ShellIIDGuid.IEnumUnknown);
 
-            HRESULT hr = NativeSearchCondition.GetSubConditions(ref guid, out subConditionObj);
+            HResult hr = NativeSearchCondition.GetSubConditions(ref guid, out subConditionObj);
 
-            if (!CoreErrorHelper.Succeeded((int)hr))
-                Marshal.ThrowExceptionForHR((int)hr);
+            if (!CoreErrorHelper.Succeeded(hr))
+            {
+                throw new ShellException(hr);
+            }
 
             // Convert each ICondition to SearchCondition
             if (subConditionObj != null)
@@ -146,11 +129,11 @@ namespace Microsoft.WindowsAPICodePack.Shell
                 IntPtr buffer = IntPtr.Zero;
                 uint fetched = 0;
 
-                while (hr == HRESULT.S_OK)
+                while (hr == HResult.Ok)
                 {
                     hr = enumUnknown.Next(1, ref buffer, ref fetched);
 
-                    if (hr == HRESULT.S_OK && fetched == 1)
+                    if (hr == HResult.Ok && fetched == 1)
                     {
                         subConditionsList.Add(new SearchCondition((ICondition)Marshal.GetObjectForIUnknown(buffer)));
                     }
@@ -183,7 +166,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// Release the native objects.
         /// </summary>
         /// <param name="disposing"></param>
-        public void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (NativeSearchCondition != null)
             {

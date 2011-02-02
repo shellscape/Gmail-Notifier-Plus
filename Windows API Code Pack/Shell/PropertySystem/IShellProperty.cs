@@ -1,7 +1,5 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
-//Copyright (c) Microsoft Corporation.  All rights reserved.
-
 using System;
 using Microsoft.WindowsAPICodePack.Shell;
 
@@ -15,10 +13,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// <summary>
         /// Gets the property key that identifies this property.
         /// </summary>
-        PropertyKey PropertyKey
-        {
-            get;
-        }
+        PropertyKey PropertyKey { get; }
 
         /// <summary>
         /// Gets a formatted, Unicode string representation of a property value.
@@ -26,24 +21,18 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// <param name="format">One or more <c>PropertyDescriptionFormat</c> flags 
         /// chosen to produce the desired display format.</param>
         /// <returns>The formatted value as a string.</returns>
-        string FormatForDisplay(PropertyDescriptionFormat format);
+        string FormatForDisplay(PropertyDescriptionFormatOptions format);
 
         /// <summary>
         /// Get the property description object.
         /// </summary>
-        ShellPropertyDescription Description
-        {
-            get;
-        }
+        ShellPropertyDescription Description { get; }
 
         /// <summary>
         /// Gets the case-sensitive name of the property as it is known to the system, 
         /// regardless of its localized name.
         /// </summary>
-        string CanonicalName
-        {
-            get;
-        }
+        string CanonicalName { get; }
 
         /// <summary>
         /// Gets the value for this property using the generic Object type.
@@ -54,26 +43,17 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// You can only set a value for this type using the <c>Property&lt;T&gt;</c> 
         /// class.
         /// </remarks>
-        object ValueAsObject
-        {
-            get;
-        }
+        object ValueAsObject { get; }
 
         /// <summary>
         /// Gets the <c>System.Type</c> value for this property.
         /// </summary>
-        Type ValueType
-        {
-            get;
-        }
+        Type ValueType { get; }
 
         /// <summary>
         /// Gets the image reference path and icon index associated with a property value. 
         /// This API is only available in Windows 7.
         /// </summary>
-        IconReference IconReference 
-        { 
-            get; 
-        }
+        IconReference IconReference { get; }
     }
 }

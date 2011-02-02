@@ -1,5 +1,8 @@
 //Copyright (c) Microsoft Corporation.  All rights reserved.
 
+using System;
+using System.Globalization;
+
 namespace Microsoft.WindowsAPICodePack.Dialogs
 {
     /// <summary>
@@ -11,6 +14,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// Creates a new instance of this class.
         /// </summary>
         public TaskDialogCommandLink() { }
+
         /// <summary>
         /// Creates a new instance of this class with the specified name and label.
         /// </summary>
@@ -46,8 +50,10 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <returns>A <see cref="System.String"/></returns>
         public override string ToString()
         {
-            string instructionString = (instruction == null ? "" : instruction);
-            return Text + "\n" + instructionString;
+            return string.Format(CultureInfo.CurrentCulture, "{0}{1}{2}",
+                Text ?? string.Empty,
+                (!string.IsNullOrEmpty(Text) && !string.IsNullOrEmpty(instruction)) ? Environment.NewLine : string.Empty,
+                instruction ?? string.Empty);
         }
     }
 }

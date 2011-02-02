@@ -1,7 +1,5 @@
 //Copyright (c) Microsoft Corporation.  All rights reserved.
 
-using Microsoft.WindowsAPICodePack.Dialogs;
-
 namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
 {
     /// <summary>
@@ -14,22 +12,21 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         /// Holds the text that is displayed for this control.
         /// </summary>
         private string textValue;
-        
+
         /// <summary>
         /// Gets or sets the text string that is displayed on the control.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1307:SpecifyStringComparison", MessageId = "System.String.Compare(System.String,System.String)", Justification = "We are not currently handling globalization or localization")]
         public virtual string Text
         {
             get { return textValue; }
             set
             {
                 // Don't update this property if it hasn't changed
-                if (string.Compare(value, textValue) == 0)
-                    return;
-
-                textValue = value;
-                ApplyPropertyChange("Text");
+                if (value != textValue)
+                {
+                    textValue = value;
+                    ApplyPropertyChange("Text");
+                }
             }
         }
 
@@ -43,9 +40,8 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
             set
             {
                 // Don't update this property if it hasn't changed
-                if (value == enabled)
-                    return;
-                
+                if (value == enabled) { return; }
+
                 enabled = value;
                 ApplyPropertyChange("Enabled");
             }
@@ -62,15 +58,14 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
             set
             {
                 // Don't update this property if it hasn't changed
-                if (value == visible)
-                    return;
+                if (value == visible) { return; }
 
                 visible = value;
                 ApplyPropertyChange("Visible");
             }
         }
 
-        private bool isAdded = false;
+        private bool isAdded;
         /// <summary>
         /// Has this control been added to the dialog
         /// </summary>
@@ -83,15 +78,14 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         /// <summary>
         /// Creates a new instance of this class.
         /// </summary>
-        protected CommonFileDialogControl() : base()
-        {
-        }
+        protected CommonFileDialogControl() { }
 
         /// <summary>
         /// Creates a new instance of this class with the text.
         /// </summary>
         /// <param name="text">The text of the common file dialog control.</param>
-        protected CommonFileDialogControl(string text) : base() 
+        protected CommonFileDialogControl(string text)
+            : base()
         {
             this.textValue = text;
         }
@@ -101,11 +95,12 @@ namespace Microsoft.WindowsAPICodePack.Dialogs.Controls
         /// </summary>
         /// <param name="name">The name of the common file dialog control.</param>
         /// <param name="text">The text of the common file dialog control.</param>
-        protected CommonFileDialogControl(string name, string text) : base(name) 
+        protected CommonFileDialogControl(string name, string text)
+            : base(name)
         {
             this.textValue = text;
         }
-        
+
         /// <summary>
         /// Attach the custom control itself to the specified dialog
         /// </summary>

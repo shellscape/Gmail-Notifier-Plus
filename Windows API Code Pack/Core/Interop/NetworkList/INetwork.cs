@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAPICodePack.Net
         }
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        Connectivity GetConnectivity();
+        ConnectivityStates GetConnectivity();
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         NetworkCategory GetCategory();

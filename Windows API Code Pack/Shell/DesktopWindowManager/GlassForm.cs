@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
 using MS.WindowsAPICodePack.Internal;
 
 
@@ -17,16 +17,16 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Get determines if AeroGlass is enabled on the desktop. Set enables/disables AreoGlass on the desktop.
         /// </summary>
-        public bool AeroGlassCompositionEnabled
+        public static bool AeroGlassCompositionEnabled
         {
             set
             {
                 DesktopWindowManagerNativeMethods.DwmEnableComposition(
-                    value ? CompositionEnable.DWM_EC_ENABLECOMPOSITION : CompositionEnable.DWM_EC_DISABLECOMPOSITION );
+                    value ? CompositionEnable.Enable : CompositionEnable.Disable);
             }
             get
             {
-                return DesktopWindowManagerNativeMethods.DwmIsCompositionEnabled( );
+                return DesktopWindowManagerNativeMethods.DwmIsCompositionEnabled();
             }
         }
 
@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Fires when the availability of Glass effect changes.
         /// </summary>
-        public event AeroGlassCompositionChangedEvent AeroGlassCompositionChanged;
+        public event EventHandler<AeroGlassCompositionChangedEventArgs> AeroGlassCompositionChanged;
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Makes the background of current window transparent
         /// </summary>
-        public void SetAeroGlassTransparency( )
+        public void SetAeroGlassTransparency()
         {
             this.BackColor = Color.Transparent;
         }
@@ -57,33 +57,35 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <param name="control">The control to exclude.</param>
         /// <remarks>Many non-WPF rendered controls (i.e., the ExplorerBrowser control) will not 
         /// render properly on top of an AeroGlass frame. </remarks>
-        public void ExcludeControlFromAeroGlass( Control control )
+        public void ExcludeControlFromAeroGlass(Control control)
         {
-            if( AeroGlassCompositionEnabled )
-            {
-                Rectangle clientScreen = this.RectangleToScreen( this.ClientRectangle );
-                Rectangle controlScreen = control.RectangleToScreen( control.ClientRectangle );
+            if (control == null) { throw new ArgumentNullException("control"); }
 
-                MARGINS margins = new MARGINS( );
-                margins.cxLeftWidth = controlScreen.Left - clientScreen.Left;
-                margins.cxRightWidth = clientScreen.Right - controlScreen.Right;
-                margins.cyTopHeight = controlScreen.Top - clientScreen.Top;
-                margins.cyBottomHeight = clientScreen.Bottom - controlScreen.Bottom;
+            if (AeroGlassCompositionEnabled)
+            {
+                Rectangle clientScreen = this.RectangleToScreen(this.ClientRectangle);
+                Rectangle controlScreen = control.RectangleToScreen(control.ClientRectangle);
+
+                Margins margins = new Margins();
+                margins.LeftWidth = controlScreen.Left - clientScreen.Left;
+                margins.RightWidth = clientScreen.Right - controlScreen.Right;
+                margins.TopHeight = controlScreen.Top - clientScreen.Top;
+                margins.BottomHeight = clientScreen.Bottom - controlScreen.Bottom;
 
                 // Extend the Frame into client area
-                DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea( Handle, ref margins );
+                DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea(Handle, ref margins);
             }
         }
 
         /// <summary>
         /// Resets the AeroGlass exclusion area.
         /// </summary>
-        public void ResetAreoGlass( )
+        public void ResetAeroGlass()
         {
-            if( this.Handle != IntPtr.Zero )
+            if (this.Handle != IntPtr.Zero)
             {
-                MARGINS margins = new MARGINS( true );
-                DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea( this.Handle, ref margins );
+                Margins margins = new Margins(true);
+                DesktopWindowManagerNativeMethods.DwmExtendFrameIntoClientArea(this.Handle, ref margins);
             }
         }
         #endregion
@@ -93,46 +95,46 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// Catches the DWM messages to this window and fires the appropriate event.
         /// </summary>
         /// <param name="m"></param>
-        protected override void WndProc( ref Message m )
+
+        protected override void WndProc(ref System.Windows.Forms.Message m)
         {
-            if( m.Msg == DWMMessages.WM_DWMCOMPOSITIONCHANGED
-                || m.Msg == DWMMessages.WM_DWMNCRENDERINGCHANGED )
+            if (m.Msg == DWMMessages.WM_DWMCOMPOSITIONCHANGED
+                || m.Msg == DWMMessages.WM_DWMNCRENDERINGCHANGED)
             {
-                if( AeroGlassCompositionChanged != null )
+                if (AeroGlassCompositionChanged != null)
                 {
-                    AeroGlassCompositionChanged.Invoke(
-                        this,
-                        new AeroGlassCompositionChangedEvenArgs( AeroGlassCompositionEnabled ) );
+                    AeroGlassCompositionChanged.Invoke(this,
+                        new AeroGlassCompositionChangedEventArgs(AeroGlassCompositionEnabled));
                 }
             }
-            
-            base.WndProc( ref m );
+
+            base.WndProc(ref m);
         }
 
         /// <summary>
         /// Initializes the Form for AeroGlass
         /// </summary>
         /// <param name="e">The arguments for this event</param>
-        protected override void OnLoad( EventArgs e )
+        protected override void OnLoad(EventArgs e)
         {
-            base.OnLoad( e );
-            ResetAreoGlass( );
+            base.OnLoad(e);
+            ResetAeroGlass();
         }
 
         /// <summary>
         /// Overide OnPaint to paint the background as black.
         /// </summary>
         /// <param name="e">PaintEventArgs</param>
-        protected override void OnPaint( PaintEventArgs e )
+        protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint( e );
+            base.OnPaint(e);
 
-            if( DesignMode == false )
+            if (DesignMode == false)
             {
-                if( AeroGlassCompositionEnabled )
+                if (AeroGlassCompositionEnabled && e != null)
                 {
                     // Paint the all the regions black to enable glass
-                    e.Graphics.FillRectangle( Brushes.Black, this.ClientRectangle );
+                    e.Graphics.FillRectangle(Brushes.Black, this.ClientRectangle);
                 }
             }
         }

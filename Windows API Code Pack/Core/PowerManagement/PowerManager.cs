@@ -1,7 +1,10 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.WindowsAPICodePack.Resources;
 using MS.WindowsAPICodePack.Internal;
+using System.ComponentModel;
 
 namespace Microsoft.WindowsAPICodePack.ApplicationServices
 {
@@ -11,18 +14,12 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
     /// </summary>
     public static class PowerManager
     {
-        internal static PowerPersonality? powerPersonality;
-        internal static PowerSource? powerSource;
-        internal static int? batteryLifePercent;
-        internal static bool? isMonitorOn;
-        internal static bool monitorRequired;
-        internal static bool requestBlockSleep;
+        private static bool? isMonitorOn;
+        private static bool monitorRequired;
+        private static bool requestBlockSleep;
 
-        private static readonly object personalitylock = new object();
-        private static readonly object powersrclock = new object();
-        private static readonly object batterylifelock = new object();
         private static readonly object monitoronlock = new object();
-        
+
 
         #region Notifications
 
@@ -35,7 +32,7 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         {
             add
             {
-                
+
 
                 MessageManager.RegisterPowerEvent(
                     EventManager.PowerPersonalityChange, value);
@@ -78,7 +75,7 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// Raised when the remaining battery life changes.
         /// </summary>
         /// <exception cref="InvalidOperationException">The event handler specified for removal was not registered.</exception>
-       /// <exception cref="System.PlatformNotSupportedException">Requires Vista/Windows Server 2008.</exception>
+        /// <exception cref="System.PlatformNotSupportedException">Requires Vista/Windows Server 2008.</exception>
         public static event EventHandler BatteryLifePercentChanged
         {
             add
@@ -153,16 +150,10 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// <returns>A <see cref="BatteryState"/> instance that represents 
         /// the state of the battery at the time this method was called.</returns>
         /// <exception cref="System.InvalidOperationException">The system does not have a battery.</exception>
-        /// <exception cref="System.PlatformNotSupportedException">Requires XP/Windows Server 2003 or higher.</exception>
-
+        /// <exception cref="System.PlatformNotSupportedException">Requires XP/Windows Server 2003 or higher.</exception>        
         public static BatteryState GetCurrentBatteryState()
         {
             CoreHelpers.ThrowIfNotXP();
-
-            if (!Power.GetSystemBatteryState().BatteryPresent)
-                throw new InvalidOperationException(
-                    "Battery is not present on this system.");
-
             return new BatteryState();
         }
 
@@ -183,23 +174,23 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// is required to remain on.</value>
         public static bool MonitorRequired
         {
-            get 
+            get
             {
                 CoreHelpers.ThrowIfNotXP();
                 return monitorRequired;
             }
             [System.Security.Permissions.PermissionSetAttribute(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
-            set 
+            set
             {
                 CoreHelpers.ThrowIfNotXP();
 
                 if (value)
                 {
-                    Power.SetThreadExecutionState(ExecutionState.Continuous | ExecutionState.DisplayRequired);
+                    PowerManager.SetThreadExecutionState(ExecutionStates.Continuous | ExecutionStates.DisplayRequired);
                 }
                 else
                 {
-                    Power.SetThreadExecutionState(ExecutionState.Continuous);
+                    PowerManager.SetThreadExecutionState(ExecutionStates.Continuous);
                 }
 
                 monitorRequired = value;
@@ -217,21 +208,21 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// <value>A <see cref="System.Boolean"/> value.</value>
         public static bool RequestBlockSleep
         {
-            get 
+            get
             {
                 CoreHelpers.ThrowIfNotXP();
 
                 return requestBlockSleep;
             }
             [System.Security.Permissions.PermissionSetAttribute(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
-            set 
+            set
             {
                 CoreHelpers.ThrowIfNotXP();
 
                 if (value)
-                    Power.SetThreadExecutionState(ExecutionState.Continuous | ExecutionState.SystemRequired);
+                    PowerManager.SetThreadExecutionState(ExecutionStates.Continuous | ExecutionStates.SystemRequired);
                 else
-                    Power.SetThreadExecutionState(ExecutionState.Continuous);
+                    PowerManager.SetThreadExecutionState(ExecutionStates.Continuous);
 
                 requestBlockSleep = value;
             }
@@ -294,32 +285,23 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// <value>A <see cref="PowerPersonality"/> value.</value>
         public static PowerPersonality PowerPersonality
         {
-            get 
+            get
             {
-                CoreHelpers.ThrowIfNotVista();
+                Guid guid;
+                PowerManagementNativeMethods.PowerGetActiveScheme(IntPtr.Zero, out guid);
 
-                // The only way to get the current power personality is 
-                // to register for an event so if the
-                // personality value has not been set yet, 
-                // a dummy event needs to be registered.  All
-                // subsequent calls to this property get the value from memory.
-                if (powerPersonality == null)
+                try
                 {
-                    lock (personalitylock)
-                    {
-                        if (powerPersonality == null)
-                        {
-                            EventHandler dummy = delegate(object sender, EventArgs args) { };
-                            PowerPersonalityChanged += dummy;
-                            // Wait until Windows updates the personality 
-                            // (through RegisterPowerSettingNotification).
-                            EventManager.personalityReset.WaitOne();
-                        }
-                    }
+                    return PowerPersonalityGuids.GuidToEnum(guid);
                 }
-                return (PowerPersonality)powerPersonality;
+                finally
+                {
+                    CoreNativeMethods.LocalFree(ref guid);
+                }
             }
         }
+
+
 
         /// <summary>
         /// Gets a value that indicates the remaining battery life 
@@ -332,29 +314,18 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// <value>An <see cref="System.Int32"/> value.</value>
         public static int BatteryLifePercent
         {
-            get 
+            get
             {
-                if (!Power.GetSystemBatteryState().BatteryPresent)
-                    throw new InvalidOperationException(
-                        "Battery is not present on the system.");
-
+                // Because of the way this value is being calculated, it should not be limited to granularity
+                // as the data from the event (old way) was.
                 CoreHelpers.ThrowIfNotVista();
+                if (!Power.GetSystemBatteryState().BatteryPresent)
+                    throw new InvalidOperationException(LocalizedMessages.PowerManagerBatteryNotPresent);
 
-                if (batteryLifePercent == null)
-                {
-                    lock (batterylifelock)
-                    {
-                        if (batteryLifePercent == null)
-                        {
-                            EventHandler dummy = delegate(object sender, EventArgs args) { };
-                            BatteryLifePercentChanged += dummy;
-                            // Wait until Windows updates the personality 
-                            // (through RegisterPowerSettingNotification).
-                            EventManager.batteryLifeReset.WaitOne();
-                        }
-                    }
-                }
-                return (int)batteryLifePercent;
+                var state = Power.GetSystemBatteryState();
+
+                int percent = (int)Math.Round(((double)state.RemainingCapacity / state.MaxCapacity * 100), 0);
+                return percent;
             }
         }
 
@@ -365,27 +336,25 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// <value>A <see cref="System.Boolean"/> value.</value>
         public static bool IsMonitorOn
         {
-            get 
+            get
             {
                 CoreHelpers.ThrowIfNotVista();
 
-                if (isMonitorOn == null)
+                lock (monitoronlock)
                 {
-                    lock (monitoronlock)
+                    if (isMonitorOn == null)
                     {
-                        if (isMonitorOn == null)
-                        {
-                            EventHandler dummy = delegate(object sender, EventArgs args) { };
-                            IsMonitorOnChanged += dummy;
-                            // Wait until Windows updates the power source 
-                            // (through RegisterPowerSettingNotification)
-                            EventManager.monitorOnReset.WaitOne();
-                        }
+                        EventHandler dummy = delegate(object sender, EventArgs args) { };
+                        IsMonitorOnChanged += dummy;
+                        // Wait until Windows updates the power source 
+                        // (through RegisterPowerSettingNotification)
+                        EventManager.monitorOnReset.WaitOne();
                     }
                 }
 
                 return (bool)isMonitorOn;
             }
+            internal set { isMonitorOn = value; }
         }
 
         /// <summary>
@@ -395,29 +364,41 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// <value>A <see cref="PowerSource"/> value.</value>
         public static PowerSource PowerSource
         {
-            get 
+            get
             {
                 CoreHelpers.ThrowIfNotVista();
 
-                if (powerSource == null)
+                if (IsUpsPresent)
                 {
-                    lock (powersrclock)
-                    {
-                        if (powerSource == null)
-                        {
-                            EventHandler dummy = delegate(object sender, EventArgs args) { ;};
-                            PowerSourceChanged += dummy;
-                            // Wait until Windows updates the power source 
-                            // (through RegisterPowerSettingNotification).
-                            EventManager.powerSrcReset.WaitOne();
-                        }
-                    }
+                    return PowerSource.Ups;
                 }
 
-                return (PowerSource)powerSource;
+                if (!IsBatteryPresent || GetCurrentBatteryState().ACOnline)
+                {
+                    return PowerSource.AC;
+                }
+
+                return PowerSource.Battery;
             }
         }
         #endregion
+
+        /// <summary>
+        /// Allows an application to inform the system that it 
+        /// is in use, thereby preventing the system from entering 
+        /// the sleeping power state or turning off the display 
+        /// while the application is running.
+        /// </summary>
+        /// <param name="executionStateOptions">The thread's execution requirements.</param>
+        /// <exception cref="Win32Exception">Thrown if the SetThreadExecutionState call fails.</exception>
+        public static void SetThreadExecutionState(ExecutionStates executionStateOptions)
+        {
+            ExecutionStates ret = PowerManagementNativeMethods.SetThreadExecutionState(executionStateOptions);
+            if (ret == ExecutionStates.None)
+            {
+                throw new Win32Exception(LocalizedMessages.PowerExecutionStateFailed);
+            }
+        }
 
     }
 }

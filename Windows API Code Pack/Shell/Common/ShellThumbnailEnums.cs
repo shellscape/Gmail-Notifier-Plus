@@ -7,8 +7,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
     /// such as extracting the thumbnail or icon from a file, 
     /// from the cache only, or from memory only.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1027:MarkEnumsWithFlags", Justification = "The members of this enum do not represent flags")]
-    public enum ShellThumbnailRetrievalOptions
+    public enum ShellThumbnailRetrievalOption
     {
         /// <summary>
         /// The default behavior loads a thumbnail. If there is no thumbnail for the current ShellItem,  
@@ -21,7 +20,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// but only to retrieve a cached item. If no cached thumbnail is available, a cached per-instance icon is returned but  
         /// a thumbnail or icon is not extracted.
         /// </summary>
-        CacheOnly = ShellNativeMethods.SIIGBF.SIIGBF_INCACHEONLY,
+        CacheOnly = ShellNativeMethods.SIIGBF.InCacheOnly,
 
         /// <summary>
         /// The MemoryOnly behavior returns the item only if it is in memory. The disk is not accessed even if the item is cached. 
@@ -30,14 +29,13 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// even if it is cached, always requires the disk to be accessed, so this method should not be 
         /// called from the user interface (UI) thread without passing ShellThumbnailCacheOptions.MemoryOnly.
         /// </summary>
-        MemoryOnly = ShellNativeMethods.SIIGBF.SIIGBF_MEMORYONLY,
+        MemoryOnly = ShellNativeMethods.SIIGBF.MemoryOnly,
     }
 
     /// <summary>
     /// Represents the format options for the thumbnails and icons.
-    /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1027:MarkEnumsWithFlags", Justification = "The members of this enum do not represent flags")]
-    public enum ShellThumbnailFormatOptions
+    /// </summary>    
+    public enum ShellThumbnailFormatOption
     {
         /// <summary>
         /// The default behavior loads a thumbnail. An HBITMAP for the icon of the item is retrieved if there is no thumbnail for the current Shell Item.
@@ -46,13 +44,13 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         /// <summary>
         /// The ThumbnailOnly behavior returns only the thumbnails, never the icon. Note that not all items have thumbnails 
-        /// so ShellThumbnailFormatOptions.ThumbnailOnly can fail in these cases.
+        /// so ShellThumbnailFormatOption.ThumbnailOnly can fail in these cases.
         /// </summary>
-        ThumbnailOnly = ShellNativeMethods.SIIGBF.SIIGBF_THUMBNAILONLY,
-        
+        ThumbnailOnly = ShellNativeMethods.SIIGBF.ThumbnailOnly,
+
         /// <summary>
         /// The IconOnly behavior returns only the icon, never the thumbnail.
         /// </summary>
-        IconOnly = ShellNativeMethods.SIIGBF.SIIGBF_ICONONLY,
+        IconOnly = ShellNativeMethods.SIIGBF.IconOnly,
     }
 }

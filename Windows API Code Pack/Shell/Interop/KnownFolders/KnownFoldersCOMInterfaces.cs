@@ -10,7 +10,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
     // Disable warning if a method declaration hides another inherited from a parent COM interface
     // To successfully import a COM interface, all inherited methods need to be declared again with 
     // the exception of those already declared in "IUnknown"
-    #pragma warning disable 0108
+#pragma warning disable 0108
 
     [ComImport,
     Guid(KnownFoldersIIDGuid.IKnownFolder),
@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         [MethodImpl(MethodImplOptions.InternalCall,
             MethodCodeType = MethodCodeType.Runtime)]
         [PreserveSig]
-        HRESULT GetShellItem([In] int i,
+        HResult GetShellItem([In] int i,
              ref Guid interfaceGuid,
              [Out, MarshalAs(UnmanagedType.Interface)] out IShellItem2 shellItem);
 
@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         [MethodImpl(MethodImplOptions.InternalCall,
             MethodCodeType = MethodCodeType.Runtime)]
-        RedirectionCapabilities GetRedirectionCapabilities();
+        RedirectionCapability GetRedirectionCapabilities();
 
         [MethodImpl(MethodImplOptions.InternalCall,
             MethodCodeType = MethodCodeType.Runtime)]
@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall,
             MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT GetFolder([In, MarshalAs(UnmanagedType.LPStruct)] Guid id,
+        HResult GetFolder([In, MarshalAs(UnmanagedType.LPStruct)] Guid id,
           [Out, MarshalAs(UnmanagedType.Interface)] out IKnownFolderNative knownFolder);
 
         [MethodImpl(MethodImplOptions.InternalCall,
@@ -112,17 +112,18 @@ namespace Microsoft.WindowsAPICodePack.Shell
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall,
             MethodCodeType = MethodCodeType.Runtime)]
-        HRESULT FindFolderFromIDList(IntPtr pidl, [Out, MarshalAs(UnmanagedType.Interface)] out IKnownFolderNative knownFolder);
+        HResult FindFolderFromIDList(IntPtr pidl, [Out, MarshalAs(UnmanagedType.Interface)] out IKnownFolderNative knownFolder);
 
         [MethodImpl(MethodImplOptions.InternalCall,
             MethodCodeType = MethodCodeType.Runtime)]
         void Redirect();
     }
-
+    
     [ComImport]
     [Guid("4df0c730-df9d-4ae3-9153-aa6b82e9795a")]
     internal class KnownFolderManagerClass : IKnownFolderManager
     {
+        
         [MethodImpl(MethodImplOptions.InternalCall,
             MethodCodeType = MethodCodeType.Runtime)]
         public virtual extern void FolderIdFromCsidl(int csidl,
@@ -143,7 +144,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall,
             MethodCodeType = MethodCodeType.Runtime)]
-        public virtual extern HRESULT GetFolder(
+        public virtual extern HResult GetFolder(
             [In, MarshalAs(UnmanagedType.LPStruct)] Guid id,
             [Out, MarshalAs(UnmanagedType.Interface)] 
               out IKnownFolderNative knownFolder);
@@ -175,7 +176,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         [PreserveSig]
         [MethodImpl(MethodImplOptions.InternalCall,
             MethodCodeType = MethodCodeType.Runtime)]
-        public virtual extern HRESULT FindFolderFromIDList(IntPtr pidl, [Out, MarshalAs(UnmanagedType.Interface)] out IKnownFolderNative knownFolder);
+        public virtual extern HResult FindFolderFromIDList(IntPtr pidl, [Out, MarshalAs(UnmanagedType.Interface)] out IKnownFolderNative knownFolder);
 
         [MethodImpl(MethodImplOptions.InternalCall,
             MethodCodeType = MethodCodeType.Runtime)]

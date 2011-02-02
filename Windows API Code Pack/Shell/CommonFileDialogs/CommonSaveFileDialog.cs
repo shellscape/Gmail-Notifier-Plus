@@ -3,10 +3,11 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
 using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 using MS.WindowsAPICodePack.Internal;
+using System.Text;
 
 namespace Microsoft.WindowsAPICodePack.Dialogs
 {
@@ -16,7 +17,6 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
     /// <permission cref="System.Security.Permissions.FileDialogPermission">
     /// to save a file. Associated enumeration: <see cref="System.Security.Permissions.SecurityAction.LinkDemand"/>.
     /// </permission>
-    [FileDialogPermissionAttribute(SecurityAction.LinkDemand, Save = true)]
     public sealed class CommonSaveFileDialog : CommonFileDialog
     {
         private NativeFileSaveDialog saveDialogCoClass;
@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <summary>
         /// Creates a new instance of this class.
         /// </summary>
-        public CommonSaveFileDialog() : base() { }
+        public CommonSaveFileDialog() { }
         /// <summary>
         /// Creates a new instance of this class with the specified name.
         /// </summary>
@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
             get { return overwritePrompt; }
             set
             {
-                ThrowIfDialogShowing("OverwritePrompt" + IllegalPropertyChangeString);
+                ThrowIfDialogShowing(LocalizedMessages.OverwritePromptCannotBeChanged);
                 overwritePrompt = value;
             }
         }
@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
             get { return createPrompt; }
             set
             {
-                ThrowIfDialogShowing("CreatePrompt" + IllegalPropertyChangeString);
+                ThrowIfDialogShowing(LocalizedMessages.CreatePromptCannotBeChanged);
                 createPrompt = value;
             }
         }
@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
             get { return isExpandedMode; }
             set
             {
-                ThrowIfDialogShowing("IsExpandedMode" + IllegalPropertyChangeString);
+                ThrowIfDialogShowing(LocalizedMessages.IsExpandedModeCannotBeChanged);
                 isExpandedMode = value;
             }
         }
@@ -104,7 +104,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
             get { return alwaysAppendDefaultExtension; }
             set
             {
-                ThrowIfDialogShowing("AlwaysAppendDefaultExtension" + IllegalPropertyChangeString);
+                ThrowIfDialogShowing(LocalizedMessages.AlwaysAppendDefaultExtensionCannotBeChanged);
                 alwaysAppendDefaultExtension = value;
             }
         }
@@ -118,17 +118,19 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// used when the application is saving an item that already exists.</remarks>
         public void SetSaveAsItem(ShellObject item)
         {
-            IFileSaveDialog nativeDialog = null;
-
-            if (nativeDialog == null)
+            if (item == null)
             {
-                InitializeNativeFileDialog();
-                nativeDialog = GetNativeFileDialog() as IFileSaveDialog;
+                throw new ArgumentNullException("item");
             }
+
+            InitializeNativeFileDialog();
+            IFileSaveDialog nativeDialog = GetNativeFileDialog() as IFileSaveDialog;
 
             // Get the native IShellItem from ShellObject
             if (nativeDialog != null)
+            {
                 nativeDialog.SetSaveAsItem(item.NativeShellItem);
+            }
         }
 
         /// <summary>
@@ -147,63 +149,52 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// </remarks>
         public void SetCollectedPropertyKeys(bool appendDefault, params PropertyKey[] propertyList)
         {
-            string propertyListStr = null;
-
             // Loop through all our property keys and create a semicolon-delimited property list string.
+            // The string we pass to PSGetPropertyDescriptionListFromString must
+            // start with "prop:", followed a list of canonical names for each 
+            // property that is to collected.
             if (propertyList != null && propertyList.Length > 0 && propertyList[0] != null)
             {
+                StringBuilder sb = new StringBuilder("prop:");
                 foreach (PropertyKey key in propertyList)
                 {
                     string canonicalName = ShellPropertyDescriptionsCache.Cache.GetPropertyDescription(key).CanonicalName;
-                    
-                    // The string we pass to PSGetPropertyDescriptionListFromString must
-                    // start with "prop:", followed a list of canonical names for each 
-                    // property that is to collected.
-                    // 
-                    // Add "prop:" at the start of the string if we are starting our for loop.
-                    if (propertyListStr == null)
-                        propertyListStr = "prop:";
-
-                    // For each property, append the canonical name, followed by a semicolon
-                    if (!string.IsNullOrEmpty(canonicalName))
-                        propertyListStr += canonicalName + ";";
+                    if (!string.IsNullOrEmpty(canonicalName)) { sb.AppendFormat("{0};", canonicalName); }
                 }
-            }
 
-            // If the string was created correctly, get IPropertyDescriptionList for it
-            if (!string.IsNullOrEmpty(propertyListStr))
-            {
                 Guid guid = new Guid(ShellIIDGuid.IPropertyDescriptionList);
                 IPropertyDescriptionList propertyDescriptionList = null;
 
                 try
                 {
-                    int hr = PropertySystemNativeMethods.PSGetPropertyDescriptionListFromString(propertyListStr, ref guid, out propertyDescriptionList);
+                    int hr = PropertySystemNativeMethods.PSGetPropertyDescriptionListFromString(
+                        sb.ToString(),
+                        ref guid,
+                        out propertyDescriptionList);
 
                     // If we get a IPropertyDescriptionList, setit on the native dialog.
                     if (CoreErrorHelper.Succeeded(hr))
                     {
-                        IFileSaveDialog nativeDialog = null;
-
-                        if (nativeDialog == null)
-                        {
-                            InitializeNativeFileDialog();
-                            nativeDialog = GetNativeFileDialog() as IFileSaveDialog;
-                        }
+                        InitializeNativeFileDialog();
+                        IFileSaveDialog nativeDialog = GetNativeFileDialog() as IFileSaveDialog;
 
                         if (nativeDialog != null)
                         {
                             hr = nativeDialog.SetCollectedProperties(propertyDescriptionList, appendDefault);
 
                             if (!CoreErrorHelper.Succeeded(hr))
-                                Marshal.ThrowExceptionForHR(hr);
+                            {
+                                throw new ShellException(hr);
+                            }
                         }
                     }
                 }
                 finally
                 {
                     if (propertyDescriptionList != null)
+                    {
                         Marshal.ReleaseComObject(propertyDescriptionList);
+                    }
                 }
             }
         }
@@ -221,24 +212,18 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         {
             get
             {
-                IFileSaveDialog nativeDialog = null;
-
-                if (nativeDialog == null)
-                {
-                    InitializeNativeFileDialog();
-                    nativeDialog = GetNativeFileDialog() as IFileSaveDialog;
-                }
+                InitializeNativeFileDialog();
+                IFileSaveDialog nativeDialog = GetNativeFileDialog() as IFileSaveDialog;
 
                 if (nativeDialog != null)
                 {
                     IPropertyStore propertyStore;
-                    HRESULT hr = nativeDialog.GetProperties(out propertyStore);
+                    HResult hr = nativeDialog.GetProperties(out propertyStore);
 
-                    if (!CoreErrorHelper.Succeeded((int)hr))
-                        throw Marshal.GetExceptionForHR((int)hr);
-
-                    if (propertyStore != null)
+                    if (propertyStore != null && CoreErrorHelper.Succeeded(hr))
+                    {
                         return new ShellPropertyCollection(propertyStore);
+                    }
                 }
 
                 return null;
@@ -250,13 +235,14 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         internal override void InitializeNativeFileDialog()
         {
             if (saveDialogCoClass == null)
+            {
                 saveDialogCoClass = new NativeFileSaveDialog();
+            }
         }
 
         internal override IFileDialog GetNativeFileDialog()
         {
-            Debug.Assert(saveDialogCoClass != null,
-                "Must call Initialize() before fetching dialog interface");
+            Debug.Assert(saveDialogCoClass != null, "Must call Initialize() before fetching dialog interface");
             return (IFileDialog)saveDialogCoClass;
         }
 
@@ -267,21 +253,22 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
             saveDialogCoClass.GetResult(out item);
 
             if (item == null)
-                throw new InvalidOperationException(
-                    "Retrieved a null shell item from dialog");
+            {
+                throw new InvalidOperationException(LocalizedMessages.SaveFileNullItem);
+            }
             names.Clear();
             names.Add(GetFileNameFromShellItem(item));
         }
 
-        internal override void PopulateWithIShellItems(
-            System.Collections.ObjectModel.Collection<IShellItem> items)
+        internal override void PopulateWithIShellItems(System.Collections.ObjectModel.Collection<IShellItem> items)
         {
             IShellItem item;
             saveDialogCoClass.GetResult(out item);
 
             if (item == null)
-                throw new InvalidOperationException(
-                    "Retrieved a null shell item from dialog");
+            {
+                throw new InvalidOperationException(LocalizedMessages.SaveFileNullItem);
+            }
             items.Clear();
             items.Add(item);
         }
@@ -289,19 +276,29 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         internal override void CleanUpNativeFileDialog()
         {
             if (saveDialogCoClass != null)
+            {
                 Marshal.ReleaseComObject(saveDialogCoClass);
+            }
         }
 
-        internal override ShellNativeMethods.FOS GetDerivedOptionFlags(ShellNativeMethods.FOS flags)
+        internal override ShellNativeMethods.FileOpenOptions GetDerivedOptionFlags(ShellNativeMethods.FileOpenOptions flags)
         {
             if (overwritePrompt)
-                flags |= ShellNativeMethods.FOS.FOS_OVERWRITEPROMPT;
+            {
+                flags |= ShellNativeMethods.FileOpenOptions.OverwritePrompt;
+            }
             if (createPrompt)
-                flags |= ShellNativeMethods.FOS.FOS_CREATEPROMPT;
+            {
+                flags |= ShellNativeMethods.FileOpenOptions.CreatePrompt;
+            }
             if (!isExpandedMode)
-                flags |= ShellNativeMethods.FOS.FOS_DEFAULTNOMINIMODE;
+            {
+                flags |= ShellNativeMethods.FileOpenOptions.DefaultNoMiniMode;
+            }
             if (alwaysAppendDefaultExtension)
-                flags |= ShellNativeMethods.FOS.FOS_STRICTFILETYPES;
+            {
+                flags |= ShellNativeMethods.FileOpenOptions.StrictFileTypes;
+            }
             return flags;
         }
     }

@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
@@ -25,42 +26,37 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         int? imageReferenceIconIndex;
         private ShellPropertyDescription description = null;
 
-        // The value was set but truncated in a string value or rounded if a numeric value.
-        private const int InPlaceStringTruncated = 0x00401A0;
-
         #endregion
 
         #region Private Methods
-         
+
         private ShellObject ParentShellObject { get; set; }
 
         private IPropertyStore NativePropertyStore { get; set; }
 
         private void GetImageReference()
         {
-            PropVariant propVar;
-
             IPropertyStore store = ShellPropertyCollection.CreateDefaultPropertyStore(ParentShellObject);
 
-            store.GetValue(ref propertyKey, out propVar);
-
-            Marshal.ReleaseComObject(store);
-            store = null;
-
-            string refPath;
-            ((IPropertyDescription2)Description.NativePropertyDescription).GetImageReferenceForValue(
-                ref propVar, out refPath);
-
-            if (refPath == null)
+            using (PropVariant propVar = new PropVariant())
             {
-                return;
-            }
+                store.GetValue(ref propertyKey, propVar);
 
-            int index = ShellNativeMethods.PathParseIconLocation(ref refPath);
-            if (refPath != null)
-            {
-                imageReferencePath = refPath;
-                imageReferenceIconIndex = index;
+                Marshal.ReleaseComObject(store);
+                store = null;
+
+                string refPath;
+                ((IPropertyDescription2)Description.NativePropertyDescription).GetImageReferenceForValue(
+                    propVar, out refPath);
+
+                if (refPath == null) { return; }
+
+                int index = ShellNativeMethods.PathParseIconLocation(ref refPath);
+                if (refPath != null)
+                {
+                    imageReferencePath = refPath;
+                    imageReferenceIconIndex = index;
+                }
             }
         }
 
@@ -71,26 +67,26 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             try
             {
                 int hr = ParentShellObject.NativeShellItem2.GetPropertyStore(
-                        ShellNativeMethods.GETPROPERTYSTOREFLAGS.GPS_READWRITE,
+                        ShellNativeMethods.GetPropertyStoreOptions.ReadWrite,
                         ref guid,
                         out writablePropStore);
 
                 if (!CoreErrorHelper.Succeeded(hr))
                 {
-                    throw new ExternalException("Unable to get writable property store for this property.",
+                    throw new PropertySystemException(LocalizedMessages.ShellPropertyUnableToGetWritableProperty,
                         Marshal.GetExceptionForHR(hr));
                 }
 
-                int result = writablePropStore.SetValue(ref propertyKey, ref propVar);
+                HResult result = writablePropStore.SetValue(ref propertyKey, propVar);
 
-                if (!AllowSetTruncatedValue && (result == InPlaceStringTruncated))
+                if (!AllowSetTruncatedValue && (int)result == ShellNativeMethods.InPlaceStringTruncated)
                 {
-                    throw new ArgumentOutOfRangeException("propVar", "A value had to be truncated in a string or rounded if a numeric value. Set AllowTruncatedValue to true to prevent this exception.");
+                    throw new ArgumentOutOfRangeException("propVar", LocalizedMessages.ShellPropertyValueTruncated);
                 }
 
                 if (!CoreErrorHelper.Succeeded(result))
                 {
-                    throw new ExternalException("Unable to set property.", Marshal.GetExceptionForHR(result));
+                    throw new PropertySystemException(LocalizedMessages.ShellPropertySetValue, Marshal.GetExceptionForHR((int)result));
                 }
 
                 writablePropStore.Commit();
@@ -98,11 +94,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             }
             catch (InvalidComObjectException e)
             {
-                throw new ExternalException("Unable to get writable property store for this property.", e);
+                throw new PropertySystemException(LocalizedMessages.ShellPropertyUnableToGetWritableProperty, e);
             }
             catch (InvalidCastException)
             {
-                throw new ExternalException("Unable to get writable property store for this property.");
+                throw new PropertySystemException(LocalizedMessages.ShellPropertyUnableToGetWritableProperty);
             }
             finally
             {
@@ -127,8 +123,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         internal ShellProperty(
             PropertyKey propertyKey,
             ShellPropertyDescription description,
-            ShellObject parent
-            )
+            ShellObject parent)
         {
             this.propertyKey = propertyKey;
             this.description = description;
@@ -145,8 +140,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         internal ShellProperty(
             PropertyKey propertyKey,
             ShellPropertyDescription description,
-            IPropertyStore propertyStore
-            )
+            IPropertyStore propertyStore)
         {
             this.propertyKey = propertyKey;
             this.description = description;
@@ -166,57 +160,46 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// If the property value cannot be retrieved or updated in the Property System</exception>
         /// <exception cref="NotSupportedException">If the type of this property is not supported; e.g. writing a binary object.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <see cref="AllowSetTruncatedValue"/> is false, and either 
-        /// a string value was truncated or a numeric value was rounded.</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.String.Format(System.String,System.Object)", Justification = "We are not currently handling globalization or localization")]
+        /// a string value was truncated or a numeric value was rounded.</exception>        
         public T Value
         {
             get
             {
                 // Make sure we load the correct type
-                Debug.Assert(ValueType == ShellPropertyDescription.VarEnumToSystemType(Description.VarEnumType));
+                Debug.Assert(ValueType == ShellPropertyFactory.VarEnumToSystemType(Description.VarEnumType));
 
-                PropVariant propVar = new PropVariant();
+                using (PropVariant propVar = new PropVariant())
+                {
+                    if (ParentShellObject.NativePropertyStore != null)
+                    {
+                        // If there is a valid property store for this shell object, then use it.
+                        ParentShellObject.NativePropertyStore.GetValue(ref propertyKey, propVar);
+                    }
+                    else if (ParentShellObject != null)
+                    {
+                        // Use IShellItem2.GetProperty instead of creating a new property store
+                        // The file might be locked. This is probably quicker, and sufficient for what we need
+                        ParentShellObject.NativeShellItem2.GetProperty(ref propertyKey, propVar);
+                    }
+                    else if (NativePropertyStore != null)
+                    {
+                        NativePropertyStore.GetValue(ref propertyKey, propVar);
+                    }
 
-                if (ParentShellObject.NativePropertyStore != null)
-                {
-                    // If there is a valid property store for this shell object, then use it.
-                    ParentShellObject.NativePropertyStore.GetValue(ref propertyKey, out propVar);
+                    //Get the value
+                    return propVar.Value != null ? (T)propVar.Value : default(T);
                 }
-                else if (ParentShellObject != null)
-                {
-                    // Use IShellItem2.GetProperty instead of creating a new property store
-                    // The file might be locked. This is probably quicker, and sufficient for what we need
-                    ParentShellObject.NativeShellItem2.GetProperty(ref propertyKey, out propVar);
-                }
-                else if (NativePropertyStore != null)
-                {
-                    NativePropertyStore.GetValue(ref propertyKey, out propVar);
-                }
-
-                //Get the value
-                T value;
-                try
-                {
-                    value = (T)propVar.Value;
-                }
-                finally
-                {
-                    propVar.Clear();
-                }
-
-                return value;
             }
-
-
             set
             {
                 // Make sure we use the correct type
-                Debug.Assert(ValueType == ShellPropertyDescription.VarEnumToSystemType(Description.VarEnumType));
+                Debug.Assert(ValueType == ShellPropertyFactory.VarEnumToSystemType(Description.VarEnumType));
 
                 if (typeof(T) != ValueType)
                 {
                     throw new NotSupportedException(
-                        String.Format("This property only accepts a value of type \"{0}\".", ValueType.Name));
+                        string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        LocalizedMessages.ShellPropertyWrongType, ValueType.Name));
                 }
 
                 if (value is Nullable)
@@ -248,7 +231,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                 }
                 else if (NativePropertyStore != null)
                 {
-                    throw new InvalidOperationException("The value on this property cannot be set. To set the property value, use the ShellObject that is associated with this property.");
+                    throw new InvalidOperationException(LocalizedMessages.ShellPropertyCannotSetProperty);
                 }
             }
         }
@@ -277,9 +260,9 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// cannot be formatted for display.</param>
         /// <returns>True if the method successfully locates the formatted string; otherwise 
         /// False.</returns>
-        public bool TryFormatForDisplay(PropertyDescriptionFormat format, out string formattedString)
+        public bool TryFormatForDisplay(PropertyDescriptionFormatOptions format, out string formattedString)
         {
-            PropVariant propVar;
+
 
             if (Description == null || Description.NativePropertyDescription == null)
             {
@@ -290,23 +273,25 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
 
             IPropertyStore store = ShellPropertyCollection.CreateDefaultPropertyStore(ParentShellObject);
 
-            store.GetValue(ref propertyKey, out propVar);
-
-            // Release the Propertystore
-            Marshal.ReleaseComObject(store);
-            store = null;
-
-            HRESULT hr = Description.NativePropertyDescription.FormatForDisplay(ref propVar, ref format, out formattedString);
-
-            // Sometimes, the value cannot be displayed properly, such as for blobs
-            // or if we get argument exception
-            if (!CoreErrorHelper.Succeeded((int)hr))
+            using (PropVariant propVar = new PropVariant())
             {
-                formattedString = null;
-                return false;
-            }
-            else
+                store.GetValue(ref propertyKey, propVar);
+
+                // Release the Propertystore
+                Marshal.ReleaseComObject(store);
+                store = null;
+
+                HResult hr = Description.NativePropertyDescription.FormatForDisplay(propVar, ref format, out formattedString);
+
+                // Sometimes, the value cannot be displayed properly, such as for blobs
+                // or if we get argument exception
+                if (!CoreErrorHelper.Succeeded(hr))
+                {
+                    formattedString = null;
+                    return false;
+                }
                 return true;
+            }
         }
 
         /// <summary>
@@ -316,10 +301,9 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// that indicate the desired format.</param>
         /// <returns>The formatted value as a string, or null if this property 
         /// cannot be formatted for display.</returns>
-        public string FormatForDisplay(PropertyDescriptionFormat format)
+        public string FormatForDisplay(PropertyDescriptionFormatOptions format)
         {
             string formattedString;
-            PropVariant propVar;
 
             if (Description == null || Description.NativePropertyDescription == null)
             {
@@ -329,20 +313,23 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
 
             IPropertyStore store = ShellPropertyCollection.CreateDefaultPropertyStore(ParentShellObject);
 
-            store.GetValue(ref propertyKey, out propVar);
+            using (PropVariant propVar = new PropVariant())
+            {
+                store.GetValue(ref propertyKey, propVar);
 
-            // Release the Propertystore
-            Marshal.ReleaseComObject(store);
-            store = null;
+                // Release the Propertystore
+                Marshal.ReleaseComObject(store);
+                store = null;
 
-            HRESULT hr = Description.NativePropertyDescription.FormatForDisplay(ref propVar, ref format, out formattedString);
+                HResult hr = Description.NativePropertyDescription.FormatForDisplay(propVar, ref format, out formattedString);
 
-            // Sometimes, the value cannot be displayed properly, such as for blobs
-            // or if we get argument exception
-            if (!CoreErrorHelper.Succeeded((int)hr))
-                throw Marshal.GetExceptionForHR((int)hr);
-            else
+                // Sometimes, the value cannot be displayed properly, such as for blobs
+                // or if we get argument exception
+                if (!CoreErrorHelper.Succeeded(hr))
+                    throw new ShellException(hr);
+
                 return formattedString;
+            }
         }
 
         /// <summary>
@@ -373,10 +360,10 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// </summary>
         public void ClearValue()
         {
-            PropVariant propVar = new PropVariant();
-            propVar.SetEmptyValue();
-
-            StorePropVariantValue(propVar);
+            using (PropVariant propVar = new PropVariant())
+            {
+                StorePropVariantValue(propVar);
+            }
         }
 
         /// <summary>
@@ -389,34 +376,25 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
             get
             {
-                PropVariant propVar = new PropVariant();
-                propVar.Clear();
-
-                if (ParentShellObject != null)
+                using (PropVariant propVar = new PropVariant())
                 {
+                    if (ParentShellObject != null)
+                    {
 
-                    IPropertyStore store = ShellPropertyCollection.CreateDefaultPropertyStore(ParentShellObject);
+                        IPropertyStore store = ShellPropertyCollection.CreateDefaultPropertyStore(ParentShellObject);
 
-                    store.GetValue(ref propertyKey, out propVar);
+                        store.GetValue(ref propertyKey, propVar);
 
-                    Marshal.ReleaseComObject(store);
-                    store = null;
+                        Marshal.ReleaseComObject(store);
+                        store = null;
+                    }
+                    else if (NativePropertyStore != null)
+                    {
+                        NativePropertyStore.GetValue(ref propertyKey, propVar);
+                    }
+
+                    return propVar != null ? propVar.Value : null;
                 }
-                else if (NativePropertyStore != null)
-                    NativePropertyStore.GetValue(ref propertyKey, out propVar);
-
-                object value = null;
-
-                try
-                {
-                    value = propVar.Value;
-                }
-                finally
-                {
-                    propVar.Clear();
-                }
-
-                return value;
             }
         }
 
@@ -443,7 +421,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             {
                 if (!CoreHelpers.RunningOnWin7)
                 {
-                    throw new PlatformNotSupportedException("This Property is available on Windows 7 only.");
+                    throw new PlatformNotSupportedException(LocalizedMessages.ShellPropertyWindows7);
                 }
 
                 GetImageReference();
@@ -462,11 +440,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// but later truncated. 
         /// 
         /// </remarks>
-        public bool AllowSetTruncatedValue
-        {
-            get;
-            set;
-        }
+        public bool AllowSetTruncatedValue { get; set; }
 
         #endregion
     }

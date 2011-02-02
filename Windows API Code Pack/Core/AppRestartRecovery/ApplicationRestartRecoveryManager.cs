@@ -1,9 +1,8 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
+using Microsoft.WindowsAPICodePack.Resources;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.ApplicationServices
@@ -29,58 +28,61 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// <remarks>The time interval is the period of time within 
         /// which the recovery callback method 
         /// calls the <see cref="ApplicationRecoveryInProgress"/> method to indicate
-        /// that it is still performing recovery work.</remarks>
+        /// that it is still performing recovery work.</remarks>        
         public static void RegisterForApplicationRecovery(RecoverySettings settings)
-        {
-            // Throw PlatformNotSupportedException if the user is not running Vista or beyond
+        {           
             CoreHelpers.ThrowIfNotVista();
 
-            if (settings == null)
-                throw new ArgumentNullException("settings");
+            if (settings == null) { throw new ArgumentNullException("settings"); }
 
             GCHandle handle = GCHandle.Alloc(settings.RecoveryData);
 
-            HRESULT hr = AppRestartRecoveryNativeMethods.RegisterApplicationRecoveryCallback(AppRestartRecoveryNativeMethods.internalCallback, (IntPtr)handle, settings.PingInterval, (uint)0);
+            HResult hr = AppRestartRecoveryNativeMethods.RegisterApplicationRecoveryCallback(
+                AppRestartRecoveryNativeMethods.InternalCallback, (IntPtr)handle, settings.PingInterval, (uint)0);
 
-            if (!CoreErrorHelper.Succeeded((int)hr))
+            if (!CoreErrorHelper.Succeeded(hr))
             {
-                if (hr == HRESULT.E_INVALIDARG)
-                    throw new ArgumentException("Application was not registered for recovery due to bad parameters.");
-                else
-                    throw new ExternalException("Application failed to register for recovery.");
+                if (hr == HResult.InvalidArguments)
+                {
+                    throw new ArgumentException(LocalizedMessages.ApplicationRecoveryBadParameters, "settings");
+                }
+
+                throw new ApplicationRecoveryException(LocalizedMessages.ApplicationRecoveryFailedToRegister);
             }
         }
 
         /// <summary>
         /// Removes an application's recovery registration.
         /// </summary>
-        /// <exception cref="System.ComponentModel.Win32Exception">
+        /// <exception cref="Microsoft.WindowsAPICodePack.ApplicationServices.ApplicationRecoveryException">
         /// The attempt to unregister for recovery failed.</exception>
         public static void UnregisterApplicationRecovery()
-        {
-            // Throw PlatformNotSupportedException if the user is not running Vista or beyond
+        {            
             CoreHelpers.ThrowIfNotVista();
 
-            HRESULT hr = AppRestartRecoveryNativeMethods.UnregisterApplicationRecoveryCallback();
+            HResult hr = AppRestartRecoveryNativeMethods.UnregisterApplicationRecoveryCallback();
 
-            if (hr == HRESULT.E_FAIL)
-                throw new ExternalException("Unregister for recovery failed.");
+            if (!CoreErrorHelper.Succeeded(hr))
+            {
+                throw new ApplicationRecoveryException(LocalizedMessages.ApplicationRecoveryFailedToUnregister);
+            }
         }
 
         /// <summary>
         /// Removes an application's restart registration.
         /// </summary>
-        /// <exception cref="System.ComponentModel.Win32Exception">
+        /// <exception cref="Microsoft.WindowsAPICodePack.ApplicationServices.ApplicationRecoveryException">
         /// The attempt to unregister for restart failed.</exception>
         public static void UnregisterApplicationRestart()
-        {
-            // Throw PlatformNotSupportedException if the user is not running Vista or beyond
+        {            
             CoreHelpers.ThrowIfNotVista();
 
-            HRESULT hr = AppRestartRecoveryNativeMethods.UnregisterApplicationRestart();
+            HResult hr = AppRestartRecoveryNativeMethods.UnregisterApplicationRestart();
 
-            if (hr == HRESULT.E_FAIL)
-                throw new ExternalException("Unregister for restart failed.");
+            if (!CoreErrorHelper.Succeeded(hr))
+            {
+                throw new ApplicationRecoveryException(LocalizedMessages.ApplicationRecoveryFailedToUnregisterForRestart);
+            }
         }
 
         /// <summary>
@@ -89,19 +91,19 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// </summary>
         /// <returns>A <see cref="System.Boolean"/> value indicating whether the user
         /// canceled the recovery.</returns>
-        /// <exception cref="System.InvalidOperationException">
+        /// <exception cref="Microsoft.WindowsAPICodePack.ApplicationServices.ApplicationRecoveryException">
         /// This method must be called from a registered callback method.</exception>
         public static bool ApplicationRecoveryInProgress()
-        {
-            // Throw PlatformNotSupportedException if the user is not running Vista or beyond
+        {            
             CoreHelpers.ThrowIfNotVista();
 
             bool canceled = false;
+            HResult hr = AppRestartRecoveryNativeMethods.ApplicationRecoveryInProgress(out canceled);
 
-            HRESULT hr = AppRestartRecoveryNativeMethods.ApplicationRecoveryInProgress(out canceled);
-
-            if (hr == HRESULT.E_FAIL)
-                throw new InvalidOperationException("This method must be called from the registered callback method.");
+            if (!CoreErrorHelper.Succeeded(hr))
+            {
+                throw new InvalidOperationException(LocalizedMessages.ApplicationRecoveryMustBeCalledFromCallback);
+            }
 
             return canceled;
         }
@@ -119,8 +121,7 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// <param name="success"><b>true</b> to indicate the the program was able to complete its recovery
         /// work before terminating; otherwise <b>false</b>.</param>
         public static void ApplicationRecoveryFinished(bool success)
-        {
-            // Throw PlatformNotSupportedException if the user is not running Vista or beyond
+        {            
             CoreHelpers.ThrowIfNotVista();
 
             AppRestartRecoveryNativeMethods.ApplicationRecoveryFinished(success);
@@ -143,16 +144,20 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         {
             // Throw PlatformNotSupportedException if the user is not running Vista or beyond
             CoreHelpers.ThrowIfNotVista();
+            if (settings == null) { throw new ArgumentNullException("settings"); }
 
-            HRESULT hr = AppRestartRecoveryNativeMethods.RegisterApplicationRestart(settings.Command, settings.Restrictions);
+            HResult hr = AppRestartRecoveryNativeMethods.RegisterApplicationRestart(settings.Command, settings.Restrictions);
 
-            if (hr == HRESULT.E_FAIL)
-                throw new InvalidOperationException("Application failed to registered for restart.");
-
-            if (hr == HRESULT.E_INVALIDARG)
-                throw new ArgumentException("Failed to register application for restart due to bad parameters.");
+            if (hr == HResult.Fail)
+            {
+                throw new InvalidOperationException(LocalizedMessages.ApplicationRecoveryFailedToRegisterForRestart);
+            }
+            else if (hr == HResult.InvalidArguments)
+            {
+                throw new ArgumentException(LocalizedMessages.ApplicationRecoverFailedToRegisterForRestartBadParameters);
+            }
         }
-       
+
     }
 }
 

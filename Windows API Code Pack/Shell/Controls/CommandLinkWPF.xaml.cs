@@ -1,15 +1,10 @@
 //Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Controls.WindowsPresentationFoundation
@@ -36,19 +31,15 @@ namespace Microsoft.WindowsAPICodePack.Controls.WindowsPresentationFoundation
         {
             e.Source = this;
             if (Click != null)
+            {
                 Click(sender, e);
+            }
         }
-
-        RoutedUICommand command;
 
         /// <summary>
         /// Routed UI command to use for this button
         /// </summary>
-        public RoutedUICommand Command
-        {
-            get { return command; }
-            set { command = value; }
-        }
+        public RoutedUICommand Command { get; set; }
 
         /// <summary>
         /// Occurs when the control is clicked.
@@ -113,10 +104,7 @@ namespace Microsoft.WindowsAPICodePack.Controls.WindowsPresentationFoundation
         /// </summary>
         public bool? IsCheck
         {
-            get
-            {
-                return button.IsChecked;
-            }
+            get { return button.IsChecked; }
             set { button.IsChecked = value; }
         }
 
@@ -136,8 +124,7 @@ namespace Microsoft.WindowsAPICodePack.Controls.WindowsPresentationFoundation
         public static bool IsPlatformSupported
         {
             get
-            {
-                // We need Windows Vista onwards ...
+            {                
                 return CoreHelpers.RunningOnVista;
             }
         }

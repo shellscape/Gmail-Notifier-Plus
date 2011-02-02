@@ -1,8 +1,5 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
-using System;
-using System.Runtime.InteropServices;
-
 namespace Microsoft.WindowsAPICodePack.ApplicationServices
 {
     /// <summary>
@@ -51,8 +48,7 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// </summary>
         public void Invoke()
         {
-            if(Callback != null)
-                Callback(State);
+            if (Callback != null) { Callback(State); }
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// Creates a new instance of this class.
         /// </summary>
         public TaskDialogRadioButton() { }
+
         /// <summary>
         /// Creates a new instance of this class with
         /// the specified name and text.

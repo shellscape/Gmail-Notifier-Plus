@@ -22,56 +22,68 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// that are hidden or obstructed (partially or completely) by another control (e.g. hidden tabs,
         /// or MDI child windows that are obstructed by other child windows/forms).
         /// </summary>
-        /// <param name="hwnd">The window handle.</param>
+        /// <param name="windowHandle">The window handle.</param>
         /// <param name="bitmapSize">The requested bitmap size.</param>
-        /// <returns>A screen capture of the window.</returns>
-        public static Bitmap GrabWindowBitmap(IntPtr hwnd, System.Drawing.Size bitmapSize)
+        /// <returns>A screen capture of the window.</returns>        
+        public static Bitmap GrabWindowBitmap(IntPtr windowHandle, System.Drawing.Size bitmapSize)
         {
-            if (bitmapSize.Height <= 0 || bitmapSize.Width <= 0)
-                return null;
+            if (bitmapSize.Height <= 0 || bitmapSize.Width <= 0) { return null; }
 
             IntPtr windowDC = IntPtr.Zero;
-            IntPtr targetDC = IntPtr.Zero;
-            Graphics targetGr = null;
-
+             
             try
             {
+                windowDC = TabbedThumbnailNativeMethods.GetWindowDC(windowHandle);
+
                 System.Drawing.Size realWindowSize;
-                TabbedThumbnailNativeMethods.GetClientSize(hwnd, out realWindowSize);
+                TabbedThumbnailNativeMethods.GetClientSize(windowHandle, out realWindowSize);
 
                 if (realWindowSize == System.Drawing.Size.Empty)
+                {
                     realWindowSize = new System.Drawing.Size(200, 200);
-
-                windowDC = TabbedThumbnailNativeMethods.GetWindowDC(hwnd);
-
+                }
+                
+                System.Drawing.Size size = (bitmapSize == System.Drawing.Size.Empty) ?
+                        realWindowSize : bitmapSize;
+                
                 Bitmap targetBitmap = null;
+                try
+                {
+                    
 
-                if (bitmapSize == System.Drawing.Size.Empty)
-                    targetBitmap = new Bitmap(realWindowSize.Width, realWindowSize.Height);
-                else
-                    targetBitmap = new Bitmap(bitmapSize.Width, bitmapSize.Height);
+                    targetBitmap = new Bitmap(size.Width, size.Height);
 
-                targetGr = Graphics.FromImage(targetBitmap);
+                    using (Graphics targetGr = Graphics.FromImage(targetBitmap))
+                    {
+                        IntPtr targetDC = targetGr.GetHdc();
+                        uint operation = 0x00CC0020 /*SRCCOPY*/;
 
-                targetDC = targetGr.GetHdc();
-                uint operation = 0x00CC0020 /*SRCCOPY*/;
+                        System.Drawing.Size ncArea = WindowUtilities.GetNonClientArea(windowHandle);
 
-                System.Drawing.Size ncArea = WindowUtilities.GetNonClientArea(hwnd);
+                        bool success = TabbedThumbnailNativeMethods.StretchBlt(
+                            targetDC, 0, 0, targetBitmap.Width, targetBitmap.Height,
+                            windowDC, ncArea.Width, ncArea.Height, realWindowSize.Width,
+                            realWindowSize.Height, operation);
 
-                bool success = TabbedThumbnailNativeMethods.StretchBlt(targetDC, 0, 0, targetBitmap.Width, targetBitmap.Height,
-                    windowDC, ncArea.Width, ncArea.Height, realWindowSize.Width, realWindowSize.Height, operation);
-                return targetBitmap;
+                        targetGr.ReleaseHdc(targetDC);
+
+                        if (!success) { return null; }
+
+                        return targetBitmap;
+                    }
+                }
+                catch
+                {
+                    if (targetBitmap != null) { targetBitmap.Dispose(); }
+                    throw;
+                }
             }
             finally
             {
                 if (windowDC != IntPtr.Zero)
                 {
-                    TabbedThumbnailNativeMethods.ReleaseDC(hwnd, windowDC);
-                }
-                if (targetGr != null && targetDC != IntPtr.Zero)
-                {
-                    targetGr.ReleaseHdc(targetDC);
-                }
+                    TabbedThumbnailNativeMethods.ReleaseDC(windowHandle, windowDC);
+                }                
             }
         }
 
@@ -87,9 +99,10 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public static Bitmap GrabWindowBitmap(UIElement element, int dpiX, int dpiY, int width, int height)
         {
             // Special case for HwndHost controls
-            if (element is HwndHost)
+            HwndHost host = element as HwndHost;
+            if (host != null)
             {
-                IntPtr handle = ((HwndHost)element).Handle;
+                IntPtr handle = host.Handle;
                 return GrabWindowBitmap(handle, new System.Drawing.Size(width, height));
             }
 
@@ -97,7 +110,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
 
             // create the renderer.
             if (bounds.Height == 0 || bounds.Width == 0)
+            {
                 return null;    // 0 sized element. Probably hidden
+            }
 
             RenderTargetBitmap rendertarget = new RenderTargetBitmap((int)(bounds.Width * dpiX / 96.0),
              (int)(bounds.Height * dpiY / 96.0), dpiX, dpiY, PixelFormats.Default);
@@ -111,19 +126,17 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
 
             rendertarget.Render(dv);
 
-            BitmapEncoder bmpe;
-
-            bmpe = new PngBitmapEncoder();
+            BitmapEncoder bmpe = new PngBitmapEncoder();
             bmpe.Frames.Add(BitmapFrame.Create(rendertarget));
 
-            // Create a MemoryStream with the image.
-            // Returning this as a MemoryStream makes it easier to save the image to a file or simply display it anywhere.
-            MemoryStream fl = new MemoryStream();
-            bmpe.Save(fl);
-
-            Bitmap bmp = new Bitmap(fl);
-
-            fl.Close();
+            Bitmap bmp;
+            // Create a MemoryStream with the image.            
+            using (MemoryStream fl = new MemoryStream())
+            {
+                bmpe.Save(fl);
+                fl.Position = 0;
+                bmp = new Bitmap(fl);
+            }
 
             return (Bitmap)bmp.GetThumbnailImage(width, height, null, IntPtr.Zero);
         }
@@ -142,10 +155,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
 
             try
             {
-                if (resizeIfWider)
+                if (resizeIfWider && originalBitmap.Width <= newWidth)
                 {
-                    if (originalBitmap.Width <= newWidth)
-                        newWidth = originalBitmap.Width;
+                    newWidth = originalBitmap.Width;
                 }
 
                 int newHeight = originalBitmap.Height * newWidth / originalBitmap.Width;

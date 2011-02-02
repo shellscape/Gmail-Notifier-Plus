@@ -1,6 +1,5 @@
 //Copyright (c) Microsoft Corporation.  All rights reserved.
 
-
 namespace Microsoft.WindowsAPICodePack.Dialogs
 {
     /// <summary>
@@ -20,17 +19,17 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <param name="text">The button label.</param>
         public TaskDialogButton(string name, string text) : base(name, text) { }
 
-        private bool showElevationIcon;
+        private bool useElevationIcon;
         /// <summary>
         /// Gets or sets a value that controls whether the elevation icon is displayed.
         /// </summary>
-        public bool ShowElevationIcon
+        public bool UseElevationIcon
         {
-            get { return showElevationIcon; }
-            set 
+            get { return useElevationIcon; }
+            set
             {
                 CheckPropertyChangeAllowed("ShowElevationIcon");
-                showElevationIcon = value;
+                useElevationIcon = value;
                 ApplyPropertyChange("ShowElevationIcon");
             }
         }

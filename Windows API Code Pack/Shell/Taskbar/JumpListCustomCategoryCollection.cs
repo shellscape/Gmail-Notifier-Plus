@@ -1,5 +1,6 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -38,6 +39,10 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="category">Category to add</param>
         public void Add(JumpListCustomCategory category)
         {
+            if (category == null)
+            {
+                throw new ArgumentNullException("category");
+            }
             categories.Add(category);
 
             // Trigger CollectionChanged event
@@ -50,7 +55,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             // Make sure that a collection changed event is fire if this category
             // or it's corresponding jumplist is modified
             category.CollectionChanged += CollectionChanged;
-            category.JumpListItems.CollectionChanged += CollectionChanged;            
+            category.JumpListItems.CollectionChanged += CollectionChanged;
         }
 
         /// <summary>

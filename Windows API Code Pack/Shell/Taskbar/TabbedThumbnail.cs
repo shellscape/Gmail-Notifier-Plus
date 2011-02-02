@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Taskbar
@@ -20,66 +21,47 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
     {
         #region Internal members
 
-        internal IntPtr WindowHandle
-        {
-            get;
-            set;
-        }
+        // Control properties
+        internal IntPtr WindowHandle { get; set; }
+        internal IntPtr ParentWindowHandle { get; set; }
 
-        internal IntPtr ParentWindowHandle
-        {
-            get;
-            set;
-        }
+        // WPF properties
+        internal UIElement WindowsControl { get; set; }
+        internal Window WindowsControlParentWindow { get; set; }
 
-        internal UIElement WindowsControl
-        {
-            get;
-            set;
-        }
-
-        internal Window WindowsControlParentWindow
-        {
-            get;
-            set;
-        }
-
-        private TaskbarWindow taskbarWindow;
+        private TaskbarWindow _taskbarWindow;
         internal TaskbarWindow TaskbarWindow
         {
-            get { return taskbarWindow; }
+            get { return _taskbarWindow; }
             set
             {
-                taskbarWindow = value;
+                _taskbarWindow = value;
 
                 // If we have a TaskbarWindow assigned, set it's icon
-                if (taskbarWindow != null && taskbarWindow.TabbedThumbnailProxyWindow != null)
-                    TaskbarWindow.TabbedThumbnailProxyWindow.Icon = Icon;
+                if (_taskbarWindow != null && _taskbarWindow.TabbedThumbnailProxyWindow != null)
+                {
+                    _taskbarWindow.TabbedThumbnailProxyWindow.Icon = Icon;
+                }
             }
         }
 
-        private bool addedToTaskbar;
+        private bool _addedToTaskbar;
         internal bool AddedToTaskbar
         {
-            get
-            {
-                return addedToTaskbar;
-            }
+            get { return _addedToTaskbar; }
             set
             {
-                addedToTaskbar = value;
+                _addedToTaskbar = value;
 
                 // The user has updated the clipping region, so invalidate our existing preview
-                if (TaskbarWindowManager.Instance != null && ClippingRectangle != null)
-                    TaskbarWindowManager.Instance.InvalidatePreview(this.TaskbarWindow);
+                if (ClippingRectangle != null)
+                {
+                    TaskbarWindowManager.InvalidatePreview(this.TaskbarWindow);
+                }
             }
         }
 
-        internal bool RemovedFromTaskbar
-        {
-            get;
-            set;
-        }
+        internal bool RemovedFromTaskbar { get; set; }
 
         #endregion
 
@@ -96,9 +78,13 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public TabbedThumbnail(IntPtr parentWindowHandle, IntPtr windowHandle)
         {
             if (parentWindowHandle == IntPtr.Zero)
-                throw new ArgumentException("Parent window handle cannot be zero.", "parentWindowHandle");
+            {
+                throw new ArgumentException(LocalizedMessages.TabbedThumbnailZeroParentHandle, "parentWindowHandle");
+            }
             if (windowHandle == IntPtr.Zero)
-                throw new ArgumentException("Child control's window handle cannot be zero.", "windowHandle");
+            {
+                throw new ArgumentException(LocalizedMessages.TabbedThumbnailZeroChildHandle, "windowHandle");
+            }
 
             WindowHandle = windowHandle;
             ParentWindowHandle = parentWindowHandle;
@@ -116,9 +102,13 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public TabbedThumbnail(IntPtr parentWindowHandle, Control control)
         {
             if (parentWindowHandle == IntPtr.Zero)
-                throw new ArgumentException("Parent window handle cannot be zero.", "parentWindowHandle");
+            {
+                throw new ArgumentException(LocalizedMessages.TabbedThumbnailZeroParentHandle, "parentWindowHandle");
+            }
             if (control == null)
+            {
                 throw new ArgumentNullException("control");
+            }
 
             WindowHandle = control.Handle;
             ParentWindowHandle = parentWindowHandle;
@@ -137,11 +127,16 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public TabbedThumbnail(Window parentWindow, UIElement windowsControl, Vector peekOffset)
         {
             if (windowsControl == null)
-                throw new ArgumentNullException("control");
+            {
+                throw new ArgumentNullException("windowsControl");
+            }
             if (parentWindow == null)
+            {
                 throw new ArgumentNullException("parentWindow");
+            }
 
             WindowHandle = IntPtr.Zero;
+
             WindowsControl = windowsControl;
             WindowsControlParentWindow = parentWindow;
             ParentWindowHandle = (new WindowInteropHelper(parentWindow)).Handle;
@@ -152,17 +147,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
 
         #region Public Properties
 
-        /// <summary>
-        /// This event is raised when the Title property changes.
-        /// </summary>
-        public event EventHandler TitleChanged;
-
-        /// <summary>
-        /// This event is raised when the Tooltip property changes.
-        /// </summary>
-        public event EventHandler TooltipChanged;
-
-        private string title;
+        private string _title = string.Empty;
         /// <summary>
         /// Title for the window shown as the taskbar thumbnail.
         /// </summary>
@@ -170,44 +155,34 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         {
             get
             {
-                return title;
+                return _title;
             }
             set
             {
-                if (value != title)
+                if (_title != value)
                 {
-                    title = value;
-
-                    if (TitleChanged != null)
-                        TitleChanged(this, EventArgs.Empty);
+                    _title = value;
+                    if (TitleChanged != null) { TitleChanged(this, EventArgs.Empty); }
                 }
             }
         }
 
-        private string tooltip;
+        private string _tooltip = string.Empty;
         /// <summary>
         /// Tooltip to be shown for this thumbnail on the taskbar. 
         /// By default this is full title of the window shown on the taskbar.
         /// </summary>
         public string Tooltip
         {
-            get { return tooltip; }
+            get { return _tooltip; }
             set
             {
-                if (value != tooltip)
+                if (_tooltip != value)
                 {
-                    tooltip = value;
-
-                    if (TooltipChanged != null)
-                        TooltipChanged(this, EventArgs.Empty);
+                    _tooltip = value;
+                    if (TooltipChanged != null) { TooltipChanged(this, EventArgs.Empty); }
                 }
             }
-        }
-
-        internal Icon Icon
-        {
-            get;
-            private set;
         }
 
         /// <summary>
@@ -220,27 +195,27 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
 
             // If we have a TaskbarWindow assigned, set its icon
             if (TaskbarWindow != null && TaskbarWindow.TabbedThumbnailProxyWindow != null)
+            {
                 TaskbarWindow.TabbedThumbnailProxyWindow.Icon = Icon;
+            }
         }
 
         /// <summary>
         /// Sets the window icon for this thumbnail preview
         /// </summary>
-        /// <param name="hIcon">Icon handle (hIcon) for the window/control associated with this preview</param>
+        /// <param name="iconHandle">Icon handle (hIcon) for the window/control associated with this preview</param>
         /// <remarks>This method will not release the icon handle. It is the caller's responsibility to release the icon handle.</remarks>
-        public void SetWindowIcon(IntPtr hIcon)
+        public void SetWindowIcon(IntPtr iconHandle)
         {
-            if (hIcon != IntPtr.Zero)
-                Icon = System.Drawing.Icon.FromHandle(hIcon);
-            else
-                Icon = null;
+            Icon = iconHandle != IntPtr.Zero ? System.Drawing.Icon.FromHandle(iconHandle) : null;
 
-            // If we have a TaskbarWindow assigned, set it's icon
             if (TaskbarWindow != null && TaskbarWindow.TabbedThumbnailProxyWindow != null)
+            {
                 TaskbarWindow.TabbedThumbnailProxyWindow.Icon = Icon;
+            }
         }
 
-        private Rectangle? clippingRectangle;
+        private Rectangle? _clippingRectangle;
         /// <summary>
         /// Specifies that only a portion of the window's client area
         /// should be used in the window's thumbnail.
@@ -248,22 +223,19 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// </summary>
         public Rectangle? ClippingRectangle
         {
-            get { return clippingRectangle; }
+            get { return _clippingRectangle; }
             set
             {
-                clippingRectangle = value;
+                _clippingRectangle = value;
 
                 // The user has updated the clipping region, so invalidate our existing preview
-                if (TaskbarWindowManager.Instance != null)
-                    TaskbarWindowManager.Instance.InvalidatePreview(this.TaskbarWindow);
+                TaskbarWindowManager.InvalidatePreview(this.TaskbarWindow);
             }
         }
 
-        internal IntPtr CurrentHBitmap
-        {
-            get;
-            set;
-        }
+        internal IntPtr CurrentHBitmap { get; set; }
+
+        internal Icon Icon { get; private set; }
 
         /// <summary>
         /// Override the thumbnail and peek bitmap. 
@@ -311,29 +283,20 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                 return;
             }
 
+            BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                BmpBitmapEncoder encoder = new BmpBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
                 encoder.Save(memoryStream);
                 memoryStream.Position = 0;
-                Bitmap bmp = new Bitmap(memoryStream);
-                if (bmp != null)
+
+                using (Bitmap bmp = new Bitmap(memoryStream))
                 {
-                    try
-                    {
-                        SetImage(bmp.GetHbitmap());
-                    }
-                    finally
-                    {
-                        //Delete the bitmap
-                        bmp.Dispose();
-                        bmp = null;
-                    }
+                    SetImage(bmp.GetHbitmap());
                 }
             }
         }
-
 
         /// <summary>
         /// Override the thumbnail and peek bitmap. 
@@ -351,20 +314,17 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// </remarks>
         internal void SetImage(IntPtr hBitmap)
         {
-             
             // Before we set a new bitmap, dispose the old one
             if (CurrentHBitmap != IntPtr.Zero)
             {
                 ShellNativeMethods.DeleteObject(CurrentHBitmap);
             }
-            
+
             // Set the new bitmap
             CurrentHBitmap = hBitmap;
 
-            // Let DWM know to invalidate its cached thumbnail/preview and ask us for a new one (i.e. the one
-            // user just updated)
-            if (TaskbarWindowManager.Instance != null)
-                TaskbarWindowManager.Instance.InvalidatePreview(TaskbarWindow);
+            // Let DWM know to invalidate its cached thumbnail/preview and ask us for a new one            
+            TaskbarWindowManager.InvalidatePreview(TaskbarWindow);
         }
 
         /// <summary>
@@ -374,11 +334,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// represents a child window (or a frameless window), you would
         /// probably set this flag to <b>false</b>.
         /// </summary>
-        public bool DisplayFrameAroundBitmap
-        {
-            get;
-            set;
-        }
+        public bool DisplayFrameAroundBitmap { get; set; }
 
         /// <summary>
         /// Invalidate any existing thumbnail preview. Calling this method
@@ -387,32 +343,36 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// </summary>
         public void InvalidatePreview()
         {
-            // invalidate the thumbnail bitmap
-            if (TaskbarWindowManager.Instance != null)
-            {
-                SetImage(IntPtr.Zero);
-            }
+            // clear current image and invalidate
+            SetImage(IntPtr.Zero);
         }
 
         /// <summary>
         /// Gets or sets the offset used for displaying the peek bitmap. This setting is
         /// recomended for hidden WPF controls as it is difficult to calculate their offset.
         /// </summary>
-        public Vector? PeekOffset
-        {
-            get;
-            set;
-        }
+        public Vector? PeekOffset { get; set; }
 
         #endregion
 
+
+
         #region Events
 
+        /// <summary>
+        /// This event is raised when the Title property changes.
+        /// </summary>
+        public event EventHandler TitleChanged;
+
+        /// <summary>
+        /// This event is raised when the Tooltip property changes.
+        /// </summary>
+        public event EventHandler TooltipChanged;
 
         /// <summary>
         /// The event that occurs when a tab is closed on the taskbar thumbnail preview.
         /// </summary>
-        public event EventHandler<TabbedThumbnailEventArgs> TabbedThumbnailClosed;
+        public event EventHandler<TabbedThumbnailClosedEventArgs> TabbedThumbnailClosed;
 
         /// <summary>
         /// The event that occurs when a tab is maximized via the taskbar thumbnail preview (context menu).
@@ -445,47 +405,62 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             {
                 // No one is listening to these events.
                 // Forward the message to the main window
-                CoreNativeMethods.SendMessage(ParentWindowHandle, TabbedThumbnailNativeMethods.WM_SYSCOMMAND, new IntPtr(TabbedThumbnailNativeMethods.SC_MAXIMIZE), IntPtr.Zero);
+                CoreNativeMethods.SendMessage(ParentWindowHandle, WindowMessage.SystemCommand, new IntPtr(TabbedThumbnailNativeMethods.ScMaximize), IntPtr.Zero);
             }
         }
 
         internal void OnTabbedThumbnailMinimized()
         {
             if (TabbedThumbnailMinimized != null)
+            {
                 TabbedThumbnailMinimized(this, GetTabbedThumbnailEventArgs());
+            }
             else
             {
                 // No one is listening to these events.
                 // Forward the message to the main window
-                CoreNativeMethods.SendMessage(ParentWindowHandle, TabbedThumbnailNativeMethods.WM_SYSCOMMAND, new IntPtr(TabbedThumbnailNativeMethods.SC_MINIMIZE), IntPtr.Zero);
+                CoreNativeMethods.SendMessage(ParentWindowHandle, WindowMessage.SystemCommand, new IntPtr(TabbedThumbnailNativeMethods.ScMinimize), IntPtr.Zero);
             }
 
         }
 
-        internal void OnTabbedThumbnailClosed()
+        /// <summary>
+        /// Returns true if the thumbnail was removed from the taskbar; false if it was not.
+        /// </summary>
+        /// <returns>Returns true if the thumbnail was removed from the taskbar; false if it was not.</returns>
+        internal bool OnTabbedThumbnailClosed()
         {
-            if (TabbedThumbnailClosed != null)
-                TabbedThumbnailClosed(this, GetTabbedThumbnailEventArgs());
+            var closedHandler = TabbedThumbnailClosed;
+            if (closedHandler != null)
+            {
+                var closingEvent = GetTabbedThumbnailClosingEventArgs();
+
+                closedHandler(this, closingEvent);
+
+                if (closingEvent.Cancel) { return false; }                
+            }
             else
             {
-                // No one is listening to these events.
-                // Forward the message to the main window
-                CoreNativeMethods.SendMessage(ParentWindowHandle, TabbedThumbnailNativeMethods.WM_NCDESTROY, IntPtr.Zero, IntPtr.Zero);
+                // No one is listening to these events. Forward the message to the main window
+                CoreNativeMethods.SendMessage(ParentWindowHandle, WindowMessage.NCDestroy, IntPtr.Zero, IntPtr.Zero);
             }
 
             // Remove it from the internal list as well as the taskbar
             TaskbarManager.Instance.TabbedThumbnail.RemoveThumbnailPreview(this);
+            return true;
         }
 
         internal void OnTabbedThumbnailActivated()
         {
             if (TabbedThumbnailActivated != null)
+            {
                 TabbedThumbnailActivated(this, GetTabbedThumbnailEventArgs());
+            }
             else
             {
                 // No one is listening to these events.
                 // Forward the message to the main window
-                CoreNativeMethods.SendMessage(ParentWindowHandle, TabbedThumbnailNativeMethods.WM_ACTIVATEAPP, new IntPtr(1), new IntPtr(Thread.CurrentThread.GetHashCode()));
+                CoreNativeMethods.SendMessage(ParentWindowHandle, WindowMessage.ActivateApplication, new IntPtr(1), new IntPtr(Thread.CurrentThread.GetHashCode()));
             }
         }
 
@@ -496,12 +471,32 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                 TabbedThumbnailBitmapRequestedEventArgs eventArgs = null;
 
                 if (this.WindowHandle != IntPtr.Zero)
-                    eventArgs = new TabbedThumbnailBitmapRequestedEventArgs(this.WindowHandle, this);
+                {
+                    eventArgs = new TabbedThumbnailBitmapRequestedEventArgs(this.WindowHandle);
+                }
                 else if (this.WindowsControl != null)
-                    eventArgs = new TabbedThumbnailBitmapRequestedEventArgs(this.WindowsControl, this);
+                {
+                    eventArgs = new TabbedThumbnailBitmapRequestedEventArgs(this.WindowsControl);
+                }
 
                 TabbedThumbnailBitmapRequested(this, eventArgs);
             }
+        }
+
+        private TabbedThumbnailClosedEventArgs GetTabbedThumbnailClosingEventArgs()
+        {
+            TabbedThumbnailClosedEventArgs eventArgs = null;
+
+            if (this.WindowHandle != IntPtr.Zero)
+            {
+                eventArgs = new TabbedThumbnailClosedEventArgs(this.WindowHandle);
+            }
+            else if (this.WindowsControl != null)
+            {
+                eventArgs = new TabbedThumbnailClosedEventArgs(this.WindowsControl);
+            }
+
+            return eventArgs;
         }
 
         private TabbedThumbnailEventArgs GetTabbedThumbnailEventArgs()
@@ -509,10 +504,14 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             TabbedThumbnailEventArgs eventArgs = null;
 
             if (this.WindowHandle != IntPtr.Zero)
-                eventArgs = new TabbedThumbnailEventArgs(this.WindowHandle, this);
+            {
+                eventArgs = new TabbedThumbnailEventArgs(this.WindowHandle);
+            }
             else if (this.WindowsControl != null)
-                eventArgs = new TabbedThumbnailEventArgs(this.WindowsControl, this);
-                
+            {
+                eventArgs = new TabbedThumbnailEventArgs(this.WindowsControl);
+            }
+
             return eventArgs;
         }
 
@@ -541,18 +540,17 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// Release the native objects.
         /// </summary>
         /// <param name="disposing"></param>
-        public void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                taskbarWindow = null;
+                _taskbarWindow = null;
 
-                if (Icon != null)
-                    Icon.Dispose();
+                if (Icon != null) { Icon.Dispose(); }
                 Icon = null;
 
-                title = null;
-                tooltip = null;
+                _title = null;
+                _tooltip = null;
                 WindowsControl = null;
             }
 

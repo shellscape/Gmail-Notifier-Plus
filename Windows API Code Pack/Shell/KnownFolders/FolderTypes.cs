@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 
 namespace Microsoft.WindowsAPICodePack.Shell
 {
@@ -182,45 +183,45 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
         static Dictionary<Guid, string> types;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
         static FolderTypes()
         {
             types = new Dictionary<Guid, string>();
-            types.Add(NotSpecified, "Not Specified");
-            types.Add(Invalid, "Invalid");
-            types.Add(Communications, "Communications");
-            types.Add(CompressedFolder, "Compressed Folder");
-            types.Add(Contacts, "Contacts");
-            types.Add(ControlPanelCategory, "ControlPanel Category");
-            types.Add(ControlPanelClassic, "ControlPanel Classic");
-            types.Add(Documents, "Documents");
-            types.Add(Games, "Games");
-            types.Add(GenericSearchResults, "Generic Search Results");
-            types.Add(GenericLibrary, "Generic Library");
-            types.Add(Library, "Library");
-            types.Add(Music, "Music");
-            types.Add(MusicIcons, "Music Icons");
-            types.Add(NetworkExplorer, "Network Explorer");
-            types.Add(OtherUsers, "Other Users");
-            types.Add(OpenSearch, "Open Search");
-            types.Add(Pictures, "Pictures");
-            types.Add(Printers, "Printers");
-            types.Add(RecycleBin, "RecycleBin");
-            types.Add(RecordedTV, "Recorded TV");
-            types.Add(SoftwareExplorer, "Software Explorer");
-            types.Add(SavedGames, "Saved Games");
-            types.Add(SearchConnector, "Search Connector");
-            types.Add(Searches, "Searches");
-            types.Add(UsersLibraries, "Users Libraries");
-            types.Add(UserFiles, "User Files");
-            types.Add(Videos, "Videos");
+            // Review: These Localized messages could probably be a reflected value of the field's name.
+            types.Add(NotSpecified, LocalizedMessages.FolderTypeNotSpecified);
+            types.Add(Invalid, LocalizedMessages.FolderTypeInvalid);
+            types.Add(Communications, LocalizedMessages.FolderTypeCommunications);
+            types.Add(CompressedFolder, LocalizedMessages.FolderTypeCompressedFolder);
+            types.Add(Contacts, LocalizedMessages.FolderTypeContacts);
+            types.Add(ControlPanelCategory, LocalizedMessages.FolderTypeCategory);
+            types.Add(ControlPanelClassic, LocalizedMessages.FolderTypeClassic);
+            types.Add(Documents, LocalizedMessages.FolderTypeDocuments);
+            types.Add(Games, LocalizedMessages.FolderTypeGames);
+            types.Add(GenericSearchResults, LocalizedMessages.FolderTypeSearchResults);
+            types.Add(GenericLibrary, LocalizedMessages.FolderTypeGenericLibrary);
+            types.Add(Library, LocalizedMessages.FolderTypeLibrary);
+            types.Add(Music, LocalizedMessages.FolderTypeMusic);
+            types.Add(MusicIcons, LocalizedMessages.FolderTypeMusicIcons);
+            types.Add(NetworkExplorer, LocalizedMessages.FolderTypeNetworkExplorer);
+            types.Add(OtherUsers, LocalizedMessages.FolderTypeOtherUsers);
+            types.Add(OpenSearch, LocalizedMessages.FolderTypeOpenSearch);
+            types.Add(Pictures, LocalizedMessages.FolderTypePictures);
+            types.Add(Printers, LocalizedMessages.FolderTypePrinters);
+            types.Add(RecycleBin, LocalizedMessages.FolderTypeRecycleBin);
+            types.Add(RecordedTV, LocalizedMessages.FolderTypeRecordedTV);
+            types.Add(SoftwareExplorer, LocalizedMessages.FolderTypeSoftwareExplorer);
+            types.Add(SavedGames, LocalizedMessages.FolderTypeSavedGames);
+            types.Add(SearchConnector, LocalizedMessages.FolderTypeSearchConnector);
+            types.Add(Searches, LocalizedMessages.FolderTypeSearches);
+            types.Add(UsersLibraries, LocalizedMessages.FolderTypeUserLibraries);
+            types.Add(UserFiles, LocalizedMessages.FolderTypeUserFiles);
+            types.Add(Videos, LocalizedMessages.FolderTypeVideos);
         }
 
         internal static string GetFolderType(Guid typeId)
         {
-            if (typeId == Guid.Empty || !types.ContainsKey(typeId))
-                return String.Empty;
-
-            return types[typeId];
+            string type;
+            return types.TryGetValue(typeId, out type) ? type : string.Empty;
         }
     }
 }

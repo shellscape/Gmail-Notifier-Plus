@@ -2,80 +2,57 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
+using System.Text;
 
 namespace Microsoft.WindowsAPICodePack.Shell
 {
     internal static class ShellNativeMethods
     {
-        static ShellNativeMethods()
-        {
-            // Hide default constructor
-        }
-
-        #region TaskDialog Definitions
-
-        // Identify button *return values* - note that, unfortunately, these are different
-        // from the inbound button values.
-        internal enum TASKDIALOG_COMMON_BUTTON_RETURN_ID
-        {
-            IDOK = 1,
-            IDCANCEL = 2,
-            IDABORT = 3,
-            IDRETRY = 4,
-            IDIGNORE = 5,
-            IDYES = 6,
-            IDNO = 7,
-            IDCLOSE = 8
-        }
-
-        #endregion
-
         #region Shell Enums
 
         [Flags]
-        internal enum FOS : uint
+        internal enum FileOpenOptions
         {
-            FOS_OVERWRITEPROMPT = 0x00000002,
-            FOS_STRICTFILETYPES = 0x00000004,
-            FOS_NOCHANGEDIR = 0x00000008,
-            FOS_PICKFOLDERS = 0x00000020,
+            OverwritePrompt = 0x00000002,
+            StrictFileTypes = 0x00000004,
+            NoChangeDirectory = 0x00000008,
+            PickFolders = 0x00000020,
             // Ensure that items returned are filesystem items.
-            FOS_FORCEFILESYSTEM = 0x00000040,
+            ForceFilesystem = 0x00000040,
             // Allow choosing items that have no storage.
-            FOS_ALLNONSTORAGEITEMS = 0x00000080,
-            FOS_NOVALIDATE = 0x00000100,
-            FOS_ALLOWMULTISELECT = 0x00000200,
-            FOS_PATHMUSTEXIST = 0x00000800,
-            FOS_FILEMUSTEXIST = 0x00001000,
-            FOS_CREATEPROMPT = 0x00002000,
-            FOS_SHAREAWARE = 0x00004000,
-            FOS_NOREADONLYRETURN = 0x00008000,
-            FOS_NOTESTFILECREATE = 0x00010000,
-            FOS_HIDEMRUPLACES = 0x00020000,
-            FOS_HIDEPINNEDPLACES = 0x00040000,
-            FOS_NODEREFERENCELINKS = 0x00100000,
-            FOS_DONTADDTORECENT = 0x02000000,
-            FOS_FORCESHOWHIDDEN = 0x10000000,
-            FOS_DEFAULTNOMINIMODE = 0x20000000
+            AllNonStorageItems = 0x00000080,
+            NoValidate = 0x00000100,
+            AllowMultiSelect = 0x00000200,
+            PathMustExist = 0x00000800,
+            FileMustExist = 0x00001000,
+            CreatePrompt = 0x00002000,
+            ShareAware = 0x00004000,
+            NoReadOnlyReturn = 0x00008000,
+            NoTestFileCreate = 0x00010000,
+            HideMruPlaces = 0x00020000,
+            HidePinnedPlaces = 0x00040000,
+            NoDereferenceLinks = 0x00100000,
+            DontAddToRecent = 0x02000000,
+            ForceShowHidden = 0x10000000,
+            DefaultNoMiniMode = 0x20000000
         }
-        internal enum CDCONTROLSTATE : uint
+        internal enum ControlState
         {
-            CDCS_INACTIVE = 0x00000000,
-            CDCS_ENABLED = 0x00000001,
-            CDCS_VISIBLE = 0x00000002
+            Inactive = 0x00000000,
+            Enable = 0x00000001,
+            Visible = 0x00000002
         }
-        internal enum SIGDN : uint
+        internal enum ShellItemDesignNameOptions
         {
-            SIGDN_NORMALDISPLAY = 0x00000000,           // SHGDN_NORMAL
-            SIGDN_PARENTRELATIVEPARSING = 0x80018001,   // SHGDN_INFOLDER | SHGDN_FORPARSING
-            SIGDN_DESKTOPABSOLUTEPARSING = 0x80028000,  // SHGDN_FORPARSING
-            SIGDN_PARENTRELATIVEEDITING = 0x80031001,   // SHGDN_INFOLDER | SHGDN_FOREDITING
-            SIGDN_DESKTOPABSOLUTEEDITING = 0x8004c000,  // SHGDN_FORPARSING | SHGDN_FORADDRESSBAR
-            SIGDN_FILESYSPATH = 0x80058000,             // SHGDN_FORPARSING
-            SIGDN_URL = 0x80068000,                     // SHGDN_FORPARSING
-            SIGDN_PARENTRELATIVEFORADDRESSBAR = 0x8007c001,     // SHGDN_INFOLDER | SHGDN_FORPARSING | SHGDN_FORADDRESSBAR
-            SIGDN_PARENTRELATIVE = 0x80080001           // SHGDN_INFOLDER
+            Normal = 0x00000000,           // SIGDN_NORMAL
+            ParentRelativeParsing = unchecked((int)0x80018001),   // SIGDN_INFOLDER | SIGDN_FORPARSING
+            DesktopAbsoluteParsing = unchecked((int)0x80028000),  // SIGDN_FORPARSING
+            ParentRelativeEditing = unchecked((int)0x80031001),   // SIGDN_INFOLDER | SIGDN_FOREDITING
+            DesktopAbsoluteEditing = unchecked((int)0x8004c000),  // SIGDN_FORPARSING | SIGDN_FORADDRESSBAR
+            FileSystemPath = unchecked((int)0x80058000),             // SIGDN_FORPARSING
+            Url = unchecked((int)0x80068000),                     // SIGDN_FORPARSING
+            ParentRelativeForAddressBar = unchecked((int)0x8007c001),     // SIGDN_INFOLDER | SIGDN_FORPARSING | SIGDN_FORADDRESSBAR
+            ParentRelative = unchecked((int)0x80080001)           // SIGDN_INFOLDER
         }
 
         /// <summary>
@@ -84,14 +61,14 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// IPropertyStoreFactory::GetPropertyStore.
         /// </summary>
         [Flags]
-        internal enum GETPROPERTYSTOREFLAGS : uint
+        internal enum GetPropertyStoreOptions
         {
             /// <summary>
             /// Meaning to a calling process: Return a read-only property store that contains all 
             /// properties. Slow items (offline files) are not opened. 
             /// Combination with other flags: Can be overridden by other flags.
             /// </summary>
-            GPS_DEFAULT = 0,
+            Default = 0,
 
             /// <summary>
             /// Meaning to a calling process: Include only properties directly from the property
@@ -105,7 +82,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
             /// Combination with other flags: Cannot be combined with GPS_TEMPORARY, 
             /// GPS_FASTPROPERTIESONLY, or GPS_BESTEFFORT.
             /// </summary>
-            GPS_HANDLERPROPERTIESONLY = 0x1,
+            HandlePropertiesOnly = 0x1,
 
             /// <summary>
             /// Meaning to a calling process: Can write properties to the item. 
@@ -119,7 +96,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
             /// Combination with other flags: Cannot be combined with GPS_TEMPORARY, GPS_FASTPROPERTIESONLY, 
             /// GPS_BESTEFFORT, or GPS_DELAYCREATION. Implies GPS_HANDLERPROPERTIESONLY.
             /// </summary>
-            GPS_READWRITE = 0x2,
+            ReadWrite = 0x2,
 
             /// <summary>
             /// Meaning to a calling process: Provides a writable store, with no initial properties, 
@@ -132,7 +109,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
             /// 
             /// Combination with other flags: Cannot be combined with any other flag. Implies GPS_READWRITE
             /// </summary>
-            GPS_TEMPORARY = 0x4,
+            Temporary = 0x4,
 
             /// <summary>
             /// Meaning to a calling process: Provides a store that does not involve reading from the 
@@ -148,7 +125,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
             /// Combination with other flags: Cannot be combined with GPS_TEMPORARY, GPS_READWRITE, 
             /// GPS_HANDLERPROPERTIESONLY, or GPS_DELAYCREATION.
             /// </summary>
-            GPS_FASTPROPERTIESONLY = 0x8,
+            FastPropertiesOnly = 0x8,
 
             /// <summary>
             /// Meaning to a calling process: Open a slow item (offline file) if necessary. 
@@ -159,7 +136,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
             /// 
             /// Combination with other flags: Cannot be combined with GPS_TEMPORARY or GPS_FASTPROPERTIESONLY.
             /// </summary>
-            GPS_OPENSLOWITEM = 0x10,
+            OpensLowItem = 0x10,
 
             /// <summary>
             /// Meaning to a calling process: Delay memory-intensive operations, such as file access, until 
@@ -177,7 +154,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
             /// Combination with other flags: Cannot be combined with GPS_TEMPORARY or 
             /// GPS_READWRITE
             /// </summary>
-            GPS_DELAYCREATION = 0x20,
+            DelayCreation = 0x20,
 
             /// <summary>
             /// Meaning to a calling process: Succeed at getting the store, even if some 
@@ -193,91 +170,93 @@ namespace Microsoft.WindowsAPICodePack.Shell
             /// Combination with other flags: Cannot be combined with GPS_TEMPORARY, 
             /// GPS_READWRITE, or GPS_HANDLERPROPERTIESONLY.
             /// </summary>
-            GPS_BESTEFFORT = 0x40,
+            BestEffort = 0x40,
 
             /// <summary>
             /// Mask for valid GETPROPERTYSTOREFLAGS values.
             /// </summary>
-            GPS_MASK_VALID = 0xff,
+            MaskValid = 0xff,
         }
 
-        internal enum SIATTRIBFLAGS
+        internal enum ShellItemAttributeOptions
         {
             // if multiple items and the attirbutes together.
-            SIATTRIBFLAGS_AND = 0x00000001,
+            And = 0x00000001,
             // if multiple items or the attributes together.
-            SIATTRIBFLAGS_OR = 0x00000002,
+            Or = 0x00000002,
             // Call GetAttributes directly on the 
             // ShellFolder for multiple attributes.
-            SIATTRIBFLAGS_APPCOMPAT = 0x00000003,
+            AppCompat = 0x00000003,
+
+            // A mask for SIATTRIBFLAGS_AND, SIATTRIBFLAGS_OR, and SIATTRIBFLAGS_APPCOMPAT. Callers normally do not use this value.
+            Mask = 0x00000003,
+
+            // Windows 7 and later. Examine all items in the array to compute the attributes. 
+            // Note that this can result in poor performance over large arrays and therefore it 
+            // should be used only when needed. Cases in which you pass this flag should be extremely rare.
+            AllItems = 0x00004000
         }
-        internal enum FDE_SHAREVIOLATION_RESPONSE
+
+        internal enum FileDialogEventShareViolationResponse
         {
-            FDESVR_DEFAULT = 0x00000000,
-            FDESVR_ACCEPT = 0x00000001,
-            FDESVR_REFUSE = 0x00000002
+            Default = 0x00000000,
+            Accept = 0x00000001,
+            Refuse = 0x00000002
         }
-        internal enum FDE_OVERWRITE_RESPONSE
+        internal enum FileDialogEventOverwriteResponse
         {
-            FDEOR_DEFAULT = 0x00000000,
-            FDEOR_ACCEPT = 0x00000001,
-            FDEOR_REFUSE = 0x00000002
+            Default = 0x00000000,
+            Accept = 0x00000001,
+            Refuse = 0x00000002
         }
-        internal enum FDAP
+        internal enum FileDialogAddPlacement
         {
-            FDAP_BOTTOM = 0x00000000,
-            FDAP_TOP = 0x00000001,
+            Bottom = 0x00000000,
+            Top = 0x00000001,
         }
 
         [Flags]
         internal enum SIIGBF
         {
-            SIIGBF_RESIZETOFIT = 0x00,
-            SIIGBF_BIGGERSIZEOK = 0x01,
-            SIIGBF_MEMORYONLY = 0x02,
-            SIIGBF_ICONONLY = 0x04,
-            SIIGBF_THUMBNAILONLY = 0x08,
-            SIIGBF_INCACHEONLY = 0x10,
+            ResizeToFit = 0x00,
+            BiggerSizeOk = 0x01,
+            MemoryOnly = 0x02,
+            IconOnly = 0x04,
+            ThumbnailOnly = 0x08,
+            InCacheOnly = 0x10,
         }
 
         [Flags]
-        internal enum WTS_FLAGS
+        internal enum ThumbnailOptions
         {
-            WTS_EXTRACT = 0x00000000,
-            WTS_INCACHEONLY = 0x00000001,
-            WTS_FASTEXTRACT = 0x00000002,
-            WTS_FORCEEXTRACTION = 0x00000004,
-            WTS_SLOWRECLAIM = 0x00000008,
-            WTS_EXTRACTDONOTCACHE = 0x00000020
+            Extract = 0x00000000,
+            InCacheOnly = 0x00000001,
+            FastExtract = 0x00000002,
+            ForceExtraction = 0x00000004,
+            SlowReclaim = 0x00000008,
+            ExtractDoNotCache = 0x00000020
         }
 
         [Flags]
-        internal enum WTS_CACHEFLAGS
+        internal enum ThumbnailCacheOptions
         {
-            WTS_DEFAULT = 0x00000000,
-            WTS_LOWQUALITY = 0x00000001,
-            WTS_CACHED = 0x00000002,
-        }
-
-        internal enum WTS_ALPHATYPE
-        {
-            WTSAT_UNKNOWN = 0,
-            WTSAT_RGB = 1,
-            WTSAT_ARGB = 2,
+            Default = 0x00000000,
+            LowQuality = 0x00000001,
+            Cached = 0x00000002,
         }
 
         [Flags]
-        internal enum SFGAO : uint
+        internal enum ShellFileGetAttributesOptions
         {
             /// <summary>
             /// The specified items can be copied.
             /// </summary>
-            SFGAO_CANCOPY = 0x00000001,
+            CanCopy = 0x00000001,
 
             /// <summary>
             /// The specified items can be moved.
             /// </summary>
-            SFGAO_CANMOVE = 0x00000002,
+            CanMove = 0x00000002,
 
             /// <summary>
             /// Shortcuts can be created for the specified items. This flag has the same value as DROPEFFECT. 
@@ -287,113 +266,113 @@ namespace Microsoft.WindowsAPICodePack.Shell
             /// If this item is selected, your application's IContextMenu::InvokeCommand is invoked with the lpVerb 
             /// member of the CMINVOKECOMMANDINFO structure set to "link." Your application is responsible for creating the link.
             /// </summary>
-            SFGAO_CANLINK = 0x00000004,
+            CanLink = 0x00000004,
 
             /// <summary>
             /// The specified items can be bound to an IStorage interface through IShellFolder::BindToObject.
             /// </summary>
-            SFGAO_STORAGE = 0x00000008,
+            Storage = 0x00000008,
 
             /// <summary>
             /// The specified items can be renamed.
             /// </summary>
-            SFGAO_CANRENAME = 0x00000010,
+            CanRename = 0x00000010,
 
             /// <summary>
             /// The specified items can be deleted.
             /// </summary>
-            SFGAO_CANDELETE = 0x00000020,
+            CanDelete = 0x00000020,
 
             /// <summary>
             /// The specified items have property sheets.
             /// </summary>
-            SFGAO_HASPROPSHEET = 0x00000040,
+            HasPropertySheet = 0x00000040,
 
             /// <summary>
             /// The specified items are drop targets.
             /// </summary>
-            SFGAO_DROPTARGET = 0x00000100,
+            DropTarget = 0x00000100,
 
             /// <summary>
             /// This flag is a mask for the capability flags.
             /// </summary>
-            SFGAO_CAPABILITYMASK = 0x00000177,
+            CapabilityMask = 0x00000177,
 
             /// <summary>
             /// Windows 7 and later. The specified items are system items.
             /// </summary>
-            SFGAO_SYSTEM = 0x00001000,
+            System = 0x00001000,
 
             /// <summary>
             /// The specified items are encrypted.
             /// </summary>
-            SFGAO_ENCRYPTED = 0x00002000,
+            Encrypted = 0x00002000,
 
             /// <summary>
             /// Indicates that accessing the object = through IStream or other storage interfaces, 
             /// is a slow operation. 
             /// Applications should avoid accessing items flagged with SFGAO_ISSLOW.
             /// </summary>
-            SFGAO_ISSLOW = 0x00004000,
+            IsSlow = 0x00004000,
 
             /// <summary>
             /// The specified items are ghosted icons.
             /// </summary>
-            SFGAO_GHOSTED = 0x00008000,
+            Ghosted = 0x00008000,
 
             /// <summary>
             /// The specified items are shortcuts.
             /// </summary>
-            SFGAO_LINK = 0x00010000,
+            Link = 0x00010000,
 
             /// <summary>
             /// The specified folder objects are shared.
             /// </summary>    
-            SFGAO_SHARE = 0x00020000,
+            Share = 0x00020000,
 
             /// <summary>
             /// The specified items are read-only. In the case of folders, this means 
             /// that new items cannot be created in those folders.
             /// </summary>
-            SFGAO_READONLY = 0x00040000,
+            ReadOnly = 0x00040000,
 
             /// <summary>
             /// The item is hidden and should not be displayed unless the 
             /// Show hidden files and folders option is enabled in Folder Settings.
             /// </summary>
-            SFGAO_HIDDEN = 0x00080000,
+            Hidden = 0x00080000,
 
             /// <summary>
             /// This flag is a mask for the display attributes.
             /// </summary>
-            SFGAO_DISPLAYATTRMASK = 0x000FC000,
+            DisplayAttributeMask = 0x000FC000,
 
             /// <summary>
             /// The specified folders contain one or more file system folders.
             /// </summary>
-            SFGAO_FILESYSANCESTOR = 0x10000000,
+            FileSystemAncestor = 0x10000000,
 
             /// <summary>
             /// The specified items are folders.
             /// </summary>
-            SFGAO_FOLDER = 0x20000000,
+            Folder = 0x20000000,
 
             /// <summary>
             /// The specified folders or file objects are part of the file system 
             /// that is, they are files, directories, or root directories).
             /// </summary>
-            SFGAO_FILESYSTEM = 0x40000000,
+            FileSystem = 0x40000000,
 
             /// <summary>
             /// The specified folders have subfolders = and are, therefore, 
             /// expandable in the left pane of Windows Explorer).
             /// </summary>
-            SFGAO_HASSUBFOLDER = 0x80000000,
+            HasSubFolder = unchecked((int)0x80000000),
 
             /// <summary>
             /// This flag is a mask for the contents attributes.
             /// </summary>
-            SFGAO_CONTENTSMASK = 0x80000000,
+            ContentsMask = unchecked((int)0x80000000),
 
             /// <summary>
             /// When specified as input, SFGAO_VALIDATE instructs the folder to validate that the items 
@@ -403,83 +382,83 @@ namespace Microsoft.WindowsAPICodePack.Shell
             /// properties retrieved by clients of IShellFolder2::GetDetailsEx that may 
             /// have accumulated for the specified items.
             /// </summary>
-            SFGAO_VALIDATE = 0x01000000,
+            Validate = 0x01000000,
 
             /// <summary>
             /// The specified items are on removable media or are themselves removable devices.
             /// </summary>
-            SFGAO_REMOVABLE = 0x02000000,
+            Removable = 0x02000000,
 
             /// <summary>
             /// The specified items are compressed.
             /// </summary>
-            SFGAO_COMPRESSED = 0x04000000,
+            Compressed = 0x04000000,
 
             /// <summary>
             /// The specified items can be browsed in place.
             /// </summary>
-            SFGAO_BROWSABLE = 0x08000000,
+            Browsable = 0x08000000,
 
             /// <summary>
             /// The items are nonenumerated items.
             /// </summary>
-            SFGAO_NONENUMERATED = 0x00100000,
+            Nonenumerated = 0x00100000,
 
             /// <summary>
             /// The objects contain new content.
             /// </summary>
-            SFGAO_NEWCONTENT = 0x00200000,
+            NewContent = 0x00200000,
 
             /// <summary>
             /// It is possible to create monikers for the specified file objects or folders.
             /// </summary>
-            SFGAO_CANMONIKER = 0x00400000,
+            CanMoniker = 0x00400000,
 
             /// <summary>
             /// Not supported.
             /// </summary>
-            SFGAO_HASSTORAGE = 0x00400000,
+            HasStorage = 0x00400000,
 
             /// <summary>
             /// Indicates that the item has a stream associated with it that can be accessed 
             /// by a call to IShellFolder::BindToObject with IID_IStream in the riid parameter.
             /// </summary>
-            SFGAO_STREAM = 0x00400000,
+            Stream = 0x00400000,
 
             /// <summary>
             /// Children of this item are accessible through IStream or IStorage. 
             /// Those children are flagged with SFGAO_STORAGE or SFGAO_STREAM.
             /// </summary>
-            SFGAO_STORAGEANCESTOR = 0x00800000,
+            StorageAncestor = 0x00800000,
 
             /// <summary>
             /// This flag is a mask for the storage capability attributes.
             /// </summary>
-            SFGAO_STORAGECAPMASK = 0x70C50008,
+            StorageCapabilityMask = 0x70C50008,
 
             /// <summary>
             /// Mask used by PKEY_SFGAOFlags to remove certain values that are considered 
             /// to cause slow calculations or lack context. 
             /// Equal to SFGAO_VALIDATE | SFGAO_ISSLOW | SFGAO_HASSUBFOLDER.
             /// </summary>
-            SFGAO_PKEYSFGAOMASK = 0x81044000,
+            PkeyMask = unchecked((int)0x81044000),
         }
 
         [Flags]
-        internal enum SHCONT : ushort
+        internal enum ShellFolderEnumerationOptions : ushort
         {
-            SHCONTF_CHECKING_FOR_CHILDREN = 0x0010,
-            SHCONTF_FOLDERS = 0x0020,
-            SHCONTF_NONFOLDERS = 0x0040,
-            SHCONTF_INCLUDEHIDDEN = 0x0080,
-            SHCONTF_INIT_ON_FIRST_NEXT = 0x0100,
-            SHCONTF_NETPRINTERSRCH = 0x0200,
-            SHCONTF_SHAREABLE = 0x0400,
-            SHCONTF_STORAGE = 0x0800,
-            SHCONTF_NAVIGATION_ENUM = 0x1000,
-            SHCONTF_FASTITEMS = 0x2000,
-            SHCONTF_FLATLIST = 0x4000,
-            SHCONTF_ENABLE_ASYNC = 0x8000
+            CheckingForChildren = 0x0010,
+            Folders = 0x0020,
+            NonFolders = 0x0040,
+            IncludeHidden = 0x0080,
+            InitializeOnFirstNext = 0x0100,
+            NetPrinterSearch = 0x0200,
+            Shareable = 0x0400,
+            Storage = 0x0800,
+            NavigationEnum = 0x1000,
+            FastItems = 0x2000,
+            FlatList = 0x4000,
+            EnableAsync = 0x8000
         }
 
         #endregion
@@ -487,40 +466,38 @@ namespace Microsoft.WindowsAPICodePack.Shell
         #region Shell Structs
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        internal struct COMDLG_FILTERSPEC
+        internal struct FilterSpec
         {
             [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszName;
+            internal string Name;
             [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszSpec;
+            internal string Spec;
 
-            internal COMDLG_FILTERSPEC(string name, string spec)
+            internal FilterSpec(string name, string spec)
             {
-                pszName = name;
-                pszSpec = spec;
+                Name = name;
+                Spec = spec;
             }
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        internal struct WTS_THUMBNAILID
+        internal struct ThumbnailId
         {
             [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 16)]
             byte rgbKey;
         }
 
-
         #endregion
 
         #region Shell Helper Methods
 
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true )]
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern int SHCreateShellItemArrayFromDataObject(
             System.Runtime.InteropServices.ComTypes.IDataObject pdo,
             ref Guid riid,
-            [MarshalAs( UnmanagedType.Interface )] out IShellItemArray iShellItemArray );
+            [MarshalAs(UnmanagedType.Interface)] out IShellItemArray iShellItemArray);
 
-        [DllImport( "shell32.dll", CharSet = CharSet.Unicode,
-            SetLastError = true)]
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern int SHCreateItemFromParsingName(
             [MarshalAs(UnmanagedType.LPWStr)] string path,
             // The following parameter is not used - binding context.
@@ -528,24 +505,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
             ref Guid riid,
             [MarshalAs(UnmanagedType.Interface)] out IShellItem2 shellItem);
 
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode,
-            SetLastError = true)]
-        internal static extern int SHCreateItemFromParsingName(
-            [MarshalAs(UnmanagedType.LPWStr)] string path,
-            [MarshalAs(UnmanagedType.Interface)] IBindCtx pbc,
-            ref Guid riid,
-            [MarshalAs(UnmanagedType.Interface)] out IShellItem2 shellItem);
-
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode,
-            SetLastError = true)]
-        internal static extern int SHCreateItemFromParsingName(
-            [MarshalAs(UnmanagedType.LPWStr)] string path,
-            [MarshalAs(UnmanagedType.Interface)] IBindCtx pbc,
-            ref Guid riid,
-            [MarshalAs(UnmanagedType.Interface)] out IShellItem shellItem);
-
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode,
-            SetLastError = true)]
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern int SHCreateItemFromParsingName(
             [MarshalAs(UnmanagedType.LPWStr)] string path,
             // The following parameter is not used - binding context.
@@ -553,14 +513,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
             ref Guid riid,
             [MarshalAs(UnmanagedType.Interface)] out IShellItem shellItem);
 
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode,
-            SetLastError = true)]
-        internal static extern int SHCreateShellItemArrayFromShellItem(IShellItem psi, 
-            ref Guid riid, 
-            [MarshalAs(UnmanagedType.Interface)] out IShellItemArray ppenum);
-
-        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode,
-            SetLastError = true)]
+        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern int PathParseIconLocation(
             [MarshalAs(UnmanagedType.LPWStr)] ref string pszIconFile);
 
@@ -576,8 +529,8 @@ namespace Microsoft.WindowsAPICodePack.Shell
             [MarshalAs(UnmanagedType.LPWStr)] string pszName,
             IntPtr pbc,
             out IntPtr ppidl,
-            SFGAO sfgaoIn,
-            out SFGAO psfgaoOut
+            ShellFileGetAttributesOptions sfgaoIn,
+            out ShellFileGetAttributesOptions psfgaoOut
         );
 
         [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
@@ -598,179 +551,56 @@ namespace Microsoft.WindowsAPICodePack.Shell
             [MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi
         );
 
-        [DllImport( "shell32.dll", CharSet = CharSet.Unicode, SetLastError = true )]
-        internal static extern uint ILGetSize( IntPtr pidl );
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        internal static extern uint ILGetSize(IntPtr pidl);
 
-        [DllImport( "shell32.dll", CharSet = CharSet.None )]
-        public static extern void ILFree( IntPtr pidl );
+        [DllImport("shell32.dll", CharSet = CharSet.None)]
+        public static extern void ILFree(IntPtr pidl);
 
         [DllImport("gdi32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool DeleteObject(IntPtr hObject);
-
-        [DllImport("ole32.dll")]
-        public static extern int CreateBindCtx(int reserved, out IBindCtx ppbc);
 
         #endregion
 
         #region Shell Library Enums
 
-        internal enum LIBRARYFOLDERFILTER
+        internal enum LibraryFolderFilter
         {
-            LFF_FORCEFILESYSTEM = 1,
-            LFF_STORAGEITEMS = 2,
-            LFF_ALLITEMS = 3
+            ForceFileSystem = 1,
+            StorageItems = 2,
+            AllItems = 3
         };
 
         [Flags]
-        internal enum LIBRARYOPTIONFLAGS : uint
+        internal enum LibraryOptions
         {
-            LOF_DEFAULT = 0,
-            LOF_PINNEDTONAVPANE = 0x1,
-            LOF_MASK_ALL = 0x1
+            Default = 0,
+            PinnedToNavigationPane = 0x1,
+            MaskAll = 0x1
         };
 
-        internal enum DEFAULTSAVEFOLDERTYPE
+        internal enum DefaultSaveFolderType
         {
-            DSFT_DETECT = 1,
-            DSFT_PRIVATE = (DSFT_DETECT + 1),
-            DSFT_PUBLIC = (DSFT_PRIVATE + 1)
+            Detect = 1,
+            Private = 2,
+            Public = 3
         };
 
-        internal enum LIBRARYSAVEFLAGS
+        internal enum LibrarySaveOptions
         {
-            LSF_FAILIFTHERE = 0,
-            LSF_OVERRIDEEXISTING = 0x1,
-            LSF_MAKEUNIQUENAME = 0x2
+            FailIfThere = 0,
+            OverrideExisting = 1,
+            MakeUniqueName = 2
         };
 
-        internal enum LIBRARYMANAGEDIALOGOPTIONS
+        internal enum LibraryManageDialogOptions
         {
-            LMD_DEFAULT = 0,
-            LMD_NOUNINDEXABLELOCATIONWARNING = 0x1
+            Default = 0,
+            NonIndexableLocationWarning = 1
         };
 
-        /// <summary>
-        /// The STGM constants are flags that indicate 
-        /// conditions for creating and deleting the object and access modes 
-        /// for the object. 
-        /// 
-        /// You can combine these flags, but you can only choose one flag 
-        /// from each group of related flags. Typically one flag from each 
-        /// of the access and sharing groups must be specified for all 
-        /// functions and methods which use these constants. 
-        /// </summary>
-        [Flags]
-        internal enum STGM : uint
-        {
-            /// <summary>
-            /// Indicates that, in direct mode, each change to a storage 
-            /// or stream element is written as it occurs.
-            /// </summary>
-            Direct = 0x00000000,
-
-            /// <summary>
-            /// Indicates that, in transacted mode, changes are buffered 
-            /// and written only if an explicit commit operation is called. 
-            /// </summary>
-            Transacted = 0x00010000,
-
-            /// <summary>
-            /// Provides a faster implementation of a compound file 
-            /// in a limited, but frequently used, case. 
-            /// </summary>
-            Simple = 0x08000000,
-
-
-
-            /// <summary>
-            /// Indicates that the object is read-only, 
-            /// meaning that modifications cannot be made.
-            /// </summary>
-            Read = 0x00000000,
-
-            /// <summary>
-            /// Enables you to save changes to the object, 
-            /// but does not permit access to its data. 
-            /// </summary>
-            Write = 0x00000001,
-
-            /// <summary>
-            /// Enables access and modification of object data.
-            /// </summary>
-            ReadWrite = 0x00000002,
-
-            /// <summary>
-            /// Specifies that subsequent openings of the object are 
-            /// not denied read or write access. 
-            /// </summary>
-            ShareDenyNone = 0x00000040,
-
-            /// <summary>
-            /// Prevents others from subsequently opening the object in Read mode. 
-            /// </summary>
-            ShareDenyRead = 0x00000030,
-
-            /// <summary>
-            /// Prevents others from subsequently opening the object 
-            /// for Write or ReadWrite access.
-            /// </summary>
-            ShareDenyWrite = 0x00000020,
-
-            /// <summary>
-            /// Prevents others from subsequently opening the object in any mode. 
-            /// </summary>
-            ShareExclusive = 0x00000010,
-
-            /// <summary>
-            /// Opens the storage object with exclusive access to the most 
-            /// recently committed version.
-            /// </summary>
-            Priority = 0x00040000,
-
-            /// <summary>
-            /// Indicates that the underlying file is to be automatically destroyed when the root 
-            /// storage object is released. This feature is most useful for creating temporary files. 
-            /// </summary>
-            DeleteOnRelease = 0x04000000,
-
-            /// <summary>
-            /// Indicates that, in transacted mode, a temporary scratch file is usually used 
-            /// to save modifications until the Commit method is called. 
-            /// Specifying NoScratch permits the unused portion of the original file 
-            /// to be used as work space instead of creating a new file for that purpose. 
-            /// </summary>
-            NoScratch = 0x00100000,
-
-            /// <summary>
-            /// Indicates that an existing storage object 
-            /// or stream should be removed before the new object replaces it. 
-            /// </summary>
-            Create = 0x00001000,
-
-            /// <summary>
-            /// Creates the new object while preserving existing data in a stream named "Contents". 
-            /// </summary>
-            Convert = 0x00020000,
-
-            /// <summary>
-            /// Causes the create operation to fail if an existing object with the specified name exists.
-            /// </summary>
-            FailIfThere = 0x00000000,
-
-            /// <summary>
-            /// This flag is used when opening a storage object with Transacted 
-            /// and without ShareExclusive or ShareDenyWrite. 
-            /// In this case, specifying NoSnapshot prevents the system-provided 
-            /// implementation from creating a snapshot copy of the file. 
-            /// Instead, changes to the file are written to the end of the file. 
-            /// </summary>
-            NoSnapshot = 0x00200000,
-
-            /// <summary>
-            /// Supports direct mode for single-writer, multireader file operations. 
-            /// </summary>
-            DirectSwmr = 0x00400000
-        };
+        
         #endregion
 
         #region Shell Library Helper Methods
@@ -781,19 +611,80 @@ namespace Microsoft.WindowsAPICodePack.Shell
             [In] IntPtr hwndOwner,
             [In] string title,
             [In] string instruction,
-            [In] LIBRARYMANAGEDIALOGOPTIONS lmdOptions);
+            [In] LibraryManageDialogOptions lmdOptions);
 
         #endregion
 
         #region Command Link Definitions
 
-        internal const int BS_COMMANDLINK = 0x0000000E;
-        internal const uint BCM_SETNOTE = 0x00001609;
-        internal const uint BCM_GETNOTE = 0x0000160A;
-        internal const uint BCM_GETNOTELENGTH = 0x0000160B;
-        internal const uint BCM_SETSHIELD = 0x0000160C;
+        internal const int CommandLink = 0x0000000E;
+        internal const uint SetNote = 0x00001609;
+        internal const uint GetNote = 0x0000160A;
+        internal const uint GetNoteLength = 0x0000160B;
+        internal const uint SetShield = 0x0000160C;
 
         #endregion
 
+        #region Shell notification definitions
+        internal const int MaxPath = 260;
+
+        [DllImport("shell32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SHGetPathFromIDListW(IntPtr pidl, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszPath);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct ShellNotifyStruct
+        {
+            internal IntPtr item1;
+            internal IntPtr item2;
+        };
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct SHChangeNotifyEntry
+        {
+            internal IntPtr pIdl;
+
+            [MarshalAs(UnmanagedType.Bool)]
+            internal bool recursively;
+        }
+
+        [DllImport("shell32.dll")]
+        internal static extern uint SHChangeNotifyRegister(
+            IntPtr windowHandle,
+            ShellChangeNotifyEventSource sources,
+            ShellObjectChangeTypes events,
+            uint message,
+            int entries,
+            ref SHChangeNotifyEntry changeNotifyEntry);
+
+        [DllImport("shell32.dll")]
+        internal static extern IntPtr SHChangeNotification_Lock(
+            IntPtr windowHandle,
+            int processId,
+            out IntPtr pidl,
+            out uint lEvent);
+
+        [DllImport("shell32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern Boolean SHChangeNotification_Unlock(IntPtr hLock);
+
+        [DllImport("shell32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern Boolean SHChangeNotifyDeregister(uint hNotify);
+
+        [Flags]
+        internal enum ShellChangeNotifyEventSource
+        {
+            InterruptLevel = 0x0001,
+            ShellLevel = 0x0002,
+            RecursiveInterrupt = 0x1000,
+            NewDelivery = 0x8000
+        }
+
+
+
+        #endregion
+
+        internal const int InPlaceStringTruncated = 0x00401A0;
     }
 }

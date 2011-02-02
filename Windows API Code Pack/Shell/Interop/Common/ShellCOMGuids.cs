@@ -4,10 +4,6 @@ namespace Microsoft.WindowsAPICodePack.Shell
 {
     internal static class ShellIIDGuid
     {
-        static ShellIIDGuid()
-        {
-            // Hide default constructor
-        }
 
         // IID GUID strings for relevant Shell COM interfaces.
         internal const string IModalWindow = "B4DB1657-70D7-485E-8E3E-6FCB5A5C1802";
@@ -31,12 +27,14 @@ namespace Microsoft.WindowsAPICodePack.Shell
         internal const string CShellLink = "00021401-0000-0000-C000-000000000046";
 
         internal const string IPropertyStore = "886D8EEB-8CF2-4446-8D02-CDBA1DBDCF99";
+        internal const string IPropertyStoreCache = "3017056d-9a91-4e90-937d-746c72abbf4f";
         internal const string IPropertyDescription = "6F79D558-3E96-4549-A1D1-7D75D2288814";
         internal const string IPropertyDescription2 = "57D2EDED-5062-400E-B107-5DAE79FE57A6";
         internal const string IPropertyDescriptionList = "1F9FC1D0-C39B-4B26-817F-011967D3440E";
         internal const string IPropertyEnumType = "11E1FBF9-2D56-4A6B-8DB3-7CD193A471F2";
         internal const string IPropertyEnumType2 = "9B6E051C-5DDD-4321-9070-FE2ACB55E794";
         internal const string IPropertyEnumTypeList = "A99400F4-3D84-4557-94BA-1242FB2CC9A6";
+        internal const string IPropertyStoreCapabilities = "c8e2d566-186e-4d49-bf41-6909ead56acc";
 
         internal const string ICondition = "0FC988D4-C935-4b97-A973-46282EA175C8";
         internal const string ISearchFolderItemFactory = "a0ffbc28-5482-4366-be27-3e81e78e06c2";
@@ -52,10 +50,6 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
     internal static class ShellCLSIDGuid
     {
-        static ShellCLSIDGuid()
-        {
-            // Hide default constructor
-        }
 
         // CLSID GUID strings for relevant coclasses.
         internal const string FileOpenDialog = "DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7";
@@ -69,10 +63,6 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
     internal static class ShellKFIDGuid
     {
-        static ShellKFIDGuid()
-        {
-            // Hide default constructor
-        }
 
         internal const string ComputerFolder = "0AC0837C-BBF8-452A-850D-79D08E667CA7";
         internal const string Favorites = "1777F761-68AD-4D8A-87BD-30B759FA33DD";
@@ -90,11 +80,6 @@ namespace Microsoft.WindowsAPICodePack.Shell
 
     internal static class ShellBHIDGuid
     {
-        static ShellBHIDGuid()
-        {
-            // Hide default constructor
-        }
-
-        internal const string ShellFolderObject = "3981e224-f559-11d3-8e3a-00c04f6837d5";
+       internal const string ShellFolderObject = "3981e224-f559-11d3-8e3a-00c04f6837d5";
     }
 }

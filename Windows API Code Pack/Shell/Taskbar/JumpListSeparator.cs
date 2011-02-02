@@ -12,23 +12,16 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
     /// Represents a separator in the user task list. The JumpListSeparator control
     /// can only be used in a user task list.
     /// </summary>
-    public class JumpListSeparator : IJumpListTask, IDisposable
+    public class JumpListSeparator : JumpListTask, IDisposable
     {
-        internal static PropertyKey PKEY_AppUserModel_IsDestListSeparator = SystemProperties.System.AppUserModel.IsDestListSeparator;
-        
-        /// <summary>
-        /// Initializes a new instance of a JumpListSeparator.
-        /// </summary>
-        public JumpListSeparator()
-        {
-        }
+        internal static PropertyKey PKEY_AppUserModel_IsDestListSeparator = SystemProperties.System.AppUserModel.IsDestinationListSeparator;
 
         private IPropertyStore nativePropertyStore;
         private IShellLinkW nativeShellLink;
         /// <summary>
         /// Gets an IShellLinkW representation of this object
         /// </summary>
-        internal IShellLinkW NativeShellLink
+        internal override IShellLinkW NativeShellLink
         {
             get
             {
@@ -48,22 +41,19 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
 
                 nativePropertyStore = (IPropertyStore)nativeShellLink;
 
-                PropVariant propVariant = new PropVariant();
-
-                propVariant.SetBool(true);
-                nativePropertyStore.SetValue(ref PKEY_AppUserModel_IsDestListSeparator, ref propVariant);
-                propVariant.Clear();
-
-                nativePropertyStore.Commit();
-
-                return nativeShellLink;;
+                using(PropVariant propVariant = new PropVariant(true))
+                {
+                    HResult result = nativePropertyStore.SetValue(ref PKEY_AppUserModel_IsDestListSeparator, propVariant);
+                    if (!CoreErrorHelper.Succeeded(result))
+                    {
+                        throw new ShellException(result);
+                    }
+                    nativePropertyStore.Commit();
+                }
+                
+                return nativeShellLink; ;
             }
         }
-
-
-        #region IJumpListTask Members
-
-        #endregion
 
         #region IDisposable Members
 
@@ -71,7 +61,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// Release the native and managed objects
         /// </summary>
         /// <param name="disposing">Indicates that this is being called from Dispose(), rather than the finalizer.</param>
-        public void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (nativePropertyStore != null)
             {

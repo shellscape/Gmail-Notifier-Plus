@@ -15,10 +15,7 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
     {
         // Prevents reading from PowerManager members while they are still null.
         // MessageManager notifies the PowerManager that the member 
-        // has been set and can be used.
-        internal static AutoResetEvent personalityReset = new AutoResetEvent(false);
-        internal static AutoResetEvent powerSrcReset = new AutoResetEvent(false);
-        internal static AutoResetEvent batteryLifeReset = new AutoResetEvent(false);
+        // has been set and can be used.        
         internal static AutoResetEvent monitorOnReset = new AutoResetEvent(false);
 
         #region Hardcoded GUIDS for each event

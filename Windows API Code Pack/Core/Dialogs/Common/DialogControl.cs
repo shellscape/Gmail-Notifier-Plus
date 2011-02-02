@@ -2,6 +2,7 @@
 
 using System;
 using System.Diagnostics;
+using Microsoft.WindowsAPICodePack.Resources;
 
 namespace Microsoft.WindowsAPICodePack.Dialogs
 {
@@ -15,80 +16,67 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <summary>
         /// Creates a new instance of a dialog control
         /// </summary>
-        protected DialogControl() 
+        protected DialogControl()
         {
-            this.id = nextId;
+            Id = nextId;
 
             // Support wrapping of control IDs in case you create a lot of custom controls
-            if (nextId == Int32.MaxValue)
-                nextId = DialogsDefaults.MinimumDialogControlId;
-            else
-                nextId++;
+            if (nextId == Int32.MaxValue) { nextId = DialogsDefaults.MinimumDialogControlId; }
+            else { nextId++; }
         }
-        
+
         /// <summary>
         /// Creates a new instance of a dialog control with the specified name.
         /// </summary>
         /// <param name="name">The name for this dialog.</param>
-        protected DialogControl(string name) : this()
+        protected DialogControl(string name)
+            : this()
         {
-            this.Name = name;
+            Name = name;
         }
 
-        private IDialogControlHost hostingDialog;
         /// <summary>
         /// The native dialog that is hosting this control. This property is null is
         /// there is not associated dialog
         /// </summary>
-        public IDialogControlHost HostingDialog
-        {
-            get { return hostingDialog; }
-            set { hostingDialog = value; }
-        }
+        public IDialogControlHost HostingDialog { get; set; }
 
         private string name;
         /// <summary>
-        /// Gets or sets the name for this control.
+        /// Gets the name for this control.
         /// </summary>
-        /// <value>A <see cref="System.String"/> value.</value>
-        /// <remarks>
-        /// The name of the control should not be modified once set
-        /// </remarks>
-        /// <exception cref="System.ArgumentException">The name cannot be null or a zero-length string.</exception>
-        /// <exception cref="System.InvalidOperationException">The name has already been set.</exception>
+        /// <value>A <see cref="System.String"/> value.</value>        
         public string Name
         {
             get { return name; }
             set
-            {
+            { 
                 // Names for controls need to be quite stable, 
                 // as we are going to maintain a mapping between 
                 // the names and the underlying Win32/COM control IDs.
-                if (String.IsNullOrEmpty(value))
-                    throw new ArgumentException(
-                        "Dialog control name cannot be empty or null.");
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException(LocalizedMessages.DialogControlNameCannotBeEmpty);
+                }
 
-                if (!String.IsNullOrEmpty(name))
-                    throw new InvalidOperationException(
-                        "Dialog controls cannot be renamed.");
+                if (!string.IsNullOrEmpty(name))
+                {
+                    throw new InvalidOperationException(LocalizedMessages.DialogControlsCannotBeRenamed);
+                }
 
                 // Note that we don't notify the hosting dialog of 
                 // the change, as the initial set of name is (must be)
                 // always legal, and renames are always illegal.
-                name = value;
+                this.name = value;
             }
         }
-
-        private int id;
+                
         /// <summary>
         /// Gets the identifier for this control.
         /// </summary>
         /// <value>An <see cref="System.Int32"/> value.</value>
-        public int Id
-        {
-            get { return id; }
-        }
-
+        public int Id { get; private set; }
+        
         ///<summary>
         /// Calls the hosting dialog, if it exists, to check whether the 
         /// property can be set in the dialog's current state. 
@@ -99,10 +87,13 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <param name="propName">The name of the property that is changing</param>
         protected void CheckPropertyChangeAllowed(string propName)
         {
-            Debug.Assert(!String.IsNullOrEmpty(propName), "Property to change was not specified");
-            
-            if (hostingDialog != null)
-                hostingDialog.IsControlPropertyChangeAllowed(propName, this);
+            Debug.Assert(!string.IsNullOrEmpty(propName), "Property to change was not specified");
+
+            if (HostingDialog != null)
+            {
+                // This will throw if the property change is not allowed.
+                HostingDialog.IsControlPropertyChangeAllowed(propName, this);
+            }
         }
 
         ///<summary>
@@ -116,10 +107,12 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <param name="propName">The name of the property that is changing.</param>
         protected void ApplyPropertyChange(string propName)
         {
-            Debug.Assert(!String.IsNullOrEmpty(propName), "Property changed was not specified");
-            
-            if (hostingDialog != null)
-                hostingDialog.ApplyControlPropertyChange(propName, this);
+            Debug.Assert(!string.IsNullOrEmpty(propName), "Property changed was not specified");
+
+            if (HostingDialog != null)
+            {
+                HostingDialog.ApplyControlPropertyChange(propName, this);
+            }
         }
 
         /// <summary>
@@ -143,10 +136,12 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <returns>An <see cref="System.Int32"/> hash code for this control.</returns>
         public override int GetHashCode()
         {
-            if (name == null)
+            if (Name == null)
+            {
                 return this.ToString().GetHashCode();
+            }
 
-            return name.GetHashCode();
+            return Name.GetHashCode();
         }
     }
 }

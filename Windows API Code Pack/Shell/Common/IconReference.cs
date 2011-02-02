@@ -1,18 +1,18 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
 using System;
+using Microsoft.WindowsAPICodePack.Resources;
 
 namespace Microsoft.WindowsAPICodePack.Shell
 {
     /// <summary>
     /// A refence to an icon resource 
-    /// </summary>
+    /// </summary>    
     public struct IconReference
     {
         #region Private members
 
         private string moduleName;
-        private int resourceId;
         private string referencePath;
         static private char[] commaSeparator = new char[] { ',' };
 
@@ -24,32 +24,40 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <param name="moduleName">String specifying the name of an executable file, DLL, or icon file</param>
         /// <param name="resourceId">Zero-based index of the icon</param>
         public IconReference(string moduleName, int resourceId)
+            : this()
         {
             if (string.IsNullOrEmpty(moduleName))
-                throw new ArgumentNullException("moduleName", "Module name cannot be null or empty string");
-            
+            {
+                throw new ArgumentNullException("moduleName");
+            }
+
             this.moduleName = moduleName;
-            this.resourceId = resourceId;
-            referencePath = moduleName + "," + resourceId;
+            ResourceId = resourceId;
+            referencePath = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                "{0},{1}", moduleName, resourceId);
         }
 
         /// <summary>
         /// Overloaded constructor takes in the module name and resource id separated by a comma.
         /// </summary>
         /// <param name="refPath">Reference path for the icon consiting of the module name and resource id.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.Int32.Parse(System.String)", Justification = "We are not currently handling globalization or localization")]
         public IconReference(string refPath)
+            : this()
         {
             if (string.IsNullOrEmpty(refPath))
-                throw new ArgumentNullException("refPath", "Reference path cannot be null or empty string");
+            {
+                throw new ArgumentNullException("refPath");
+            }
 
             string[] refParams = refPath.Split(commaSeparator);
 
             if (refParams.Length != 2 || string.IsNullOrEmpty(refParams[0]) || string.IsNullOrEmpty(refParams[1]))
-                throw new ArgumentException("Reference path is invalid.");
+            {
+                throw new ArgumentException(LocalizedMessages.InvalidReferencePath, "refPath");
+            }
 
             moduleName = refParams[0];
-            resourceId = int.Parse(refParams[1]);
+            ResourceId = int.Parse(refParams[1], System.Globalization.CultureInfo.InvariantCulture);
 
             this.referencePath = refPath;
         }
@@ -66,8 +74,9 @@ namespace Microsoft.WindowsAPICodePack.Shell
             set
             {
                 if (string.IsNullOrEmpty(value))
-                    throw new ArgumentNullException("value", "Module name cannot be null or empty string");
-
+                {
+                    throw new ArgumentNullException("value");
+                }
                 moduleName = value;
             }
         }
@@ -75,22 +84,11 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <summary>
         /// Zero-based index of the icon
         /// </summary>
-        public int ResourceId
-        {
-            get
-            {
-                return resourceId;
-            }
-            set
-            {
-                resourceId = value;
-            }
-        }
+        public int ResourceId { get; set; }
 
         /// <summary>
         /// Reference to a specific icon within a EXE, DLL or icon file.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.Int32.Parse(System.String)", Justification = "We are not currently handling globalization or localization")]
         public string ReferencePath
         {
             get
@@ -100,18 +98,69 @@ namespace Microsoft.WindowsAPICodePack.Shell
             set
             {
                 if (string.IsNullOrEmpty(value))
-                    throw new ArgumentNullException("value", "Reference path cannot be null or empty string");
+                {
+                    throw new ArgumentNullException("value");
+                }
 
                 string[] refParams = value.Split(commaSeparator);
 
                 if (refParams.Length != 2 || string.IsNullOrEmpty(refParams[0]) || string.IsNullOrEmpty(refParams[1]))
-                    throw new ArgumentException("Reference path is invalid.");
+                {
+                    throw new ArgumentException(LocalizedMessages.InvalidReferencePath, "value");
+                }
 
                 ModuleName = refParams[0];
-                ResourceId = int.Parse(refParams[1]);
+                ResourceId = int.Parse(refParams[1], System.Globalization.CultureInfo.InvariantCulture);
 
                 referencePath = value;
             }
+        }
+
+        /// <summary>
+        /// Implements the == (equality) operator.
+        /// </summary>
+        /// <param name="icon1">First object to compare.</param>
+        /// <param name="icon2">Second object to compare.</param>
+        /// <returns>True if icon1 equals icon1; false otherwise.</returns>
+        public static bool operator ==(IconReference icon1, IconReference icon2)
+        {
+            return (icon1.moduleName == icon2.moduleName) &&
+                (icon1.referencePath == icon2.referencePath) &&
+                (icon1.ResourceId == icon2.ResourceId);
+        }
+
+        /// <summary>
+        /// Implements the != (unequality) operator.
+        /// </summary>
+        /// <param name="icon1">First object to compare.</param>
+        /// <param name="icon2">Second object to compare.</param>
+        /// <returns>True if icon1 does not equals icon1; false otherwise.</returns>
+        public static bool operator !=(IconReference icon1, IconReference icon2)
+        {
+            return !(icon1 == icon2);
+        }
+
+        /// <summary>
+        /// Determines if this object is equal to another.
+        /// </summary>
+        /// <param name="obj">The object to compare</param>
+        /// <returns>Returns true if the objects are equal; false otherwise.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is IconReference)) { return false; }
+            return (this == (IconReference)obj);
+        }
+
+        /// <summary>
+        /// Generates a nearly unique hashcode for this structure.
+        /// </summary>
+        /// <returns>A hash code.</returns>
+        public override int GetHashCode()
+        {
+            int hash = this.moduleName.GetHashCode();
+            hash = hash * 31 + this.referencePath.GetHashCode();
+            hash = hash * 31 + this.ResourceId.GetHashCode();
+            return hash;
         }
 
     }

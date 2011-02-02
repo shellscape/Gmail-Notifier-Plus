@@ -5,6 +5,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Resources;
 
 namespace Microsoft.WindowsAPICodePack.ApplicationServices
 {
@@ -49,16 +50,13 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
         /// </summary>
         private static void EnsureInitialized()
         {
-            if (window == null)
+            lock (lockObject)
             {
-                lock (lockObject)
+                if (window == null)
                 {
-                    if (window == null)
-                    {
-                        // Create a new hidden window to listen
-                        // for power management related window messages.
-                        window = new PowerRegWindow();
-                    }
+                    // Create a new hidden window to listen
+                    // for power management related window messages.
+                    window = new PowerRegWindow();
                 }
             }
         }
@@ -82,7 +80,7 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
 
             /// <summary>
             /// Adds an event handler to call when Windows sends 
-            /// a message for an evebt.
+            /// a message for an event.
             /// </summary>
             /// <param name="eventId">Guid for the event.</param>
             /// <param name="eventToRegister">Event handler for the event.</param>
@@ -121,8 +119,7 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
                 }
                 else
                 {
-                    throw new InvalidOperationException(
-                        "The specified event handler has not been registered.");
+                    throw new InvalidOperationException(LocalizedMessages.MessageManagerHandlerNotRegistered);
                 }
                 readerWriterLock.ReleaseWriterLock();
             }
@@ -132,20 +129,12 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
             /// <summary>
             /// Executes any registered event handlers.
             /// </summary>
-            /// <param name="eventHandlerList">ArrayList of event handlers.</param>
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+            /// <param name="eventHandlerList">ArrayList of event handlers.</param>            
             private static void ExecuteEvents(ArrayList eventHandlerList)
             {
-                ArrayList tempList = (ArrayList)eventHandlerList.Clone();
-                foreach (EventHandler handler in tempList)
+                foreach (EventHandler handler in eventHandlerList)
                 {
-                    try
-                    {
-                        if (handler != null)
-                            handler.Invoke(null, new EventArgs());
-                    }
-                    // Don't crash if an event handler throws an exception.
-                    catch { ;}
+                    handler.Invoke(null, new EventArgs());
                 }
             }
 
@@ -157,54 +146,29 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
             protected override void WndProc(ref Message m)
             {
                 // Make sure it is a Power Management message.
-                if (m.Msg == PowerManagementNativeMethods.WM_POWERBROADCAST && (int)m.WParam == PowerManagementNativeMethods.PBT_POWERSETTINGCHANGE)
+                if (m.Msg == PowerManagementNativeMethods.PowerBroadcastMessage && 
+                    (int)m.WParam == PowerManagementNativeMethods.PowerSettingChangeMessage)
                 {
                     PowerManagementNativeMethods.PowerBroadcastSetting ps =
                          (PowerManagementNativeMethods.PowerBroadcastSetting)Marshal.PtrToStructure(
                              m.LParam, typeof(PowerManagementNativeMethods.PowerBroadcastSetting));
+
                     IntPtr pData = new IntPtr(m.LParam.ToInt64() + Marshal.SizeOf(ps));
                     Guid currentEvent = ps.PowerSetting;
-
-                    // Update the appropriate Property.
-                    // Power Personality
-                    if (ps.PowerSetting == EventManager.PowerPersonalityChange &&
-                        ps.DataLength == Marshal.SizeOf(typeof(Guid)))
-                    {
-                        Guid newPersonality =
-                            (Guid)Marshal.PtrToStructure(pData, typeof(Guid));
-
-                        PowerManager.powerPersonality = PersonalityGuids.GuidToEnum(newPersonality);
-                        // Tell PowerManager that is now safe to 
-                        // read the powerPersonality member.
-                        EventManager.personalityReset.Set();
-                    }
-                    // Power Source
-                    else if (ps.PowerSetting == EventManager.PowerSourceChange &&
-                         ps.DataLength == Marshal.SizeOf(typeof(Int32)))
-                    {
-                        Int32 powerSrc = (Int32)Marshal.PtrToStructure(pData, typeof(Int32));
-                        PowerManager.powerSource = (PowerSource)powerSrc;
-                        EventManager.powerSrcReset.Set();
-                    }
-                    // Battery capacity
-                    else if (ps.PowerSetting == EventManager.BatteryCapacityChange &&
-                        ps.DataLength == Marshal.SizeOf(typeof(Int32)))
-                    {
-                        Int32 battCapacity = (Int32)Marshal.PtrToStructure(pData, typeof(Int32));
-                        PowerManager.batteryLifePercent = battCapacity;
-                        EventManager.batteryLifeReset.Set();
-                    }
+                                        
                     // IsMonitorOn
-                    else if (ps.PowerSetting == EventManager.MonitorPowerStatus &&
+                    if (ps.PowerSetting == EventManager.MonitorPowerStatus &&
                         ps.DataLength == Marshal.SizeOf(typeof(Int32)))
                     {
                         Int32 monitorStatus = (Int32)Marshal.PtrToStructure(pData, typeof(Int32));
-                        PowerManager.isMonitorOn = monitorStatus == 0 ? false : true;
+                        PowerManager.IsMonitorOn = monitorStatus != 0;
                         EventManager.monitorOnReset.Set();
                     }
 
                     if (!EventManager.IsMessageCaught(currentEvent))
+                    {
                         ExecuteEvents((ArrayList)eventList[currentEvent]);
+                    }
                 }
                 else
                     base.WndProc(ref m);

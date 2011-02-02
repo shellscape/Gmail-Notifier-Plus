@@ -4,10 +4,14 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
 {
     /// <summary>
     /// Indicates the various buttons and options clicked by the user on the task dialog.
-    /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1027:MarkEnumsWithFlags"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue")]
+    /// </summary>        
     public enum TaskDialogResult
     {
+        /// <summary>
+        /// No button was selected.
+        /// </summary>
+        None = 0x0000,
+
         /// <summary>
         /// "OK" button was clicked
         /// </summary>

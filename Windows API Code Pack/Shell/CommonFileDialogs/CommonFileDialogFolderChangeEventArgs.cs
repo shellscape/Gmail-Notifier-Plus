@@ -16,18 +16,13 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <param name="folder">The name of the folder.</param>
         public CommonFileDialogFolderChangeEventArgs(string folder)
         {
-            this.folder = folder;
+            Folder = folder;
         }
-
-        private string folder;
+        
         /// <summary>
         /// Gets or sets the name of the folder.
         /// </summary>
-        public string Folder
-        {
-            get { return folder; }
-            set { folder = value; }
-        }
-
+        public string Folder { get; set; }
+        
     }
 }

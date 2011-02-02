@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Windows.Interop;
 using MS.WindowsAPICodePack.Internal;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 
 namespace Microsoft.WindowsAPICodePack.Taskbar
 {
@@ -15,13 +16,13 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         // Hide the default constructor
         private TaskbarManager()
         {
-
+            CoreHelpers.ThrowIfNotWin7();
         }
 
         // Best practice recommends defining a private object to lock on
-        private static Object syncLock = new Object();
+        private static object _syncLock = new object();
 
-        private static volatile TaskbarManager instance;
+        private static TaskbarManager _instance;
         /// <summary>
         /// Represents an instance of the Windows Taskbar
         /// </summary>
@@ -29,41 +30,18 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         {
             get
             {
-                CoreHelpers.ThrowIfNotWin7();
-
-                if (instance == null)
+                if (_instance == null)
                 {
-                    lock (syncLock)
+                    lock (_syncLock)
                     {
-                        if (instance == null)
-                            instance = new TaskbarManager();
-                    }
-                }
-
-                return instance;
-            }
-        }
-
-        // Internal implemenation of ITaskbarList4 interface
-        private ITaskbarList4 taskbarList;
-        internal ITaskbarList4 TaskbarList
-        {
-            get
-            {
-                if (taskbarList == null)
-                {
-                    // Create a new instance of ITaskbarList3
-                    lock (syncLock)
-                    {
-                        if (taskbarList == null)
+                        if (_instance == null)
                         {
-                            taskbarList = (ITaskbarList4)new CTaskbarList();
-                            taskbarList.HrInit();
+                            _instance = new TaskbarManager();
                         }
                     }
                 }
 
-                return taskbarList;
+                return _instance;
             }
         }
 
@@ -74,9 +52,10 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="accessibilityText">String that provides an alt text version of the information conveyed by the overlay, for accessibility purposes</param>
         public void SetOverlayIcon(System.Drawing.Icon icon, string accessibilityText)
         {
-            CoreHelpers.ThrowIfNotWin7();
-
-            TaskbarList.SetOverlayIcon(OwnerHandle, icon != null ? icon.Handle : IntPtr.Zero, accessibilityText);
+            TaskbarList.Instance.SetOverlayIcon(
+                OwnerHandle,
+                icon != null ? icon.Handle : IntPtr.Zero,
+                accessibilityText);
         }
 
         /// <summary>
@@ -87,9 +66,10 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="accessibilityText">String that provides an alt text version of the information conveyed by the overlay, for accessibility purposes</param>
         public void SetOverlayIcon(IntPtr windowHandle, System.Drawing.Icon icon, string accessibilityText)
         {
-            CoreHelpers.ThrowIfNotWin7();
-
-            TaskbarList.SetOverlayIcon(windowHandle, icon != null ? icon.Handle : IntPtr.Zero, accessibilityText);
+            TaskbarList.Instance.SetOverlayIcon(
+                windowHandle,
+                icon != null ? icon.Handle : IntPtr.Zero,
+                accessibilityText);
         }
 
         /// <summary>
@@ -100,9 +80,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="accessibilityText">String that provides an alt text version of the information conveyed by the overlay, for accessibility purposes</param>
         public void SetOverlayIcon(System.Windows.Window window, System.Drawing.Icon icon, string accessibilityText)
         {
-            CoreHelpers.ThrowIfNotWin7();
-
-            TaskbarList.SetOverlayIcon(
+            TaskbarList.Instance.SetOverlayIcon(
                 (new WindowInteropHelper(window)).Handle,
                 icon != null ? icon.Handle : IntPtr.Zero,
                 accessibilityText);
@@ -116,9 +94,10 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="maximumValue">An application-defined value that specifies the value currentValue will have when the operation is complete.</param>
         public void SetProgressValue(int currentValue, int maximumValue)
         {
-            CoreHelpers.ThrowIfNotWin7();
-
-            TaskbarList.SetProgressValue(OwnerHandle, Convert.ToUInt32(currentValue), Convert.ToUInt32(maximumValue));
+            TaskbarList.Instance.SetProgressValue(
+                OwnerHandle,
+                Convert.ToUInt32(currentValue),
+                Convert.ToUInt32(maximumValue));
         }
 
         /// <summary>
@@ -131,9 +110,10 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="maximumValue">An application-defined value that specifies the value currentValue will have when the operation is complete.</param>
         public void SetProgressValue(int currentValue, int maximumValue, IntPtr windowHandle)
         {
-            CoreHelpers.ThrowIfNotWin7();
-
-            TaskbarList.SetProgressValue(windowHandle, Convert.ToUInt32(currentValue), Convert.ToUInt32(maximumValue));
+            TaskbarList.Instance.SetProgressValue(
+                windowHandle,
+                Convert.ToUInt32(currentValue),
+                Convert.ToUInt32(maximumValue));
         }
 
         /// <summary>
@@ -146,9 +126,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="maximumValue">An application-defined value that specifies the value currentValue will have when the operation is complete.</param>
         public void SetProgressValue(int currentValue, int maximumValue, System.Windows.Window window)
         {
-            CoreHelpers.ThrowIfNotWin7();
-
-            TaskbarList.SetProgressValue(
+            TaskbarList.Instance.SetProgressValue(
                 (new WindowInteropHelper(window)).Handle,
                 Convert.ToUInt32(currentValue),
                 Convert.ToUInt32(maximumValue));
@@ -160,9 +138,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="state">Progress state of the progress button</param>
         public void SetProgressState(TaskbarProgressBarState state)
         {
-            CoreHelpers.ThrowIfNotWin7();
-
-            TaskbarList.SetProgressState(OwnerHandle, (TBPFLAG)state);
+            TaskbarList.Instance.SetProgressState(OwnerHandle, (TaskbarProgressBarStatus)state);
         }
 
         /// <summary>
@@ -174,9 +150,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="state">Progress state of the progress button</param>
         public void SetProgressState(TaskbarProgressBarState state, IntPtr windowHandle)
         {
-            CoreHelpers.ThrowIfNotWin7();
-
-            TaskbarList.SetProgressState(windowHandle, (TBPFLAG)state);
+            TaskbarList.Instance.SetProgressState(windowHandle, (TaskbarProgressBarStatus)state);
         }
 
         /// <summary>
@@ -188,14 +162,12 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="state">Progress state of the progress button</param>
         public void SetProgressState(TaskbarProgressBarState state, System.Windows.Window window)
         {
-            CoreHelpers.ThrowIfNotWin7();
-
-            TaskbarList.SetProgressState(
+            TaskbarList.Instance.SetProgressState(
                 (new WindowInteropHelper(window)).Handle,
-                (TBPFLAG)state);
+                (TaskbarProgressBarStatus)state);
         }
 
-        private TabbedThumbnailManager tabbedThumbnail;
+        private TabbedThumbnailManager _tabbedThumbnail;
         /// <summary>
         /// Gets the Tabbed Thumbnail manager class for adding/updating
         /// tabbed thumbnail previews.
@@ -204,30 +176,29 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         {
             get
             {
-                CoreHelpers.ThrowIfNotWin7();
-
-                if (tabbedThumbnail == null)
-                    tabbedThumbnail = new TabbedThumbnailManager();
-
-                return tabbedThumbnail;
+                if (_tabbedThumbnail == null)
+                {
+                    _tabbedThumbnail = new TabbedThumbnailManager();
+                }
+                return _tabbedThumbnail;
             }
         }
 
-        private ThumbnailToolbarManager thumbnailToolbarManager;
+        private ThumbnailToolBarManager _thumbnailToolBarManager;
         /// <summary>
         /// Gets the Thumbnail toolbar manager class for adding/updating
         /// toolbar buttons.
         /// </summary>
-        public ThumbnailToolbarManager ThumbnailToolbars
+        public ThumbnailToolBarManager ThumbnailToolBars
         {
             get
             {
-                CoreHelpers.ThrowIfNotWin7();
+                if (_thumbnailToolBarManager == null)
+                {
+                    _thumbnailToolBarManager = new ThumbnailToolBarManager();
+                }
 
-                if (thumbnailToolbarManager == null)
-                    thumbnailToolbarManager = new ThumbnailToolbarManager();
-
-                return thumbnailToolbarManager;
+                return _thumbnailToolBarManager;
             }
         }
 
@@ -239,25 +210,21 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         {
             get
             {
-                CoreHelpers.ThrowIfNotWin7();
-
                 return GetCurrentProcessAppId();
             }
             set
             {
-                CoreHelpers.ThrowIfNotWin7();
-
                 if (string.IsNullOrEmpty(value))
-                    throw new ArgumentNullException("value", "Application Id cannot be an empty or null string.");
-                else
                 {
-                    SetCurrentProcessAppId(value);
-                    ApplicationIdSetProcessWide = true;
+                    throw new ArgumentNullException("value");
                 }
+
+                SetCurrentProcessAppId(value);
+                ApplicationIdSetProcessWide = true;
             }
         }
 
-        private IntPtr ownerHandle;
+        private IntPtr _ownerHandle;
         /// <summary>
         /// Sets the handle of the window whose taskbar button will be used
         /// to display progress.
@@ -266,17 +233,19 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         {
             get
             {
-                if (ownerHandle == IntPtr.Zero)
+                if (_ownerHandle == IntPtr.Zero)
                 {
                     Process currentProcess = Process.GetCurrentProcess();
 
-                    if (currentProcess != null && currentProcess.MainWindowHandle != IntPtr.Zero)
-                        ownerHandle = currentProcess.MainWindowHandle;
-                    else
-                        throw new InvalidOperationException("A valid active Window is needed to update the Taskbar");
+                    if (currentProcess == null || currentProcess.MainWindowHandle == IntPtr.Zero)
+                    {
+                        throw new InvalidOperationException(LocalizedMessages.TaskbarManagerValidWindowRequired);
+                    }
+
+                    _ownerHandle = currentProcess.MainWindowHandle;
                 }
 
-                return ownerHandle;
+                return _ownerHandle;
             }
         }
 
@@ -290,6 +259,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// By setting an appId for a specific window, the window will not be grouped with it's parent window/application. Instead it will have it's own taskbar button.</remarks>
         public void SetApplicationIdForSpecificWindow(IntPtr windowHandle, string appId)
         {
+            // Left as instance method, to follow singleton pattern.
             TaskbarNativeMethods.SetWindowAppId(windowHandle, appId);
         }
 
@@ -303,6 +273,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// By setting an appId for a specific window, the window will not be grouped with it's parent window/application. Instead it will have it's own taskbar button.</remarks>
         public void SetApplicationIdForSpecificWindow(System.Windows.Window window, string appId)
         {
+            // Left as instance method, to follow singleton pattern.
             TaskbarNativeMethods.SetWindowAppId((new WindowInteropHelper(window)).Handle, appId);
         }
 
@@ -329,12 +300,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <summary>
         /// Indicates if the user has set the application id for the whole process (all windows)
         /// </summary>
-        internal bool ApplicationIdSetProcessWide
-        {
-            get;
-            private set;
-        }
-
+        internal bool ApplicationIdSetProcessWide { get; private set; }
 
         /// <summary>
         /// Indicates whether this feature is supported on the current platform.
@@ -347,6 +313,5 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                 return CoreHelpers.RunningOnWin7;
             }
         }
-
     }
 }

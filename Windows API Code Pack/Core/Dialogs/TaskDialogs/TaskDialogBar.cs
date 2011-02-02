@@ -11,7 +11,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         /// <summary>
         /// Creates a new instance of this class.
         /// </summary>
-        public TaskDialogBar() {}
+        public TaskDialogBar() { }
         /// <summary>
         /// Creates a new instance of this class with the specified name.
         /// </summary>
@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAPICodePack.Dialogs
         public TaskDialogProgressBarState State
         {
             get { return state; }
-            set 
+            set
             {
                 CheckPropertyChangeAllowed("State");
                 state = value;

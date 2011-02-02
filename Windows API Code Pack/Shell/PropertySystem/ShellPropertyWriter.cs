@@ -3,6 +3,7 @@
 using System;
 using System.Runtime.InteropServices;
 using MS.WindowsAPICodePack.Internal;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 
 namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
 {
@@ -11,16 +12,11 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
     /// </summary>
     public class ShellPropertyWriter : IDisposable
     {
-        
-        private ShellObject parentShellObject = null;
+
+        private ShellObject parentShellObject;
 
         // Reference to our writable PropertyStore
-        internal IPropertyStore writablePropStore = null;
-
-        /// <summary>
-        /// The value was set but truncated in a string value or rounded if a numeric value.
-        /// </summary>
-        protected const int InPlaceStringTruncated = 0x00401A0;
+        internal IPropertyStore writablePropStore;
 
         internal ShellPropertyWriter(ShellObject parent)
         {
@@ -32,13 +28,13 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             try
             {
                 int hr = ParentShellObject.NativeShellItem2.GetPropertyStore(
-                        ShellNativeMethods.GETPROPERTYSTOREFLAGS.GPS_READWRITE,
+                        ShellNativeMethods.GetPropertyStoreOptions.ReadWrite,
                         ref guid,
                         out writablePropStore);
 
                 if (!CoreErrorHelper.Succeeded(hr))
                 {
-                    throw new ExternalException("Unable to get writable property store for this property.",
+                    throw new PropertySystemException(LocalizedMessages.ShellPropertyUnableToGetWritableProperty,
                         Marshal.GetExceptionForHR(hr));
                 }
                 else
@@ -47,17 +43,19 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
                     // then set it on the parent shell object for others to use.
                     // Once this writer is closed/commited, we will set the 
                     if (ParentShellObject.NativePropertyStore == null)
+                    {
                         ParentShellObject.NativePropertyStore = writablePropStore;
+                    }
                 }
 
             }
             catch (InvalidComObjectException e)
             {
-                throw new ExternalException("Unable to get writable property store for this property.", e);
+                throw new PropertySystemException(LocalizedMessages.ShellPropertyUnableToGetWritableProperty, e);
             }
             catch (InvalidCastException)
             {
-                throw new ExternalException("Unable to get writable property store for this property.");
+                throw new PropertySystemException(LocalizedMessages.ShellPropertyUnableToGetWritableProperty);
             }
         }
 
@@ -97,23 +95,25 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             if (writablePropStore == null)
                 throw new InvalidOperationException("Writeable store has been closed.");
 
-            PropVariant propVar = PropVariant.FromObject(value);
-            int result = writablePropStore.SetValue(ref key, ref propVar);
-
-            if (!allowTruncatedValue && (result == InPlaceStringTruncated))
+            using (PropVariant propVar = PropVariant.FromObject(value))
             {
-                // At this point we can't revert back the commit
-                // so don't commit, close the property store and throw an exception
-                // to let the user know.
-                Marshal.ReleaseComObject(writablePropStore);
-                writablePropStore = null;
+                HResult result = writablePropStore.SetValue(ref key, propVar);
 
-                throw new ArgumentOutOfRangeException("value", "A value had to be truncated in a string or rounded if a numeric value. Set AllowTruncatedValue to true to prevent this exception.");
-            }
+                if (!allowTruncatedValue && ((int)result == ShellNativeMethods.InPlaceStringTruncated))
+                {
+                    // At this point we can't revert back the commit
+                    // so don't commit, close the property store and throw an exception
+                    // to let the user know.
+                    Marshal.ReleaseComObject(writablePropStore);
+                    writablePropStore = null;
 
-            if (!CoreErrorHelper.Succeeded(result))
-            {
-                throw new ExternalException("Unable to set property.", Marshal.GetExceptionForHR(result));
+                    throw new ArgumentOutOfRangeException("value", LocalizedMessages.ShellPropertyValueTruncated);
+                }
+
+                if (!CoreErrorHelper.Succeeded(result))
+                {
+                    throw new PropertySystemException(LocalizedMessages.ShellPropertySetValue, Marshal.GetExceptionForHR((int)result));
+                }
             }
         }
 
@@ -145,7 +145,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             if (!CoreErrorHelper.Succeeded(result))
             {
                 throw new ArgumentException(
-                    "The given CanonicalName is not valid.",
+                    LocalizedMessages.ShellInvalidCanonicalName,
                     Marshal.GetExceptionForHR(result));
             }
 
@@ -171,6 +171,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// <param name="allowTruncatedValue">True to allow truncation (default); otherwise False.</param>
         public void WriteProperty(IShellProperty shellProperty, object value, bool allowTruncatedValue)
         {
+            if (shellProperty == null) { throw new ArgumentNullException("shellProperty"); }
             WriteProperty(shellProperty.PropertyKey, value, allowTruncatedValue);
         }
 
@@ -194,9 +195,10 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         /// <param name="allowTruncatedValue">True to allow truncation (default); otherwise False.</param>
         public void WriteProperty<T>(ShellProperty<T> shellProperty, T value, bool allowTruncatedValue)
         {
+            if (shellProperty == null) { throw new ArgumentNullException("shellProperty"); }
             WriteProperty(shellProperty.PropertyKey, value, allowTruncatedValue);
         }
-        
+
         #region IDisposable Members
 
         /// <summary>
@@ -225,7 +227,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
         {
             Close();
         }
-        
+
         /// <summary>
         /// Call this method to commit the writes (calls to WriteProperty method)
         /// and dispose off the writer.
@@ -235,7 +237,7 @@ namespace Microsoft.WindowsAPICodePack.Shell.PropertySystem
             // Close the property writer (commit, etc)
             if (writablePropStore != null)
             {
-                HRESULT hr = writablePropStore.Commit();
+                writablePropStore.Commit();
 
                 Marshal.ReleaseComObject(writablePropStore);
                 writablePropStore = null;

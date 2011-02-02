@@ -8,6 +8,10 @@ namespace Microsoft.WindowsAPICodePack.ApplicationServices
     public enum PowerPersonality
     {
         /// <summary>
+        /// The power personality Guid does not match a known value.
+        /// </summary>
+        Unknown,
+        /// <summary>
         /// Power settings designed to deliver maximum performance
         /// at the expense of power consumption savings.
         /// </summary>

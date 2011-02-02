@@ -12,36 +12,16 @@ namespace Microsoft.WindowsAPICodePack.Controls
         /// <summary>
         /// Indicates CanNavigateForward has changed
         /// </summary>
-        public bool CanNavigateForwardChanged
-        {
-            get;
-            set;
-        }
+        public bool CanNavigateForwardChanged { get; set; }
 
         /// <summary>
         /// Indicates CanNavigateBackward has changed
         /// </summary>
-        public bool CanNavigateBackwardChanged
-        {
-            get;
-            set;
-        }
+        public bool CanNavigateBackwardChanged { get; set; }
 
         /// <summary>
         /// Indicates the Locations collection has changed
         /// </summary>
-        public bool LocationsChanged
-        {
-            get;
-            set;
-        }
-
+        public bool LocationsChanged { get; set; }
     }
-
-    /// <summary>
-    /// This is fired when the navigation log changes
-    /// </summary>
-    /// <param name="sender">The ExplorerBrowser that this navigation log is attached to.</param>
-    /// <param name="e">The changes made to the navigation log</param>
-    public delegate void NavigationLogChangedEventHandler( object sender, NavigationLogEventArgs e );
 }

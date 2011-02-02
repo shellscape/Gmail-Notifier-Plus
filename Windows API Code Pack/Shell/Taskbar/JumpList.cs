@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPICodePack.Shell.Resources;
 using MS.WindowsAPICodePack.Internal;
 
 namespace Microsoft.WindowsAPICodePack.Taskbar
@@ -31,27 +32,27 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <summary>
         /// Create a JumpList for the application's taskbar button.
         /// </summary>
-        /// <param name="appid">Application Id for the individual window. This must be unique for each top-level window in order to have a individual JumpList.</param>
+        /// <param name="appId">Application Id for the individual window. This must be unique for each top-level window in order to have a individual JumpList.</param>
         /// <param name="windowHandle">Handle of the window associated with the new JumpList</param>
         /// <returns>A new JumpList that is associated with the specific window handle</returns>
-        public static JumpList CreateJumpListForIndividualWindow(string appid, IntPtr windowHandle)
+        public static JumpList CreateJumpListForIndividualWindow(string appId, IntPtr windowHandle)
         {
-            return new JumpList(appid, windowHandle);
+            return new JumpList(appId, windowHandle);
         }
 
         /// <summary>
         /// Create a JumpList for the application's taskbar button.
         /// </summary>
-        /// <param name="appid">Application Id for the individual window. This must be unique for each top-level window in order to have a individual JumpList.</param>
+        /// <param name="appId">Application Id for the individual window. This must be unique for each top-level window in order to have a individual JumpList.</param>
         /// <param name="window">WPF Window associated with the new JumpList</param>
         /// <returns>A new JumpList that is associated with the specific WPF window</returns>
-        public static JumpList CreateJumpListForIndividualWindow(string appid, System.Windows.Window window)
+        public static JumpList CreateJumpListForIndividualWindow(string appId, System.Windows.Window window)
         {
-            return new JumpList(appid, window);
+            return new JumpList(appId, window);
         }
 
         // Best practice recommends defining a private object to lock on
-        private static Object syncLock = new Object();
+        private readonly object syncLock = new Object();
 
         // Native implementation of destination list
         private ICustomDestinationList customDestinationList;
@@ -65,30 +66,30 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <param name="customCategories">The catagories to add to the jump list.</param>
         public void AddCustomCategories(params JumpListCustomCategory[] customCategories)
         {
-            if (customCategoriesCollection == null)
+            lock (syncLock)
             {
-                // Make sure that we don't create multiple instances
-                // of this object
-                lock (syncLock)
+                if (customCategoriesCollection == null)
                 {
-                    if (customCategoriesCollection == null)
-                    {
-                        customCategoriesCollection = new JumpListCustomCategoryCollection();
-                    }
+                    customCategoriesCollection = new JumpListCustomCategoryCollection();
                 }
             }
 
-            foreach (JumpListCustomCategory category in customCategories)
-                customCategoriesCollection.Add(category);
+            if (customCategories != null)
+            {
+                foreach (JumpListCustomCategory category in customCategories)
+                {
+                    customCategoriesCollection.Add(category);
+                }
+            }
         }
 
-        private JumpListItemCollection<IJumpListTask> userTasks;
+        private JumpListItemCollection<JumpListTask> userTasks;
         /// <summary>
         /// Adds user tasks to the Taskbar JumpList. User tasks can only consist of JumpListTask or
         /// JumpListSeparator objects.
         /// </summary>
         /// <param name="tasks">The user tasks to add to the JumpList.</param>
-        public void AddUserTasks(params IJumpListTask[] tasks)
+        public void AddUserTasks(params JumpListTask[] tasks)
         {
             if (userTasks == null)
             {
@@ -98,20 +99,19 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                 {
                     if (userTasks == null)
                     {
-                        userTasks = new JumpListItemCollection<IJumpListTask>();
+                        userTasks = new JumpListItemCollection<JumpListTask>();
                     }
                 }
             }
 
-            foreach (IJumpListTask task in tasks)
-                userTasks.Add(task);
+            if (tasks != null)
+            {
+                foreach (JumpListTask task in tasks)
+                {
+                    userTasks.Add(task);
+                }
+            }
         }
-
-				public void ClearAllCustomCategories() {
-					if (this.customCategoriesCollection != null) {
-						this.customCategoriesCollection.Clear();
-					}
-				}
 
         /// <summary>
         /// Removes all user tasks that have been added.
@@ -119,7 +119,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         public void ClearAllUserTasks()
         {
             if (userTasks != null)
+            {
                 userTasks.Clear();
+            }
         }
 
         /// <summary>
@@ -145,13 +147,15 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                 uint maxSlotsInList = 10; // default
 
                 // Native call to start adding items to the taskbar destination list
-                HRESULT hr = customDestinationList.BeginList(
+                HResult hr = customDestinationList.BeginList(
                     out maxSlotsInList,
-                    ref TaskbarNativeMethods.IID_IObjectArray,
+                    ref TaskbarNativeMethods.TaskbarGuids.IObjectArray,
                     out removedItems);
 
-                if (CoreErrorHelper.Succeeded((int)hr))
+                if (CoreErrorHelper.Succeeded(hr))
+                {
                     customDestinationList.AbortList();
+                }
 
                 return maxSlotsInList;
             }
@@ -162,7 +166,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// </summary>
         public JumpListKnownCategoryType KnownCategoryToDisplay { get; set; }
 
-        private int knownCategoryOrdinalPosition = 0;
+        private int knownCategoryOrdinalPosition;
         /// <summary>
         /// Gets or sets the value for the known category location relative to the 
         /// custom category collection.
@@ -176,7 +180,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("value", "Negative numbers are not allowed for the ordinal position.");
+                {
+                    throw new ArgumentOutOfRangeException("value", LocalizedMessages.JumpListNegativeOrdinalPosition);
+                }
 
                 knownCategoryOrdinalPosition = value;
             }
@@ -186,7 +192,6 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// <summary>
         /// Gets or sets the application ID to use for this jump list.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This is a public property that can be used by the application calling our library")]
         public string ApplicationId { get; private set; }
 
         #endregion
@@ -236,7 +241,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                 // we have the same JumpList for all the windows (unless user overrides and creates a new
                 // JumpList for a specific child window)
                 if (!TaskbarManager.Instance.ApplicationIdSetProcessWide)
+                {
                     TaskbarManager.Instance.ApplicationId = appID;
+                }
 
                 TaskbarManager.Instance.SetApplicationIdForSpecificWindow(windowHandle, appID);
             }
@@ -246,7 +253,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         /// Reports document usage to the shell.
         /// </summary>
         /// <param name="destination">The full path of the file to report usage.</param>
-        public void AddToRecent(string destination)
+        public static void AddToRecent(string destination)
         {
             TaskbarNativeMethods.SHAddToRecentDocs(destination);
         }
@@ -261,7 +268,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
         {
             // Let the taskbar know which specific jumplist we are updating
             if (!string.IsNullOrEmpty(ApplicationId))
+            {
                 customDestinationList.SetAppID(ApplicationId);
+            }
 
             // Begins rendering on the taskbar destination list
             BeginList();
@@ -295,7 +304,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             // If an exception was thrown while adding the user tasks or
             // custom categories, throw it.
             if (exception != null)
+            {
                 throw exception;
+            }
         }
 
         private void BeginList()
@@ -305,20 +316,24 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             uint maxSlotsInList = 10; // default
 
             // Native call to start adding items to the taskbar destination list
-            HRESULT hr = customDestinationList.BeginList(
+            HResult hr = customDestinationList.BeginList(
                 out maxSlotsInList,
-                ref TaskbarNativeMethods.IID_IObjectArray,
+                ref TaskbarNativeMethods.TaskbarGuids.IObjectArray,
                 out removedItems);
 
-            if (!CoreErrorHelper.Succeeded((int)hr))
-                Marshal.ThrowExceptionForHR((int)hr);
+            if (!CoreErrorHelper.Succeeded(hr))
+            {
+                throw new ShellException(hr);
+            }
 
             // Process the deleted items
             IEnumerable removedItemsArray = ProcessDeletedItems((IObjectArray)removedItems);
 
             // Raise the event if items were removed
             if (JumpListItemsRemoved != null && removedItemsArray != null && removedItemsArray.GetEnumerator().MoveNext())
+            {
                 JumpListItemsRemoved(this, new UserRemovedJumpListItemsEventArgs(removedItemsArray));
+            }
         }
 
         /// <summary>
@@ -344,44 +359,40 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                 // Get list of removed items from native code
                 object removedItems;
 
-                customDestinationList.GetRemovedDestinations(ref TaskbarNativeMethods.IID_IObjectArray, out removedItems);
+                customDestinationList.GetRemovedDestinations(ref TaskbarNativeMethods.TaskbarGuids.IObjectArray, out removedItems);
 
                 return ProcessDeletedItems((IObjectArray)removedItems);
             }
         }
 
-        private IEnumerable ProcessDeletedItems(IObjectArray removedItems)
+        private IEnumerable<string> ProcessDeletedItems(IObjectArray removedItems)
         {
+            List<string> removedItemsArray = new List<string>();
+
             uint count;
             removedItems.GetCount(out count);
 
-            if (count == 0)
-                return new string[] { };
-
-            // String array passed to the user via the JumpListItemsRemoved
-            // event
-            List<string> removedItemsArray = new List<string>();
-
-            // Process each removed item based on it's type
+            // Process each removed item based on its type
             for (uint i = 0; i < count; i++)
             {
                 // Native call to retrieve objects from IObjectArray
                 object item;
                 removedItems.GetAt(i,
-                    ref TaskbarNativeMethods.IID_IUnknown,
+                    ref TaskbarNativeMethods.TaskbarGuids.IUnknown,
                     out item);
 
+                IShellItem shellItem = item as IShellItem;
+                IShellLinkW shellLink;
                 // Process item
-                if (item is IShellItem)
+                if (shellItem != null)
                 {
-                    removedItemsArray.Add(RemoveCustomCategoryItem((IShellItem)item));
+                    removedItemsArray.Add(RemoveCustomCategoryItem(shellItem));
                 }
-                else if (item is IShellLinkW)
+                else if ((shellLink = item as IShellLinkW) != null)
                 {
-                    removedItemsArray.Add(RemoveCustomCategoryLink((IShellLinkW)item));
+                    removedItemsArray.Add(RemoveCustomCategoryLink(shellLink));
                 }
             }
-
             return removedItemsArray;
         }
 
@@ -392,8 +403,8 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             if (customCategoriesCollection != null)
             {
                 IntPtr pszString = IntPtr.Zero;
-                HRESULT hr = item.GetDisplayName(ShellNativeMethods.SIGDN.SIGDN_FILESYSPATH, out pszString);
-                if (hr == HRESULT.S_OK && pszString != IntPtr.Zero)
+                HResult hr = item.GetDisplayName(ShellNativeMethods.ShellItemDesignNameOptions.FileSystemPath, out pszString);
+                if (hr == HResult.Ok && pszString != IntPtr.Zero)
                 {
                     path = Marshal.PtrToStringAuto(pszString);
                     // Free the string
@@ -402,7 +413,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
 
                 // Remove this item from each category
                 foreach (JumpListCustomCategory category in customCategoriesCollection)
+                {
                     category.RemoveJumpListItem(path);
+                }
 
             }
 
@@ -423,7 +436,9 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
 
                 // Remove this item from each category
                 foreach (JumpListCustomCategory category in customCategoriesCollection)
+                {
                     category.RemoveJumpListItem(path);
+                }
             }
 
             return path;
@@ -451,8 +466,7 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                     }
 
                     // Don't process empty categories
-                    if (category.JumpListItems.Count == 0)
-                        continue;
+                    if (category.JumpListItems.Count == 0) { continue; }
 
                     IObjectCollection categoryContent =
                         (IObjectCollection)new CEnumerableObjectCollection();
@@ -460,21 +474,29 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                     // Add each link's shell representation to the object array
                     foreach (IJumpListItem link in category.JumpListItems)
                     {
-                        if (link is JumpListItem)
-                            categoryContent.AddObject(((JumpListItem)link).NativeShellItem);
-                        else if (link is JumpListLink)
-                            categoryContent.AddObject(((JumpListLink)link).NativeShellLink);
+                        JumpListItem listItem = link as JumpListItem;
+                        JumpListLink listLink = link as JumpListLink;
+                        if (listItem != null)
+                        {
+                            categoryContent.AddObject(listItem.NativeShellItem);
+                        }
+                        else if (listLink != null)
+                        {
+                            categoryContent.AddObject(listLink.NativeShellLink);
+                        }
                     }
 
                     // Add current category to destination list
-                    HRESULT hr = customDestinationList.AppendCategory(
+                    HResult hr = customDestinationList.AppendCategory(
                         category.Name,
                         (IObjectArray)categoryContent);
 
-                    if (!CoreErrorHelper.Succeeded((int)hr))
+                    if (!CoreErrorHelper.Succeeded(hr))
                     {
                         if ((uint)hr == 0x80040F03)
-                            throw new InvalidOperationException("The file type is not registered with this application.");
+                        {
+                            throw new InvalidOperationException(LocalizedMessages.JumpListFileTypeNotRegistered);
+                        }
                         else if ((uint)hr == 0x80070005 /*E_ACCESSDENIED*/)
                         {
                             // If the recent documents tracking is turned off by the user,
@@ -484,10 +506,10 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
                             //      2. Via the user setting “Store and display recently opened items in 
                             //         the Start menu and the taskbar” in the Start menu property dialog.
                             //
-                            throw new UnauthorizedAccessException("Custom categories cannot be added while recent documents tracking is turned off.");
+                            throw new UnauthorizedAccessException(LocalizedMessages.JumpListCustomCategoriesDisabled);
                         }
-                        else
-                            Marshal.ThrowExceptionForHR((int)hr);
+
+                        throw new ShellException(hr);
                     }
 
                     // Increase our current index
@@ -498,44 +520,56 @@ namespace Microsoft.WindowsAPICodePack.Taskbar
             // If the ordinal position was out of range, append the Known Categories
             // at the end
             if (!knownCategoriesAdded)
+            {
                 AppendKnownCategories();
+            }
         }
 
         private void AppendTaskList()
         {
-            if (userTasks == null || userTasks.Count == 0)
-                return;
+            if (userTasks == null || userTasks.Count == 0) { return; }
 
             IObjectCollection taskContent =
                     (IObjectCollection)new CEnumerableObjectCollection();
 
             // Add each task's shell representation to the object array
-            foreach (IJumpListTask task in userTasks)
+            foreach (JumpListTask task in userTasks)
             {
-                if (task is JumpListLink)
-                    taskContent.AddObject(((JumpListLink)task).NativeShellLink);
-                else if (task is JumpListSeparator)
-                    taskContent.AddObject(((JumpListSeparator)task).NativeShellLink);
+                JumpListSeparator seperator;
+                JumpListLink link = task as JumpListLink;
+                if (link != null)
+                {
+                    taskContent.AddObject(link.NativeShellLink);
+                }
+                else if ((seperator = task as JumpListSeparator) != null)
+                {
+                    taskContent.AddObject(seperator.NativeShellLink);
+                }
             }
 
             // Add tasks to the taskbar
-            HRESULT hr = customDestinationList.AddUserTasks((IObjectArray)taskContent);
+            HResult hr = customDestinationList.AddUserTasks((IObjectArray)taskContent);
 
-            if (!CoreErrorHelper.Succeeded((int)hr))
+            if (!CoreErrorHelper.Succeeded(hr))
             {
                 if ((uint)hr == 0x80040F03)
-                    throw new InvalidOperationException("The file type is not registered with this application.");
-                else
-                    Marshal.ThrowExceptionForHR((int)hr);
+                {
+                    throw new InvalidOperationException(LocalizedMessages.JumpListFileTypeNotRegistered);
+                }
+                throw new ShellException(hr);
             }
         }
 
         private void AppendKnownCategories()
         {
             if (KnownCategoryToDisplay == JumpListKnownCategoryType.Recent)
-                customDestinationList.AppendKnownCategory(KNOWNDESTCATEGORY.KDC_RECENT);
+            {
+                customDestinationList.AppendKnownCategory(KnownDestinationCategory.Recent);
+            }
             else if (KnownCategoryToDisplay == JumpListKnownCategoryType.Frequent)
-                customDestinationList.AppendKnownCategory(KNOWNDESTCATEGORY.KDC_FREQUENT);
+            {
+                customDestinationList.AppendKnownCategory(KnownDestinationCategory.Frequent);
+            }
         }
     }
 }

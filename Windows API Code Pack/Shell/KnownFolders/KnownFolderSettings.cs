@@ -50,7 +50,6 @@ namespace Microsoft.WindowsAPICodePack.Shell
                 knownFolderProperties.folderType = FolderTypes.GetFolderType(knownFolderProperties.folderTypeId);
 
                 bool pathExists;
-
                 knownFolderProperties.path = GetPath(out pathExists, knownFolderNative);
                 knownFolderProperties.pathExists = pathExists;
 
@@ -93,7 +92,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         {
             Debug.Assert(knownFolderNative != null);
 
-            string kfPath = String.Empty;
+            string kfPath = string.Empty;
             fileExists = true;
 
             // Virtual folders do not have path.
@@ -129,10 +128,7 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// <value>A <see cref="System.String"/> object.</value>
         public string Path
         {
-            get
-            {
-                return knownFolderProperties.path;
-            }
+            get { return knownFolderProperties.path; }
         }
 
 
@@ -288,8 +284,8 @@ namespace Microsoft.WindowsAPICodePack.Shell
         /// can have its path set to a new value, 
         /// including any restrictions on the redirection.
         /// </summary>
-        /// <value>A <see cref="RedirectionCapabilities"/> value.</value>
-        public RedirectionCapabilities Redirection
+        /// <value>A <see cref="RedirectionCapability"/> value.</value>
+        public RedirectionCapability Redirection
         {
             get { return knownFolderProperties.redirection; }
         }

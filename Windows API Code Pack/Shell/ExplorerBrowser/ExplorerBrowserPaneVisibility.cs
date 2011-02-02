@@ -1,7 +1,5 @@
 ﻿//Copyright (c) Microsoft Corporation.  All rights reserved.
 
-using System;
-
 namespace Microsoft.WindowsAPICodePack.Controls
 {
     /// <summary>
@@ -11,136 +9,49 @@ namespace Microsoft.WindowsAPICodePack.Controls
     {
         /// <summary>
         /// The pane on the left side of the Windows Explorer window that hosts the folders tree and Favorites.
-        /// </summary>
-        public PaneVisibilityState Navigation
-        {
-            get
-            {
-                return _Navigation;
-            }
-            set
-            {
-                _Navigation = value;
-            }
-        }
-        private PaneVisibilityState _Navigation = PaneVisibilityState.DontCare;
+        /// </summary>        
+        public PaneVisibilityState Navigation { get; set; }
+
 
         /// <summary>
         /// Commands module along the top of the Windows Explorer window.
-        /// </summary>
-        public PaneVisibilityState Commands
-        {
-            get
-            {
-                return _Commands;
-            }
-            set
-            {
-                _Commands = value;
-            }
-        }
-        private PaneVisibilityState _Commands = PaneVisibilityState.DontCare;
+        /// </summary>        
+        public PaneVisibilityState Commands { get; set; }
 
         /// <summary>
         /// Organize menu within the commands module.
         /// </summary>
-        public PaneVisibilityState CommandsOrganize
-        {
-            get
-            {
-                return _CommandsOrganize;
-            }
-            set
-            {
-                _CommandsOrganize = value;
-            }
-        }
-        private PaneVisibilityState _CommandsOrganize = PaneVisibilityState.DontCare;
+        public PaneVisibilityState CommandsOrganize { get; set; }
 
 
         /// <summary>
         /// View menu within the commands module.
         /// </summary>
-        public PaneVisibilityState CommandsView
-        {
-            get
-            {
-                return _CommandsView;
-            }
-            set
-            {
-                _CommandsView = value;
-            }
-        }
-        private PaneVisibilityState _CommandsView = PaneVisibilityState.DontCare;
+        public PaneVisibilityState CommandsView { get; set; }
 
 
         /// <summary>
         /// Pane showing metadata along the bottom of the Windows Explorer window.
         /// </summary>
-        public PaneVisibilityState Details
-        {
-            get
-            {
-                return _Details;
-            }
-            set
-            {
-                _Details = value;
-            }
-        }
-        private PaneVisibilityState _Details = PaneVisibilityState.DontCare;
+        public PaneVisibilityState Details { get; set; }
 
 
         /// <summary>
         /// Pane on the right of the Windows Explorer window that shows a large reading preview of the file.
         /// </summary>
-        public PaneVisibilityState Preview
-        {
-            get
-            {
-                return _Preview;
-            }
-            set
-            {
-                _Preview = value;
-            }
-        }
-        private PaneVisibilityState _Preview = PaneVisibilityState.DontCare;
+        public PaneVisibilityState Preview { get; set; }
 
 
         /// <summary>
         /// Quick filter buttons to aid in a search.
         /// </summary>
-        public PaneVisibilityState Query
-        {
-            get
-            {
-                return _Query;
-            }
-            set
-            {
-                _Query = value;
-            }
-        }
-        private PaneVisibilityState _Query = PaneVisibilityState.DontCare;
+        public PaneVisibilityState Query { get; set; }
 
 
         /// <summary>
         /// Additional fields and options to aid in a search.
         /// </summary>
-        public PaneVisibilityState AdvancedQuery
-        {
-            get
-            {
-                return _AdvancedQuery;
-            }
-            set
-            {
-                _AdvancedQuery = value;
-            }
-        }
-        private PaneVisibilityState _AdvancedQuery = PaneVisibilityState.DontCare;
+        public PaneVisibilityState AdvancedQuery { get; set; }
 
     }
 }
