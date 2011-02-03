@@ -1,17 +1,36 @@
-﻿// Assembly Gmail Notifier Plus, Version 2.1.2.0
+﻿using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
-[assembly: System.Reflection.AssemblyVersion("2.1.2.*")]
-[assembly: System.Reflection.AssemblyTitle("Gmail Notifier Plus")]
-[assembly: System.Reflection.AssemblyConfiguration("")]
-[assembly: System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)]
-[assembly: System.Reflection.AssemblyDescription("")]
-[assembly: System.Runtime.InteropServices.ComVisible(false)]
-[assembly: System.Runtime.CompilerServices.CompilationRelaxations(8)]
-[assembly: System.Reflection.AssemblyProduct("Gmail Notifier Plus")]
-[assembly: System.Reflection.AssemblyCopyright("Copyright \x00a9 Baptiste Girod 2010, 2010 Andrew Powell / Shellscape Software")]
-[assembly: System.Reflection.AssemblyTrademark("")]
-[assembly: System.Reflection.AssemblyCompany("Shellscape Software")]
-[assembly: System.Runtime.InteropServices.Guid("421a0043-b2ab-4b86-8dec-63ce3b8bd764")]
-[assembly: System.Reflection.AssemblyFileVersion("2.1.2.*")]
-[assembly: System.Resources.NeutralResourcesLanguage("")]
-[assembly: System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+[assembly: AssemblyTitle("GmailNotifierPlus")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Shellscape Software")]
+[assembly: AssemblyProduct("GmailNotifierPlus")]
+[assembly: AssemblyCopyright("Copyright © 2010 Baptiste Girod, 2011 Andrew Powell, Shellscape Software")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+[assembly: Debuggable(System.Diagnostics.DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
+[assembly: CompilationRelaxations(8)]
+[assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]
+
+// Setting ComVisible to false makes the types in this assembly not visible 
+// to COM components.  If you need to access a type in this assembly from 
+// COM, set the ComVisible attribute to true on that type.
+[assembly: ComVisible(false)]
+
+// The following GUID is for the ID of the typelib if this project is exposed to COM
+[assembly: Guid("421a0043-b2ab-4b86-8dec-63ce3b8bd764")]
+
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+[assembly: AssemblyVersion("2.2.*")]
