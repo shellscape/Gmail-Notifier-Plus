@@ -38,9 +38,20 @@ namespace GmailNotifierPlus.Forms {
 
 		private static readonly int WM_TASKBARBUTTONCREATED = ((int)RegisterWindowMessage("TaskbarButtonCreated"));
 
+		private Boolean _Once = false;
+
 		public Main(string[] args) {
 
 			InitializeComponent();
+			
+			//Program.UnpinFromTaskbar(Application.ExecutablePath);
+
+			//this.FormClosing += delegate(object sender, FormClosingEventArgs e) {
+			//  if (!_Once) {
+			//    _Once = true;
+			//    Program.PinToTaskbar(Application.ExecutablePath);
+			//  }
+			//};
 
 			this.Location = new Point(-10000, -10000);
 
@@ -306,8 +317,8 @@ namespace GmailNotifierPlus.Forms {
 			_TaskbarManager.SetOverlayIcon(base.Handle, null, String.Empty);
 
 			if (count == 0) {
-				//_TaskbarManager.SetOverlayIcon(base.Handle, null, string.Empty);
-				this.Icon = _IconWindow;
+				_TaskbarManager.SetOverlayIcon(base.Handle, null, string.Empty);
+				//this.Icon = _IconWindow;
 			}
 			else {
 
@@ -323,9 +334,9 @@ namespace GmailNotifierPlus.Forms {
 					_IconDigits = Icon.FromHandle(numbers.GetHicon());
 				}
 				
-				//_TaskbarManager.SetOverlayIcon(base.Handle, _IconDigits, string.Empty);
+				_TaskbarManager.SetOverlayIcon(base.Handle, _IconDigits, string.Empty);
 				
-				this.Icon = _IconDigits;
+				//this.Icon = _IconDigits;
 
 			}
 

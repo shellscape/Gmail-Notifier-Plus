@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace GmailNotifierPlus {
 
-	[DataContract(Name="config")]
+	[DataContract(Name = "config")]
 	public class Config {
 
 		private static readonly String _AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -35,7 +35,7 @@ namespace GmailNotifierPlus {
 			else {
 				config.Save();
 			}
-			
+
 			Config.Current = config;
 
 			// Fire up the locale information and init localization
@@ -67,7 +67,10 @@ namespace GmailNotifierPlus {
 
 		public event ConfigSavedEventHandler Saved;
 
-		[DataMember(Name="interval")]
+		[DataMember(Name = "Pinned")]
+		public Boolean Pinned { get; set; }
+
+		[DataMember(Name = "interval")]
 		public int Interval { get; set; }
 
 		[DataMember(Name = "language")]

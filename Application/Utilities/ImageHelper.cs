@@ -13,17 +13,41 @@ namespace GmailNotifierPlus.Utilities {
 
 		public static Bitmap GetDigitIcon(int number) {
 
-			Bitmap bitmap = ResourceHelper.GetImage("Envelope.png");
+			// overlay icons MUST be 16x16. Stupid limitation by microsoft.
+			Bitmap bitmap = new Bitmap(16, 16); 
+			//Bitmap bitmap = ResourceHelper.GetImage("Envelope.png");
 
 			using (Graphics graphics = Graphics.FromImage(bitmap)) {
 				graphics.CompositingQuality = CompositingQuality.HighQuality;
 				graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-				using (Bitmap numbers = GetNumbers(number)) {
-					int x = Math.Max(0, bitmap.Width - numbers.Width);
-					int y = Math.Max(0, bitmap.Height - numbers.Height);
+				// for testing purposes
+				//graphics.FillRectangle(Brushes.White, new Rectangle(0, 0, 16, 16));
 
-					graphics.DrawImage(numbers, x, y, numbers.Width, numbers.Height);
+				using (Bitmap numbers = GetNumbers(number)) {
+					//int x = Math.Max(0, bitmap.Width - numbers.Width);
+					//int y = Math.Max(0, bitmap.Height - numbers.Height);
+
+					//graphics.DrawImage(numbers, x, y, numbers.Width, numbers.Height);
+
+					// yeah, most of these numbers are arbitrary, based on the font we're using 
+					// and the numbers used to calc width and height.
+
+					int width = numbers.Width;
+					int height = numbers.Height;
+					double percent = width > height ?
+						19.0 / width :
+						19.0 / height;
+
+					width = (int)(width * percent);
+					height = (int)(height * percent);
+
+					int x = number.ToString().Length > 1 ?
+						Math.Max(-3, bitmap.Width - numbers.Width) :
+						1;
+					int y = Math.Max(0, (bitmap.Height - numbers.Height) / 2);
+
+					graphics.DrawImage(numbers, x, -2, width, height);
 				}
 			}
 
@@ -36,7 +60,7 @@ namespace GmailNotifierPlus.Utilities {
 			SizeF sz;
 			int blurAmount = 9;
 			Color colorFore = Color.White;
-			Color colorBack = Color.Black;
+			Color colorBack = ColorTranslator.FromHtml("#333");
 			String text = number.ToString();
 			int increase = blurAmount / 2;
 
@@ -45,6 +69,7 @@ namespace GmailNotifierPlus.Utilities {
 			}
 
 			using (Font font = new Font("Segoe UI", 26, FontStyle.Bold, GraphicsUnit.Point, 0)) {
+			//using (Font font = new Font("Segoe UI", 8, FontStyle.Bold, GraphicsUnit.Point, 0)) {
 
 				using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
 					sz = g.MeasureString(text, font);
