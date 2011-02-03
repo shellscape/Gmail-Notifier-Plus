@@ -38,7 +38,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private static readonly int WM_TASKBARBUTTONCREATED = ((int)RegisterWindowMessage("TaskbarButtonCreated"));
 
-		private Boolean _Once = false;
+		//private Boolean _Once = false;
 
 		public Main(string[] args) {
 
@@ -314,10 +314,12 @@ namespace GmailNotifierPlus.Forms {
 
 		private void SetUnreadOverlay(int count) {
 
-			_TaskbarManager.SetOverlayIcon(base.Handle, null, String.Empty);
+			if (_TaskbarManager == null) {
+				return;
+			}
 
 			if (count == 0) {
-				_TaskbarManager.SetOverlayIcon(base.Handle, null, string.Empty);
+				_TaskbarManager.SetOverlayIcon(base.Handle, null, String.Empty);
 				//this.Icon = _IconWindow;
 			}
 			else {
@@ -331,31 +333,35 @@ namespace GmailNotifierPlus.Forms {
 				Int32.TryParse(count.ToString("00"), out digitsNumber);
 
 				using (Bitmap numbers = ImageHelper.GetDigitIcon(digitsNumber)) {
-					_IconDigits = Icon.FromHandle(numbers.GetHicon());
+					if (numbers == null) {
+						_IconDigits = Utilities.ResourceHelper.GetIcon("Warning.ico");
+					}
+					else{
+						_IconDigits = Icon.FromHandle(numbers.GetHicon());
+					}
 				}
 				
-				_TaskbarManager.SetOverlayIcon(base.Handle, _IconDigits, string.Empty);
+				_TaskbarManager.SetOverlayIcon(base.Handle, _IconDigits, String.Empty);
 				
 				//this.Icon = _IconDigits;
 
 			}
+		}
 
-			String appName = GmailNotifierPlus.Resources.Resources.WindowTitle;
-			String appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			String path = System.IO.Path.Combine(appData, appName, String.Concat(appName, ".ico"));
+		internal void SetWarningOverlay() {
 
-			using(FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write)){
-				_IconDigits.Save(fs);
+			if (_TaskbarManager != null) {
+				_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon(".Warning.ico"), String.Empty);
 			}
 
 		}
 
-		internal void SetWarningOverlay() {
-			_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon(".Warning.ico"), string.Empty);
-		}
-
 		internal void SetOfflineOverlay() {
-			_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon("Offline.ico"), string.Empty);
+
+			if (_TaskbarManager != null) {
+				_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon("Offline.ico"), String.Empty);
+			}
+
 		}
 
 		private void OpenSettingsWindow() {
