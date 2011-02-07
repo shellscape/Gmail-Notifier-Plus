@@ -72,13 +72,15 @@ namespace GmailNotifierPlus.Utilities {
 			String processor = "Processor: Unknown";
 
 			try {
-				RegistryKey key = Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor\0", false);
-				processor = String.Join(" ", "Processor:",
-					key.GetValue("VendorIdentifier"),
-					key.GetValue("Identifier"),
-					key.GetValue("ProcessorNameString"),
-					key.GetValue("~Mhz"), "~Mhz"
-				);
+				using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor\0", false)) {
+					processor = String.Join(" ", "Processor:",
+						key.GetValue("VendorIdentifier"),
+						key.GetValue("Identifier"),
+						key.GetValue("ProcessorNameString"),
+						key.GetValue("~Mhz"), "~Mhz"
+					);
+					key.Close();
+				}
 			}
 			catch (System.Security.SecurityException ex) {
 			}
