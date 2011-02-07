@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
+using Microsoft.Win32;
+
 namespace GmailNotifierPlus {
 
 	[DataContract(Name = "config")]
@@ -48,6 +50,23 @@ namespace GmailNotifierPlus {
 				config.Accounts[i].Init();
 			}
 
+			// Check to see if recent document tracking is turned on.
+			// If it isn't we cannot add custom categories to the jumplist.
+
+			try {
+				using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", false)) {
+					object trackDocs = key.GetValue("Start_TrackDocs"); //DWORD value. 
+					if (trackDocs != null) {
+						int tracking = Convert.ToInt32(trackDocs);
+						config.RecentDocsTracked = tracking == 1;
+					}
+					key.Close();
+				}
+			}
+			catch (System.Security.SecurityException ex) {
+			}
+
+
 		}
 
 		public static Config Current {
@@ -90,6 +109,8 @@ namespace GmailNotifierPlus {
 
 		[DataMember(Name = "firstrun")]
 		public Boolean FirstRun { get; set; }
+
+		public Boolean RecentDocsTracked { get; private set; }
 
 		public void Save() {
 
