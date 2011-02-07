@@ -399,6 +399,10 @@ namespace GmailNotifierPlus.Forms {
 
 		private void UpdateMailsJumpList() {
 
+			if (!_Config.RecentDocsTracked) {
+				return;
+			}
+
 			_JumpList.RemoveCustomCategories();
 
 			Dictionary<string, List<JumpListLink>> dictionary = new Dictionary<string, List<JumpListLink>>();
