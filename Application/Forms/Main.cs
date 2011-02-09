@@ -461,7 +461,14 @@ namespace GmailNotifierPlus.Forms {
 				_JumpList.AddCustomCategories(new JumpListCustomCategory[] { category });
 			}
 
-			_JumpList.Refresh();
+			try {
+				_JumpList.Refresh();
+			}
+			catch (Exception e) {
+				// https://github.com/shellscape/Gmail-Notifier-Plus/issues/#issue/3
+				// Unable to remove files to be replaced. (Exception from HRESULT: 0x80070497)
+				Utilities.ErrorHelper.Log(e, Guid.NewGuid());
+			}
 		}
 
 
