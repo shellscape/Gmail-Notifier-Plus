@@ -43,7 +43,7 @@ namespace GmailNotifierPlus.Forms {
 		public Main(string[] args) {
 
 			InitializeComponent();
-			
+
 			//Program.UnpinFromTaskbar(Application.ExecutablePath);
 
 			//this.FormClosing += delegate(object sender, FormClosingEventArgs e) {
@@ -136,7 +136,14 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void _Notifier_CheckFinished(Notifier sender, EventArgs e) {
-			_StatusList.Add(sender.Text, sender.ConnectionStatus);
+
+			if (_StatusList.ContainsKey(sender.Text)) {
+				_StatusList[sender.Text] = sender.ConnectionStatus;
+			}
+			else {
+				_StatusList.Add(sender.Text, sender.ConnectionStatus);
+			}
+
 			_UnreadTotal += sender.Unread;
 
 			FinalizeChecks();
@@ -148,8 +155,13 @@ namespace GmailNotifierPlus.Forms {
 			notifier.FormClosed -= _Notifier_FormClosed;
 			notifier.CheckMailFinished -= _Notifier_CheckFinished;
 
-			_Instances.Remove(notifier.Text);
-			_StatusList.Remove(notifier.Text);
+			if (_Instances.ContainsKey(notifier.Text)) {
+				_Instances.Remove(notifier.Text);
+			}
+
+			if (_StatusList.ContainsKey(notifier.Text)) {
+				_StatusList.Remove(notifier.Text);
+			}
 
 			notifier.Dispose();
 			notifier = null;
@@ -183,7 +195,7 @@ namespace GmailNotifierPlus.Forms {
 			int defaultAccountIndex = _Config.Accounts.IndexOf(_Config.Accounts.Default);
 			String exePath = Application.ExecutablePath;
 			String path = Path.Combine(Path.GetDirectoryName(exePath), "Resources\\Icons");
-			
+
 			JumpListTask compose = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Compose) {
 				IconReference = new IconReference(Path.Combine(path, "Compose.ico"), 0)
 			};
@@ -336,13 +348,13 @@ namespace GmailNotifierPlus.Forms {
 					if (numbers == null) {
 						_IconDigits = Utilities.ResourceHelper.GetIcon("Warning.ico");
 					}
-					else{
+					else {
 						_IconDigits = Icon.FromHandle(numbers.GetHicon());
 					}
 				}
-				
+
 				_TaskbarManager.SetOverlayIcon(base.Handle, _IconDigits, String.Empty);
-				
+
 				//this.Icon = _IconDigits;
 
 			}
@@ -474,13 +486,13 @@ namespace GmailNotifierPlus.Forms {
 
 		#endregion
 
-#region .    Fix bug in Windows API Code Pack    
+		#region .    Fix bug in Windows API Code Pack
 
 		// Resolves a bug with Windows API Code Pack v1.0.1
 		// ThumbnailToolbarButton Click event isn’t fired when process is running elevated (i.e. as Administrator)
 		// Since I run visual studio with elevated privs for debugging IIS attached asp.net apps, this needs to be here.
 		// http://blogs.microsoft.co.il/blogs/arik/archive/2010/03.aspx
-		
+
 		// Updated to v1.1 of the code pack. Bug still present.
 
 		[DllImport("user32.dll", SetLastError = true)]
@@ -504,7 +516,7 @@ namespace GmailNotifierPlus.Forms {
 			ChangeWindowMessageFilter(WM_ACTIVATE, MSGFLT_ADD);
 		}
 
-#endregion
+		#endregion
 
 	}
 
