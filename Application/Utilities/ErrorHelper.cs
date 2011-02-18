@@ -86,10 +86,11 @@ namespace GmailNotifierPlus.Utilities {
 			}
 
 			String system = String.Join("\n", date, os, processor, memory);
+			String desc = String.Concat("Exception: ", e.ToString());
 			String message = String.Concat("Message: ", e.Message);
 			String stack = String.Concat("Stack Trace:\n", e.StackTrace);
 
-			String data = String.Join("\n\n", system, message, stack);
+			String data = String.Join("\n\n", system, desc, message, stack);
 
 			using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write)) {
 				using (StreamWriter sw = new StreamWriter(fs)) {
