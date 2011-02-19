@@ -32,6 +32,7 @@ namespace GmailNotifierPlus.Forms {
 		private int _UnreadTotal;
 
 		private Icon _IconDigits = null;
+		private Icon _IconTray = null;
 		private Icon _IconWindow = null;
 
 		private Config _Config = Config.Current;
@@ -60,7 +61,7 @@ namespace GmailNotifierPlus.Forms {
 				this.Icon = _IconWindow;
 			}
 
-			this.Text = GmailNotifierPlus.Resources.Resources.WindowTitle;
+			this.Text = this._TrayIcon.Text = GmailNotifierPlus.Resources.Resources.WindowTitle;
 			this.CreateInstances();
 
 			if ((args.Length > 0) && (args[0] == "-settings")) {
@@ -335,33 +336,40 @@ namespace GmailNotifierPlus.Forms {
 				return;
 			}
 
+			CleanupDigitIcon();
+
 			if (count == 0) {
 				_TaskbarManager.SetOverlayIcon(base.Handle, null, String.Empty);
-				//this.Icon = _IconWindow;
+
+				HideTrayIcon();
 			}
 			else {
-
-				if (_IconDigits != null) {
-					_IconDigits.Dispose();
-					_IconDigits = null;
-				}
 
 				int digitsNumber;
 				Int32.TryParse(count.ToString("00"), out digitsNumber);
 
 				using (Bitmap numbers = ImageHelper.GetDigitIcon(digitsNumber)) {
+										
 					if (numbers == null) {
 						_IconDigits = Utilities.ResourceHelper.GetIcon("Warning.ico");
 					}
 					else {
 						_IconDigits = Icon.FromHandle(numbers.GetHicon());
 					}
+
+					using (Bitmap trayNumbers = ImageHelper.GetTrayIcon(numbers)) {
+						_IconTray = Icon.FromHandle(trayNumbers.GetHicon());
+					}
+
 				}
 
 				_TaskbarManager.SetOverlayIcon(base.Handle, _IconDigits, String.Empty);
 
-				//this.Icon = _IconDigits;
-
+				if (_Config.ShowTrayIcon) {
+					_TrayIcon.Icon = _IconTray;
+					_TrayIcon.Visible = true;
+				}
+				
 			}
 		}
 
@@ -369,6 +377,9 @@ namespace GmailNotifierPlus.Forms {
 
 			if (_TaskbarManager != null) {
 				_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon(".Warning.ico"), String.Empty);
+
+				CleanupDigitIcon();
+				HideTrayIcon();
 			}
 
 		}
@@ -377,8 +388,28 @@ namespace GmailNotifierPlus.Forms {
 
 			if (_TaskbarManager != null) {
 				_TaskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon("Offline.ico"), String.Empty);
+
+				CleanupDigitIcon();
+				HideTrayIcon();
 			}
 
+		}
+
+		private void CleanupDigitIcon() {
+			if (_IconDigits != null) {
+				_IconDigits.Dispose();
+				_IconDigits = null;
+			}
+		}
+
+		private void HideTrayIcon() {
+			_TrayIcon.Visible = false;
+
+			if (_TrayIcon.Icon != null) {
+				_TrayIcon.Icon.Dispose();
+			}
+
+			_TrayIcon.Icon = null;
 		}
 
 		private void OpenSettingsWindow() {

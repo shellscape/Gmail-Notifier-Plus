@@ -26,11 +26,16 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
 			this._Timer = new System.Windows.Forms.Timer(this.components);
+			this._TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.SuspendLayout();
 			// 
 			// _Timer
 			// 
 			this._Timer.Interval = 30000;
+			// 
+			// _TrayIcon
+			// 
+			this._TrayIcon.Visible = true;
 			// 
 			// Main
 			// 
@@ -53,5 +58,6 @@
 		#endregion
 
 		private System.Windows.Forms.Timer _Timer;
+		private System.Windows.Forms.NotifyIcon _TrayIcon;
 	}
 }
