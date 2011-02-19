@@ -126,6 +126,9 @@ namespace GmailNotifierPlus {
 		[DataMember(Name = "flashcount")]
 		public int FlashCount { get; set; }
 
+		[DataMember(Name = "showtrayicon")]
+		public Boolean ShowTrayIcon { get; set; }
+
 		public Boolean RecentDocsTracked { get; private set; }
 
 		public void Save() {
