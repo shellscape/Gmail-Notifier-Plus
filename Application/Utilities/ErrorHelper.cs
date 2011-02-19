@@ -86,11 +86,8 @@ namespace GmailNotifierPlus.Utilities {
 			}
 
 			String system = String.Join("\n", date, os, processor, memory);
-			String desc = String.Concat("Exception: ", e.ToString());
-			String message = String.Concat("Message: ", e.Message);
-			String stack = String.Concat("Stack Trace:\n", e.StackTrace);
 
-			String data = String.Join("\n\n", system, desc, message, stack);
+			String data = String.Join("\n\n", system, PrintException(e));
 
 			using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write)) {
 				using (StreamWriter sw = new StreamWriter(fs)) {
@@ -98,6 +95,22 @@ namespace GmailNotifierPlus.Utilities {
 				}
 			}
 
+		}
+
+		public static String PrintException(Exception e) {
+			
+			String result = String.Empty;
+
+			if (e != null) {
+				String desc = String.Concat("Exception: ", e.ToString());
+				String message = String.Concat("Message: ", e.Message);
+				String stack = String.Concat("Stack Trace:\n", e.StackTrace);
+				String inner = String.Concat("Inner Exception: ", PrintException(e.InnerException));
+
+				result = String.Join("\n\n", desc, message, stack, inner);
+			}
+
+			return result;
 		}
 
 		public static void Send(Guid guid) {
