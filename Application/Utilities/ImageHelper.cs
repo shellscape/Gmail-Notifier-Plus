@@ -11,10 +11,33 @@ namespace GmailNotifierPlus.Utilities {
 
 	public class ImageHelper {
 
+		public static Bitmap GetTrayIcon(Bitmap numbers) {
+
+			Bitmap bitmap = new Bitmap(16, 16);
+
+			ColorMatrix cm = new ColorMatrix();
+			cm.Matrix33 = 0.8f;
+
+			using (ImageAttributes ia = new ImageAttributes())
+			using (Graphics graphics = Graphics.FromImage(bitmap))
+			using (Icon envelopeIcon = Utilities.ResourceHelper.GetIcon("Default.ico"))
+			using (Bitmap envelope = envelopeIcon.ToBitmap()) {
+				ia.SetColorMatrix(cm);
+
+				Rectangle destRect = new Rectangle(0, Math.Max(0, 16 - envelope.Height), 16, 16);
+
+				graphics.DrawImage(envelope, destRect, 0, 0, envelope.Width, envelope.Height, GraphicsUnit.Pixel, ia);
+
+				graphics.DrawImage(numbers, 0, 0, numbers.Width, numbers.Height);
+			}
+
+			return bitmap;
+		}
+
 		public static Bitmap GetDigitIcon(int number) {
 
 			// overlay icons MUST be 16x16. Stupid limitation by microsoft.
-			Bitmap bitmap = new Bitmap(16, 16); 
+			Bitmap bitmap = new Bitmap(16, 16);
 			//Bitmap bitmap = ResourceHelper.GetImage("Envelope.png");
 
 			using (Graphics graphics = Graphics.FromImage(bitmap)) {
@@ -69,7 +92,7 @@ namespace GmailNotifierPlus.Utilities {
 			}
 
 			using (Font font = new Font("Segoe UI", 26, FontStyle.Bold, GraphicsUnit.Point, 0)) {
-			//using (Font font = new Font("Segoe UI", 8, FontStyle.Bold, GraphicsUnit.Point, 0)) {
+				//using (Font font = new Font("Segoe UI", 8, FontStyle.Bold, GraphicsUnit.Point, 0)) {
 
 				using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
 					sz = g.MeasureString(text, font);
