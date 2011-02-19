@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace GmailNotifierPlus.Utilities {
-	public static class FlashWindow {
+	public static class TaskbarHelper {
 
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -94,8 +94,8 @@ namespace GmailNotifierPlus.Utilities {
 		/// <param name="form">The Form (Window) to Flash.</param>
 		/// <param name="count">The number of times to Flash.</param>
 		/// <returns></returns>
-		public static Boolean Flash(Form form, uint count) {
-			FLASHWINFO fi = Create_FLASHWINFO(form.Handle, FLASHW_ALL, count, 0);
+		public static Boolean Flash(Form form, int count) {
+			FLASHWINFO fi = Create_FLASHWINFO(form.Handle, FLASHW_ALL, (uint)count, 0);
 			return FlashWindowEx(ref fi);
 		}
 

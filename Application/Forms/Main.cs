@@ -308,6 +308,11 @@ namespace GmailNotifierPlus.Forms {
 							SoundHelper.PlayCustomSound(_Config.Sound);
 							break;
 					}
+
+					if (_Config.FlashTaskbar) {
+						Utilities.TaskbarHelper.Flash(this, _Config.FlashCount);
+					}
+
 				}
 
 				_PreviousTotal = _UnreadTotal;
@@ -486,7 +491,7 @@ namespace GmailNotifierPlus.Forms {
 
 		#endregion
 
-		#region .    Fix bug in Windows API Code Pack
+		#region .    Fix bug in Windows API Code Pack    
 
 		// Resolves a bug with Windows API Code Pack v1.0.1
 		// ThumbnailToolbarButton Click event isn’t fired when process is running elevated (i.e. as Administrator)

@@ -16,6 +16,25 @@ namespace GmailNotifierPlus {
 		private static readonly String _Path = Path.Combine(_AppData, GmailNotifierPlus.Resources.Resources.WindowTitle);
 		private static readonly String _FileName = "app.config";
 
+		public event ConfigSavedEventHandler Saved;
+
+		public Config() {
+			this.Interval = 60;
+			this.Language = "en-us";
+			this.Sound = "default";
+			this.PlaySound = true;
+			this.FirstRun = true;
+			this.FlashCount = 4;
+			this.FlashTaskbar = true;
+
+			this.Accounts = new AccountList();
+		}
+
+		public static void InitDefaults(Config config) {
+			config.FirstRun = true;
+			config.FlashCount = 4;
+		}
+
 		public static void Init() {
 			if (!Directory.Exists(_Path)) {
 				Directory.CreateDirectory(_Path);
@@ -35,8 +54,11 @@ namespace GmailNotifierPlus {
 				}
 			}
 			else {
+				InitDefaults(config);
 				config.Save();
 			}
+
+			config.Language = config.Language.ToLower();
 
 			Config.Current = config;
 
@@ -68,23 +90,11 @@ namespace GmailNotifierPlus {
 
 
 		}
-
+	
 		public static Config Current {
 			get;
 			private set;
 		}
-
-		public Config() {
-			this.Interval = 60;
-			this.Language = "en-US";
-			this.Sound = "default";
-			this.PlaySound = true;
-			this.FirstRun = true;
-
-			this.Accounts = new AccountList();
-		}
-
-		public event ConfigSavedEventHandler Saved;
 
 		[DataMember(Name = "Pinned")]
 		public Boolean Pinned { get; set; }
@@ -109,6 +119,12 @@ namespace GmailNotifierPlus {
 
 		[DataMember(Name = "firstrun")]
 		public Boolean FirstRun { get; set; }
+
+		[DataMember(Name = "flashtaskbar")]
+		public Boolean FlashTaskbar { get; set; }
+
+		[DataMember(Name = "flashcount")]
+		public int FlashCount { get; set; }
 
 		public Boolean RecentDocsTracked { get; private set; }
 
