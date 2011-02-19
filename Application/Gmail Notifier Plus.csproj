@@ -144,6 +144,7 @@
     <Compile Include="Utilities\DataProtector.cs" />
     <Compile Include="Utilities\Serializer.cs" />
     <Compile Include="Utilities\SoundHelper.cs" />
+    <Compile Include="Utilities\TaskbarHelper.cs" />
     <Compile Include="Utilities\UrlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -173,7 +174,7 @@
     <EmbeddedResource Include="Forms\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Locales\en-US.xml" />
+    <EmbeddedResource Include="Resources\Locales\en-us.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Resources.resx">
