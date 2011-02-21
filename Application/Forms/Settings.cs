@@ -68,7 +68,9 @@ namespace GmailNotifierPlus.Forms {
 			tip.SetToolTip(_ImgButtonRemove, Locale.Current.Tooltips.Remove);
 
 			this.Text = Resources.Resources.WindowTitle;
+			
 			_TextInterval.Text = (_Config.Interval / 60).ToString();
+
 			_ComboLanguage.SelectedValue = _Config.Language;
 
 			_LabelTitle.Text = Locale.Current.Labels.Configuration;
@@ -428,8 +430,8 @@ namespace GmailNotifierPlus.Forms {
 			dsLang.Columns.Add(columnName, typeof(string));
 			dsLang.Columns.Add(columnValue, typeof(string));
 
-			foreach (String language in ResourceHelper.AvailableLocales) {
-				dsLang.Rows.Add(new string[] { language, language });
+			foreach (KeyValuePair<String, String> kvp in ResourceHelper.AvailableLocales) {
+				dsLang.Rows.Add(new string[] { kvp.Key, kvp.Value });
 			}
 
 			dsSound.Columns.Add(columnName, typeof(string));
