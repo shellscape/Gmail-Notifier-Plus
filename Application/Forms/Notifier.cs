@@ -126,8 +126,8 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			UpdateThumbButtonsStatus();
-			_LabelStatus.RightToLeft = Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
 
+			_LabelStatus.RightToLeft = Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
 		}
 
 		private void _WebClient_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e) {
