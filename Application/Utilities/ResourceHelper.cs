@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -68,7 +69,7 @@ namespace GmailNotifierPlus.Utilities {
 			return Get<T>(assembly, fileName);
 		}
 
-		public static object GetRaw(String fileName) {
+		public static Stream GetResourceStream(String fileName) {
 			Assembly assembly = Assembly.GetCallingAssembly();
 			return assembly.GetManifestResourceStream(String.Concat(_ResourcePrefix, fileName));
 		}
@@ -92,10 +93,29 @@ namespace GmailNotifierPlus.Utilities {
 		public static Locale GetLocale(String language) {
 			
 			String fileName = String.Concat("Locales.", language, ".xml");
-			String xml = Get<String>(fileName);
+			String xml = String.Empty;
 
-			if (String.IsNullOrEmpty(xml)) {
-				return null;
+			// we have to load the xml via System.Xml so that character encoding is enforced and we get the right unicode output.
+			// otherwise, the Deserializer just craps out poop characters.
+			using (Stream stream = GetResourceStream(fileName)) {
+				if (stream == null) {
+					return null;
+				}				
+				
+				System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+
+				try {
+					doc.Load(stream);
+				}
+				catch (Exception) {
+					return null;
+				}
+
+				xml = doc.OuterXml;
+
+				if (String.IsNullOrEmpty(xml)) {
+					return null;
+				}
 			}
 
 			Locale locale = Utilities.Serializer.Deserialize<Locale>(xml);
@@ -103,13 +123,13 @@ namespace GmailNotifierPlus.Utilities {
 			return locale;
 		}
 
-		private static List<String> _AvailableLocales = null;
+		private static Dictionary<String, String> _AvailableLocales = null;
 
-		public static List<String> AvailableLocales {
+		public static Dictionary<String, String> AvailableLocales {
 			get {
 
 				if (_AvailableLocales == null) {
-					_AvailableLocales = new List<String>();
+					_AvailableLocales = new Dictionary<String, String>();
 
 					Assembly a = Assembly.GetExecutingAssembly();
 					String[] resNames = a.GetManifestResourceNames();
@@ -120,11 +140,17 @@ namespace GmailNotifierPlus.Utilities {
 							continue;
 						}
 
-						String locale = name.Replace(".xml", String.Empty);
-						_AvailableLocales.Add(locale.Replace(prefix, String.Empty));
+						String lang = name.Replace(".xml", String.Empty).Replace(prefix, String.Empty);
+						Locale locale = GetLocale(lang);
+
+						if (locale != null) {
+							_AvailableLocales.Add(locale.Name, lang);
+						}
 					}
 
-					_AvailableLocales.Sort();
+					if (_AvailableLocales.Keys.Count > 0) {
+						_AvailableLocales.OrderBy(o => o.Key);
+					}
 
 				}
 
