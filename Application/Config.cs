@@ -12,12 +12,15 @@ namespace GmailNotifierPlus {
 	[DataContract(Name = "config")]
 	public class Config {
 
-		private static readonly String _AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-		private static readonly String _Path = Path.Combine(_AppData, GmailNotifierPlus.Resources.Resources.WindowTitle);
-		private static readonly String _FileName = "app.config";
+		private static readonly String _appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+		private static readonly String _path = Path.Combine(_appData, GmailNotifierPlus.Resources.Resources.WindowTitle);
+		private static readonly String _fileName = "app.config";
+
+		private String _language;
 
 		public event ConfigSavedEventHandler Saved;
-
+		public event LanguageChangedEventHandler LanguageChanged;
+		
 		public Config() {
 			this.Interval = 60;
 			this.Language = "en-us";
@@ -36,13 +39,13 @@ namespace GmailNotifierPlus {
 		}
 
 		public static void Init() {
-			if (!Directory.Exists(_Path)) {
-				Directory.CreateDirectory(_Path);
+			if (!Directory.Exists(_path)) {
+				Directory.CreateDirectory(_path);
 			}
 
 			Config config = new Config();
 			String xml = null;
-			FileInfo file = new FileInfo(Path.Combine(_Path, _FileName));
+			FileInfo file = new FileInfo(Path.Combine(_path, _fileName));
 
 			if (file.Exists) {
 				using (StreamReader sr = file.OpenText()) {
@@ -65,14 +68,7 @@ namespace GmailNotifierPlus {
 			// Fire up the locale information and init localization
 			Dictionary<String, String> locales = Utilities.ResourceHelper.AvailableLocales;
 
-			Locale locale = Utilities.ResourceHelper.GetLocale(config.Language);
-
-			// in case the config xml gets hosed, or a user goes a-tamperin'
-			if (locale == null) {
-				locale = Utilities.ResourceHelper.GetLocale("en-us");
-			}
-
-			locale.Init();
+			LoadLocale(config);
 
 			for (var i = 0; i < config.Accounts.Count; i++) {
 				config.Accounts[i].Init();
@@ -109,7 +105,19 @@ namespace GmailNotifierPlus {
 		public int Interval { get; set; }
 
 		[DataMember(Name = "language")]
-		public String Language { get; set; }
+		public String Language {
+			get { return _language; }
+			set {
+				String previous = _language;
+
+				_language = value;
+
+				if (previous != _language && LanguageChanged != null) {
+					Config.LoadLocale(this);
+					LanguageChanged(this);
+				}
+			}
+		}
 
 		[DataMember(Name = "sound")]
 		public String Sound { get; set; }
@@ -141,7 +149,7 @@ namespace GmailNotifierPlus {
 
 			String serialized = Utilities.Serializer.SerializeContract<Config>(this);
 
-			using (FileStream fs = new FileStream(Path.Combine(_Path, _FileName), FileMode.Create, FileAccess.ReadWrite)) {
+			using (FileStream fs = new FileStream(Path.Combine(_path, _fileName), FileMode.Create, FileAccess.ReadWrite)) {
 				using (StreamWriter sw = new StreamWriter(fs)) {
 					sw.Write(serialized);
 				}
@@ -151,6 +159,17 @@ namespace GmailNotifierPlus {
 				this.Saved(this, EventArgs.Empty);
 			}
 
+		}
+
+		private static void LoadLocale(Config config) {
+			Locale locale = Utilities.ResourceHelper.GetLocale(config.Language);
+
+			// in case the config xml gets hosed, or a user goes a-tamperin'
+			if (locale == null) {
+				locale = Utilities.ResourceHelper.GetLocale("en-us");
+			}
+
+			locale.Init();
 		}
 	}
 
