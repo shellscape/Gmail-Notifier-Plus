@@ -1,11 +1,12 @@
-﻿namespace GmailNotifierPlus.Utilities {
-	
-	using System;
-	using System.Collections.Generic;
-	using System.Drawing;
-	using System.IO;
-	using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.IO;
+using System.Reflection;
 
+namespace GmailNotifierPlus.Utilities {
+	
 	public static class ResourceHelper {
 
 		private const String _ResourcePrefix = "GmailNotifierPlus.Resources.";
@@ -122,6 +123,8 @@
 						String locale = name.Replace(".xml", String.Empty);
 						_AvailableLocales.Add(locale.Replace(prefix, String.Empty));
 					}
+
+					_AvailableLocales.Sort();
 
 				}
 
