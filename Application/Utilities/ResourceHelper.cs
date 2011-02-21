@@ -92,6 +92,11 @@
 			
 			String fileName = String.Concat("Locales.", language, ".xml");
 			String xml = Get<String>(fileName);
+
+			if (String.IsNullOrEmpty(xml)) {
+				return null;
+			}
+
 			Locale locale = Utilities.Serializer.Deserialize<Locale>(xml);
 
 			return locale;
