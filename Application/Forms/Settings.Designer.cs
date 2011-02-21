@@ -115,6 +115,7 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			this._PanelAbout.Controls.Add(this._PanelShellscape);
 			this._PanelAbout.Controls.Add(this._PanelAboutButtons);
+			this._PanelAbout.FirstRun = false;
 			this._PanelAbout.Location = new System.Drawing.Point(0, 0);
 			this._PanelAbout.Margin = new System.Windows.Forms.Padding(0);
 			this._PanelAbout.Name = "_PanelAbout";
@@ -501,7 +502,6 @@ namespace GmailNotifierPlus.Forms {
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "Settings";
-			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Gmail Notifier Plus";
 			this._PanelSlider.ResumeLayout(false);
