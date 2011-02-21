@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Locale>
+	<Name>German (de-DE)</Name>
+	<Buttons>
+		<Browse>Durchsuchen...</Browse>
+		<Cancel>Abbrechen</Cancel>
+		<Default>Standard</Default>
+		<Edit>Bearbeiten</Edit>
+		<Next>Weiter</Next>
+		<OK>OK</OK>
+		<Save>Speichern</Save>
+		<LetsGo>Los geht's!</LetsGo>
+		<Sweet>Cool, danke</Sweet>
+	</Buttons>
+	<Labels>
+		<About>Über Gmail Notifier Plus</About>
+		<Add>Konto hinzufügen</Add>
+		<Additional>Zusätzliche Einstellungen</Additional>
+		<BrowseDialog>Nach neuem Benachrichtigungston suchen.</BrowseDialog>
+		<CheckLogin>Bitte Kontoeinstellungen prüfen.</CheckLogin>
+		<CheckMail>Auf neue Mail prüfen</CheckMail>
+		<Compose>Mail verfassen</Compose>
+		<Configuration>Konten verwalten</Configuration>
+		<ConfigurationShort>Einstellungen ändern</ConfigurationShort>
+		<Connecting>Prüfung auf neue Mails läuft...</Connecting>
+		<ConnectionUnavailable>Bitte Netzwerkverbindung überprüfen</ConnectionUnavailable>
+		<CustomSound>Angepasst...</CustomSound>
+		<DefaultSound>Standard</DefaultSound>
+		<Edit>Kontoinformation bearbeiten</Edit>
+		<Error>Ein Konto mit diesem Benutzernamen existiert bereits. Bitte geben Sie einen anderen Benutzernamen an.</Error>
+		<Inbox>Posteingang aufrufen</Inbox>
+		<Interval>Prüfintervall:</Interval>
+		<Language>Anzeigesprache:</Language>
+		<Login>Benutzername:</Login>
+		<Minutes>Minute(n)</Minutes>
+		<No>Nein</No>
+		<NoAccount>Bitte ein Konto erstellen.</NoAccount>
+		<NoMail>Keine neuen Mails</NoMail>
+		<NoSound>Kein</NoSound>
+		<NoSubject>(kein Betreff)</NoSubject>
+		<OSErrorContent>Diese Software wurde ausschließlich für Windows 7 entwickelt.</OSErrorContent>
+		<OSErrorTitle>Fehler mit Betriebssystemkompatibilität</OSErrorTitle>
+		<Password>Kennwort:</Password>
+		<RemoveConfirmation>Möchten Sie dieses Konto wirklich löschen?</RemoveConfirmation>
+		<RemoveConfirmationTitle>Konto löschen</RemoveConfirmationTitle>
+		<Sound>Soundbenachrichtigung</Sound>
+		<Unread>Ungelesen</Unread>
+		<WaveFiles>Wave-Datei</WaveFiles>
+		<Yes>Ja</Yes>
+	</Labels>
+	<Tooltips>
+		<About>Über Gmail Notifier Plus</About>
+		<Add>Konto hinzufügen</Add>
+		<Inbox>Posteingang</Inbox>
+		<Next>Weiter</Next>
+		<OpenMail>Posteingang öffnen</OpenMail>
+		<Previous>Zurück</Previous>
+		<Remove>Gewähltes Konto löschen</Remove>
+		<Settings>Einstellungen</Settings>
+	</Tooltips>
+</Locale>
