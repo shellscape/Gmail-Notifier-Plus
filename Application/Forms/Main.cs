@@ -423,6 +423,7 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			_SettingsWindow.Activate();
+			_SettingsWindow.BringToFront();
 		}
 
 		internal void RemoteCheckMails() {
