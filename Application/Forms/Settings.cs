@@ -279,7 +279,9 @@ namespace GmailNotifierPlus.Forms {
 				account.Default = false;
 			}
 
-			_Config.Accounts[this._DefaultAccountIndex].Default = true;
+			if (_Config.Accounts.Count > this._DefaultAccountIndex) {
+				_Config.Accounts[this._DefaultAccountIndex].Default = true;
+			}
 
 			if ((_ComboSound.SelectedIndex == 2) && string.IsNullOrEmpty(_ComboSound.SelectedValue.ToString())) {
 				_Config.SoundNotification = 0;
