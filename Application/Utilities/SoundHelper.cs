@@ -24,8 +24,9 @@
 		}
 
 		public static void PlayDefaultSound() {
-			UnmanagedMemoryStream stream = (UnmanagedMemoryStream)Utilities.ResourceHelper.GetRaw("WindowsNotify.wav");
-			new System.Media.SoundPlayer(stream).Play();
+			//UnmanagedMemoryStream stream = (UnmanagedMemoryStream)Utilities.ResourceHelper.GetRaw("WindowsNotify.wav");
+			//new System.Media.SoundPlayer(stream).Play();
+			PlaySound("MailBeep", IntPtr.Zero, Flags.SND_ALIAS | Flags.SND_ASYNC);
 		}
 
 		[DllImport("winmm.dll", SetLastError = true)]
