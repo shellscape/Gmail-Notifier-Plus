@@ -521,9 +521,8 @@ namespace GmailNotifierPlus.Forms {
 				Utilities.ErrorHelper.Log(e, Guid.NewGuid());
 			}
 		}
-
-
-		#endregion
+		
+#endregion
 
 		#region .    Fix bug in Windows API Code Pack    
 
