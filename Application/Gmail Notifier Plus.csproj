@@ -196,7 +196,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Locales\ru-ru.xml" />
+    <EmbeddedResource Include="Resources\Locales\de-de.xml" />
+    <EmbeddedResource Include="Resources\Locales\ru-ru.xml" />
     <EmbeddedResource Include="Resources\Icons\Default.ico" />
     <EmbeddedResource Include="Resources\Icons\Mail.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
