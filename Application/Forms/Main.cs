@@ -86,6 +86,8 @@ namespace GmailNotifierPlus.Forms {
 
 		private void Main_FormClosing(object sender, FormClosingEventArgs e) {
 			try {
+				HideTrayIcon();
+
 				this._JumpList.RemoveCustomCategories();
 				this._JumpList.Refresh();
 			}
