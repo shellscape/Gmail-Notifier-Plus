@@ -137,13 +137,17 @@ namespace GmailNotifierPlus.Forms {
 				String xml = System.Text.Encoding.UTF8.GetString(e.Result).Replace("<feed version=\"0.3\" xmlns=\"http://purl.org/atom/ns#\">", "<feed>");
 				XmlDocument document = new XmlDocument();
 
-				document.LoadXml(xml);
+				try {
+					document.LoadXml(xml);
 
-				XmlNode node = document.SelectSingleNode("/feed/fullcount");
+					XmlNode node = document.SelectSingleNode("/feed/fullcount");
 
-				Unread = Convert.ToInt32(node.InnerText);
-				XmlMail = document.SelectNodes("/feed/entry");
-				_MailIndex = 0;
+					Unread = Convert.ToInt32(node.InnerText);
+					XmlMail = document.SelectNodes("/feed/entry");
+					_MailIndex = 0;
+				}
+				catch (System.Xml.XmlException) {
+				}
 			}
 			else {
 				WebException error = (WebException)e.Error;
