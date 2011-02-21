@@ -35,6 +35,7 @@ namespace GmailNotifierPlus.Forms {
 		private Config _Config = Config.Current;
 		private readonly Font _FontBold;
 		private readonly Font _FontRegular;
+		private readonly ToolTip _Tip;
 
 		public Settings() {
 			InitializeComponent();
@@ -43,7 +44,7 @@ namespace GmailNotifierPlus.Forms {
 			this.ClientSize = new Size(300, 355);
 			this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
-			ToolTip tip = new ToolTip();
+			_Tip = new ToolTip();
 
 			_FontRegular = new Font(_ListViewAccounts.Font, FontStyle.Regular);
 			_FontBold = new Font(_ListViewAccounts.Font, FontStyle.Bold);
@@ -63,48 +64,34 @@ namespace GmailNotifierPlus.Forms {
 				}
 			}
 
-			tip.SetToolTip(_ImgButtonAbout, Locale.Current.Tooltips.About);
-			tip.SetToolTip(_ImgButtonAdd, Locale.Current.Tooltips.Add);
-			tip.SetToolTip(_ImgButtonRemove, Locale.Current.Tooltips.Remove);
-
 			this.Text = Resources.Resources.WindowTitle;
 			
 			_TextInterval.Text = (_Config.Interval / 60).ToString();
 
 			_ComboLanguage.SelectedValue = _Config.Language;
 
-			_LabelTitle.Text = Locale.Current.Labels.Configuration;
-			_LabelSound.Text = Locale.Current.Labels.Sound;
-			_LabelAdditional.Text = Locale.Current.Labels.Additional;
-			_LabelInterval.Text = Locale.Current.Labels.Interval;
-			_LabelMinutes.Text = Locale.Current.Labels.Minutes;
-			_LabelLanguage.Text = Locale.Current.Labels.Language;
-			_LabelUsername.Text = Locale.Current.Labels.Login;
-			_LabelPassword.Text = Locale.Current.Labels.Password;
-			_LabelError.Text = Locale.Current.Labels.Error;
-
-			_ButtonDefault.Text = Locale.Current.Buttons.Default;
-			_ButtonEdit.Text = Locale.Current.Buttons.Edit;
-			_ButtonBrowse.Text = Locale.Current.Buttons.Browse;
-			_ButtonOk.Text = _ButtonAboutOk.Text = Locale.Current.Buttons.OK;
-			_ButtonCancel.Text = _ButtonAccountCancel.Text = Locale.Current.Buttons.Cancel;
-
 			_PanelShellscape.Click += this._PanelShellscape_Click;
 
 			_PanelAbout.FirstRun = Config.Current.FirstRun;
 
+			InitLabels();
 			InitImageButtons();
 			UpdateHeaderSize();
-			//AdjustControls();
 			InitEvents();
 
 			if (Locale.Current.IsRightToLeftLanguage) {
 				MirrorControls();
 			}
 
+			_Config.LanguageChanged += _Config_LanguageChanged;
+
 		}
 
-#region .    Event Methods
+#region .    Event Methods    
+
+		private void _Config_LanguageChanged(Config sender) {
+			InitLabels();
+		}
 
 		private void _ComboSound_SelectedIndexChanged(object sender, EventArgs e) {
 			_ButtonBrowse.Enabled = _ComboSound.SelectedIndex == 2;
@@ -217,7 +204,7 @@ namespace GmailNotifierPlus.Forms {
 
 		#endregion
 
-		#region .    Button Event Methods
+#region .    Button Event Methods    
 
 		private void _ButtonAboutOk_Click(object sender, EventArgs e) {
 			this.SwitchToSettings(SourceScreen.About);
@@ -294,56 +281,13 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			_Config.Save();
+
 			base.Close();
 		}
 
 		#endregion
 
-		#region .    Private Methods
-
-		//private void AdjustControls() {
-
-		//  return;
-
-		//  int num = 6; // arbitrary numbers? padding?
-		//  int num2 = 10; // ditto?
-		//  int width = Math.Max(_ButtonDefault.Width, _ButtonEdit.Width);
-
-		//  // Not sure if this was lowsy coding, CLR mangling, or if it's really needed. Seems that autosize would work here.
-		//  //if (config.Language == Resources.Code_Bulgarian) {
-		//  //  _ButtonEdit.Width -= 25;
-		//  //}
-		//  //else if (config.Language == Resources.Code_Ukrainian) {
-		//  //  _ButtonEdit.Width -= 40;
-		//  //}
-
-		//  _ButtonEdit.Left = _ListViewAccounts.Right - _ButtonEdit.Width;
-
-		//  _ButtonDefault.AutoSize = _ButtonEdit.AutoSize = false;
-		//  _ButtonDefault.Width = _ButtonEdit.Width = width - num2;
-		//  _ButtonDefault.Left = (_ButtonEdit.Left - _ButtonDefault.Width) - num;
-
-		//  width = _ButtonBrowse.Width;
-
-		//  _ButtonBrowse.AutoSize = false;
-		//  _ButtonBrowse.Width = width - num2;
-		//  _ButtonBrowse.Left = _ListViewAccounts.Right - _ButtonBrowse.Width;
-
-		//  _ComboSound.Width = (_ButtonBrowse.Left - num) - _ComboSound.Left;
-
-		//  Size minSize = new Size(((_ButtonDefault.Left - _LabelInterval.Left) - num) + 1, _LabelInterval.Height);
-
-		//  _LabelInterval.MinimumSize = _LabelLanguage.MinimumSize = minSize;
-
-		//  int left = (_LabelInterval.Left + Math.Max(_LabelInterval.Width, _LabelLanguage.Width)) + num;
-
-		//  _TextInterval.Left = left;
-
-		//  _LabelMinutes.Left = (_TextInterval.Left + _TextInterval.Width) + num;
-
-		//  _ComboLanguage.Left = left;
-		//  _ComboLanguage.Width = _ListViewAccounts.Right - left;
-		//}
+#region .    Private Methods    
 
 		private void EditAccount() {
 			this._IsEditing = true;
@@ -355,6 +299,28 @@ namespace GmailNotifierPlus.Forms {
 			if (!int.TryParse(_TextInterval.Text, out num) || (num <= 0)) {
 				_TextInterval.Text = "1";
 			}
+		}
+
+		private void InitLabels() {
+			_Tip.SetToolTip(_ImgButtonAbout, Locale.Current.Tooltips.About);
+			_Tip.SetToolTip(_ImgButtonAdd, Locale.Current.Tooltips.Add);
+			_Tip.SetToolTip(_ImgButtonRemove, Locale.Current.Tooltips.Remove);
+
+			_LabelTitle.Text = Locale.Current.Labels.Configuration;
+			_LabelSound.Text = Locale.Current.Labels.Sound;
+			_LabelAdditional.Text = Locale.Current.Labels.Additional;
+			_LabelInterval.Text = Locale.Current.Labels.Interval;
+			_LabelMinutes.Text = Locale.Current.Labels.Minutes;
+			_LabelLanguage.Text = Locale.Current.Labels.Language;
+			_LabelUsername.Text = Locale.Current.Labels.Login;
+			_LabelPassword.Text = Locale.Current.Labels.Password;
+			_LabelError.Text = Locale.Current.Labels.Error;
+
+			_ButtonDefault.Text = Locale.Current.Buttons.Default;
+			_ButtonEdit.Text = Locale.Current.Buttons.Edit;
+			_ButtonBrowse.Text = Locale.Current.Buttons.Browse;
+			_ButtonOk.Text = _ButtonAboutOk.Text = Locale.Current.Buttons.OK;
+			_ButtonCancel.Text = _ButtonAccountCancel.Text = Locale.Current.Buttons.Cancel;
 		}
 
 		private void InitEvents() {
@@ -504,7 +470,7 @@ namespace GmailNotifierPlus.Forms {
 
 		#endregion
 
-		#region .    Panel Switching Methods
+#region .    Panel Switching Methods    
 
 		private void SwitchToAbout() {
 
