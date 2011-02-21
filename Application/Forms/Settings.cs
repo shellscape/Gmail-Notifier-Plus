@@ -422,33 +422,33 @@ namespace GmailNotifierPlus.Forms {
 
 			String columnName = "Name";
 			String columnValue = "Value";
-			DataTable table = new DataTable();
-			DataTable table2 = new DataTable();
+			DataTable dsLang = new DataTable();
+			DataTable dsSound = new DataTable();
 
-			table.Columns.Add(columnName, typeof(string));
-			table.Columns.Add(columnValue, typeof(string));
+			dsLang.Columns.Add(columnName, typeof(string));
+			dsLang.Columns.Add(columnValue, typeof(string));
 
 			foreach (String language in ResourceHelper.AvailableLocales) {
-				table.Rows.Add(new string[] { language, language });
+				dsLang.Rows.Add(new string[] { language, language });
 			}
 
-			table2.Columns.Add(columnName, typeof(string));
-			table2.Columns.Add(columnValue, typeof(string));
-			table2.Rows.Add(new string[] { Locale.Current.Labels.NoSound, string.Empty });
-			table2.Rows.Add(new string[] { Locale.Current.Labels.DefaultSound, string.Empty });
+			dsSound.Columns.Add(columnName, typeof(string));
+			dsSound.Columns.Add(columnValue, typeof(string));
+			dsSound.Rows.Add(new string[] { Locale.Current.Labels.NoSound, string.Empty });
+			dsSound.Rows.Add(new string[] { Locale.Current.Labels.DefaultSound, string.Empty });
 
 			if (File.Exists(_Config.Sound)) {
-				table2.Rows.Add(new string[] { Path.GetFileName(_Config.Sound), _Config.Sound });
+				dsSound.Rows.Add(new string[] { Path.GetFileName(_Config.Sound), _Config.Sound });
 			}
 			else {
-				table2.Rows.Add(new string[] { Locale.Current.Labels.CustomSound, string.Empty });
+				dsSound.Rows.Add(new string[] { Locale.Current.Labels.CustomSound, string.Empty });
 			}
 
-			_ComboLanguage.DataSource = table;
+			_ComboLanguage.DataSource = dsLang;
 			_ComboLanguage.DisplayMember = columnName;
 			_ComboLanguage.ValueMember = columnValue;
 
-			_ComboSound.DataSource = table2;
+			_ComboSound.DataSource = dsSound;
 			_ComboSound.DisplayMember = columnName;
 			_ComboSound.ValueMember = columnValue;
 			_ComboSound.SelectedIndex = _Config.SoundNotification;
