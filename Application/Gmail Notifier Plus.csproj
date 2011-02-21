@@ -197,7 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Locales\ru-ru.xml" />
-    <EmbeddedResource Include="Resources\WindowsNotify.wav" />
     <EmbeddedResource Include="Resources\Icons\Default.ico" />
     <EmbeddedResource Include="Resources\Icons\Mail.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
