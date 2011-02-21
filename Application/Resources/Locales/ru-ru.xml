@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="windows-1251" ?>
 <Locale>
-	<Name>Русский</Name>
+	<Name>Русский (ru-RU)</Name>
 	<Buttons>
 		<Browse>Обзор...</Browse>
 		<Cancel>Отмена</Cancel>
