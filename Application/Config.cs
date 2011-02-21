@@ -63,7 +63,7 @@ namespace GmailNotifierPlus {
 			Config.Current = config;
 
 			// Fire up the locale information and init localization
-			List<String> locales = Utilities.ResourceHelper.AvailableLocales;
+			Dictionary<String, String> locales = Utilities.ResourceHelper.AvailableLocales;
 
 			Locale locale = Utilities.ResourceHelper.GetLocale(config.Language);
 
