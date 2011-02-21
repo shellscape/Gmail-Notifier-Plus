@@ -10,7 +10,7 @@ namespace GmailNotifierPlus {
 	[XmlRoot("Locale")]
 	public class Locale {
 
-		private String[] RtlLangs = new String[] { "ar-DZ", "he-IL", "fa-IR" };
+		private String[] RtlLangs = new String[] { "ar-dz", "he-il", "fa-ir" };
 
 		[XmlIgnore]
 		public String LanguageCode { get; set; }
