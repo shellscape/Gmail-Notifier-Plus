@@ -18,7 +18,7 @@ namespace GmailNotifierPlus.Utilities {
 		static ErrorHelper() {
 			String appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-			_LogPath = Path.Combine(appData, GmailNotifierPlus.Resources.Resources.WindowTitle, "Error Logs");
+			_LogPath = Path.Combine(appData, GmailNotifierPlus.Resources.WindowTitle, "Error Logs");
 
 			if (!Directory.Exists(_LogPath)) {
 				Directory.CreateDirectory(_LogPath);

@@ -20,7 +20,7 @@ namespace GmailNotifierPlus.Utilities {
 
 			using (ImageAttributes ia = new ImageAttributes())
 			using (Graphics graphics = Graphics.FromImage(bitmap))
-			using (Icon envelopeIcon = Utilities.ResourceHelper.GetIcon("Default.ico"))
+			using (Icon envelopeIcon = Utilities.ResourceHelper.GetIcon("gmail-classic.ico"))
 			using (Bitmap envelope = envelopeIcon.ToBitmap()) {
 				ia.SetColorMatrix(cm);
 

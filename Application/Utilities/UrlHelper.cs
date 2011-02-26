@@ -1,10 +1,8 @@
-﻿namespace GmailNotifierPlus.Utilities {
+﻿using System;
+using System.Web;
 
-	using System;
-	using System.Web;
+namespace GmailNotifierPlus.Utilities {
 
-	using GmailNotifierPlus.Resources;
-	
 	public static class UrlHelper {
 
 		public static class Uris {
