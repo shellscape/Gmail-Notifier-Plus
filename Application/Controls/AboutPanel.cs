@@ -6,8 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Shellscape.UI.Controls;
+
 namespace GmailNotifierPlus.Controls {
-	public class AboutPanel : DoubleBufferPanel {
+	public class AboutPanel : DoubleBufferedPanel {
 		
 		public Boolean FirstRun { get; set; }
 
