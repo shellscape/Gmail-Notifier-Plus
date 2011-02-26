@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows.Forms;
+using System.Windows.Forms.ComponentModel;
 
 using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Taskbar;
@@ -28,12 +30,14 @@ namespace GmailNotifierPlus {
 			}
 		}
 
-		// This is the code the previous author had added to the Windows API Code Pack. Hackeyhackhack.
-		//public void ClearAllCustomCategories() {
-		//  if (this.customCategoriesCollection != null) {
-		//    this.customCategoriesCollection.Clear();
-		//  }
-		//}
+		public static IEnumerable<Control> All(this Control.ControlCollection controls) {
+			foreach (Control control in controls) {
+				foreach (Control grandChild in control.Controls.All())
+					yield return grandChild;
+
+				yield return control;
+			}
+		}
 
 	}
 }

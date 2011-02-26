@@ -13,7 +13,7 @@ namespace GmailNotifierPlus {
 	public class Config {
 
 		private static readonly String _appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-		private static readonly String _path = Path.Combine(_appData, GmailNotifierPlus.Resources.Resources.WindowTitle);
+		private static readonly String _path = Path.Combine(_appData, GmailNotifierPlus.Resources.WindowTitle);
 		private static readonly String _fileName = "app.config";
 
 		private String _language;

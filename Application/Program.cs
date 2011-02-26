@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
@@ -18,24 +19,34 @@ namespace GmailNotifierPlus {
 
 	internal static class Program {
 
+		internal static class Arguments {
+			public const String Check = "-check";
+			public const String Settings = "-settings";
+			public const String About = "-about";
+		}
+
 		public static System.Drawing.Icon Icon { get; private set; }
 
 		internal static String channelName;
 		internal static GmailNotifierPlus.Forms.Main mainForm;
 
+		private static List<String> _validArgs = new List<String>() { Arguments.About, Arguments.Check, Arguments.Settings };
+
 		private static void CallRunningInstance(string[] args) {
 			RemotingService service = (RemotingService)RemotingServices.Connect(typeof(RemotingService), "ipc://" + channelName + "/service.rem");
-			String str = args[0];
-			if (str != null) {
-				if (!(str == "-check")) {
-					if (!(str == "-settings")) {
-						return;
-					}
-				}
-				else {
-					service.CheckMail();
-					return;
-				}
+			String firstArg = args[0];
+
+			if (firstArg == null || !_validArgs.Contains(firstArg)) {
+				return;
+			}
+
+			if (firstArg == Arguments.About) {
+				service.ShowAbout();
+			}
+			else if (firstArg == Arguments.Check) {
+				service.CheckMail();
+			}
+			else if (firstArg == Arguments.Settings) {
 				service.OpenSettingsWindow();
 			}
 		}
@@ -51,7 +62,7 @@ namespace GmailNotifierPlus {
 
 			channelName = String.Concat(WindowsIdentity.GetCurrent().Name, "@GmailNotifierPlus");
 
-			Program.Icon = Utilities.ResourceHelper.GetIcon("Default.ico");
+			Program.Icon = Utilities.ResourceHelper.GetIcon("gmail-classic.ico");
 
 			String guid = "{421a0043-b2ab-4b86-8dec-63ce3b8bd764}";
 			String name = String.Concat(@"Local\GmailNotifierPlus", guid);
@@ -90,6 +101,10 @@ namespace GmailNotifierPlus {
 
 			public void OpenSettingsWindow() {
 				Program.mainForm.RemoteOpenSettingsWindow();
+			}
+
+			public void ShowAbout() {
+				Program.mainForm.RemoteShowAbout();
 			}
 		}
 

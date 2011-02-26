@@ -31,6 +31,7 @@ namespace GmailNotifierPlus {
 
 		public class LocaleButtons {
 
+			public String AddNewAccount { get; set; }
 			public String Browse { get; set; }
 			public String Cancel { get; set; }
 			public String Default { get; set; }
@@ -40,13 +41,31 @@ namespace GmailNotifierPlus {
 			public String Save { get; set; }
 			public String LetsGo { get; set; }
 			public String Sweet { get; set; }
+			public String Remove { get; set; }
+		}
 
+		public class LocaleConfig {
+
+			public String Accounts { get; set; }
+			public String Appearance { get; set; }
+			public String General { get; set; }
+			public LocaleConfigPanels Panels { get; set; }
+
+		}
+
+		public class LocaleConfigPanels {
+			public String Accounts { get; set; }
+			public String AccountWarn { get; set; }
+			public String Appearance { get; set; }
+			public String General { get; set; }
+			public String NewAccount { get; set; }
 		}
 
 		public class LocaleLabels {
 
 			public String About { get; set; }
-			public String Add { get; set; }
+			public String AccountsIntro { get; set; }
+			public String AccountsIntroNone { get; set; }
 			public String Additional { get; set; }
 			public String BrowseDialog { get; set; }
 			public String CheckLogin { get; set; }
@@ -90,11 +109,11 @@ namespace GmailNotifierPlus {
 			public String Next { get; set; }
 			public String OpenMail { get; set; }
 			public String Previous { get; set; }
-			public String Remove { get; set; }
 			public String Settings { get; set; }
 
 		}
 
+		public LocaleConfig Config { get; set; }
 		public String Name { get; set; }
 		public LocaleButtons Buttons { get; set; }
 		public LocaleLabels Labels { get; set; }
