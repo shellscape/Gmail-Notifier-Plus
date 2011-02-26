@@ -2,19 +2,20 @@
 <Locale>
 	<Name>English (US)</Name>
 	<Buttons>
+		<AddNewAccount>Add New Account</AddNewAccount>
 		<Browse>Browse...</Browse>
 		<Cancel>Cancel</Cancel>
-		<Default>Default</Default>
+		<Default>Make Default</Default>
 		<Edit>Edit</Edit>
 		<Next>Next</Next>
 		<OK>OK</OK>
 		<Save>Save</Save>
 		<LetsGo>Let's Go!</LetsGo>
 		<Sweet>Sweet, Thanks</Sweet>
+		<Remove>Remove Account</Remove>
 	</Buttons>
 	<Labels>
 		<About>About Gmail Notifier Plus</About>
-		<Add>Add an Account</Add>
 		<Additional>Additional Settings</Additional>
 		<BrowseDialog>Browse for a new notification sound.</BrowseDialog>
 		<CheckLogin>Please check your account settings.</CheckLogin>
@@ -47,15 +48,28 @@
 		<Unread>Unread</Unread>
 		<WaveFiles>Wave File</WaveFiles>
 		<Yes>Yes</Yes>
+		<AccountsIntro>Click an account to the left to manage your individual accounts. Click the button below to add a new account.</AccountsIntro>
+		<AccountsIntroNone>Welcome to Gmail Notifier Plus.\n\nTo get started, please click the button below to add a new account.</AccountsIntroNone>
 	</Labels>
 	<Tooltips>
 		<About>About Gmail Notifier Plus</About>
-		<Add>Add an account</Add>
+		<Add>Add New Account</Add>
 		<Inbox>Inbox</Inbox>
 		<Next>Next</Next>
 		<OpenMail>Open Inbox</OpenMail>
 		<Previous>Previous</Previous>
-		<Remove>Remove Selected Account</Remove>
 		<Settings>Settings</Settings>
 	</Tooltips>
+	<Config>
+		<Accounts>Accounts</Accounts>
+		<Appearance>Appearance</Appearance>
+		<General>General</General>
+		<Panels>
+			<Accounts>Manage Your Accounts</Accounts>
+			<AccountWarn>Clicking save will immediately save any changes made to this account.</AccountWarn>
+			<Appearance>Tell Gmail Notifier Plus how to Act and Look</Appearance>
+			<General>Bread n' Butter settings for Gmail Notifier Plus</General>
+			<NewAccount>Add New Account</NewAccount>
+		</Panels>
+	</Config>
 </Locale>
