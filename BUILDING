@@ -1,0 +1,3 @@
+This solution requires, and its projects reference, the Shellscape.Lib project. You must have this on disk in order to build. It can be checked out here: https://github.com/shellscape/Shellscape.Lib. By default, the solution expects it to be checked out at the same filesystem level as the Gmail Notifier Plus repo.
+
+End of line.
