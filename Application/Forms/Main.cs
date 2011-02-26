@@ -39,32 +39,24 @@ namespace GmailNotifierPlus.Forms {
 
 		private static readonly int WM_TASKBARBUTTONCREATED = ((int)RegisterWindowMessage("TaskbarButtonCreated"));
 
-		//private Boolean _Once = false;
-
 		public Main(string[] args) {
 
 			InitializeComponent();
 
-			//Program.UnpinFromTaskbar(Application.ExecutablePath);
-
-			//this.FormClosing += delegate(object sender, FormClosingEventArgs e) {
-			//  if (!_Once) {
-			//    _Once = true;
-			//    Program.PinToTaskbar(Application.ExecutablePath);
-			//  }
-			//};
-
 			this.Location = new Point(-10000, -10000);
 
-			using (System.Drawing.Bitmap windowBitmap = ResourceHelper.GetImage("Envelope.png")) {
-				_IconWindow = Icon.FromHandle(windowBitmap.GetHicon());
-				this.Icon = _IconWindow;
-			}
+			//using (System.Drawing.Bitmap windowBitmap = ResourceHelper.GetImage("Envelope.png")) {
+			//  _IconWindow = Icon.FromHandle(windowBitmap.GetHicon());
+			//  this.Icon = _IconWindow;
+			//}
 
-			this.Text = this._TrayIcon.Text = GmailNotifierPlus.Resources.Resources.WindowTitle;
+			_IconWindow = ResourceHelper.GetIcon("gmail-classic.ico");
+			this.Icon = _IconWindow;
+
+			this.Text = this._TrayIcon.Text = GmailNotifierPlus.Resources.WindowTitle;
 			this.CreateInstances();
 
-			if ((args.Length > 0) && (args[0] == "-settings")) {
+			if (args.Length > 0 && args[0] == Program.Arguments.Settings){
 				this.OpenSettingsWindow();
 			}
 
@@ -74,6 +66,8 @@ namespace GmailNotifierPlus.Forms {
 			_Timer.Interval = _Config.Interval * 1000;
 			_Timer.Enabled = true;
 		}
+
+		public Boolean FirstRun { get; set; }
 
 		protected override void WndProc(ref Message m) {
 			if (m.Msg == WM_TASKBARBUTTONCREATED) {
@@ -108,7 +102,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void Main_Shown(object sender, EventArgs e) {
 			if (_Config.FirstRun) {
-				this.OpenSettingsWindow();
+				this.ShowAbout();
 
 				_Config.FirstRun = false;
 				_Config.Save();
@@ -219,10 +213,16 @@ namespace GmailNotifierPlus.Forms {
 				Arguments = "-settings"
 			};
 
+			JumpListTask about = new JumpListLink(exePath, Locale.Current.Labels.About) {
+				IconReference = new IconReference(Path.Combine(path, "about.ico"), 0),
+				Arguments = "-about"
+			};
+
 			_JumpList.AddUserTasks(compose);
 			_JumpList.AddUserTasks(inbox);
 			_JumpList.AddUserTasks(refresh);
 			_JumpList.AddUserTasks(settings);
+			_JumpList.AddUserTasks(about);
 		}
 
 		private void CheckMail() {
@@ -278,7 +278,7 @@ namespace GmailNotifierPlus.Forms {
 
 				TabbedThumbnail preview = new TabbedThumbnail(base.Handle, notifier.Handle);
 				preview.TabbedThumbnailClosed += _Preview_TabbedThumbnailClosed;
-				preview.SetWindowIcon(Utilities.ResourceHelper.GetIcon("Default.ico"));
+				preview.SetWindowIcon(Utilities.ResourceHelper.GetIcon("gmail-classic.ico"));
 				preview.Tooltip = String.Empty;
 				preview.Title = account.FullAddress;
 
@@ -414,16 +414,30 @@ namespace GmailNotifierPlus.Forms {
 			_TrayIcon.Icon = null;
 		}
 
-		private void OpenSettingsWindow() {
+		private void ShowAbout() {
+			About about = new About();
+			about.Show();
+			about.BringToFront();
+			about.Focus();
+		}
+
+		public void OpenSettingsWindow() {
 
 			if (_SettingsWindow == null) {
 				_SettingsWindow = new Settings();
 				_SettingsWindow.FormClosed += _SettingsWindow_FormClosed;
-				_SettingsWindow.Show(this);
+				_SettingsWindow.Show();
+
+			}
+
+			if (FirstRun) {
+				FirstRun = false;
+				_SettingsWindow.InitFirstRun();
 			}
 
 			_SettingsWindow.Activate();
 			_SettingsWindow.BringToFront();
+
 		}
 
 		internal void RemoteCheckMails() {
@@ -443,6 +457,17 @@ namespace GmailNotifierPlus.Forms {
 			if (base.InvokeRequired) {
 				if (method == null) {
 					method = delegate { this.OpenSettingsWindow(); };
+				}
+				base.Invoke(method);
+			}
+		}
+
+		internal void RemoteShowAbout() {
+			MethodInvoker method = null;
+
+			if (base.InvokeRequired) {
+				if (method == null) {
+					method = delegate { this.ShowAbout(); };
 				}
 				base.Invoke(method);
 			}

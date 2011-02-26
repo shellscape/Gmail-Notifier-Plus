@@ -1,11 +1,4 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-
-using Microsoft.WindowsAPICodePack.Dialogs;
-using Microsoft.WindowsAPICodePack.Shell;
-using GmailNotifierPlus.Controls;
-
-namespace GmailNotifierPlus.Forms {
+﻿namespace GmailNotifierPlus.Forms {
 	partial class Settings {
 		/// <summary>
 		/// Required designer variable.
@@ -30,194 +23,136 @@ namespace GmailNotifierPlus.Forms {
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this._ButtonOk = new System.Windows.Forms.Button();
-			this._ButtonCancel = new System.Windows.Forms.Button();
-			this._PanelSlider = new GmailNotifierPlus.Controls.DoubleBufferPanel();
-			this._PanelAbout = new GmailNotifierPlus.Controls.AboutPanel();
-			this._PanelShellscape = new GmailNotifierPlus.Controls.DoubleBufferPanel();
-			this._PanelAboutButtons = new GmailNotifierPlus.Controls.DoubleBufferPanel();
-			this._ButtonAboutOk = new System.Windows.Forms.Button();
-			this._PanelMain = new GmailNotifierPlus.Controls.DoubleBufferPanel();
+			this._ButtonGroup = new Shellscape.UI.Skipe.SkipeButtonGroup();
+			this._ButtonGeneral = new Shellscape.UI.Skipe.SkipeButton();
+			this._PanelGeneral = new Shellscape.UI.Skipe.SkipePanel();
 			this._ComboSound = new System.Windows.Forms.ComboBox();
-			this._PanelButtons = new GmailNotifierPlus.Controls.DoubleBufferPanel();
-			this._ImgButtonAbout = new GmailNotifierPlus.Controls.ImageButton();
 			this._LabelSound = new System.Windows.Forms.Label();
 			this._ButtonBrowse = new System.Windows.Forms.Button();
-			this._ButtonDefault = new System.Windows.Forms.Button();
-			this._ImgButtonRemove = new GmailNotifierPlus.Controls.ImageButton();
-			this._ImgButtonAdd = new GmailNotifierPlus.Controls.ImageButton();
-			this._ButtonEdit = new System.Windows.Forms.Button();
-			this._ListViewAccounts = new System.Windows.Forms.ListView();
-			this._ColumnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this._LabelAdditional = new System.Windows.Forms.Label();
-			this._LabelLanguage = new System.Windows.Forms.Label();
-			this._ComboLanguage = new System.Windows.Forms.ComboBox();
-			this._LabelTitle = new System.Windows.Forms.Label();
 			this._TextInterval = new System.Windows.Forms.TextBox();
 			this._LabelMinutes = new System.Windows.Forms.Label();
 			this._LabelInterval = new System.Windows.Forms.Label();
-			this._PanelAccount = new GmailNotifierPlus.Controls.DoubleBufferPanel();
+			this._ButtonAccounts = new Shellscape.UI.Skipe.SkipeButton();
+			this._PanelAccounts = new Shellscape.UI.Skipe.SkipePanel();
+			this._LabelAccountIntro = new System.Windows.Forms.Label();
+			this._ButtonNewAccount = new System.Windows.Forms.Button();
+			this._ButtonAppearance = new Shellscape.UI.Skipe.SkipeButton();
+			this._PanelAppearance = new Shellscape.UI.Skipe.SkipePanel();
+			this._LabelLanguage = new System.Windows.Forms.Label();
+			this._ComboLanguage = new System.Windows.Forms.ComboBox();
+			this._PanelNewAccount = new Shellscape.UI.Skipe.SkipePanel();
 			this._PictureExclamation = new System.Windows.Forms.PictureBox();
+			this._PanelAccountButtons = new Shellscape.UI.Controls.DoubleBufferedPanel();
+			this._ButtonNewCancel = new System.Windows.Forms.Button();
+			this._ButtonNewSave = new System.Windows.Forms.Button();
 			this._LabelError = new System.Windows.Forms.Label();
 			this._LabelAccountTitle = new System.Windows.Forms.Label();
-			this._PanelAccountButtons = new GmailNotifierPlus.Controls.DoubleBufferPanel();
-			this._ButtonAccountCancel = new System.Windows.Forms.Button();
-			this._ButtonAccountSave = new System.Windows.Forms.Button();
-			this._TextPassword = new System.Windows.Forms.TextBox();
-			this._TextUsername = new System.Windows.Forms.TextBox();
-			this._LabelPassword = new System.Windows.Forms.Label();
 			this._LabelUsername = new System.Windows.Forms.Label();
-			this._PanelSlider.SuspendLayout();
-			this._PanelAbout.SuspendLayout();
-			this._PanelAboutButtons.SuspendLayout();
-			this._PanelMain.SuspendLayout();
-			this._PanelButtons.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAbout)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonRemove)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAdd)).BeginInit();
-			this._PanelAccount.SuspendLayout();
+			this._TextPassword = new System.Windows.Forms.TextBox();
+			this._LabelPassword = new System.Windows.Forms.Label();
+			this._TextUsername = new System.Windows.Forms.TextBox();
+			this._PanelButtons = new Shellscape.UI.Controls.DoubleBufferedPanel();
+			this._ButtonCancel = new System.Windows.Forms.Button();
+			this._ButtonSave = new System.Windows.Forms.Button();
+			this._ButtonGroup.SuspendLayout();
+			this._PanelGeneral.SuspendLayout();
+			this._PanelAccounts.SuspendLayout();
+			this._PanelAppearance.SuspendLayout();
+			this._PanelNewAccount.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._PictureExclamation)).BeginInit();
 			this._PanelAccountButtons.SuspendLayout();
+			this._PanelButtons.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// _ButtonOk
+			// _ButtonGroup
 			// 
-			this._ButtonOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonOk.Location = new System.Drawing.Point(133, 14);
-			this._ButtonOk.Name = "_ButtonOk";
-			this._ButtonOk.Size = new System.Drawing.Size(75, 23);
-			this._ButtonOk.TabIndex = 7;
-			this._ButtonOk.Text = "OK";
-			this._ButtonOk.UseVisualStyleBackColor = true;
+			this._ButtonGroup.BackColor = System.Drawing.Color.Transparent;
+			this._ButtonGroup.Controls.Add(this._ButtonGeneral);
+			this._ButtonGroup.Controls.Add(this._ButtonAccounts);
+			this._ButtonGroup.Controls.Add(this._ButtonAppearance);
+			this._ButtonGroup.Dock = System.Windows.Forms.DockStyle.Left;
+			this._ButtonGroup.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._ButtonGroup.Location = new System.Drawing.Point(8, 8);
+			this._ButtonGroup.Name = "_ButtonGroup";
+			this._ButtonGroup.Size = new System.Drawing.Size(182, 367);
+			this._ButtonGroup.TabIndex = 0;
 			// 
-			// _ButtonCancel
+			// _ButtonGeneral
 			// 
-			this._ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this._ButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonCancel.Location = new System.Drawing.Point(214, 14);
-			this._ButtonCancel.Name = "_ButtonCancel";
-			this._ButtonCancel.Size = new System.Drawing.Size(75, 23);
-			this._ButtonCancel.TabIndex = 8;
-			this._ButtonCancel.Text = "Cancel";
-			this._ButtonCancel.UseVisualStyleBackColor = true;
+			this._ButtonGeneral.AssociatedPanel = this._PanelGeneral;
+			this._ButtonGeneral.BackColor = System.Drawing.Color.Transparent;
+			this._ButtonGeneral.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+			this._ButtonGeneral.ButtonBackColor = System.Drawing.Color.Transparent;
+			this._ButtonGeneral.ButtonForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+			this._ButtonGeneral.ButtonHeight = 40;
+			this._ButtonGeneral.ButtonImage = null;
+			this._ButtonGeneral.ButtonPadding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+			this._ButtonGeneral.ButtonText = "General";
+			this._ButtonGeneral.DownColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this._ButtonGeneral.DownColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+			this._ButtonGeneral.Expandable = true;
+			this._ButtonGeneral.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._ButtonGeneral.HoverColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+			this._ButtonGeneral.HoverColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+			this._ButtonGeneral.Location = new System.Drawing.Point(0, 0);
+			this._ButtonGeneral.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
+			this._ButtonGeneral.Name = "_ButtonGeneral";
+			this._ButtonGeneral.NormalColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+			this._ButtonGeneral.NormalColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(228)))), ((int)(((byte)(228)))));
+			this._ButtonGeneral.ShadowColor = System.Drawing.SystemColors.ActiveBorder;
+			this._ButtonGeneral.Size = new System.Drawing.Size(175, 40);
+			this._ButtonGeneral.TabIndex = 1;
 			// 
-			// _PanelSlider
+			// _PanelGeneral
 			// 
-			this._PanelSlider.Controls.Add(this._PanelAbout);
-			this._PanelSlider.Controls.Add(this._PanelMain);
-			this._PanelSlider.Controls.Add(this._PanelAccount);
-			this._PanelSlider.Location = new System.Drawing.Point(0, 0);
-			this._PanelSlider.Name = "_PanelSlider";
-			this._PanelSlider.Size = new System.Drawing.Size(901, 355);
-			this._PanelSlider.TabIndex = 1;
-			// 
-			// _PanelAbout
-			// 
-			this._PanelAbout.Controls.Add(this._PanelShellscape);
-			this._PanelAbout.Controls.Add(this._PanelAboutButtons);
-			this._PanelAbout.FirstRun = false;
-			this._PanelAbout.Location = new System.Drawing.Point(0, 0);
-			this._PanelAbout.Margin = new System.Windows.Forms.Padding(0);
-			this._PanelAbout.Name = "_PanelAbout";
-			this._PanelAbout.Size = new System.Drawing.Size(300, 355);
-			this._PanelAbout.TabIndex = 0;
-			// 
-			// _PanelShellscape
-			// 
-			this._PanelShellscape.BackColor = System.Drawing.Color.Transparent;
-			this._PanelShellscape.Cursor = System.Windows.Forms.Cursors.Hand;
-			this._PanelShellscape.Location = new System.Drawing.Point(210, 10);
-			this._PanelShellscape.Name = "_PanelShellscape";
-			this._PanelShellscape.Size = new System.Drawing.Size(80, 86);
-			this._PanelShellscape.TabIndex = 1;
-			// 
-			// _PanelAboutButtons
-			// 
-			this._PanelAboutButtons.BackColor = System.Drawing.SystemColors.Control;
-			this._PanelAboutButtons.Controls.Add(this._ButtonAboutOk);
-			this._PanelAboutButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._PanelAboutButtons.Location = new System.Drawing.Point(0, 305);
-			this._PanelAboutButtons.Name = "_PanelAboutButtons";
-			this._PanelAboutButtons.Size = new System.Drawing.Size(300, 50);
-			this._PanelAboutButtons.TabIndex = 0;
-			// 
-			// _ButtonAboutOk
-			// 
-			this._ButtonAboutOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this._ButtonAboutOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonAboutOk.Location = new System.Drawing.Point(5, 5);
-			this._ButtonAboutOk.Margin = new System.Windows.Forms.Padding(6);
-			this._ButtonAboutOk.Name = "_ButtonAboutOk";
-			this._ButtonAboutOk.Size = new System.Drawing.Size(290, 40);
-			this._ButtonAboutOk.TabIndex = 0;
-			this._ButtonAboutOk.TabStop = false;
-			this._ButtonAboutOk.Text = "OK";
-			this._ButtonAboutOk.UseVisualStyleBackColor = true;
-			// 
-			// _PanelMain
-			// 
-			this._PanelMain.Controls.Add(this._ComboSound);
-			this._PanelMain.Controls.Add(this._PanelButtons);
-			this._PanelMain.Controls.Add(this._LabelSound);
-			this._PanelMain.Controls.Add(this._ButtonBrowse);
-			this._PanelMain.Controls.Add(this._ButtonDefault);
-			this._PanelMain.Controls.Add(this._ImgButtonRemove);
-			this._PanelMain.Controls.Add(this._ImgButtonAdd);
-			this._PanelMain.Controls.Add(this._ButtonEdit);
-			this._PanelMain.Controls.Add(this._ListViewAccounts);
-			this._PanelMain.Controls.Add(this._LabelAdditional);
-			this._PanelMain.Controls.Add(this._LabelLanguage);
-			this._PanelMain.Controls.Add(this._ComboLanguage);
-			this._PanelMain.Controls.Add(this._LabelTitle);
-			this._PanelMain.Controls.Add(this._TextInterval);
-			this._PanelMain.Controls.Add(this._LabelMinutes);
-			this._PanelMain.Controls.Add(this._LabelInterval);
-			this._PanelMain.Location = new System.Drawing.Point(300, 0);
-			this._PanelMain.Margin = new System.Windows.Forms.Padding(0);
-			this._PanelMain.Name = "_PanelMain";
-			this._PanelMain.Size = new System.Drawing.Size(300, 355);
-			this._PanelMain.TabIndex = 0;
+			this._PanelGeneral.BackColor = System.Drawing.Color.Transparent;
+			this._PanelGeneral.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+			this._PanelGeneral.ControlBackColor = System.Drawing.Color.White;
+			this._PanelGeneral.Controls.Add(this._ComboSound);
+			this._PanelGeneral.Controls.Add(this._LabelSound);
+			this._PanelGeneral.Controls.Add(this._ButtonBrowse);
+			this._PanelGeneral.Controls.Add(this._LabelAdditional);
+			this._PanelGeneral.Controls.Add(this._TextInterval);
+			this._PanelGeneral.Controls.Add(this._LabelMinutes);
+			this._PanelGeneral.Controls.Add(this._LabelInterval);
+			this._PanelGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._PanelGeneral.DrawHeader = true;
+			this._PanelGeneral.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._PanelGeneral.HeaderColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+			this._PanelGeneral.HeaderColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(228)))), ((int)(((byte)(228)))));
+			this._PanelGeneral.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+			this._PanelGeneral.HeaderHeight = 39;
+			this._PanelGeneral.HeaderImage = null;
+			this._PanelGeneral.HeaderPadding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+			this._PanelGeneral.HeaderText = "Bread n\' Butter settings for Gmail Notifier Plus";
+			this._PanelGeneral.Location = new System.Drawing.Point(190, 8);
+			this._PanelGeneral.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
+			this._PanelGeneral.Name = "_PanelGeneral";
+			this._PanelGeneral.Padding = new System.Windows.Forms.Padding(10, 45, 10, 10);
+			this._PanelGeneral.SeperatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+			this._PanelGeneral.Size = new System.Drawing.Size(475, 367);
+			this._PanelGeneral.TabIndex = 1;
 			// 
 			// _ComboSound
 			// 
 			this._ComboSound.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._ComboSound.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this._ComboSound.FormattingEnabled = true;
-			this._ComboSound.Location = new System.Drawing.Point(27, 180);
+			this._ComboSound.Location = new System.Drawing.Point(16, 143);
 			this._ComboSound.Name = "_ComboSound";
-			this._ComboSound.Size = new System.Drawing.Size(164, 21);
-			this._ComboSound.TabIndex = 3;
-			// 
-			// _PanelButtons
-			// 
-			this._PanelButtons.BackColor = System.Drawing.SystemColors.Control;
-			this._PanelButtons.Controls.Add(this._ImgButtonAbout);
-			this._PanelButtons.Controls.Add(this._ButtonCancel);
-			this._PanelButtons.Controls.Add(this._ButtonOk);
-			this._PanelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._PanelButtons.Location = new System.Drawing.Point(0, 305);
-			this._PanelButtons.Name = "_PanelButtons";
-			this._PanelButtons.Size = new System.Drawing.Size(300, 50);
-			this._PanelButtons.TabIndex = 0;
-			// 
-			// _ImgButtonAbout
-			// 
-			this._ImgButtonAbout.Location = new System.Drawing.Point(13, 17);
-			this._ImgButtonAbout.Name = "_ImgButtonAbout";
-			this._ImgButtonAbout.Size = new System.Drawing.Size(16, 16);
-			this._ImgButtonAbout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this._ImgButtonAbout.TabIndex = 11;
-			this._ImgButtonAbout.TabStop = false;
+			this._ComboSound.Size = new System.Drawing.Size(164, 23);
+			this._ComboSound.TabIndex = 40;
 			// 
 			// _LabelSound
 			// 
 			this._LabelSound.AutoSize = true;
 			this._LabelSound.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelSound.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(153)))));
-			this._LabelSound.Location = new System.Drawing.Point(22, 148);
+			this._LabelSound.Location = new System.Drawing.Point(8, 111);
 			this._LabelSound.Name = "_LabelSound";
 			this._LabelSound.Size = new System.Drawing.Size(39, 21);
-			this._LabelSound.TabIndex = 39;
+			this._LabelSound.TabIndex = 48;
 			this._LabelSound.Text = "Title";
 			// 
 			// _ButtonBrowse
@@ -225,99 +160,185 @@ namespace GmailNotifierPlus.Forms {
 			this._ButtonBrowse.AutoSize = true;
 			this._ButtonBrowse.Enabled = false;
 			this._ButtonBrowse.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonBrowse.Location = new System.Drawing.Point(200, 179);
+			this._ButtonBrowse.Location = new System.Drawing.Point(189, 142);
 			this._ButtonBrowse.MinimumSize = new System.Drawing.Size(65, 23);
 			this._ButtonBrowse.Name = "_ButtonBrowse";
-			this._ButtonBrowse.Size = new System.Drawing.Size(65, 23);
-			this._ButtonBrowse.TabIndex = 4;
+			this._ButtonBrowse.Size = new System.Drawing.Size(68, 24);
+			this._ButtonBrowse.TabIndex = 41;
 			this._ButtonBrowse.Text = "Browse...";
 			this._ButtonBrowse.UseVisualStyleBackColor = true;
-			// 
-			// _ButtonDefault
-			// 
-			this._ButtonDefault.AutoSize = true;
-			this._ButtonDefault.Enabled = false;
-			this._ButtonDefault.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonDefault.Location = new System.Drawing.Point(128, 115);
-			this._ButtonDefault.MinimumSize = new System.Drawing.Size(65, 23);
-			this._ButtonDefault.Name = "_ButtonDefault";
-			this._ButtonDefault.Size = new System.Drawing.Size(65, 23);
-			this._ButtonDefault.TabIndex = 1;
-			this._ButtonDefault.Text = "Default";
-			this._ButtonDefault.UseVisualStyleBackColor = true;
-			// 
-			// _ImgButtonRemove
-			// 
-			this._ImgButtonRemove.Location = new System.Drawing.Point(49, 118);
-			this._ImgButtonRemove.Name = "_ImgButtonRemove";
-			this._ImgButtonRemove.Size = new System.Drawing.Size(16, 16);
-			this._ImgButtonRemove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this._ImgButtonRemove.TabIndex = 25;
-			this._ImgButtonRemove.TabStop = false;
-			// 
-			// _ImgButtonAdd
-			// 
-			this._ImgButtonAdd.Location = new System.Drawing.Point(27, 118);
-			this._ImgButtonAdd.Name = "_ImgButtonAdd";
-			this._ImgButtonAdd.Size = new System.Drawing.Size(16, 16);
-			this._ImgButtonAdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this._ImgButtonAdd.TabIndex = 25;
-			this._ImgButtonAdd.TabStop = false;
-			// 
-			// _ButtonEdit
-			// 
-			this._ButtonEdit.AutoSize = true;
-			this._ButtonEdit.Enabled = false;
-			this._ButtonEdit.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonEdit.Location = new System.Drawing.Point(199, 115);
-			this._ButtonEdit.MinimumSize = new System.Drawing.Size(65, 23);
-			this._ButtonEdit.Name = "_ButtonEdit";
-			this._ButtonEdit.Size = new System.Drawing.Size(65, 23);
-			this._ButtonEdit.TabIndex = 2;
-			this._ButtonEdit.Text = "Edit";
-			this._ButtonEdit.UseVisualStyleBackColor = true;
-			// 
-			// _ListViewAccounts
-			// 
-			this._ListViewAccounts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this._ColumnHeaderName});
-			this._ListViewAccounts.FullRowSelect = true;
-			this._ListViewAccounts.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-			this._ListViewAccounts.LabelWrap = false;
-			this._ListViewAccounts.Location = new System.Drawing.Point(25, 37);
-			this._ListViewAccounts.MultiSelect = false;
-			this._ListViewAccounts.Name = "_ListViewAccounts";
-			this._ListViewAccounts.RightToLeftLayout = true;
-			this._ListViewAccounts.ShowGroups = false;
-			this._ListViewAccounts.ShowItemToolTips = true;
-			this._ListViewAccounts.Size = new System.Drawing.Size(238, 72);
-			this._ListViewAccounts.TabIndex = 0;
-			this._ListViewAccounts.UseCompatibleStateImageBehavior = false;
-			this._ListViewAccounts.View = System.Windows.Forms.View.Details;
-			// 
-			// _ColumnHeaderName
-			// 
-			this._ColumnHeaderName.Text = "Name";
-			this._ColumnHeaderName.Width = 233;
+			this._ButtonBrowse.Click += new System.EventHandler(this._ButtonBrowse_Click);
 			// 
 			// _LabelAdditional
 			// 
 			this._LabelAdditional.AutoSize = true;
 			this._LabelAdditional.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelAdditional.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(153)))));
-			this._LabelAdditional.Location = new System.Drawing.Point(22, 211);
+			this._LabelAdditional.Location = new System.Drawing.Point(8, 48);
 			this._LabelAdditional.Name = "_LabelAdditional";
 			this._LabelAdditional.Size = new System.Drawing.Size(39, 21);
-			this._LabelAdditional.TabIndex = 24;
+			this._LabelAdditional.TabIndex = 47;
 			this._LabelAdditional.Text = "Title";
+			// 
+			// _TextInterval
+			// 
+			this._TextInterval.Location = new System.Drawing.Point(90, 82);
+			this._TextInterval.Name = "_TextInterval";
+			this._TextInterval.Size = new System.Drawing.Size(27, 23);
+			this._TextInterval.TabIndex = 42;
+			this._TextInterval.Text = "1";
+			this._TextInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this._TextInterval.Leave += new System.EventHandler(this._TextInterval_Leave);
+			// 
+			// _LabelMinutes
+			// 
+			this._LabelMinutes.AutoSize = true;
+			this._LabelMinutes.Location = new System.Drawing.Point(123, 85);
+			this._LabelMinutes.Name = "_LabelMinutes";
+			this._LabelMinutes.Size = new System.Drawing.Size(58, 15);
+			this._LabelMinutes.TabIndex = 45;
+			this._LabelMinutes.Text = "minute(s)";
+			// 
+			// _LabelInterval
+			// 
+			this._LabelInterval.AutoSize = true;
+			this._LabelInterval.Location = new System.Drawing.Point(12, 82);
+			this._LabelInterval.Name = "_LabelInterval";
+			this._LabelInterval.Size = new System.Drawing.Size(74, 15);
+			this._LabelInterval.TabIndex = 44;
+			this._LabelInterval.Text = "Check every:";
+			// 
+			// _ButtonAccounts
+			// 
+			this._ButtonAccounts.AssociatedPanel = this._PanelAccounts;
+			this._ButtonAccounts.BackColor = System.Drawing.Color.Transparent;
+			this._ButtonAccounts.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+			this._ButtonAccounts.ButtonBackColor = System.Drawing.Color.Transparent;
+			this._ButtonAccounts.ButtonForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+			this._ButtonAccounts.ButtonHeight = 40;
+			this._ButtonAccounts.ButtonImage = null;
+			this._ButtonAccounts.ButtonPadding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+			this._ButtonAccounts.ButtonText = "Accounts";
+			this._ButtonAccounts.DownColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this._ButtonAccounts.DownColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+			this._ButtonAccounts.Expandable = true;
+			this._ButtonAccounts.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._ButtonAccounts.HoverColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+			this._ButtonAccounts.HoverColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+			this._ButtonAccounts.Location = new System.Drawing.Point(0, 46);
+			this._ButtonAccounts.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
+			this._ButtonAccounts.Name = "_ButtonAccounts";
+			this._ButtonAccounts.NormalColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+			this._ButtonAccounts.NormalColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(228)))), ((int)(((byte)(228)))));
+			this._ButtonAccounts.ShadowColor = System.Drawing.SystemColors.ActiveBorder;
+			this._ButtonAccounts.Size = new System.Drawing.Size(175, 40);
+			this._ButtonAccounts.TabIndex = 0;
+			// 
+			// _PanelAccounts
+			// 
+			this._PanelAccounts.BackColor = System.Drawing.Color.Transparent;
+			this._PanelAccounts.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+			this._PanelAccounts.ControlBackColor = System.Drawing.Color.White;
+			this._PanelAccounts.Controls.Add(this._LabelAccountIntro);
+			this._PanelAccounts.Controls.Add(this._ButtonNewAccount);
+			this._PanelAccounts.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._PanelAccounts.DrawHeader = true;
+			this._PanelAccounts.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._PanelAccounts.HeaderColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+			this._PanelAccounts.HeaderColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(228)))), ((int)(((byte)(228)))));
+			this._PanelAccounts.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+			this._PanelAccounts.HeaderHeight = 39;
+			this._PanelAccounts.HeaderImage = null;
+			this._PanelAccounts.HeaderPadding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+			this._PanelAccounts.HeaderText = "Manage your accounts";
+			this._PanelAccounts.Location = new System.Drawing.Point(190, 8);
+			this._PanelAccounts.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
+			this._PanelAccounts.Name = "_PanelAccounts";
+			this._PanelAccounts.Padding = new System.Windows.Forms.Padding(10, 45, 10, 10);
+			this._PanelAccounts.SeperatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+			this._PanelAccounts.Size = new System.Drawing.Size(475, 367);
+			this._PanelAccounts.TabIndex = 2;
+			// 
+			// _LabelAccountIntro
+			// 
+			this._LabelAccountIntro.AutoSize = true;
+			this._LabelAccountIntro.Location = new System.Drawing.Point(13, 45);
+			this._LabelAccountIntro.MaximumSize = new System.Drawing.Size(450, 0);
+			this._LabelAccountIntro.Name = "_LabelAccountIntro";
+			this._LabelAccountIntro.Size = new System.Drawing.Size(436, 30);
+			this._LabelAccountIntro.TabIndex = 1;
+			this._LabelAccountIntro.Text = "Click an account to the left to manage your individual accounts. Click the button" +
+					" below to add a new account.";
+			// 
+			// _ButtonNewAccount
+			// 
+			this._ButtonNewAccount.AutoSize = true;
+			this._ButtonNewAccount.Location = new System.Drawing.Point(292, 92);
+			this._ButtonNewAccount.Name = "_ButtonNewAccount";
+			this._ButtonNewAccount.Size = new System.Drawing.Size(170, 30);
+			this._ButtonNewAccount.TabIndex = 0;
+			this._ButtonNewAccount.Text = "Add New Account";
+			this._ButtonNewAccount.UseVisualStyleBackColor = true;
+			this._ButtonNewAccount.Click += new System.EventHandler(this._ButtonNewAccount_Click);
+			// 
+			// _ButtonAppearance
+			// 
+			this._ButtonAppearance.AssociatedPanel = this._PanelAppearance;
+			this._ButtonAppearance.BackColor = System.Drawing.Color.Transparent;
+			this._ButtonAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+			this._ButtonAppearance.ButtonBackColor = System.Drawing.Color.Transparent;
+			this._ButtonAppearance.ButtonForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+			this._ButtonAppearance.ButtonHeight = 40;
+			this._ButtonAppearance.ButtonImage = null;
+			this._ButtonAppearance.ButtonPadding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+			this._ButtonAppearance.ButtonText = "Appearance";
+			this._ButtonAppearance.DownColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this._ButtonAppearance.DownColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+			this._ButtonAppearance.Expandable = true;
+			this._ButtonAppearance.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._ButtonAppearance.HoverColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+			this._ButtonAppearance.HoverColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+			this._ButtonAppearance.Location = new System.Drawing.Point(0, 92);
+			this._ButtonAppearance.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
+			this._ButtonAppearance.Name = "_ButtonAppearance";
+			this._ButtonAppearance.NormalColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+			this._ButtonAppearance.NormalColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(228)))), ((int)(((byte)(228)))));
+			this._ButtonAppearance.ShadowColor = System.Drawing.SystemColors.ActiveBorder;
+			this._ButtonAppearance.Size = new System.Drawing.Size(175, 40);
+			this._ButtonAppearance.TabIndex = 2;
+			// 
+			// _PanelAppearance
+			// 
+			this._PanelAppearance.BackColor = System.Drawing.Color.Transparent;
+			this._PanelAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+			this._PanelAppearance.ControlBackColor = System.Drawing.Color.White;
+			this._PanelAppearance.Controls.Add(this._LabelLanguage);
+			this._PanelAppearance.Controls.Add(this._ComboLanguage);
+			this._PanelAppearance.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._PanelAppearance.DrawHeader = true;
+			this._PanelAppearance.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._PanelAppearance.HeaderColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+			this._PanelAppearance.HeaderColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(228)))), ((int)(((byte)(228)))));
+			this._PanelAppearance.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+			this._PanelAppearance.HeaderHeight = 39;
+			this._PanelAppearance.HeaderImage = null;
+			this._PanelAppearance.HeaderPadding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+			this._PanelAppearance.HeaderText = "Tell Gmail Notifier Plus how to act and look";
+			this._PanelAppearance.Location = new System.Drawing.Point(190, 8);
+			this._PanelAppearance.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
+			this._PanelAppearance.Name = "_PanelAppearance";
+			this._PanelAppearance.Padding = new System.Windows.Forms.Padding(10, 45, 10, 10);
+			this._PanelAppearance.SeperatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+			this._PanelAppearance.Size = new System.Drawing.Size(475, 367);
+			this._PanelAppearance.TabIndex = 3;
 			// 
 			// _LabelLanguage
 			// 
 			this._LabelLanguage.AutoSize = true;
-			this._LabelLanguage.Location = new System.Drawing.Point(23, 271);
+			this._LabelLanguage.Location = new System.Drawing.Point(11, 51);
 			this._LabelLanguage.Name = "_LabelLanguage";
-			this._LabelLanguage.Size = new System.Drawing.Size(91, 13);
-			this._LabelLanguage.TabIndex = 23;
+			this._LabelLanguage.Size = new System.Drawing.Size(100, 15);
+			this._LabelLanguage.TabIndex = 48;
 			this._LabelLanguage.Text = "Display language:";
 			// 
 			// _ComboLanguage
@@ -325,241 +346,247 @@ namespace GmailNotifierPlus.Forms {
 			this._ComboLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._ComboLanguage.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this._ComboLanguage.FormattingEnabled = true;
-			this._ComboLanguage.Location = new System.Drawing.Point(129, 268);
+			this._ComboLanguage.Location = new System.Drawing.Point(117, 48);
 			this._ComboLanguage.Name = "_ComboLanguage";
-			this._ComboLanguage.Size = new System.Drawing.Size(134, 21);
-			this._ComboLanguage.TabIndex = 6;
+			this._ComboLanguage.Size = new System.Drawing.Size(134, 23);
+			this._ComboLanguage.TabIndex = 47;
 			// 
-			// _LabelTitle
+			// _PanelNewAccount
 			// 
-			this._LabelTitle.AutoSize = true;
-			this._LabelTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._LabelTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(153)))));
-			this._LabelTitle.Location = new System.Drawing.Point(22, 9);
-			this._LabelTitle.Name = "_LabelTitle";
-			this._LabelTitle.Size = new System.Drawing.Size(39, 21);
-			this._LabelTitle.TabIndex = 20;
-			this._LabelTitle.Text = "Title";
-			// 
-			// _TextInterval
-			// 
-			this._TextInterval.Location = new System.Drawing.Point(128, 242);
-			this._TextInterval.Name = "_TextInterval";
-			this._TextInterval.Size = new System.Drawing.Size(27, 20);
-			this._TextInterval.TabIndex = 5;
-			this._TextInterval.Text = "1";
-			this._TextInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// _LabelMinutes
-			// 
-			this._LabelMinutes.AutoSize = true;
-			this._LabelMinutes.Location = new System.Drawing.Point(161, 245);
-			this._LabelMinutes.Name = "_LabelMinutes";
-			this._LabelMinutes.Size = new System.Drawing.Size(49, 13);
-			this._LabelMinutes.TabIndex = 22;
-			this._LabelMinutes.Text = "minute(s)";
-			// 
-			// _LabelInterval
-			// 
-			this._LabelInterval.AutoSize = true;
-			this._LabelInterval.Location = new System.Drawing.Point(23, 245);
-			this._LabelInterval.Name = "_LabelInterval";
-			this._LabelInterval.Size = new System.Drawing.Size(70, 13);
-			this._LabelInterval.TabIndex = 21;
-			this._LabelInterval.Text = "Check every:";
-			// 
-			// _PanelAccount
-			// 
-			this._PanelAccount.Controls.Add(this._PictureExclamation);
-			this._PanelAccount.Controls.Add(this._LabelError);
-			this._PanelAccount.Controls.Add(this._LabelAccountTitle);
-			this._PanelAccount.Controls.Add(this._PanelAccountButtons);
-			this._PanelAccount.Controls.Add(this._TextPassword);
-			this._PanelAccount.Controls.Add(this._TextUsername);
-			this._PanelAccount.Controls.Add(this._LabelPassword);
-			this._PanelAccount.Controls.Add(this._LabelUsername);
-			this._PanelAccount.Location = new System.Drawing.Point(600, 0);
-			this._PanelAccount.Margin = new System.Windows.Forms.Padding(0);
-			this._PanelAccount.Name = "_PanelAccount";
-			this._PanelAccount.Size = new System.Drawing.Size(300, 355);
-			this._PanelAccount.TabIndex = 0;
+			this._PanelNewAccount.BackColor = System.Drawing.Color.Transparent;
+			this._PanelNewAccount.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
+			this._PanelNewAccount.ControlBackColor = System.Drawing.Color.White;
+			this._PanelNewAccount.Controls.Add(this._PictureExclamation);
+			this._PanelNewAccount.Controls.Add(this._PanelAccountButtons);
+			this._PanelNewAccount.Controls.Add(this._LabelError);
+			this._PanelNewAccount.Controls.Add(this._LabelAccountTitle);
+			this._PanelNewAccount.Controls.Add(this._LabelUsername);
+			this._PanelNewAccount.Controls.Add(this._TextPassword);
+			this._PanelNewAccount.Controls.Add(this._LabelPassword);
+			this._PanelNewAccount.Controls.Add(this._TextUsername);
+			this._PanelNewAccount.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._PanelNewAccount.DrawHeader = true;
+			this._PanelNewAccount.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._PanelNewAccount.HeaderColorFrom = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+			this._PanelNewAccount.HeaderColorTo = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(228)))), ((int)(((byte)(228)))));
+			this._PanelNewAccount.HeaderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+			this._PanelNewAccount.HeaderHeight = 39;
+			this._PanelNewAccount.HeaderImage = null;
+			this._PanelNewAccount.HeaderPadding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+			this._PanelNewAccount.HeaderText = "Add New Account";
+			this._PanelNewAccount.Location = new System.Drawing.Point(190, 8);
+			this._PanelNewAccount.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
+			this._PanelNewAccount.Name = "_PanelNewAccount";
+			this._PanelNewAccount.Padding = new System.Windows.Forms.Padding(2, 45, 2, 2);
+			this._PanelNewAccount.SeperatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+			this._PanelNewAccount.Size = new System.Drawing.Size(475, 367);
+			this._PanelNewAccount.TabIndex = 4;
 			// 
 			// _PictureExclamation
 			// 
-			this._PictureExclamation.Location = new System.Drawing.Point(25, 130);
+			this._PictureExclamation.Location = new System.Drawing.Point(100, 138);
 			this._PictureExclamation.MinimumSize = new System.Drawing.Size(16, 16);
 			this._PictureExclamation.Name = "_PictureExclamation";
 			this._PictureExclamation.Size = new System.Drawing.Size(16, 16);
 			this._PictureExclamation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-			this._PictureExclamation.TabIndex = 20;
+			this._PictureExclamation.TabIndex = 36;
 			this._PictureExclamation.TabStop = false;
-			this._PictureExclamation.Visible = false;
+			// 
+			// _PanelAccountButtons
+			// 
+			this._PanelAccountButtons.BackColor = System.Drawing.SystemColors.Control;
+			this._PanelAccountButtons.Controls.Add(this._ButtonNewCancel);
+			this._PanelAccountButtons.Controls.Add(this._ButtonNewSave);
+			this._PanelAccountButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this._PanelAccountButtons.Location = new System.Drawing.Point(2, 325);
+			this._PanelAccountButtons.Name = "_PanelAccountButtons";
+			this._PanelAccountButtons.Size = new System.Drawing.Size(471, 40);
+			this._PanelAccountButtons.TabIndex = 2;
+			// 
+			// _ButtonNewCancel
+			// 
+			this._ButtonNewCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this._ButtonNewCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this._ButtonNewCancel.Location = new System.Drawing.Point(385, 6);
+			this._ButtonNewCancel.Name = "_ButtonNewCancel";
+			this._ButtonNewCancel.Size = new System.Drawing.Size(75, 30);
+			this._ButtonNewCancel.TabIndex = 3;
+			this._ButtonNewCancel.TabStop = false;
+			this._ButtonNewCancel.Text = "Cancel";
+			this._ButtonNewCancel.UseVisualStyleBackColor = true;
+			this._ButtonNewCancel.Click += new System.EventHandler(this._ButtonNewCancel_Click);
+			// 
+			// _ButtonNewSave
+			// 
+			this._ButtonNewSave.Enabled = false;
+			this._ButtonNewSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this._ButtonNewSave.Location = new System.Drawing.Point(304, 6);
+			this._ButtonNewSave.Name = "_ButtonNewSave";
+			this._ButtonNewSave.Size = new System.Drawing.Size(75, 30);
+			this._ButtonNewSave.TabIndex = 2;
+			this._ButtonNewSave.TabStop = false;
+			this._ButtonNewSave.Text = "Save";
+			this._ButtonNewSave.UseVisualStyleBackColor = true;
+			this._ButtonNewSave.Click += new System.EventHandler(this._ButtonNewSave_Click);
 			// 
 			// _LabelError
 			// 
-			this._LabelError.AutoSize = true;
 			this._LabelError.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(38)))), ((int)(((byte)(30)))));
-			this._LabelError.Location = new System.Drawing.Point(44, 131);
-			this._LabelError.MaximumSize = new System.Drawing.Size(218, 100);
+			this._LabelError.Location = new System.Drawing.Point(120, 138);
 			this._LabelError.Name = "_LabelError";
-			this._LabelError.Size = new System.Drawing.Size(200, 26);
-			this._LabelError.TabIndex = 19;
+			this._LabelError.Size = new System.Drawing.Size(229, 26);
+			this._LabelError.TabIndex = 35;
 			this._LabelError.Text = "An account with this username already exists. Please enter a different username.";
-			this._LabelError.Visible = false;
 			// 
 			// _LabelAccountTitle
 			// 
 			this._LabelAccountTitle.AutoSize = true;
 			this._LabelAccountTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelAccountTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(153)))));
-			this._LabelAccountTitle.Location = new System.Drawing.Point(22, 9);
+			this._LabelAccountTitle.Location = new System.Drawing.Point(8, 48);
 			this._LabelAccountTitle.Name = "_LabelAccountTitle";
 			this._LabelAccountTitle.Size = new System.Drawing.Size(39, 21);
-			this._LabelAccountTitle.TabIndex = 18;
+			this._LabelAccountTitle.TabIndex = 34;
 			this._LabelAccountTitle.Text = "Title";
-			// 
-			// _PanelAccountButtons
-			// 
-			this._PanelAccountButtons.BackColor = System.Drawing.SystemColors.Control;
-			this._PanelAccountButtons.Controls.Add(this._ButtonAccountCancel);
-			this._PanelAccountButtons.Controls.Add(this._ButtonAccountSave);
-			this._PanelAccountButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._PanelAccountButtons.Location = new System.Drawing.Point(0, 305);
-			this._PanelAccountButtons.Name = "_PanelAccountButtons";
-			this._PanelAccountButtons.Size = new System.Drawing.Size(300, 50);
-			this._PanelAccountButtons.TabIndex = 0;
-			// 
-			// _ButtonAccountCancel
-			// 
-			this._ButtonAccountCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this._ButtonAccountCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonAccountCancel.Location = new System.Drawing.Point(214, 14);
-			this._ButtonAccountCancel.Name = "_ButtonAccountCancel";
-			this._ButtonAccountCancel.Size = new System.Drawing.Size(75, 23);
-			this._ButtonAccountCancel.TabIndex = 3;
-			this._ButtonAccountCancel.TabStop = false;
-			this._ButtonAccountCancel.Text = "Cancel";
-			this._ButtonAccountCancel.UseVisualStyleBackColor = true;
-			// 
-			// _ButtonAccountSave
-			// 
-			this._ButtonAccountSave.Enabled = false;
-			this._ButtonAccountSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonAccountSave.Location = new System.Drawing.Point(133, 14);
-			this._ButtonAccountSave.Name = "_ButtonAccountSave";
-			this._ButtonAccountSave.Size = new System.Drawing.Size(75, 23);
-			this._ButtonAccountSave.TabIndex = 2;
-			this._ButtonAccountSave.TabStop = false;
-			this._ButtonAccountSave.Text = "Save";
-			this._ButtonAccountSave.UseVisualStyleBackColor = true;
-			// 
-			// _TextPassword
-			// 
-			this._TextPassword.Location = new System.Drawing.Point(25, 104);
-			this._TextPassword.Name = "_TextPassword";
-			this._TextPassword.Size = new System.Drawing.Size(249, 20);
-			this._TextPassword.TabIndex = 1;
-			this._TextPassword.TabStop = false;
-			this._TextPassword.UseSystemPasswordChar = true;
-			// 
-			// _TextUsername
-			// 
-			this._TextUsername.Location = new System.Drawing.Point(25, 58);
-			this._TextUsername.Name = "_TextUsername";
-			this._TextUsername.Size = new System.Drawing.Size(249, 20);
-			this._TextUsername.TabIndex = 0;
-			this._TextUsername.TabStop = false;
-			// 
-			// _LabelPassword
-			// 
-			this._LabelPassword.AutoSize = true;
-			this._LabelPassword.Location = new System.Drawing.Point(22, 86);
-			this._LabelPassword.Name = "_LabelPassword";
-			this._LabelPassword.Size = new System.Drawing.Size(56, 13);
-			this._LabelPassword.TabIndex = 15;
-			this._LabelPassword.Text = "Password:";
 			// 
 			// _LabelUsername
 			// 
 			this._LabelUsername.AutoSize = true;
-			this._LabelUsername.Location = new System.Drawing.Point(22, 40);
+			this._LabelUsername.Location = new System.Drawing.Point(12, 80);
 			this._LabelUsername.Name = "_LabelUsername";
-			this._LabelUsername.Size = new System.Drawing.Size(58, 13);
-			this._LabelUsername.TabIndex = 14;
+			this._LabelUsername.Size = new System.Drawing.Size(63, 15);
+			this._LabelUsername.TabIndex = 32;
 			this._LabelUsername.Text = "Username:";
+			// 
+			// _TextPassword
+			// 
+			this._TextPassword.Location = new System.Drawing.Point(100, 110);
+			this._TextPassword.Name = "_TextPassword";
+			this._TextPassword.Size = new System.Drawing.Size(249, 23);
+			this._TextPassword.TabIndex = 31;
+			this._TextPassword.TabStop = false;
+			this._TextPassword.UseSystemPasswordChar = true;
+			// 
+			// _LabelPassword
+			// 
+			this._LabelPassword.AutoSize = true;
+			this._LabelPassword.Location = new System.Drawing.Point(12, 110);
+			this._LabelPassword.Name = "_LabelPassword";
+			this._LabelPassword.Size = new System.Drawing.Size(60, 15);
+			this._LabelPassword.TabIndex = 33;
+			this._LabelPassword.Text = "Password:";
+			// 
+			// _TextUsername
+			// 
+			this._TextUsername.Location = new System.Drawing.Point(100, 80);
+			this._TextUsername.Name = "_TextUsername";
+			this._TextUsername.Size = new System.Drawing.Size(249, 23);
+			this._TextUsername.TabIndex = 30;
+			this._TextUsername.TabStop = false;
+			// 
+			// _PanelButtons
+			// 
+			this._PanelButtons.BackColor = System.Drawing.Color.Transparent;
+			this._PanelButtons.Controls.Add(this._ButtonCancel);
+			this._PanelButtons.Controls.Add(this._ButtonSave);
+			this._PanelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this._PanelButtons.Location = new System.Drawing.Point(8, 375);
+			this._PanelButtons.Name = "_PanelButtons";
+			this._PanelButtons.Size = new System.Drawing.Size(657, 40);
+			this._PanelButtons.TabIndex = 5;
+			// 
+			// _ButtonCancel
+			// 
+			this._ButtonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this._ButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this._ButtonCancel.Location = new System.Drawing.Point(579, 9);
+			this._ButtonCancel.Name = "_ButtonCancel";
+			this._ButtonCancel.Size = new System.Drawing.Size(75, 30);
+			this._ButtonCancel.TabIndex = 3;
+			this._ButtonCancel.TabStop = false;
+			this._ButtonCancel.Text = "Cancel";
+			this._ButtonCancel.UseVisualStyleBackColor = true;
+			this._ButtonCancel.Click += new System.EventHandler(this._ButtonCancel_Click);
+			// 
+			// _ButtonSave
+			// 
+			this._ButtonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._ButtonSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this._ButtonSave.Location = new System.Drawing.Point(498, 9);
+			this._ButtonSave.Name = "_ButtonSave";
+			this._ButtonSave.Size = new System.Drawing.Size(75, 30);
+			this._ButtonSave.TabIndex = 2;
+			this._ButtonSave.TabStop = false;
+			this._ButtonSave.Text = "Save";
+			this._ButtonSave.UseVisualStyleBackColor = true;
+			this._ButtonSave.Click += new System.EventHandler(this._ButtonSave_Click);
 			// 
 			// Settings
 			// 
-			this.AcceptButton = this._ButtonOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.Window;
-			this.CancelButton = this._ButtonCancel;
-			this.ClientSize = new System.Drawing.Size(901, 456);
-			this.Controls.Add(this._PanelSlider);
+			this.ClientSize = new System.Drawing.Size(673, 423);
+			this.Controls.Add(this._PanelNewAccount);
+			this.Controls.Add(this._PanelAppearance);
+			this.Controls.Add(this._PanelGeneral);
+			this.Controls.Add(this._PanelAccounts);
+			this.Controls.Add(this._ButtonGroup);
+			this.Controls.Add(this._PanelButtons);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
-			this.MinimizeBox = false;
 			this.Name = "Settings";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Gmail Notifier Plus";
-			this._PanelSlider.ResumeLayout(false);
-			this._PanelAbout.ResumeLayout(false);
-			this._PanelAboutButtons.ResumeLayout(false);
-			this._PanelMain.ResumeLayout(false);
-			this._PanelMain.PerformLayout();
-			this._PanelButtons.ResumeLayout(false);
-			this._PanelButtons.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAbout)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonRemove)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._ImgButtonAdd)).EndInit();
-			this._PanelAccount.ResumeLayout(false);
-			this._PanelAccount.PerformLayout();
+			this.Text = "Settings";
+			this._ButtonGroup.ResumeLayout(false);
+			this._PanelGeneral.ResumeLayout(false);
+			this._PanelGeneral.PerformLayout();
+			this._PanelAccounts.ResumeLayout(false);
+			this._PanelAccounts.PerformLayout();
+			this._PanelAppearance.ResumeLayout(false);
+			this._PanelAppearance.PerformLayout();
+			this._PanelNewAccount.ResumeLayout(false);
+			this._PanelNewAccount.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this._PictureExclamation)).EndInit();
 			this._PanelAccountButtons.ResumeLayout(false);
+			this._PanelButtons.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.Button _ButtonAboutOk;
-		private System.Windows.Forms.Button _ButtonAccountCancel;
-		private System.Windows.Forms.Button _ButtonAccountSave;
-		private System.Windows.Forms.Button _ButtonBrowse;
-		private System.Windows.Forms.Button _ButtonCancel;
-		private System.Windows.Forms.Button _ButtonDefault;
-		private System.Windows.Forms.Button _ButtonEdit;
-		private System.Windows.Forms.Button _ButtonOk;
-		private Label _LabelAccountTitle;
-		private Label _LabelAdditional;
-		private Label _LabelError;
-		private Label _LabelInterval;
-		private Label _LabelLanguage;
-		private Label _LabelMinutes;
-		private Label _LabelPassword;
-		private Label _LabelSound;
-		private Label _LabelTitle;
-		private Label _LabelUsername;
-		private ImageButton _ImgButtonAbout;
-		private ImageButton _ImgButtonAdd;
-		private ImageButton _ImgButtonRemove;
-		private System.Windows.Forms.TextBox _TextPassword;
-		private System.Windows.Forms.TextBox _TextUsername;
-		private System.Windows.Forms.ListView _ListViewAccounts;
-		private PictureBox _PictureExclamation;
-		private System.Windows.Forms.ComboBox _ComboLanguage;
+		private Shellscape.UI.Skipe.SkipeButtonGroup _ButtonGroup;
+		private Shellscape.UI.Skipe.SkipeButton _ButtonAccounts;
+		private Shellscape.UI.Skipe.SkipeButton _ButtonGeneral;
+		private Shellscape.UI.Skipe.SkipeButton _ButtonAppearance;
+		private Shellscape.UI.Skipe.SkipePanel _PanelGeneral;
+		private Shellscape.UI.Skipe.SkipePanel _PanelAccounts;
+		private Shellscape.UI.Skipe.SkipePanel _PanelAppearance;
 		private System.Windows.Forms.ComboBox _ComboSound;
-		private ColumnHeader _ColumnHeaderName;
+		private System.Windows.Forms.Label _LabelSound;
+		private System.Windows.Forms.Button _ButtonBrowse;
+		private System.Windows.Forms.Label _LabelAdditional;
 		private System.Windows.Forms.TextBox _TextInterval;
-		private GmailNotifierPlus.Controls.AboutPanel _PanelAbout;
-		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelAboutButtons;
-		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelAccount;
-		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelAccountButtons;
-		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelButtons;
-		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelMain;
-		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelSlider;
-		private GmailNotifierPlus.Controls.DoubleBufferPanel _PanelShellscape;
+		private System.Windows.Forms.Label _LabelMinutes;
+		private System.Windows.Forms.Label _LabelInterval;
+		private Shellscape.UI.Skipe.SkipePanel _PanelNewAccount;
+		private Shellscape.UI.Controls.DoubleBufferedPanel _PanelAccountButtons;
+		private System.Windows.Forms.Button _ButtonNewCancel;
+		private System.Windows.Forms.Button _ButtonNewSave;
+		private System.Windows.Forms.Button _ButtonNewAccount;
+		private System.Windows.Forms.Label _LabelAccountIntro;
+		private System.Windows.Forms.Label _LabelLanguage;
+		private System.Windows.Forms.ComboBox _ComboLanguage;
+		private System.Windows.Forms.PictureBox _PictureExclamation;
+		private System.Windows.Forms.Label _LabelError;
+		private System.Windows.Forms.Label _LabelAccountTitle;
+		private System.Windows.Forms.Label _LabelUsername;
+		private System.Windows.Forms.TextBox _TextPassword;
+		private System.Windows.Forms.Label _LabelPassword;
+		private System.Windows.Forms.TextBox _TextUsername;
+		private Shellscape.UI.Controls.DoubleBufferedPanel _PanelButtons;
+		private System.Windows.Forms.Button _ButtonCancel;
+		private System.Windows.Forms.Button _ButtonSave;
 	}
 }

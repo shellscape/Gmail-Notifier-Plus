@@ -149,7 +149,6 @@
 			this.Controls.Add(this._LabelDate);
 			this.Controls.Add(this._PictureLogo);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "Notifier";
 			this.Opacity = 0D;
 			this.ShowIcon = false;
