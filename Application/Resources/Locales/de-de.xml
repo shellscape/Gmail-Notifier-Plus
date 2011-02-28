@@ -2,6 +2,7 @@
 <Locale>
 	<Name>Deutsch (de-DE)</Name>
 	<Buttons>
+		<AddNewAccount>Konto hinzufügen</AddNewAccount>
 		<Browse>Durchsuchen...</Browse>
 		<Cancel>Abbrechen</Cancel>
 		<Default>Standard</Default>
@@ -11,10 +12,10 @@
 		<Save>Speichern</Save>
 		<LetsGo>Los geht's!</LetsGo>
 		<Sweet>Cool, danke</Sweet>
+		<Remove>Gewähltes Konto löschen</Remove>
 	</Buttons>
 	<Labels>
 		<About>Über Gmail Notifier Plus</About>
-		<Add>Konto hinzufügen</Add>
 		<Additional>Zusätzliche Einstellungen</Additional>
 		<BrowseDialog>Nach neuem Benachrichtigungston suchen.</BrowseDialog>
 		<CheckLogin>Bitte Kontoeinstellungen prüfen.</CheckLogin>
@@ -47,6 +48,8 @@
 		<Unread>Ungelesen</Unread>
 		<WaveFiles>Wave-Datei</WaveFiles>
 		<Yes>Ja</Yes>
+		<AccountsIntro>Klicken Sie auf ein Konto auf der linken Seite auf Ihre individuellen Konten verwalten. Klicken Sie auf die Schaltfläche unten, um ein neues Konto hinzuzufügen.</AccountsIntro>
+		<AccountsIntroNone>Willkommen bei Gmail Notifier Plus.\n\nWenn loszulegen, klicken Sie bitte auf die Schaltfläche unten, um ein neues Konto hinzuzufügen.</AccountsIntroNone>
 	</Labels>
 	<Tooltips>
 		<About>Über Gmail Notifier Plus</About>
@@ -55,7 +58,24 @@
 		<Next>Weiter</Next>
 		<OpenMail>Posteingang öffnen</OpenMail>
 		<Previous>Zurück</Previous>
-		<Remove>Gewähltes Konto löschen</Remove>
 		<Settings>Einstellungen</Settings>
 	</Tooltips>
+	<Config>
+		<Accounts>Konten</Accounts>
+		<Appearance>Aussehen</Appearance>
+		<General>Allgemeine</General>
+		<Panels>
+			<Accounts>Verwalten Sie Ihre Konten</Accounts>
+			<AccountWarn>Klick retten wird sofort sparen alle Änderungen an diesem Konto.</AccountWarn>
+			<Appearance>Erzähl Gmail Notifier Plus, wie zu handeln und suchen</Appearance>
+			<General>Bread n 'Butter-Einstellungen für Google Mail Notifier Plus</General>
+			<NewAccount>Neues Konto hinzufügen</NewAccount>
+		</Panels>
+	</Config>
+	<Checkboxes>
+		<FlashTaskbar>Flash-Taskleiste für neue E-Mail</FlashTaskbar>
+		<ShowTray>Zeige E-Mail zählen in der Taskleiste</ShowTray>
+		<ShowToast>Zeige Toast Benachrichtigungen über neue E-Mail</ShowToast>
+		<CheckUpdates>Überprüfung auf neue Versionen</CheckUpdates>
+	</Checkboxes>
 </Locale>

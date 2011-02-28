@@ -2,6 +2,7 @@
 <Locale>
 	<Name>Русский (ru-RU)</Name>
 	<Buttons>
+		<AddNewAccount>Добавить учетную запись</AddNewAccount>
 		<Browse>Обзор...</Browse>
 		<Cancel>Отмена</Cancel>
 		<Default>По умолчанию</Default>
@@ -11,10 +12,10 @@
 		<Save>Сохранить</Save>
 		<LetsGo>Поехали!</LetsGo>
 		<Sweet>Чудно, Спасибо</Sweet>
+		<Remove>Удалить аккаунт</Remove>
 	</Buttons>
 	<Labels>
 		<About>О программе Gmail Notifier Plus</About>
-		<Add>Добавить учетную запись</Add>
 		<Additional>Дополнительно</Additional>
 		<BrowseDialog>Выбрать звук уведомления.</BrowseDialog>
 		<CheckLogin>Пожалуйста, проверьте свое сетевое подключение.</CheckLogin>
@@ -45,17 +46,36 @@
 		<RemoveConfirmationTitle>Удалить учетную запись</RemoveConfirmationTitle>
 		<Sound>Звук уведомления</Sound>
 		<Unread>Непрочтенные</Unread>
-		<WaveFiles>Wave File</WaveFiles>
-		<Yes>Yes</Yes>
+		<WaveFiles>.WAV файлов</WaveFiles>
+		<Yes>Да</Yes>
+		<AccountsIntro>Нажмите счета на левой управлять своими лицевыми счетами. Нажмите на кнопку ниже, чтобы добавить новую учетную запись.</AccountsIntro>
+		<AccountsIntroNone>Добро пожаловать в Gmail Notifier Plus. Для начала, пожалуйста, нажмите на кнопку ниже, чтобы добавить новую учетную запись.</AccountsIntroNone>
 	</Labels>
 	<Tooltips>
-		<About>About Gmail Notifier Plus</About>
-		<Add>Add an account</Add>
-		<Inbox>Inbox</Inbox>
-		<Next>Next</Next>
-		<OpenMail>Open Inbox</OpenMail>
-		<Previous>Previous</Previous>
-		<Remove>Remove Selected Account</Remove>
-		<Settings>Settings</Settings>
+		<About>О Gmail Notifier Plus</About>
+		<Add>Добавить новую учетную запись</Add>
+		<Inbox>Входящие</Inbox>
+		<Next>Следующая</Next>
+		<OpenMail>Откройте папку "Входящие</OpenMail>
+		<Previous>Предыдущая</Previous>
+		<Settings>Настройки</Settings>
 	</Tooltips>
+	<Config>
+		<Accounts>Счетов</Accounts>
+		<Appearance>Внешний вид</Appearance>
+		<General>Генеральная</General>
+		<Panels>
+			<Accounts>Управлять своими счетами</Accounts>
+			<AccountWarn>Нажатие сохранения будет немедленно сохранить любые изменения, сделанные на этот счет.</AccountWarn>
+			<Appearance>Скажите Gmail Notifier Plus, как действовать и Смотри</Appearance>
+			<General>Масло Хлеб п настройки для Gmail Notifier Plus</General>
+			<NewAccount>Добавить новую учетную запись</NewAccount>
+		</Panels>
+	</Config>
+	<Checkboxes>
+		<FlashTaskbar>Flash задач наличие новых писем</FlashTaskbar>
+		<ShowTray>Показать Email кол в системном трее</ShowTray>
+		<ShowToast>Показать Тост уведомления о Email Новые</ShowToast>
+		<CheckUpdates>Проверить наличие обновлений</CheckUpdates>
+	</Checkboxes>
 </Locale>

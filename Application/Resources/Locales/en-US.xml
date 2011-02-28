@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Locale>
-	<Name>English (US)</Name>
+	<Name>English (en-US)</Name>
 	<Buttons>
 		<AddNewAccount>Add New Account</AddNewAccount>
 		<Browse>Browse...</Browse>
@@ -30,7 +30,7 @@
 		<Edit>Edit account information</Edit>
 		<Error>An account with this username already exists. Please enter a different username.</Error>
 		<Inbox>Go to your Inbox</Inbox>
-		<Interval>Check every:</Interval>
+		<Interval>Check Email every:</Interval>
 		<Language>Display language:</Language>
 		<Login>Username:</Login>
 		<Minutes>minute(s)</Minutes>
@@ -72,4 +72,10 @@
 			<NewAccount>Add New Account</NewAccount>
 		</Panels>
 	</Config>
+	<Checkboxes>
+		<FlashTaskbar>Flash Taskbar for New Email</FlashTaskbar>
+		<ShowTray>Show Email count in System Tray</ShowTray>
+		<ShowToast>Show Toast notifications for New Email</ShowToast>
+		<CheckUpdates>Check for Updates</CheckUpdates>
+	</Checkboxes>
 </Locale>
