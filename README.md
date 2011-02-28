@@ -16,13 +16,13 @@ And so that brings us to present day. Gmail Notifier Plus, as it is on this repo
 Super Amazing Screenshots
 ------------
 
-Email Preview
+**Email Preview**  
 ![Email Preview](https://github.com/shellscape/Gmail-Notifier-Plus/raw/master/Promotional/email.preview.png)
 
-Jumplist
+**Jumplist**  
 ![Jumplist](https://github.com/shellscape/Gmail-Notifier-Plus/raw/master/Promotional/jumplist.png)
 
-v2.2 Settings
+**v2.2 Settings**  
 ![2.2 Settings](https://github.com/shellscape/Gmail-Notifier-Plus/raw/master/Promotional/settings.png)
 
 Boring Stuff
