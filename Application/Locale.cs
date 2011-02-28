@@ -44,6 +44,13 @@ namespace GmailNotifierPlus {
 			public String Remove { get; set; }
 		}
 
+		public class LocaleCheckboxes {
+			public String FlashTaskbar { get; set; }
+			public String ShowTray { get; set; }
+			public String ShowToast { get; set; }
+			public String CheckUpdates { get; set; }
+		}
+
 		public class LocaleConfig {
 
 			public String Accounts { get; set; }
@@ -118,6 +125,6 @@ namespace GmailNotifierPlus {
 		public LocaleButtons Buttons { get; set; }
 		public LocaleLabels Labels { get; set; }
 		public LocaleTooltips Tooltips { get; set; }
-
+		public LocaleCheckboxes Checkboxes { get; set; }
 	}
 }
