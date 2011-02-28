@@ -29,7 +29,6 @@
 			this._ComboSound = new System.Windows.Forms.ComboBox();
 			this._LabelSound = new System.Windows.Forms.Label();
 			this._ButtonBrowse = new System.Windows.Forms.Button();
-			this._LabelAdditional = new System.Windows.Forms.Label();
 			this._TextInterval = new System.Windows.Forms.TextBox();
 			this._LabelMinutes = new System.Windows.Forms.Label();
 			this._LabelInterval = new System.Windows.Forms.Label();
@@ -55,6 +54,15 @@
 			this._PanelButtons = new Shellscape.UI.Controls.DoubleBufferedPanel();
 			this._ButtonCancel = new System.Windows.Forms.Button();
 			this._ButtonSave = new System.Windows.Forms.Button();
+			this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+			this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+			this._CheckFlash = new System.Windows.Forms.CheckBox();
+			this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+			this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+			this._CheckTray = new System.Windows.Forms.CheckBox();
+			this._CheckToast = new System.Windows.Forms.CheckBox();
+			this.lineShape3 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+			this._CheckUpdates = new System.Windows.Forms.CheckBox();
 			this._ButtonGroup.SuspendLayout();
 			this._PanelGeneral.SuspendLayout();
 			this._PanelAccounts.SuspendLayout();
@@ -75,7 +83,7 @@
 			this._ButtonGroup.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this._ButtonGroup.Location = new System.Drawing.Point(8, 8);
 			this._ButtonGroup.Name = "_ButtonGroup";
-			this._ButtonGroup.Size = new System.Drawing.Size(182, 367);
+			this._ButtonGroup.Size = new System.Drawing.Size(182, 316);
 			this._ButtonGroup.TabIndex = 0;
 			// 
 			// _ButtonGeneral
@@ -109,13 +117,14 @@
 			this._PanelGeneral.BackColor = System.Drawing.Color.Transparent;
 			this._PanelGeneral.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
 			this._PanelGeneral.ControlBackColor = System.Drawing.Color.White;
+			this._PanelGeneral.Controls.Add(this._CheckUpdates);
 			this._PanelGeneral.Controls.Add(this._ComboSound);
 			this._PanelGeneral.Controls.Add(this._LabelSound);
 			this._PanelGeneral.Controls.Add(this._ButtonBrowse);
-			this._PanelGeneral.Controls.Add(this._LabelAdditional);
 			this._PanelGeneral.Controls.Add(this._TextInterval);
 			this._PanelGeneral.Controls.Add(this._LabelMinutes);
 			this._PanelGeneral.Controls.Add(this._LabelInterval);
+			this._PanelGeneral.Controls.Add(this.shapeContainer1);
 			this._PanelGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._PanelGeneral.DrawHeader = true;
 			this._PanelGeneral.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -131,7 +140,7 @@
 			this._PanelGeneral.Name = "_PanelGeneral";
 			this._PanelGeneral.Padding = new System.Windows.Forms.Padding(10, 45, 10, 10);
 			this._PanelGeneral.SeperatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-			this._PanelGeneral.Size = new System.Drawing.Size(475, 367);
+			this._PanelGeneral.Size = new System.Drawing.Size(475, 316);
 			this._PanelGeneral.TabIndex = 1;
 			// 
 			// _ComboSound
@@ -139,17 +148,17 @@
 			this._ComboSound.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this._ComboSound.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this._ComboSound.FormattingEnabled = true;
-			this._ComboSound.Location = new System.Drawing.Point(16, 143);
+			this._ComboSound.Location = new System.Drawing.Point(16, 120);
 			this._ComboSound.Name = "_ComboSound";
 			this._ComboSound.Size = new System.Drawing.Size(164, 23);
-			this._ComboSound.TabIndex = 40;
+			this._ComboSound.TabIndex = 1;
 			// 
 			// _LabelSound
 			// 
 			this._LabelSound.AutoSize = true;
 			this._LabelSound.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelSound.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(153)))));
-			this._LabelSound.Location = new System.Drawing.Point(8, 111);
+			this._LabelSound.Location = new System.Drawing.Point(8, 87);
 			this._LabelSound.Name = "_LabelSound";
 			this._LabelSound.Size = new System.Drawing.Size(39, 21);
 			this._LabelSound.TabIndex = 48;
@@ -160,32 +169,21 @@
 			this._ButtonBrowse.AutoSize = true;
 			this._ButtonBrowse.Enabled = false;
 			this._ButtonBrowse.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonBrowse.Location = new System.Drawing.Point(189, 142);
+			this._ButtonBrowse.Location = new System.Drawing.Point(189, 119);
 			this._ButtonBrowse.MinimumSize = new System.Drawing.Size(65, 23);
 			this._ButtonBrowse.Name = "_ButtonBrowse";
-			this._ButtonBrowse.Size = new System.Drawing.Size(68, 24);
-			this._ButtonBrowse.TabIndex = 41;
+			this._ButtonBrowse.Size = new System.Drawing.Size(68, 26);
+			this._ButtonBrowse.TabIndex = 2;
 			this._ButtonBrowse.Text = "Browse...";
 			this._ButtonBrowse.UseVisualStyleBackColor = true;
 			this._ButtonBrowse.Click += new System.EventHandler(this._ButtonBrowse_Click);
 			// 
-			// _LabelAdditional
-			// 
-			this._LabelAdditional.AutoSize = true;
-			this._LabelAdditional.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this._LabelAdditional.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(51)))), ((int)(((byte)(153)))));
-			this._LabelAdditional.Location = new System.Drawing.Point(8, 48);
-			this._LabelAdditional.Name = "_LabelAdditional";
-			this._LabelAdditional.Size = new System.Drawing.Size(39, 21);
-			this._LabelAdditional.TabIndex = 47;
-			this._LabelAdditional.Text = "Title";
-			// 
 			// _TextInterval
 			// 
-			this._TextInterval.Location = new System.Drawing.Point(90, 82);
+			this._TextInterval.Location = new System.Drawing.Point(117, 46);
 			this._TextInterval.Name = "_TextInterval";
 			this._TextInterval.Size = new System.Drawing.Size(27, 23);
-			this._TextInterval.TabIndex = 42;
+			this._TextInterval.TabIndex = 0;
 			this._TextInterval.Text = "1";
 			this._TextInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this._TextInterval.Leave += new System.EventHandler(this._TextInterval_Leave);
@@ -193,7 +191,7 @@
 			// _LabelMinutes
 			// 
 			this._LabelMinutes.AutoSize = true;
-			this._LabelMinutes.Location = new System.Drawing.Point(123, 85);
+			this._LabelMinutes.Location = new System.Drawing.Point(150, 49);
 			this._LabelMinutes.Name = "_LabelMinutes";
 			this._LabelMinutes.Size = new System.Drawing.Size(58, 15);
 			this._LabelMinutes.TabIndex = 45;
@@ -202,11 +200,11 @@
 			// _LabelInterval
 			// 
 			this._LabelInterval.AutoSize = true;
-			this._LabelInterval.Location = new System.Drawing.Point(12, 82);
+			this._LabelInterval.Location = new System.Drawing.Point(12, 48);
 			this._LabelInterval.Name = "_LabelInterval";
-			this._LabelInterval.Size = new System.Drawing.Size(74, 15);
+			this._LabelInterval.Size = new System.Drawing.Size(106, 15);
 			this._LabelInterval.TabIndex = 44;
-			this._LabelInterval.Text = "Check every:";
+			this._LabelInterval.Text = "Check Email every:";
 			// 
 			// _ButtonAccounts
 			// 
@@ -256,7 +254,7 @@
 			this._PanelAccounts.Name = "_PanelAccounts";
 			this._PanelAccounts.Padding = new System.Windows.Forms.Padding(10, 45, 10, 10);
 			this._PanelAccounts.SeperatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-			this._PanelAccounts.Size = new System.Drawing.Size(475, 367);
+			this._PanelAccounts.Size = new System.Drawing.Size(475, 316);
 			this._PanelAccounts.TabIndex = 2;
 			// 
 			// _LabelAccountIntro
@@ -312,8 +310,12 @@
 			this._PanelAppearance.BackColor = System.Drawing.Color.Transparent;
 			this._PanelAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(119)))), ((int)(((byte)(119)))), ((int)(((byte)(119)))));
 			this._PanelAppearance.ControlBackColor = System.Drawing.Color.White;
+			this._PanelAppearance.Controls.Add(this._CheckToast);
+			this._PanelAppearance.Controls.Add(this._CheckTray);
+			this._PanelAppearance.Controls.Add(this._CheckFlash);
 			this._PanelAppearance.Controls.Add(this._LabelLanguage);
 			this._PanelAppearance.Controls.Add(this._ComboLanguage);
+			this._PanelAppearance.Controls.Add(this.shapeContainer2);
 			this._PanelAppearance.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._PanelAppearance.DrawHeader = true;
 			this._PanelAppearance.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -329,7 +331,7 @@
 			this._PanelAppearance.Name = "_PanelAppearance";
 			this._PanelAppearance.Padding = new System.Windows.Forms.Padding(10, 45, 10, 10);
 			this._PanelAppearance.SeperatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-			this._PanelAppearance.Size = new System.Drawing.Size(475, 367);
+			this._PanelAppearance.Size = new System.Drawing.Size(475, 316);
 			this._PanelAppearance.TabIndex = 3;
 			// 
 			// _LabelLanguage
@@ -349,7 +351,7 @@
 			this._ComboLanguage.Location = new System.Drawing.Point(117, 48);
 			this._ComboLanguage.Name = "_ComboLanguage";
 			this._ComboLanguage.Size = new System.Drawing.Size(134, 23);
-			this._ComboLanguage.TabIndex = 47;
+			this._ComboLanguage.TabIndex = 0;
 			// 
 			// _PanelNewAccount
 			// 
@@ -379,7 +381,7 @@
 			this._PanelNewAccount.Name = "_PanelNewAccount";
 			this._PanelNewAccount.Padding = new System.Windows.Forms.Padding(2, 45, 2, 2);
 			this._PanelNewAccount.SeperatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-			this._PanelNewAccount.Size = new System.Drawing.Size(475, 367);
+			this._PanelNewAccount.Size = new System.Drawing.Size(475, 316);
 			this._PanelNewAccount.TabIndex = 4;
 			// 
 			// _PictureExclamation
@@ -398,7 +400,7 @@
 			this._PanelAccountButtons.Controls.Add(this._ButtonNewCancel);
 			this._PanelAccountButtons.Controls.Add(this._ButtonNewSave);
 			this._PanelAccountButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._PanelAccountButtons.Location = new System.Drawing.Point(2, 325);
+			this._PanelAccountButtons.Location = new System.Drawing.Point(2, 274);
 			this._PanelAccountButtons.Name = "_PanelAccountButtons";
 			this._PanelAccountButtons.Size = new System.Drawing.Size(471, 40);
 			this._PanelAccountButtons.TabIndex = 2;
@@ -411,7 +413,6 @@
 			this._ButtonNewCancel.Name = "_ButtonNewCancel";
 			this._ButtonNewCancel.Size = new System.Drawing.Size(75, 30);
 			this._ButtonNewCancel.TabIndex = 3;
-			this._ButtonNewCancel.TabStop = false;
 			this._ButtonNewCancel.Text = "Cancel";
 			this._ButtonNewCancel.UseVisualStyleBackColor = true;
 			this._ButtonNewCancel.Click += new System.EventHandler(this._ButtonNewCancel_Click);
@@ -424,7 +425,6 @@
 			this._ButtonNewSave.Name = "_ButtonNewSave";
 			this._ButtonNewSave.Size = new System.Drawing.Size(75, 30);
 			this._ButtonNewSave.TabIndex = 2;
-			this._ButtonNewSave.TabStop = false;
 			this._ButtonNewSave.Text = "Save";
 			this._ButtonNewSave.UseVisualStyleBackColor = true;
 			this._ButtonNewSave.Click += new System.EventHandler(this._ButtonNewSave_Click);
@@ -464,8 +464,7 @@
 			this._TextPassword.Location = new System.Drawing.Point(100, 110);
 			this._TextPassword.Name = "_TextPassword";
 			this._TextPassword.Size = new System.Drawing.Size(249, 23);
-			this._TextPassword.TabIndex = 31;
-			this._TextPassword.TabStop = false;
+			this._TextPassword.TabIndex = 1;
 			this._TextPassword.UseSystemPasswordChar = true;
 			// 
 			// _LabelPassword
@@ -482,8 +481,7 @@
 			this._TextUsername.Location = new System.Drawing.Point(100, 80);
 			this._TextUsername.Name = "_TextUsername";
 			this._TextUsername.Size = new System.Drawing.Size(249, 23);
-			this._TextUsername.TabIndex = 30;
-			this._TextUsername.TabStop = false;
+			this._TextUsername.TabIndex = 0;
 			// 
 			// _PanelButtons
 			// 
@@ -491,7 +489,7 @@
 			this._PanelButtons.Controls.Add(this._ButtonCancel);
 			this._PanelButtons.Controls.Add(this._ButtonSave);
 			this._PanelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._PanelButtons.Location = new System.Drawing.Point(8, 375);
+			this._PanelButtons.Location = new System.Drawing.Point(8, 324);
 			this._PanelButtons.Name = "_PanelButtons";
 			this._PanelButtons.Size = new System.Drawing.Size(657, 40);
 			this._PanelButtons.TabIndex = 5;
@@ -523,14 +521,104 @@
 			this._ButtonSave.UseVisualStyleBackColor = true;
 			this._ButtonSave.Click += new System.EventHandler(this._ButtonSave_Click);
 			// 
+			// shapeContainer1
+			// 
+			this.shapeContainer1.Location = new System.Drawing.Point(10, 45);
+			this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
+			this.shapeContainer1.Name = "shapeContainer1";
+			this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.lineShape3,
+            this.lineShape1});
+			this.shapeContainer1.Size = new System.Drawing.Size(455, 261);
+			this.shapeContainer1.TabIndex = 49;
+			this.shapeContainer1.TabStop = false;
+			// 
+			// lineShape1
+			// 
+			this.lineShape1.BorderColor = System.Drawing.Color.Red;
+			this.lineShape1.Name = "lineShape1";
+			this.lineShape1.X1 = 0;
+			this.lineShape1.X2 = 300;
+			this.lineShape1.Y1 = 31;
+			this.lineShape1.Y2 = 31;
+			// 
+			// _CheckFlash
+			// 
+			this._CheckFlash.AutoSize = true;
+			this._CheckFlash.Location = new System.Drawing.Point(15, 91);
+			this._CheckFlash.Name = "_CheckFlash";
+			this._CheckFlash.Size = new System.Drawing.Size(172, 19);
+			this._CheckFlash.TabIndex = 1;
+			this._CheckFlash.Text = "Flash Taskbar for new Email";
+			this._CheckFlash.UseVisualStyleBackColor = true;
+			// 
+			// lineShape2
+			// 
+			this.lineShape2.BorderColor = System.Drawing.Color.Red;
+			this.lineShape2.Name = "lineShape2";
+			this.lineShape2.X1 = -6;
+			this.lineShape2.X2 = 294;
+			this.lineShape2.Y1 = 35;
+			this.lineShape2.Y2 = 35;
+			// 
+			// shapeContainer2
+			// 
+			this.shapeContainer2.Location = new System.Drawing.Point(10, 45);
+			this.shapeContainer2.Margin = new System.Windows.Forms.Padding(0);
+			this.shapeContainer2.Name = "shapeContainer2";
+			this.shapeContainer2.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.lineShape2});
+			this.shapeContainer2.Size = new System.Drawing.Size(455, 261);
+			this.shapeContainer2.TabIndex = 50;
+			this.shapeContainer2.TabStop = false;
+			// 
+			// _CheckTray
+			// 
+			this._CheckTray.AutoSize = true;
+			this._CheckTray.Location = new System.Drawing.Point(15, 116);
+			this._CheckTray.Name = "_CheckTray";
+			this._CheckTray.Size = new System.Drawing.Size(201, 19);
+			this._CheckTray.TabIndex = 2;
+			this._CheckTray.Text = "Show Email count in System Tray";
+			this._CheckTray.UseVisualStyleBackColor = true;
+			// 
+			// _CheckToast
+			// 
+			this._CheckToast.AutoSize = true;
+			this._CheckToast.Location = new System.Drawing.Point(15, 141);
+			this._CheckToast.Name = "_CheckToast";
+			this._CheckToast.Size = new System.Drawing.Size(231, 19);
+			this._CheckToast.TabIndex = 3;
+			this._CheckToast.Text = "Show Toast notifications for new Email";
+			this._CheckToast.UseVisualStyleBackColor = true;
+			// 
+			// lineShape3
+			// 
+			this.lineShape3.BorderColor = System.Drawing.Color.Red;
+			this.lineShape3.Name = "lineShape3";
+			this.lineShape3.X1 = 0;
+			this.lineShape3.X2 = 300;
+			this.lineShape3.Y1 = 107;
+			this.lineShape3.Y2 = 107;
+			// 
+			// _CheckUpdates
+			// 
+			this._CheckUpdates.AutoSize = true;
+			this._CheckUpdates.Location = new System.Drawing.Point(15, 166);
+			this._CheckUpdates.Name = "_CheckUpdates";
+			this._CheckUpdates.Size = new System.Drawing.Size(123, 19);
+			this._CheckUpdates.TabIndex = 50;
+			this._CheckUpdates.Text = "Check for Updates";
+			this._CheckUpdates.UseVisualStyleBackColor = true;
+			// 
 			// Settings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(673, 423);
-			this.Controls.Add(this._PanelNewAccount);
+			this.ClientSize = new System.Drawing.Size(673, 372);
 			this.Controls.Add(this._PanelAppearance);
 			this.Controls.Add(this._PanelGeneral);
+			this.Controls.Add(this._PanelNewAccount);
 			this.Controls.Add(this._PanelAccounts);
 			this.Controls.Add(this._ButtonGroup);
 			this.Controls.Add(this._PanelButtons);
@@ -566,7 +654,6 @@
 		private System.Windows.Forms.ComboBox _ComboSound;
 		private System.Windows.Forms.Label _LabelSound;
 		private System.Windows.Forms.Button _ButtonBrowse;
-		private System.Windows.Forms.Label _LabelAdditional;
 		private System.Windows.Forms.TextBox _TextInterval;
 		private System.Windows.Forms.Label _LabelMinutes;
 		private System.Windows.Forms.Label _LabelInterval;
@@ -588,5 +675,14 @@
 		private Shellscape.UI.Controls.DoubleBufferedPanel _PanelButtons;
 		private System.Windows.Forms.Button _ButtonCancel;
 		private System.Windows.Forms.Button _ButtonSave;
+		private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
+		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
+		private System.Windows.Forms.CheckBox _CheckFlash;
+		private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer2;
+		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
+		private System.Windows.Forms.CheckBox _CheckToast;
+		private System.Windows.Forms.CheckBox _CheckTray;
+		private System.Windows.Forms.CheckBox _CheckUpdates;
+		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape3;
 	}
 }

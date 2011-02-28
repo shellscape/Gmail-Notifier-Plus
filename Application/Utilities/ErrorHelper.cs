@@ -82,7 +82,7 @@ namespace GmailNotifierPlus.Utilities {
 					key.Close();
 				}
 			}
-			catch (System.Security.SecurityException ex) {
+			catch (System.Security.SecurityException) {
 			}
 
 			String system = String.Join("\n", date, os, processor, memory);

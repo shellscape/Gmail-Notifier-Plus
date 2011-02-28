@@ -9,6 +9,18 @@ using Microsoft.Win32;
 
 namespace GmailNotifierPlus {
 
+	[DataContract][Flags]
+	public enum SoundNotification {
+		[EnumMember(Value="0")]
+		None = 0,
+
+		[EnumMember(Value="1")]
+		Default = 1,
+
+		[EnumMember(Value="2")]
+		Custom = 2
+	}
+
 	[DataContract(Name = "config")]
 	public class Config {
 
@@ -25,7 +37,6 @@ namespace GmailNotifierPlus {
 			this.Interval = 60;
 			this.Language = "en-us";
 			this.Sound = "default";
-			this.PlaySound = true;
 			this.FirstRun = true;
 			this.FlashCount = 4;
 			this.FlashTaskbar = true;
@@ -87,7 +98,7 @@ namespace GmailNotifierPlus {
 					key.Close();
 				}
 			}
-			catch (System.Security.SecurityException ex) {
+			catch (System.Security.SecurityException) {
 			}
 
 
@@ -123,10 +134,7 @@ namespace GmailNotifierPlus {
 		public String Sound { get; set; }
 
 		[DataMember(Name = "soundnotification")]
-		public int SoundNotification { get; set; }
-
-		[DataMember(Name = "playsound")]
-		public Boolean PlaySound { get; set; }
+		public SoundNotification SoundNotification { get; set; }
 
 		[DataMember(Name = "accounts")]
 		public AccountList Accounts { get; set; }
@@ -143,6 +151,12 @@ namespace GmailNotifierPlus {
 		[DataMember(Name = "showtrayicon")]
 		public Boolean ShowTrayIcon { get; set; }
 
+		[DataMember(Name = "showtoast")]
+		public Boolean ShowToast { get; set; }
+
+		[DataMember(Name = "checkupdates")]
+		public Boolean CheckForUpdates { get; set; }
+	
 		public Boolean RecentDocsTracked { get; private set; }
 
 		public void Save() {

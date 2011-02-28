@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -33,10 +34,13 @@ namespace GmailNotifierPlus.Controls {
 		private TextBox _TextPassword;
 		private Label _LabelWarn;
 		private Button _ButtonRemove;
+		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
+		private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
 
+		private Boolean _makeDefault = false;
 		private String _filler = new String('x', 30);
 
-		public AccountPanel() {
+		public AccountPanel() : base() {
 			InitializeComponent();
 		}
 
@@ -51,17 +55,12 @@ namespace GmailNotifierPlus.Controls {
 
 			InitLabels();
 			InitValues();
+			DataBind();
 
 			_TextPassword.TextChanged += _Inputs_Changed;
 			_TextUsername.TextChanged += _Inputs_Changed;
 
 			_PictureExclamation.Image = Utilities.ResourceHelper.GetImage("Exclamation.png");
-
-			//this._ButtonRemove.Image = Utilities.ResourceHelper.GetImage("Envelope.png");
-			//_ButtonRemove.ImageAlign = ContentAlignment.MiddleRight;
-			//_ButtonRemove.TextAlign = ContentAlignment.MiddleLeft;
-			// Give the button a flat appearance.
-			//_ButtonRemove.FlatStyle = FlatStyle.Flat;
 		}
 
 		private void InitValues() {
@@ -96,6 +95,11 @@ namespace GmailNotifierPlus.Controls {
 			_LabelWarn.Text = Locale.Current.Config.Panels.AccountWarn;
 		}
 
+		private void DataBind() {
+
+	
+		}
+
 		private Boolean AccountExists() {
 
 			Boolean result = false;
@@ -113,6 +117,27 @@ namespace GmailNotifierPlus.Controls {
 			return result;
 		}
 
+		private void MakeDefault() {
+			var accountPanels = this.Parent.Controls.All().Where(o => o is AccountPanel);
+
+			Account defaultAccount = Config.Current.Accounts.Where(o => o.Default).FirstOrDefault();
+			AccountPanel defaultAccountPanel = accountPanels.Where(o => (o as AccountPanel).Account.Default).FirstOrDefault() as AccountPanel;
+
+			SkipeButton buttonAccounts = this.Parent.Controls.Find("_ButtonAccounts", true)[0] as SkipeButton;
+
+			SkipeButtonItem thisItem = buttonAccounts.ButtonItems.All().Where(o => o.AssociatedPanel == this).FirstOrDefault();
+			SkipeButtonItem defaultItem = buttonAccounts.ButtonItems.All().Where(o => o.ButtonText == defaultAccount.FullAddress).FirstOrDefault();
+
+			defaultAccount.Default = false;
+			Account.Default = true;
+
+			_ButtonDefault.Enabled = false;
+			defaultAccountPanel.DefaultButton.Enabled = true;
+
+			thisItem.Font = new Font(thisItem.Font, FontStyle.Bold);
+			defaultItem.Font = new Font(defaultItem.Font, FontStyle.Regular);
+		}
+
 		private void InitializeComponent() {
 			this._PanelAccountButtons = new Shellscape.UI.Controls.DoubleBufferedPanel();
 			this._ButtonDefault = new System.Windows.Forms.Button();
@@ -127,6 +152,8 @@ namespace GmailNotifierPlus.Controls {
 			this._TextPassword = new System.Windows.Forms.TextBox();
 			this._LabelWarn = new System.Windows.Forms.Label();
 			this._ButtonRemove = new System.Windows.Forms.Button();
+			this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+			this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
 			this._PanelAccountButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._PictureExclamation)).BeginInit();
 			this.SuspendLayout();
@@ -153,7 +180,7 @@ namespace GmailNotifierPlus.Controls {
 			this._ButtonDefault.MinimumSize = new System.Drawing.Size(65, 23);
 			this._ButtonDefault.Name = "_ButtonDefault";
 			this._ButtonDefault.Size = new System.Drawing.Size(91, 30);
-			this._ButtonDefault.TabIndex = 4;
+			this._ButtonDefault.TabIndex = 3;
 			this._ButtonDefault.Text = "Make Default";
 			this._ButtonDefault.UseVisualStyleBackColor = true;
 			this._ButtonDefault.Click += new System.EventHandler(this._ButtonDefault_Click);
@@ -167,8 +194,7 @@ namespace GmailNotifierPlus.Controls {
 			this._ButtonCancel.Location = new System.Drawing.Point(903, 6);
 			this._ButtonCancel.Name = "_ButtonCancel";
 			this._ButtonCancel.Size = new System.Drawing.Size(75, 30);
-			this._ButtonCancel.TabIndex = 3;
-			this._ButtonCancel.TabStop = false;
+			this._ButtonCancel.TabIndex = 5;
 			this._ButtonCancel.Text = "Cancel";
 			this._ButtonCancel.UseVisualStyleBackColor = true;
 			this._ButtonCancel.Click += new System.EventHandler(this._ButtonCancel_Click);
@@ -182,8 +208,7 @@ namespace GmailNotifierPlus.Controls {
 			this._ButtonSave.Location = new System.Drawing.Point(822, 6);
 			this._ButtonSave.Name = "_ButtonSave";
 			this._ButtonSave.Size = new System.Drawing.Size(75, 30);
-			this._ButtonSave.TabIndex = 2;
-			this._ButtonSave.TabStop = false;
+			this._ButtonSave.TabIndex = 4;
 			this._ButtonSave.Text = "Save";
 			this._ButtonSave.UseVisualStyleBackColor = true;
 			this._ButtonSave.Click += new System.EventHandler(this._ButtonSave_Click);
@@ -193,8 +218,7 @@ namespace GmailNotifierPlus.Controls {
 			this._TextUsername.Location = new System.Drawing.Point(100, 80);
 			this._TextUsername.Name = "_TextUsername";
 			this._TextUsername.Size = new System.Drawing.Size(249, 23);
-			this._TextUsername.TabIndex = 44;
-			this._TextUsername.TabStop = false;
+			this._TextUsername.TabIndex = 0;
 			// 
 			// _LabelPassword
 			// 
@@ -250,8 +274,7 @@ namespace GmailNotifierPlus.Controls {
 			this._TextPassword.Location = new System.Drawing.Point(100, 110);
 			this._TextPassword.Name = "_TextPassword";
 			this._TextPassword.Size = new System.Drawing.Size(249, 23);
-			this._TextPassword.TabIndex = 50;
-			this._TextPassword.TabStop = false;
+			this._TextPassword.TabIndex = 1;
 			this._TextPassword.UseSystemPasswordChar = true;
 			// 
 			// _LabelWarn
@@ -270,14 +293,34 @@ namespace GmailNotifierPlus.Controls {
 			// 
 			this._ButtonRemove.AutoSize = true;
 			this._ButtonRemove.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonRemove.Location = new System.Drawing.Point(100, 234);
+			this._ButtonRemove.Location = new System.Drawing.Point(100, 183);
 			this._ButtonRemove.MinimumSize = new System.Drawing.Size(65, 23);
 			this._ButtonRemove.Name = "_ButtonRemove";
 			this._ButtonRemove.Size = new System.Drawing.Size(173, 30);
-			this._ButtonRemove.TabIndex = 5;
+			this._ButtonRemove.TabIndex = 2;
 			this._ButtonRemove.Text = "Remove Account";
 			this._ButtonRemove.UseVisualStyleBackColor = true;
 			this._ButtonRemove.Click += new System.EventHandler(this._ButtonRemove_Click);
+			// 
+			// lineShape1
+			// 
+			this.lineShape1.BorderColor = System.Drawing.Color.Red;
+			this.lineShape1.Name = "lineShape1";
+			this.lineShape1.X1 = 0;
+			this.lineShape1.X2 = 300;
+			this.lineShape1.Y1 = 128;
+			this.lineShape1.Y2 = 128;
+			// 
+			// shapeContainer1
+			// 
+			this.shapeContainer1.Location = new System.Drawing.Point(2, 45);
+			this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
+			this.shapeContainer1.Name = "shapeContainer1";
+			this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.lineShape1});
+			this.shapeContainer1.Size = new System.Drawing.Size(991, 599);
+			this.shapeContainer1.TabIndex = 56;
+			this.shapeContainer1.TabStop = false;
 			// 
 			// AccountPanel
 			// 
@@ -291,6 +334,7 @@ namespace GmailNotifierPlus.Controls {
 			this.Controls.Add(this._TextUsername);
 			this.Controls.Add(this._LabelPassword);
 			this.Controls.Add(this._LabelUsername);
+			this.Controls.Add(this.shapeContainer1);
 			this.Name = "AccountPanel";
 			this.Padding = new System.Windows.Forms.Padding(2, 45, 2, 2);
 			this.Size = new System.Drawing.Size(995, 646);
@@ -326,29 +370,18 @@ namespace GmailNotifierPlus.Controls {
 				Account.Password = _TextPassword.Text;
 			}
 
+			if (_makeDefault) {
+				MakeDefault();
+			}
+
 			Account.Init();
+
+			Config.Current.Save();
 		}
 
 		private void _ButtonDefault_Click(object sender, EventArgs e) {
-
-			var accountPanels = this.Parent.Controls.All().Where(o => o is AccountPanel);
-			
-			Account defaultAccount = Config.Current.Accounts.Where(o => o.Default).FirstOrDefault();
-			AccountPanel defaultAccountPanel = accountPanels.Where(o => (o as AccountPanel).Account.Default).FirstOrDefault() as AccountPanel;
-			
-			SkipeButton buttonAccounts = this.Parent.Controls.Find("_ButtonAccounts", true)[0] as SkipeButton;
-
-			SkipeButtonItem thisItem = buttonAccounts.ButtonItems.All().Where(o => o.AssociatedPanel == this).FirstOrDefault();
-			SkipeButtonItem defaultItem = buttonAccounts.ButtonItems.All().Where(o => o.ButtonText == defaultAccount.FullAddress).FirstOrDefault();
-
-			defaultAccount.Default = false;
-			Account.Default = true;
-			
+			_makeDefault = true;
 			_ButtonDefault.Enabled = false;
-			defaultAccountPanel.DefaultButton.Enabled = true;
-
-			thisItem.Font = new Font(thisItem.Font, FontStyle.Bold);
-			defaultItem.Font = new Font(defaultItem.Font, FontStyle.Regular);
 		}
 
 		private void _ButtonRemove_Click(object sender, EventArgs e) {

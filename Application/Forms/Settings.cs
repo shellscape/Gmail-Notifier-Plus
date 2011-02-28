@@ -14,6 +14,7 @@ using GmailNotifierPlus.Controls;
 
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.VisualBasic.PowerPacks;
 
 using Shellscape.UI.Skipe;
 
@@ -32,6 +33,8 @@ namespace GmailNotifierPlus.Forms {
 			InitializeComponent();
 			InitLabels();
 			DataBind();
+			InitPanels();
+			InitAccounts();
 
 			this.Icon = Program.Icon;
 			this.Text = String.Concat(Resources.WindowTitle, " - ", Locale.Current.Labels.ConfigurationShort);
@@ -42,26 +45,6 @@ namespace GmailNotifierPlus.Forms {
 			_TextUsername.TextChanged += _Inputs_Changed;
 
 			Config.Current.LanguageChanged += _Config_LanguageChanged;
-
-			foreach (Account account in Config.Current.Accounts) {
-				SkipeButtonItem item = new SkipeButtonItem() {
-					ButtonText = account.FullAddress,
-					AssociatedPanel = new AccountPanel() {
-						Account = account,
-						ControlBackColor = _PanelAccounts.ControlBackColor
-					}
-				};
-
-				item.AssociatedPanel.Hide();
-				this.Controls.Add(item.AssociatedPanel);
-				item.AssociatedPanel.BringToFront();
-
-				if (account.Default) {
-					item.Font = new Font(item.Font, FontStyle.Bold);
-				}
-
-				_ButtonAccounts.ButtonItems.Add(item);
-			}
 
 			Color panelContentColor = Color.FromArgb(200, 255, 255, 255);
 
@@ -83,6 +66,61 @@ namespace GmailNotifierPlus.Forms {
 
 				g.DrawImage(background, destRect, 0, 0, background.Width, background.Height, GraphicsUnit.Pixel, ia);
 
+			}
+		}
+
+		private void InitAccounts() {
+			foreach (Account account in Config.Current.Accounts) {
+				SkipeButtonItem item = new SkipeButtonItem() {
+					ButtonText = account.FullAddress,
+					AssociatedPanel = new AccountPanel() {
+						Account = account,
+						ControlBackColor = _PanelAccounts.ControlBackColor
+					}
+				};
+
+				InitPanelShapes(item.AssociatedPanel);
+				item.AssociatedPanel.Hide();
+				this.Controls.Add(item.AssociatedPanel);
+				item.AssociatedPanel.BringToFront();
+
+				if (account.Default) {
+					item.Font = new Font(item.Font, FontStyle.Bold);
+				}
+
+				_ButtonAccounts.ButtonItems.Add(item);
+			}
+		}
+
+		private void InitPanels() {
+
+			foreach (Control control in this.Controls) {
+				if (control is SkipePanel) {
+					InitPanelShapes(control as SkipePanel);
+				}
+			}
+
+		}
+
+		private void InitPanelShapes(SkipePanel panel) {
+			foreach (Control c in panel.Controls) {
+				if (c is ShapeContainer) {
+					foreach (var shape in (c as ShapeContainer).Shapes) {
+						if (shape is LineShape) {
+							LineShape line = (shape as LineShape);
+
+							line.X1 = 0;
+							line.X2 = _PanelGeneral.ClientSize.Width; // we can use this as a gauge since theyre all the same size.
+							line.BorderColor = SystemColors.ControlLight;
+
+							if (panel is AccountPanel) {
+								line.X1 = 8;
+								line.X2 -= 12; // account panels have no padding, 10 - 2 for the borders. yeah yeah, it's not dynamic. PPFTTT.
+							}
+
+						}
+					}
+				}
 			}
 		}
 
@@ -114,7 +152,6 @@ namespace GmailNotifierPlus.Forms {
 			_LabelError.Text = Locale.Current.Labels.Error;
 			_LabelAccountTitle.Text = Locale.Current.Buttons.AddNewAccount;
 			_LabelSound.Text = Locale.Current.Labels.Sound;
-			_LabelAdditional.Text = Locale.Current.Labels.Additional;
 			_LabelInterval.Text = Locale.Current.Labels.Interval;
 			_LabelMinutes.Text = Locale.Current.Labels.Minutes;
 			_LabelLanguage.Text = Locale.Current.Labels.Language;
@@ -125,12 +162,22 @@ namespace GmailNotifierPlus.Forms {
 			_PanelAccounts.HeaderText = Locale.Current.Config.Panels.Accounts;
 			_PanelAppearance.HeaderText = Locale.Current.Config.Panels.Accounts;
 			_PanelGeneral.HeaderText = Locale.Current.Config.Panels.Accounts;
+
+			_CheckFlash.Text = Locale.Current.Checkboxes.FlashTaskbar;
+			_CheckToast.Text = Locale.Current.Checkboxes.ShowToast;
+			_CheckTray.Text = Locale.Current.Checkboxes.ShowTray;
+			_CheckUpdates.Text = Locale.Current.Checkboxes.CheckUpdates;
 				
 		}
 
 		private void DataBind() {
 
 			_TextInterval.Text = (Config.Current.Interval / 60).ToString();
+
+			_CheckTray.Checked = Config.Current.ShowTrayIcon;
+			_CheckToast.Checked = Config.Current.ShowToast;
+			_CheckFlash.Checked = Config.Current.FlashTaskbar;
+			_CheckUpdates.Checked = Config.Current.CheckForUpdates;
 
 			String columnName = "Name";
 			String columnValue = "Value";
@@ -165,7 +212,7 @@ namespace GmailNotifierPlus.Forms {
 			_ComboSound.DataSource = dsSound;
 			_ComboSound.DisplayMember = columnName;
 			_ComboSound.ValueMember = columnValue;
-			_ComboSound.SelectedIndex = config.SoundNotification;
+			_ComboSound.SelectedIndex = (int)config.SoundNotification;
 
 			_PictureExclamation.Image = Utilities.ResourceHelper.GetImage("Exclamation.png");
 
@@ -182,6 +229,10 @@ namespace GmailNotifierPlus.Forms {
 			e.Graphics.DrawImage(_backgroundBitmap, 0, 0, _backgroundBitmap.Width, _backgroundBitmap.Height);
 
 			base.OnPaint(e);
+		}
+
+		protected override void OnPanelShown(object sender, EventArgs e) {
+			_ButtonSave.Visible = _ButtonCancel.Visible = !((sender as SkipePanel) == _PanelAccounts || (sender is AccountPanel));
 		}
 
 		private Bitmap GetBackground() {
@@ -265,6 +316,8 @@ namespace GmailNotifierPlus.Forms {
 
 			this.Controls.Add(item.AssociatedPanel);
 
+			InitPanelShapes(item.AssociatedPanel);
+
 			item.AssociatedPanel.BringToFront();
 
 			_ButtonAccounts.ButtonItems.Add(item);
@@ -284,24 +337,18 @@ namespace GmailNotifierPlus.Forms {
 		private void _ButtonSave_Click(object sender, EventArgs e) {
 			this.FixInterval();
 
-			//config.Accounts.Clear();
-			//config.Accounts.AddRange(this._ListAccounts.Values);
 			Config.Current.Interval = Convert.ToInt32(_TextInterval.Text) * 60;
 			Config.Current.Language = _ComboLanguage.SelectedValue.ToString();
-
-			//foreach (Account account in config.Accounts) {
-			//  account.Default = false;
-			//}
-
-			//if (_Config.Accounts.Count > this._DefaultAccountIndex) {
-			//  _Config.Accounts[this._DefaultAccountIndex].Default = true;
-			//}
+			Config.Current.ShowToast = _CheckToast.Checked;
+			Config.Current.ShowTrayIcon = _CheckTray.Checked;
+			Config.Current.CheckForUpdates = _CheckUpdates.Checked;
+			Config.Current.FlashTaskbar = _CheckFlash.Checked;
 
 			if ((_ComboSound.SelectedIndex == 2) && string.IsNullOrEmpty(_ComboSound.SelectedValue.ToString())) {
 				Config.Current.SoundNotification = 0;
 			}
 			else {
-				Config.Current.SoundNotification = _ComboSound.SelectedIndex;
+				Config.Current.SoundNotification = (SoundNotification)_ComboSound.SelectedIndex;
 				Config.Current.Sound = _ComboSound.SelectedValue.ToString();
 			}
 

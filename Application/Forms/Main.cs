@@ -115,15 +115,26 @@ namespace GmailNotifierPlus.Forms {
 		private void _Config_Saved(object sender, EventArgs e) {
 			_Timer.Interval = _Config.Interval * 1000;
 
-			this.BuildJumpList();
-			this.UpdateMailsJumpList();
-
 			if (_Config.Accounts.Count > _Instances.Count) {
 				this.CreateInstances();
 			}
 			else if (_Config.Accounts.Count < _Instances.Count) {
 				this.CloseInstances();
 			}
+
+			if (!Config.Current.ShowTrayIcon) {
+				_TrayIcon.Visible = false;
+			}
+
+			if (Config.Current.CheckForUpdates) {
+
+			}
+			else {
+
+			}
+
+			this.BuildJumpList();
+			this.UpdateMailsJumpList();
 
 			this.CheckMail();
 		}
@@ -250,6 +261,9 @@ namespace GmailNotifierPlus.Forms {
 				thumbnailPreview.TabbedThumbnailClosed -= _Preview_TabbedThumbnailClosed;
 
 				_TaskbarManager.TabbedThumbnail.RemoveThumbnailPreview(thumbnailPreview);
+
+				this._UnreadTotal -= _Instances[str].Unread;
+				
 				_Instances[str].Close();
 			}
 
@@ -303,11 +317,11 @@ namespace GmailNotifierPlus.Forms {
 
 				if (_UnreadTotal > _PreviousTotal) {
 					switch (Config.Current.SoundNotification) {
-						case 1:
+						case SoundNotification.Default:
 							SoundHelper.PlayDefaultSound();
 							break;
 
-						case 2:
+						case SoundNotification.Custom:
 							SoundHelper.PlayCustomSound(_Config.Sound);
 							break;
 					}
