@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Locale>
+	<Name>Kazakh (kz-KZ)</Name>
+	<Buttons>
+		<AddNewAccount>Жаңа пайдаланушыны қосу</AddNewAccount>
+		<Browse>Таңдау...</Browse>
+		<Cancel>Болдырмау</Cancel>
+		<Default>Әдепкі</Default>
+		<Edit>Өзгерту</Edit>
+		<Next>Келесі</Next>
+		<OK>OK</OK>
+		<Save>Сақтау</Save>
+		<LetsGo>Алға!</LetsGo>
+		<Sweet>OK</Sweet>
+		<Remove>Таңдалған қолданушыны жою</Remove>
+	</Buttons>
+	<Labels>
+		<About>Бағдарлама туралы</About>
+		<Additional>Қосымша баптаулар</Additional>
+		<BrowseDialog>Дыбысты хабарландыруды таңдау.</BrowseDialog>
+		<CheckLogin>Қолданушы баптауын тексеріңіз.</CheckLogin>
+		<CheckMail>Поштаны тексеру</CheckMail>
+		<Compose>Хат жазу</Compose>
+		<Configuration>Қолданушылармен басқару</Configuration>
+		<ConfigurationShort>Баптау</ConfigurationShort>
+		<Connecting>Пошта тексерілуде...</Connecting>
+		<ConnectionUnavailable>Желілік қосылуыңызды тексеріңіз...</ConnectionUnavailable>
+		<CustomSound>Таңдау...</CustomSound>
+		<DefaultSound>Әдепкі</DefaultSound>
+		<Edit>Қолданушыны өзгерту</Edit>
+		<Error>Қолданушы бұрын сақталған, басқасын енгізіңіз.</Error>
+		<Inbox>Келген хаттарға өту</Inbox>
+		<Interval>Тексеру уақыты:</Interval>
+		<Language>Бағдарлама тілі:</Language>
+		<Login>Қолданушы аты:</Login>
+		<Minutes>минут сайын</Minutes>
+		<No>Болдырмау</No>
+		<NoAccount>Қолданушы баптауын тексеріңіз.</NoAccount>
+		<NoMail>Жаңа хат жоқ</NoMail>
+		<NoSound>Дыбыссыз</NoSound>
+		<NoSubject>(тақырыпсыз)</NoSubject>
+		<OSErrorContent>Бұл бағдарлама тек қана Windows 7 ОЖ-не арналған.</OSErrorContent>
+		<OSErrorTitle>ОЖ-нің келіспеушілігі</OSErrorTitle>
+		<Password>Кілт сөз:</Password>
+		<RemoveConfirmation>Қолданушыны жойғыңыз келе ме?</RemoveConfirmation>
+		<RemoveConfirmationTitle>Қолданушыны жою</RemoveConfirmationTitle>
+		<Sound>Дыбысты хабарландыру</Sound>
+		<Unread>Оқылмағандар</Unread>
+		<WaveFiles>Wave-файлы</WaveFiles>
+		<Yes>ОК</Yes>
+		<AccountsIntro>Click an account to the left to manage your individual accounts. Click the button below to add a new account.</AccountsIntro>
+		<AccountsIntroNone>Welcome to Gmail Notifier Plus.\n\nTo get started, please click the button below to add a new account.</AccountsIntroNone>
+	</Labels>
+	<Tooltips>
+		<About>Бағдарлама туралы</About>
+		<Add>Жаңа қолданушыны қосу</Add>
+		<Inbox>Келген хаттар</Inbox>
+		<Next>Келесі</Next>
+		<OpenMail>Ашу</OpenMail>
+		<Previous>Алдағы</Previous>
+		<Settings>Баптау</Settings>
+	</Tooltips>
+	<Config>
+		<Accounts>Accounts</Accounts>
+		<Appearance>Appearance</Appearance>
+		<General>General</General>
+		<Panels>
+			<Accounts>Manage Your Accounts</Accounts>
+			<AccountWarn>Clicking save will immediately save any changes made to this account.</AccountWarn>
+			<Appearance>Tell Gmail Notifier Plus how to Act and Look</Appearance>
+			<General>Bread n' Butter settings for Gmail Notifier Plus</General>
+			<NewAccount>Add New Account</NewAccount>
+		</Panels>
+	</Config>
+	<Checkboxes>
+		<FlashTaskbar>Flash Taskbar for New Email</FlashTaskbar>
+		<ShowTray>Show Email count in System Tray</ShowTray>
+		<ShowToast>Show Toast notifications for New Email</ShowToast>
+		<CheckUpdates>Check for Updates</CheckUpdates>
+	</Checkboxes>
+</Locale>
