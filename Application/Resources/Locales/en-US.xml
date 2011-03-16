@@ -22,7 +22,7 @@
 		<CheckMail>Check for New Mail</CheckMail>
 		<Compose>Compose Mail</Compose>
 		<Configuration>Manage Accounts</Configuration>
-		<ConfigurationShort>Change Settings</ConfigurationShort>
+		<ConfigurationShort>Preferences</ConfigurationShort>
 		<Connecting>Checking for new mail...</Connecting>
 		<ConnectionUnavailable>Please check your network connection</ConnectionUnavailable>
 		<CustomSound>Custom...</CustomSound>
@@ -66,7 +66,6 @@
 		<General>General</General>
 		<Panels>
 			<Accounts>Manage Your Accounts</Accounts>
-			<AccountWarn>Clicking save will immediately save any changes made to this account.</AccountWarn>
 			<Appearance>Tell Gmail Notifier Plus how to Act and Look</Appearance>
 			<General>Bread n' Butter settings for Gmail Notifier Plus</General>
 			<NewAccount>Add New Account</NewAccount>

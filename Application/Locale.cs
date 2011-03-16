@@ -62,7 +62,6 @@ namespace GmailNotifierPlus {
 
 		public class LocaleConfigPanels {
 			public String Accounts { get; set; }
-			public String AccountWarn { get; set; }
 			public String Appearance { get; set; }
 			public String General { get; set; }
 			public String NewAccount { get; set; }

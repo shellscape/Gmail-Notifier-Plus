@@ -66,7 +66,6 @@
 		<General>Генеральная</General>
 		<Panels>
 			<Accounts>Управлять своими счетами</Accounts>
-			<AccountWarn>Нажатие сохранения будет немедленно сохранить любые изменения, сделанные на этот счет.</AccountWarn>
 			<Appearance>Скажите Gmail Notifier Plus, как действовать и Смотри</Appearance>
 			<General>Масло Хлеб п настройки для Gmail Notifier Plus</General>
 			<NewAccount>Добавить новую учетную запись</NewAccount>

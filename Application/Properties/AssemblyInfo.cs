@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Shellscape Software")]
 [assembly: AssemblyProduct("GmailNotifierPlus")]
-[assembly: AssemblyCopyright("Copyright © 2010 Baptiste Girod, 2011 Andrew Powell, Shellscape Software")]
+[assembly: AssemblyCopyright("Copyright © 2010 Baptiste Girod, Copyright © 2011 Andrew Powell, Shellscape Software")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: Debuggable(System.Diagnostics.DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]

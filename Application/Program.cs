@@ -111,40 +111,6 @@ namespace GmailNotifierPlus {
 		public static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
 			ErrorHelper.Report(e.Exception);
 		}
-
-		//public static void PinToTaskbar(string filePath) {
-		//  PinUnpin(filePath, true);
-		//}
-
-		//public static void UnpinFromTaskbar(string filePath) {
-		//  PinUnpin(filePath, false);
-		//}
-
-		//private static void PinUnpin(string filePath, bool pin) {
-		//  if (!File.Exists(filePath)) throw new FileNotFoundException(filePath);
-
-		//  // create the shell application object
-		//  dynamic shellApplication = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"));
-
-		//  string path = Path.GetDirectoryName(filePath);
-		//  string fileName = Path.GetFileName(filePath);
-
-		//  dynamic directory = shellApplication.NameSpace(path);
-		//  dynamic link = directory.ParseName(fileName);
-
-		//  dynamic verbs = link.Verbs();
-		//  for (int i = 0; i < verbs.Count(); i++) {
-		//    dynamic verb = verbs.Item(i);
-		//    string verbName = verb.Name.Replace(@"&", string.Empty).ToLower();
-
-		//    if ((pin && verbName.Equals("pin to taskbar")) || (!pin && verbName.Equals("unpin from taskbar"))) {
-		//      verb.DoIt();
-		//    }
-		//  }
-
-		//  shellApplication = null;
-		//}
-
 	}
 }
 

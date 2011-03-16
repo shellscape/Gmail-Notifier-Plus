@@ -66,7 +66,6 @@
 		<General>General</General>
 		<Panels>
 			<Accounts>Manage Your Accounts</Accounts>
-			<AccountWarn>Clicking save will immediately save any changes made to this account.</AccountWarn>
 			<Appearance>Tell Gmail Notifier Plus how to Act and Look</Appearance>
 			<General>Bread n' Butter settings for Gmail Notifier Plus</General>
 			<NewAccount>Add New Account</NewAccount>

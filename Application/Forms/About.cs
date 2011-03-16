@@ -27,12 +27,13 @@ namespace GmailNotifierPlus.Forms {
 			InitializeComponent();
 
 			this.Icon = Program.Icon;
-			this.ClientSize = new Size(300, 355);
+			//this.ClientSize = new Size(300, 355);
 			this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 			this.Text = Resources.WindowTitle;
 
 			_PanelAbout.FirstRun = _firstRun = Config.Current.FirstRun;
-			_ButtonAboutOk.Text = _firstRun ? Locale.Current.Buttons.LetsGo : Locale.Current.Buttons.Sweet;
+			_ButtonOK.Click += _ButtonOk_Click;
+			_ButtonOK.Text = _firstRun ? Locale.Current.Buttons.LetsGo : Locale.Current.Buttons.Sweet;
 		}
 
 		private void _PanelShellscape_Click(object sender, EventArgs e) {
@@ -44,7 +45,7 @@ namespace GmailNotifierPlus.Forms {
 			SetForegroundWindow(base.Handle);
 		}
 
-		private void _ButtonAboutOk_Click(object sender, EventArgs e) {
+		private void _ButtonOk_Click(object sender, EventArgs e) {
 
 			if (_firstRun) {
 				Program.mainForm.FirstRun = true;
