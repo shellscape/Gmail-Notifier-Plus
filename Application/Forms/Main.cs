@@ -58,7 +58,7 @@ namespace GmailNotifierPlus.Forms {
 			_config.Saved += _Config_Saved;
 
 			_Timer.Tick += _Timer_Tick;
-			_Timer.Interval = _config.Interval * 1000;
+			_Timer.Interval = Math.Max(1, _config.Interval) * 1000;
 			_Timer.Enabled = true;
 		}
 
@@ -108,30 +108,34 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void _Config_Saved(object sender, EventArgs e) {
-			_Timer.Interval = _config.Interval * 1000;
+			_Timer.Interval = Math.Max(1, _config.Interval) * 1000;
 
-			if (_config.Accounts.Count > _instances.Count) {
-				this.CreateInstances();
-			}
-			else if (_config.Accounts.Count < _instances.Count) {
+			// TODO - going to handle this a different way
+			//if (_config.Accounts.Count > _instances.Count) {
+			//  this.CreateInstances();
+			//}
+			//else 
+			//this.BuildJumpList();
+			//this.UpdateMailsJumpList();
+			//this.CheckMail();
+
+			if (_config.Accounts.Count < _instances.Count) {
 				this.CloseInstances();
+
+				this.BuildJumpList();
+				this.UpdateMailsJumpList();
+				this.CheckMail();
 			}
 
-			if (!Config.Current.ShowTrayIcon) {
-				_TrayIcon.Visible = false;
-			}
+			_TrayIcon.Visible = Config.Current.ShowTrayIcon;
 
+			// TODO - write code for checking updates from github
 			if (Config.Current.CheckForUpdates) {
 
 			}
 			else {
 
 			}
-
-			this.BuildJumpList();
-			this.UpdateMailsJumpList();
-
-			this.CheckMail();
 		}
 
 		private void _Timer_Tick(object sender, EventArgs e) {

@@ -20,6 +20,7 @@ namespace GmailNotifierPlus.Controls {
 
 	[DesignTimeVisible(true), Browsable(true)]
 	public class AccountPanel : PreferencesPanel {
+
 		private Button _ButtonDefault;
 		private TextBox _TextUsername;
 		private Label _LabelPassword;
@@ -49,24 +50,12 @@ namespace GmailNotifierPlus.Controls {
 			base.OnLoad(e);
 
 			InitLabels();
-			InitValues();
 			DataBind();
 
-			_TextPassword.TextChanged += _Inputs_Changed;
-			_TextUsername.TextChanged += _Inputs_Changed;
+			_TextPassword.TextChanged += _Credentials_Changed;
+			_TextUsername.TextChanged += _Credentials_Changed;
 
 			_PictureExclamation.Image = Utilities.ResourceHelper.GetImage("Exclamation.png");
-		}
-
-		private void InitValues() {
-			if (Account == null) {
-				return;
-			}
-
-			_TextPassword.Text = _filler;
-			_TextUsername.Text = Account.FullAddress;
-
-			_ButtonDefault.Enabled = !Account.Default;
 		}
 
 		private void InitLabels() {
@@ -88,8 +77,14 @@ namespace GmailNotifierPlus.Controls {
 		}
 
 		private void DataBind() {
+			if (Account == null) {
+				return;
+			}
 
-	
+			_TextPassword.Text = _filler;
+			_TextUsername.Text = Account.FullAddress;
+
+			_ButtonDefault.Enabled = !Account.Default;				
 		}
 
 		private Boolean AccountExists() {
@@ -107,27 +102,6 @@ namespace GmailNotifierPlus.Controls {
 			_PictureExclamation.Visible = _LabelError.Visible = result;
 
 			return result;
-		}
-
-		private void MakeDefault() {
-			var accountPanels = this.Parent.Controls.All().Where(o => o is AccountPanel);
-
-			Account defaultAccount = Config.Current.Accounts.Where(o => o.Default).FirstOrDefault();
-			AccountPanel defaultAccountPanel = accountPanels.Where(o => (o as AccountPanel).Account.Default).FirstOrDefault() as AccountPanel;
-
-			PreferencesButton buttonAccounts = this.Parent.Controls.Find("_ButtonAccounts", true)[0] as PreferencesButton;
-
-			PreferencesButtonItem thisItem = buttonAccounts.ButtonItems.All().Where(o => o.AssociatedPanel == this).FirstOrDefault();
-			PreferencesButtonItem defaultItem = buttonAccounts.ButtonItems.All().Where(o => o.ButtonText == defaultAccount.FullAddress).FirstOrDefault();
-
-			defaultAccount.Default = false;
-			Account.Default = true;
-
-			_ButtonDefault.Enabled = false;
-			defaultAccountPanel.DefaultButton.Enabled = true;
-
-			thisItem.Font = new Font(thisItem.Font, FontStyle.Bold);
-			defaultItem.Font = new Font(defaultItem.Font, FontStyle.Regular);
 		}
 
 		private void InitializeComponent() {
@@ -277,42 +251,63 @@ namespace GmailNotifierPlus.Controls {
 
 		}
 
-		private void _Inputs_Changed(object sender, EventArgs e) {
+		private void _Credentials_Changed(object sender, EventArgs e) {
 
-			Boolean enabled = (_TextUsername.Text != this.Account.Login) || (_TextPassword.Text != _filler);
-
-			//_ButtonSave.Enabled = enabled;
-
-			_PictureExclamation.Visible = _LabelError.Visible = false;
-		}
-
-		private void _ButtonCancel_Click(object sender, EventArgs e) {
-			InitValues();
-		}
-
-		private void _ButtonSave_Click(object sender, EventArgs e) {
-			if (AccountExists()) {
+			if (AccountExists()) { // aww, you're naughty.
 				return;
 			}
 
-			Account.Login = _TextUsername.Text;
+			_PictureExclamation.Visible = _LabelError.Visible = false;
 
-			if (_TextPassword.Text != _filler) {
+			Boolean somethingChanged = false;
+
+			if((_TextUsername.Text != this.Account.Login) || (_TextUsername.Text.Length > 0)) { // dude, change something already.
+				Account.Login = _TextUsername.Text;
+				Account.Init();
+				somethingChanged = true;
+			}
+
+			if ((_TextPassword.Text != _filler) && (_TextPassword.Text.Length > 0)) {
 				Account.Password = _TextPassword.Text;
+				Account.Init();
+				somethingChanged = true;
 			}
 
-			if (_makeDefault) {
-				MakeDefault();
+			if (!Config.Current.Accounts.Contains(Account)) {
+				Config.Current.Accounts.Add(Account); // TODO - config should notify when this happens!
+				somethingChanged = true;
 			}
 
-			Account.Init();
-
-			Config.Current.Save();
+			if (somethingChanged) {
+				Config.Current.Save();
+			}
 		}
 
+		// TODO - need the account to notify that something has changed from the original value.
+		// TODO - need config to notify that an account has changed. so we can not recheck on plain old save.
+
 		private void _ButtonDefault_Click(object sender, EventArgs e) {
-			_makeDefault = true;
 			_ButtonDefault.Enabled = false;
+
+			var accountPanels = this.Parent.Controls.All().Where(o => o is AccountPanel);
+
+			Account defaultAccount = Config.Current.Accounts.Where(o => o.Default).FirstOrDefault();
+			AccountPanel defaultAccountPanel = accountPanels.Where(o => (o as AccountPanel).Account.Default).FirstOrDefault() as AccountPanel;
+			Forms.Preferences form = this.ParentForm as Forms.Preferences;
+
+			PreferencesButton buttonAccounts = form._ButtonGroup.Controls.Find("_ButtonAccounts", true)[0] as PreferencesButton;
+
+			PreferencesButtonItem thisItem = buttonAccounts.ButtonItems.All().Where(o => o.AssociatedPanel == this).FirstOrDefault();
+			PreferencesButtonItem defaultItem = buttonAccounts.ButtonItems.All().Where(o => o.ButtonText == defaultAccount.FullAddress).FirstOrDefault();
+
+			defaultAccount.Default = false;
+			Account.Default = true;
+
+			_ButtonDefault.Enabled = false;
+			defaultAccountPanel.DefaultButton.Enabled = true;
+
+			thisItem.Font = new Font(thisItem.Font, FontStyle.Bold);
+			defaultItem.Font = new Font(defaultItem.Font, FontStyle.Regular);
 		}
 
 		private void _ButtonRemove_Click(object sender, EventArgs e) {
@@ -341,7 +336,9 @@ namespace GmailNotifierPlus.Controls {
 
 		private void _TaskButtonYes_Click(object sender, EventArgs e) {
 			TaskDialogButton button = (TaskDialogButton)sender;
-			PreferencesButton buttonAccounts = this.Parent.Controls.Find("_ButtonAccounts", true)[0] as PreferencesButton;
+			Forms.Preferences form = this.ParentForm as Forms.Preferences;
+
+			PreferencesButton buttonAccounts = form._ButtonGroup.Controls.Find("_ButtonAccounts", true)[0] as PreferencesButton;
 			PreferencesButtonItem thisItem = buttonAccounts.ButtonItems.All().Where(o => o.AssociatedPanel == this).FirstOrDefault();
 
 			((TaskDialog)button.HostingDialog).Close();

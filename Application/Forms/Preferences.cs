@@ -36,7 +36,7 @@ namespace GmailNotifierPlus.Forms {
 		private Label _LabelSound;
 		private Label _LabelInterval;
 		private Label _LabelMinutes;
-		private TextBox _TextInterval;
+		private Shellscape.UI.Controls.NumericTextBox _TextInterval;
 		private ComboBox _ComboSound;
 		private Button _ButtonBrowse;
 		private ShapeContainer shapeContainer1;
@@ -63,9 +63,9 @@ namespace GmailNotifierPlus.Forms {
 			InitPanels();
 
 			this.Icon = Program.Icon;
-			this.Text = String.Concat(Resources.WindowTitle, " - ", Locale.Current.Labels.ConfigurationShort);
 
 			_ButtonBrowse.Click += _ButtonBrowse_Click;
+			_ButtonNewAccount.Click += _ButtonNewAccount_Click;
 
 			Config.Current.LanguageChanged += _Config_LanguageChanged;
 
@@ -74,7 +74,16 @@ namespace GmailNotifierPlus.Forms {
 			foreach (PreferencesPanel panel in _panels) {
 				panel.ControlBackColor = panelContentColor;
 			}
-			
+
+			_CheckToast.CheckedChanged += _CheckToast_CheckedChanged;
+			_CheckTray.CheckedChanged += _CheckTray_CheckedChanged;
+			_CheckFlash.CheckedChanged += _CheckFlash_CheckedChanged;
+			_CheckUpdates.CheckedChanged += _CheckUpdates_CheckedChanged;
+
+			_TextInterval.TextChanged += _TextInterval_TextChanged;
+		
+			_ComboSound.SelectedValueChanged +=_ComboSound_SelectedValueChanged;
+			_ComboLanguage.SelectedValueChanged += _ComboLanguage_SelectedValueChanged;
 		}
 
 		public void InitFirstRun() {
@@ -136,13 +145,6 @@ namespace GmailNotifierPlus.Forms {
 			_ComboSound.SelectedIndex = (int)config.SoundNotification;
 		}
 
-		private void FixInterval() {
-			int num;
-			if (!int.TryParse(_TextInterval.Text, out num) || (num <= 0)) {
-				_TextInterval.Text = "1";
-			}
-		}
-
 		private void InitAccounts() {
 			foreach (Account account in Config.Current.Accounts) {
 				PreferencesButtonItem item = new PreferencesButtonItem() {
@@ -175,10 +177,12 @@ namespace GmailNotifierPlus.Forms {
 			_ButtonAccounts.AssociatedPanel = _PanelAccounts;
 			_ButtonAccounts.ButtonText = "Accounts";
 			_ButtonAccounts.TabIndex = 7;
+			_ButtonAccounts.Name = "_ButtonAccounts";
 
 			_ButtonAppearance.AssociatedPanel = _PanelAppearance;
 			_ButtonAppearance.ButtonText = "Appearance";
 			_ButtonAppearance.TabIndex = 8;
+			_ButtonAppearance.Name = "_ButtonAppearance";
 
 			// FlowLayoutPanel doesn't support visual inheritance, and ButtonGroup inherits from that, so we can't add 
 			// controls to it via the designer. Way to make it suck royal ass, Microsoft.
@@ -211,6 +215,8 @@ namespace GmailNotifierPlus.Forms {
 			_CheckToast.Text = Locale.Current.Checkboxes.ShowToast;
 			_CheckTray.Text = Locale.Current.Checkboxes.ShowTray;
 			_CheckUpdates.Text = Locale.Current.Checkboxes.CheckUpdates;
+
+			this.Text = String.Concat(Resources.WindowTitle, " - ", Locale.Current.Labels.ConfigurationShort);
 
 		}
 
@@ -251,78 +257,34 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void _ButtonNewAccount_Click(object sender, EventArgs e) {
-			//_PanelAccounts.Hide();
-			//_PanelNewAccount.Show();
-		}
+			
+			// create a new account for the user to edit. this is how it's done on the mac, and requires less clicks.
+			String accountName = "[New Account]";
+			Account account = new Account(accountName, String.Empty);
 
-		//private void _ButtonNewCancel_Click(object sender, EventArgs e) {
-		//  _PanelNewAccount.Hide();
-		//  _PanelAccounts.Show();
-
-		//  _TextUsername.Text = String.Empty;
-		//  _TextPassword.Text = String.Empty;
-		//  _PictureExclamation.Visible = _LabelError.Visible = false;
-		//}
-
-		//private void _ButtonNewSave_Click(object sender, EventArgs e) {
-		//  Account account = new Account(_TextUsername.Text, _TextPassword.Text);
-
-		//  if (_ButtonAccounts.ButtonItems.Count == 0) {
-		//    account.Default = true;
-		//  }
-
-		//  PreferencesButtonItem item = new PreferencesButtonItem() {
-		//    ButtonText = account.FullAddress,
-		//    AssociatedPanel = new AccountPanel() {
-		//      Account = account,
-		//      ControlBackColor = _PanelAccounts.ControlBackColor
-		//    }
-		//  };
-
-		//  Config.Current.Accounts.Add(account);
-		//  Config.Current.Save();
-
-		//  _PanelParent.Controls.Add(item.AssociatedPanel);
-
-		//  InitPanelShapes(item.AssociatedPanel);
-
-		//  item.AssociatedPanel.BringToFront();
-
-		//  _ButtonAccounts.ButtonItems.Add(item);
-
-		//  _PanelNewAccount.Hide();
-
-		//  _TextUsername.Text = String.Empty;
-		//  _TextPassword.Text = String.Empty;
-		//  _PictureExclamation.Visible = _LabelError.Visible = false;
-
-		//}
-
-		private void _ButtonSave_Click(object sender, EventArgs e) {
-			this.FixInterval();
-
-			Config.Current.Interval = Convert.ToInt32(_TextInterval.Text) * 60;
-			Config.Current.Language = _ComboLanguage.SelectedValue.ToString();
-			Config.Current.ShowToast = _CheckToast.Checked;
-			Config.Current.ShowTrayIcon = _CheckTray.Checked;
-			Config.Current.CheckForUpdates = _CheckUpdates.Checked;
-			Config.Current.FlashTaskbar = _CheckFlash.Checked;
-
-			if ((_ComboSound.SelectedIndex == 2) && string.IsNullOrEmpty(_ComboSound.SelectedValue.ToString())) {
-				Config.Current.SoundNotification = 0;
-			}
-			else {
-				Config.Current.SoundNotification = (SoundNotification)_ComboSound.SelectedIndex;
-				Config.Current.Sound = _ComboSound.SelectedValue.ToString();
+			if (_ButtonAccounts.ButtonItems.Count == 0) {
+				account.Default = true;
 			}
 
-			Config.Current.Save();
+			PreferencesButtonItem item = new PreferencesButtonItem() {
+				ButtonText = accountName,
+				AssociatedPanel = new AccountPanel() {
+					Account = account,
+					ControlBackColor = _PanelAccounts.ControlBackColor
+				}
+			};
+			
+			_PanelParent.Controls.Add(item.AssociatedPanel);
 
-			base.Close();
-		}
+			InitPanelShapes(item.AssociatedPanel);
 
-		private void _TextInterval_Leave(object sender, EventArgs e) {
-			this.FixInterval();
+			item.AssociatedPanel.BringToFront();
+			
+			_ButtonAccounts.ButtonItems.Add(item);
+
+			item.Activate();
+
+			_PanelNewAccount.Hide();
 		}
 
 		private void _ButtonBrowse_Click(object sender, EventArgs e) {
@@ -347,6 +309,63 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
+		// I really need to create a class that maps these values to these inputs, auto-wires the events 
+		// and handles the setting/saving. I'm too lazy and full of garlic hommus and orange juice. 
+		// And I want to play some TFC yet.
+
+		#region .    General Settings Watchers
+
+		private void _ComboSound_SelectedValueChanged(object sender, EventArgs e) {
+
+			if ((_ComboSound.SelectedIndex == 2) && string.IsNullOrEmpty(_ComboSound.SelectedValue.ToString())) {
+				Config.Current.SoundNotification = 0;
+			}
+			else {
+				Config.Current.SoundNotification = (SoundNotification)_ComboSound.SelectedIndex;
+				Config.Current.Sound = _ComboSound.SelectedValue.ToString();
+			}
+
+			Config.Current.Save();
+		}
+
+		private void _TextInterval_TextChanged(object sender, EventArgs e) {
+			if (_TextInterval.Value > 0) {
+				Config.Current.Interval = _TextInterval.Value * 60;
+				Config.Current.Save();
+			}
+		}
+
+		private void _CheckUpdates_CheckedChanged(object sender, EventArgs e) {
+			Config.Current.CheckForUpdates = _CheckUpdates.Checked;
+			Config.Current.Save();
+		}
+
+		#endregion
+
+		#region .    Appearance Watchers
+
+		private void _ComboLanguage_SelectedValueChanged(object sender, EventArgs e) {
+			Config.Current.Language = _ComboLanguage.SelectedValue.ToString();
+			Config.Current.Save();
+		}
+
+		private void _CheckFlash_CheckedChanged(object sender, EventArgs e) {
+			Config.Current.FlashTaskbar = _CheckFlash.Checked;
+			Config.Current.Save();
+		}
+
+		private void _CheckTray_CheckedChanged(object sender, EventArgs e) {
+			Config.Current.ShowTrayIcon = _CheckTray.Checked;
+			Config.Current.Save();
+		}
+
+		private void _CheckToast_CheckedChanged(object sender, EventArgs e) {
+			Config.Current.ShowToast = _CheckToast.Checked;
+			Config.Current.Save();
+		}
+
+		#endregion
+
 		private void InitializeComponent() {
 			this._PanelAccounts = new Shellscape.UI.Controls.Preferences.PreferencesPanel();
 			this._LabelAccountIntro = new System.Windows.Forms.Label();
@@ -364,7 +383,7 @@ namespace GmailNotifierPlus.Forms {
 			this._LabelSound = new System.Windows.Forms.Label();
 			this._LabelInterval = new System.Windows.Forms.Label();
 			this._LabelMinutes = new System.Windows.Forms.Label();
-			this._TextInterval = new System.Windows.Forms.TextBox();
+			this._TextInterval = new Shellscape.UI.Controls.NumericTextBox();
 			this._ComboSound = new System.Windows.Forms.ComboBox();
 			this._ButtonBrowse = new System.Windows.Forms.Button();
 			this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
@@ -389,13 +408,13 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _PanelParent
 			// 
-			this._PanelParent.Controls.Add(this._PanelNewAccount);
 			this._PanelParent.Controls.Add(this._PanelAppearance);
 			this._PanelParent.Controls.Add(this._PanelAccounts);
-			this._PanelParent.Controls.SetChildIndex(this._PanelAccounts, 0);
-			this._PanelParent.Controls.SetChildIndex(this._PanelAppearance, 0);
+			this._PanelParent.Controls.Add(this._PanelNewAccount);
 			this._PanelParent.Controls.SetChildIndex(this._PanelNewAccount, 0);
 			this._PanelParent.Controls.SetChildIndex(this._PanelGeneral, 0);
+			this._PanelParent.Controls.SetChildIndex(this._PanelAccounts, 0);
+			this._PanelParent.Controls.SetChildIndex(this._PanelAppearance, 0);
 			// 
 			// _PanelAccounts
 			// 
@@ -431,7 +450,7 @@ namespace GmailNotifierPlus.Forms {
 			this._LabelAccountIntro.Size = new System.Drawing.Size(436, 30);
 			this._LabelAccountIntro.TabIndex = 1;
 			this._LabelAccountIntro.Text = "Click an account to the left to manage your individual accounts. Click the button" +
-    " below to add a new account.";
+		" below to add a new account.";
 			// 
 			// _ButtonNewAccount
 			// 
@@ -606,6 +625,7 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _TextInterval
 			// 
+			this._TextInterval.AllowNegativeValues = true;
 			this._TextInterval.Location = new System.Drawing.Point(124, 122);
 			this._TextInterval.Name = "_TextInterval";
 			this._TextInterval.Size = new System.Drawing.Size(27, 23);
@@ -681,6 +701,6 @@ namespace GmailNotifierPlus.Forms {
 			this.ResumeLayout(false);
 
 		}
-		
+
 	}
 }

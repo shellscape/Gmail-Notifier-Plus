@@ -107,12 +107,6 @@
     <Compile Include="Controls\AccountPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Copy of About.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Copy of About.Designer.cs">
-      <DependentUpon>Copy of About.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Preferences.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,9 +172,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Copy of About.resx">
-      <DependentUpon>Copy of About.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Preferences.resx">
       <DependentUpon>Preferences.cs</DependentUpon>
