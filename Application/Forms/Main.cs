@@ -146,6 +146,10 @@ namespace GmailNotifierPlus.Forms {
 				this.CheckMail();
 			}
 
+			if (_config.ShowTrayIcon) {
+				_TrayIcon.Icon = _iconTray;
+			}
+
 			_TrayIcon.Visible = Config.Current.ShowTrayIcon;
 
 			if (Config.Current.CheckForUpdates) {
