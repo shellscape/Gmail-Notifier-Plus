@@ -146,8 +146,8 @@ namespace GmailNotifierPlus.Forms {
 					XmlMail = document.SelectNodes("/feed/entry");
 					_MailIndex = 0;
 				}
-				catch (System.Xml.XmlException) {
-				}
+				catch (System.Xml.XmlException) { }
+				catch (Exception) { } // fixed issue #6. google will occasionally send back invalid xml.
 			}
 			else {
 				WebException error = (WebException)e.Error;
