@@ -22,13 +22,13 @@ namespace GmailNotifierPlus.Controls {
 	public class AccountPanel : PreferencesPanel {
 
 		private Button _ButtonDefault;
-		private TextBox _TextUsername;
+		private Shellscape.UI.Controls.InputBufferedTextBox _TextUsername;
 		private Label _LabelPassword;
 		private Label _LabelUsername;
 		private Label _LabelAccountTitle;
 		private Label _LabelError;
 		private PictureBox _PictureExclamation;
-		private TextBox _TextPassword;
+		private Shellscape.UI.Controls.InputBufferedTextBox _TextPassword;
 		private Button _ButtonRemove;
 		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
 		private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
@@ -106,13 +106,13 @@ namespace GmailNotifierPlus.Controls {
 
 		private void InitializeComponent() {
 			this._ButtonDefault = new System.Windows.Forms.Button();
-			this._TextUsername = new System.Windows.Forms.TextBox();
+			this._TextUsername = new Shellscape.UI.Controls.InputBufferedTextBox();
 			this._LabelPassword = new System.Windows.Forms.Label();
 			this._LabelUsername = new System.Windows.Forms.Label();
 			this._LabelAccountTitle = new System.Windows.Forms.Label();
 			this._LabelError = new System.Windows.Forms.Label();
 			this._PictureExclamation = new System.Windows.Forms.PictureBox();
-			this._TextPassword = new System.Windows.Forms.TextBox();
+			this._TextPassword = new Shellscape.UI.Controls.InputBufferedTextBox();
 			this._ButtonRemove = new System.Windows.Forms.Button();
 			this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
 			this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
@@ -263,18 +263,16 @@ namespace GmailNotifierPlus.Controls {
 
 			if((_TextUsername.Text != this.Account.Login) || (_TextUsername.Text.Length > 0)) { // dude, change something already.
 				Account.Login = _TextUsername.Text;
-				Account.Init();
 				somethingChanged = true;
 			}
 
 			if ((_TextPassword.Text != _filler) && (_TextPassword.Text.Length > 0)) {
 				Account.Password = _TextPassword.Text;
-				Account.Init();
 				somethingChanged = true;
 			}
 
 			if (!Config.Current.Accounts.Contains(Account)) {
-				Config.Current.Accounts.Add(Account); // TODO - config should notify when this happens!
+				Config.Current.Accounts.Add(Account);
 				somethingChanged = true;
 			}
 
@@ -282,9 +280,6 @@ namespace GmailNotifierPlus.Controls {
 				Config.Current.Save();
 			}
 		}
-
-		// TODO - need the account to notify that something has changed from the original value.
-		// TODO - need config to notify that an account has changed. so we can not recheck on plain old save.
 
 		private void _ButtonDefault_Click(object sender, EventArgs e) {
 			_ButtonDefault.Enabled = false;

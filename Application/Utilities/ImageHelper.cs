@@ -38,20 +38,12 @@ namespace GmailNotifierPlus.Utilities {
 
 			// overlay icons MUST be 16x16. Stupid limitation by microsoft.
 			Bitmap bitmap = new Bitmap(16, 16);
-			//Bitmap bitmap = ResourceHelper.GetImage("Envelope.png");
 
 			using (Graphics graphics = Graphics.FromImage(bitmap)) {
 				graphics.CompositingQuality = CompositingQuality.HighQuality;
 				graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-				// for testing purposes
-				//graphics.FillRectangle(Brushes.White, new Rectangle(0, 0, 16, 16));
-
 				using (Bitmap numbers = GetNumbers(number)) {
-					//int x = Math.Max(0, bitmap.Width - numbers.Width);
-					//int y = Math.Max(0, bitmap.Height - numbers.Height);
-
-					//graphics.DrawImage(numbers, x, y, numbers.Width, numbers.Height);
 
 					// yeah, most of these numbers are arbitrary, based on the font we're using 
 					// and the numbers used to calc width and height.

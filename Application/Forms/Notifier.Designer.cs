@@ -52,7 +52,7 @@
 			// _LabelStatus
 			// 
 			this._LabelStatus.AutoEllipsis = true;
-			this._LabelStatus.AutoSize = true;
+			this._LabelStatus.AutoSize = false;
 			this._LabelStatus.BackColor = System.Drawing.Color.Transparent;
 			this._LabelStatus.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;

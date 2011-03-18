@@ -80,6 +80,9 @@ namespace GmailNotifierPlus {
 					Application.SetCompatibleTextRenderingDefault(false);
 					Application.ThreadException += Application_ThreadException;
 
+					AppDomain appDomain = AppDomain.CurrentDomain;
+					appDomain.UnhandledException += AppDomain_UnhandledException;
+
 					try {
 						Config.Init();
 
@@ -106,6 +109,10 @@ namespace GmailNotifierPlus {
 			public void ShowAbout() {
 				Program.mainForm.RemoteShowAbout();
 			}
+		}
+
+		public static void AppDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
+			ErrorHelper.Report(e.ExceptionObject as Exception);
 		}
 
 		public static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {

@@ -32,7 +32,7 @@ namespace GmailNotifierPlus {
 
 		public event ConfigSavedEventHandler Saved;
 		public event LanguageChangedEventHandler LanguageChanged;
-		
+
 		public Config() {
 			this.Interval = 60;
 			this.Language = "en-us";

@@ -4,6 +4,7 @@ using Microsoft.WindowsAPICodePack.Taskbar;
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
 using System.Xml;
@@ -41,7 +42,10 @@ namespace GmailNotifierPlus.Forms {
 			AccountIndex = accountIndex;
 
 			_Account = _Config.Accounts[accountIndex];
+			
 			_LabelStatus.RightToLeft = Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
+			_LabelStatus.Width = this.Width;
+
 			_WebClient.DownloadDataCompleted += _WebClient_DownloadDataCompleted;
 			_Config.Saved += _Config_Saved;
 
@@ -175,18 +179,12 @@ namespace GmailNotifierPlus.Forms {
 
 			_ButtonNext = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Next.ico"), Locale.Current.Tooltips.Next);
 			_ButtonNext.Click += _ButtonNext_Click;
-			//_ButtonNext.Click += new EventHandler<ThumbnailButtonClickedEventArgs>(this._ButtonNext_Click);
-
-			//_ButtonNext.Click += delegate(object sender, ThumbnailButtonClickedEventArgs e) {
-			//  MessageBox.Show("Clicked");
-			//};
 			
 			_TaskbarManager.ThumbnailToolBars.AddButtons(base.Handle, new ThumbnailToolBarButton[] { _ButtonPrev, _ButtonInbox, _ButtonNext });
 		}
 
 		private void SetCheckingPreview() {
 			_LabelStatus.Top = 82;
-			//_LabelStatus.Height = 26;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.Connecting;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Checking.png");
@@ -200,22 +198,23 @@ namespace GmailNotifierPlus.Forms {
 				(this.Height - _LabelStatus.Height) / 2
 			);
 			
-			//_LabelStatus.Height = 108;
 			_LabelStatus.ForeColor = System.Drawing.Color.Gray;
 			_PictureLogo.Image = null;
 		}
 
 		private void SetOfflinePreview() {
-			_LabelStatus.Top = 79;
-			//_LabelStatus.Height = 29;
+			_LabelStatus.Location = new Point(0, 84);
+			_LabelStatus.Width = this.Width;
+			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.ConnectionUnavailable;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Offline.png");
 		}
 
 		private void SetWarningPreview() {
-			_LabelStatus.Top = 0x4f;
-			//_LabelStatus.Height = 0x1d;
+			_LabelStatus.Location = new Point(0, 84);
+			_LabelStatus.Width = this.Width;
+			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.CheckLogin;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Warning.png");
@@ -289,7 +288,7 @@ namespace GmailNotifierPlus.Forms {
 						this.ShowStatus();
 					}
 
-					TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this); //._PictureLogo);
+					TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
 
 					if (thumb != null) {
 						thumb.InvalidatePreview();

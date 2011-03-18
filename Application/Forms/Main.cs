@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
@@ -15,6 +16,7 @@ using Microsoft.WindowsAPICodePack.Taskbar;
 using GmailNotifierPlus.Utilities;
 
 namespace GmailNotifierPlus.Forms {
+
 	public partial class Main : Form {
 
 		[DllImport("user32.dll")]
@@ -56,6 +58,7 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			_config.Saved += _Config_Saved;
+			_config.Accounts.AccountChanged += _Account_Changed;
 
 			_Timer.Tick += _Timer_Tick;
 			_Timer.Interval = Math.Max(1, _config.Interval) * 1000;
@@ -107,20 +110,36 @@ namespace GmailNotifierPlus.Forms {
 			base.Top = 5000;
 		}
 
+		private void _Account_Changed(Account account) {
+
+			Notifier notifier = _instances.Values.Where(o => o.AccountIndex == _config.Accounts.IndexOf(account)).FirstOrDefault();
+
+			if (notifier != null) {
+				notifier.Text = account.FullAddress;
+
+				TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(notifier.Handle);
+
+				if (thumb != null) {
+					thumb.Title = account.FullAddress;
+				}
+
+			}
+
+			this.BuildJumpList();
+			this.UpdateMailsJumpList();
+			this.CheckMail();
+		}
+
 		private void _Config_Saved(object sender, EventArgs e) {
 			_Timer.Interval = Math.Max(1, _config.Interval) * 1000;
 
-			// TODO - going to handle this a different way
-			//if (_config.Accounts.Count > _instances.Count) {
-			//  this.CreateInstances();
-			//}
-			//else 
-			//this.BuildJumpList();
-			//this.UpdateMailsJumpList();
-			//this.CheckMail();
-
-			if (_config.Accounts.Count < _instances.Count) {
-				this.CloseInstances();
+			if (_config.Accounts.Count != _instances.Count) {
+				if (_config.Accounts.Count < _instances.Count) {
+					this.CloseInstances();
+				}
+				else if (_config.Accounts.Count > _instances.Count) {
+					this.CreateInstances();
+				}
 
 				this.BuildJumpList();
 				this.UpdateMailsJumpList();
@@ -129,12 +148,8 @@ namespace GmailNotifierPlus.Forms {
 
 			_TrayIcon.Visible = Config.Current.ShowTrayIcon;
 
-			// TODO - write code for checking updates from github
 			if (Config.Current.CheckForUpdates) {
-
-			}
-			else {
-
+				// TODO - write code for checking updates from github
 			}
 		}
 
@@ -296,7 +311,6 @@ namespace GmailNotifierPlus.Forms {
 				preview.Title = account.FullAddress;
 
 				_taskbarManager.TabbedThumbnail.AddThumbnailPreview(preview);
-
 			}
 
 			if (_config.Accounts.Count > 0) {

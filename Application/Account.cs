@@ -13,6 +13,8 @@ namespace GmailNotifierPlus {
 	[DataContract(Name="account")]
 	public class Account {
 
+		public event AccountChangedEventHandler AccountChanged;
+
 		public static class Domains {
 			public const String Gmail = "gmail.com";
 			public const String GmailAlt = "googlemail.com";
@@ -20,8 +22,33 @@ namespace GmailNotifierPlus {
 			public const String WindowTitle = "Gmail Notifier Plus";
 		}
 
-		public String Login { get; set; }
-		public String Password { get; set; }
+		private String _login = String.Empty;
+		private String _password = String.Empty;
+
+		public String Login {
+			get { return _login; }
+			set {
+				String original = _login;
+				_login = value;
+
+				if (original != _login && AccountChanged != null) {
+					Init();
+					AccountChanged(this);
+				}
+			}
+		}
+		
+		public String Password {
+			get { return _password; }
+			set {
+				String original = _password;
+				_password = value;
+
+				if (original != _password && AccountChanged != null) {
+					AccountChanged(this);
+				}
+			}
+		}
 
 		[DataMember(Name="default")]
 		public Boolean Default { get; set; }
