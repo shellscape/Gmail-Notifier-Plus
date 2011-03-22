@@ -314,6 +314,8 @@ namespace GmailNotifierPlus.Forms {
 				preview.Tooltip = String.Empty;
 				preview.Title = account.FullAddress;
 
+				notifier.PreviewThumbnail = preview;
+
 				_taskbarManager.TabbedThumbnail.AddThumbnailPreview(preview);
 			}
 

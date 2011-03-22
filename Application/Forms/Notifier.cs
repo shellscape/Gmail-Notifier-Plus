@@ -4,6 +4,7 @@ using Microsoft.WindowsAPICodePack.Taskbar;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
@@ -15,7 +16,9 @@ namespace GmailNotifierPlus.Forms {
 		private const int _FeedMax = 20;
 		private int _MailIndex;
 		private String _MailUrl;
+		private Boolean _thumbActivated = false;
 
+		private TabbedThumbnail _preview = null;
 		private ThumbnailToolBarButton _ButtonInbox;
 		private ThumbnailToolBarButton _ButtonNext;
 		private ThumbnailToolBarButton _ButtonPrev;
@@ -23,7 +26,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private Config _Config = Config.Current;
 		private Account _Account = null;
-
+		
 		private WebClient _WebClient = new WebClient();
 
 		public event CheckMailFinishedEventHandler CheckMailFinished;
@@ -49,8 +52,16 @@ namespace GmailNotifierPlus.Forms {
 			_WebClient.DownloadDataCompleted += _WebClient_DownloadDataCompleted;
 			_Config.Saved += _Config_Saved;
 
-			// the background image is cuasing an Out of Memory Exception. Investigate this later.
-			//this.BackgroundImage = Utilities.ResourceHelper.GetImage("Background.png");
+			ToolTip openTip = new ToolTip();
+
+			openTip.SetToolTip(_PictureOpen, Locale.Current.Tooltips.OpenMail);
+
+			using (Icon icon = Utilities.ResourceHelper.GetIcon("Open.ico")) {
+				_PictureOpen.Image = icon.ToBitmap();
+			}
+
+			_PictureOpen.Cursor = Cursors.Hand;
+
 			this.Text = _Account.FullAddress;	
 		}
 
@@ -68,6 +79,29 @@ namespace GmailNotifierPlus.Forms {
 		/// Returns the number of unread emails for associated account.
 		/// </summary>
 		public int Unread { get; private set; }
+
+		public TabbedThumbnail PreviewThumbnail {
+			get { return _preview; }
+			set {
+				if (_preview != value) {
+					_preview = value;
+
+					if (_preview != null) {
+						_preview.TabbedThumbnailActivated += delegate(object sender, TabbedThumbnailEventArgs e) {
+							
+							// i can't track down why exactly, but this is being fired twice.
+							if (_thumbActivated) {
+								_thumbActivated = false;
+							}
+							else {
+								_thumbActivated = true;
+								OpenEmail();
+							}
+						};
+					}
+				}
+			}
+		}
 
 #endregion
 
@@ -113,7 +147,7 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void _ButtonInbox_Click(object sender, ThumbnailButtonClickedEventArgs e) {
-			OpenCurrentMail();
+			OpenInbox();
 		}
 
 		private void _ButtonNext_Click(object sender, ThumbnailButtonClickedEventArgs e) {
@@ -188,6 +222,7 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.Connecting;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Checking.png");
+			_PictureOpen.Visible = false;
 		}
 
 		private void SetNoMailPreview() {
@@ -200,6 +235,7 @@ namespace GmailNotifierPlus.Forms {
 			
 			_LabelStatus.ForeColor = System.Drawing.Color.Gray;
 			_PictureLogo.Image = null;
+			_PictureOpen.Visible = false;
 		}
 
 		private void SetOfflinePreview() {
@@ -209,6 +245,7 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.ConnectionUnavailable;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Offline.png");
+			_PictureOpen.Visible = false;
 		}
 
 		private void SetWarningPreview() {
@@ -218,6 +255,7 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.CheckLogin;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Warning.png");
+			_PictureOpen.Visible = false;
 		}
 
 		private void ShowMails() {
@@ -228,7 +266,8 @@ namespace GmailNotifierPlus.Forms {
 				_LabelMessage.Visible =
 				_LabelDate.Visible =
 				_LabelIndex.Visible =
-				_PanelLine.Visible = true;
+				_PanelLine.Visible =
+				_PictureOpen.Visible = true;
 
 			this.Refresh();
 		}
@@ -241,7 +280,8 @@ namespace GmailNotifierPlus.Forms {
 				_LabelMessage.Visible =
 				_LabelDate.Visible =
 				_LabelIndex.Visible =
-				_PanelLine.Visible = false;
+				_PanelLine.Visible =
+				_PictureOpen.Visible = false;
 
 			this.Refresh();
 		}
@@ -289,7 +329,7 @@ namespace GmailNotifierPlus.Forms {
 					}
 
 					TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
-
+					
 					if (thumb != null) {
 						thumb.InvalidatePreview();
 					}
@@ -313,14 +353,14 @@ namespace GmailNotifierPlus.Forms {
 			_ButtonNext.Enabled = _MailIndex < (num - 1);
 			_ButtonNext.Tooltip = Locale.Current.Tooltips.Next;
 
-			if (Unread == 0) {
+			//if (Unread == 0) {
 				_ButtonInbox.Icon = Utilities.ResourceHelper.GetIcon("Inbox.ico");
 				_ButtonInbox.Tooltip = Locale.Current.Tooltips.Inbox;
-			}
-			else {
-				_ButtonInbox.Icon = Utilities.ResourceHelper.GetIcon("Open.ico");
-				_ButtonInbox.Tooltip = Locale.Current.Tooltips.OpenMail;
-			}
+			//}
+			//else {
+			//  _ButtonInbox.Icon = Utilities.ResourceHelper.GetIcon("Open.ico");
+			//  _ButtonInbox.Tooltip = Locale.Current.Tooltips.OpenMail;
+			//}
 
 			_ButtonInbox.Enabled = ConnectionStatus == NotifierStatus.OK;
 		}
@@ -331,9 +371,16 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
-		private void OpenCurrentMail() {
-			Help.ShowHelp(this, string.IsNullOrEmpty(_MailUrl) ? UrlHelper.BuildInboxUrl(AccountIndex) : _MailUrl);
+		private void OpenInbox() {
+			Help.ShowHelp(this, UrlHelper.BuildInboxUrl(AccountIndex));
 			this.Refresh();
+		}
+
+		private void OpenEmail() {
+			if (!String.IsNullOrEmpty(_MailUrl)) {
+				Help.ShowHelp(this, _MailUrl);
+				this.Refresh();
+			}
 		}
 
 	}

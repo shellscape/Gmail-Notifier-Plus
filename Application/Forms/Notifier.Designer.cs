@@ -23,7 +23,6 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Notifier));
 			this._LabelDate = new System.Windows.Forms.Label();
 			this._LabelStatus = new System.Windows.Forms.Label();
 			this._LabelMessage = new System.Windows.Forms.Label();
@@ -32,19 +31,22 @@
 			this._LabelTitle = new System.Windows.Forms.Label();
 			this._PanelLine = new System.Windows.Forms.Panel();
 			this._PictureLogo = new System.Windows.Forms.PictureBox();
+			this._PictureOpen = new System.Windows.Forms.PictureBox();
 			((System.ComponentModel.ISupportInitialize)(this._PictureLogo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._PictureOpen)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _LabelDate
 			// 
+			this._LabelDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._LabelDate.AutoSize = true;
 			this._LabelDate.BackColor = System.Drawing.Color.Transparent;
 			this._LabelDate.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelDate.ForeColor = System.Drawing.Color.Gray;
-			this._LabelDate.Location = new System.Drawing.Point(0, 85);
+			this._LabelDate.Location = new System.Drawing.Point(4, 90);
+			this._LabelDate.Margin = new System.Windows.Forms.Padding(0);
 			this._LabelDate.Name = "_LabelDate";
-			this._LabelDate.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-			this._LabelDate.Size = new System.Drawing.Size(29, 12);
+			this._LabelDate.Size = new System.Drawing.Size(25, 12);
 			this._LabelDate.TabIndex = 0;
 			this._LabelDate.Text = "Date";
 			this._LabelDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -52,11 +54,10 @@
 			// _LabelStatus
 			// 
 			this._LabelStatus.AutoEllipsis = true;
-			this._LabelStatus.AutoSize = false;
 			this._LabelStatus.BackColor = System.Drawing.Color.Transparent;
 			this._LabelStatus.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
-			this._LabelStatus.Location = new System.Drawing.Point(0, 79);
+			this._LabelStatus.Location = new System.Drawing.Point(53, 75);
 			this._LabelStatus.Name = "_LabelStatus";
 			this._LabelStatus.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this._LabelStatus.Size = new System.Drawing.Size(72, 13);
@@ -78,13 +79,15 @@
 			// 
 			// _LabelIndex
 			// 
+			this._LabelIndex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._LabelIndex.AutoSize = true;
 			this._LabelIndex.BackColor = System.Drawing.Color.Transparent;
 			this._LabelIndex.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelIndex.ForeColor = System.Drawing.Color.Gray;
-			this._LabelIndex.Location = new System.Drawing.Point(108, 85);
+			this._LabelIndex.Location = new System.Drawing.Point(170, 90);
+			this._LabelIndex.Margin = new System.Windows.Forms.Padding(0);
 			this._LabelIndex.Name = "_LabelIndex";
-			this._LabelIndex.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-			this._LabelIndex.Size = new System.Drawing.Size(90, 25);
+			this._LabelIndex.Size = new System.Drawing.Size(19, 12);
 			this._LabelIndex.TabIndex = 1;
 			this._LabelIndex.Text = "1/3";
 			this._LabelIndex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -111,7 +114,7 @@
 			this._LabelTitle.Location = new System.Drawing.Point(0, 0);
 			this._LabelTitle.Name = "_LabelTitle";
 			this._LabelTitle.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-			this._LabelTitle.Size = new System.Drawing.Size(198, 22);
+			this._LabelTitle.Size = new System.Drawing.Size(174, 22);
 			this._LabelTitle.TabIndex = 1;
 			this._LabelTitle.Text = "Title";
 			// 
@@ -134,12 +137,21 @@
 			this._PictureLogo.TabIndex = 0;
 			this._PictureLogo.TabStop = false;
 			// 
+			// _PictureOpen
+			// 
+			this._PictureOpen.Location = new System.Drawing.Point(178, 4);
+			this._PictureOpen.Name = "_PictureOpen";
+			this._PictureOpen.Size = new System.Drawing.Size(16, 16);
+			this._PictureOpen.TabIndex = 7;
+			this._PictureOpen.TabStop = false;
+			// 
 			// Notifier
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.ClientSize = new System.Drawing.Size(198, 108);
+			this.Controls.Add(this._PictureOpen);
 			this.Controls.Add(this._PanelLine);
 			this.Controls.Add(this._LabelTitle);
 			this.Controls.Add(this._LabelFrom);
@@ -158,6 +170,7 @@
 			this.Activated += new System.EventHandler(this.Notifier_Activated);
 			this.Shown += new System.EventHandler(this.Notifier_Shown);
 			((System.ComponentModel.ISupportInitialize)(this._PictureLogo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._PictureOpen)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -173,5 +186,6 @@
 		private System.Windows.Forms.Label _LabelTitle;
 		private System.Windows.Forms.Panel _PanelLine;
 		private System.Windows.Forms.PictureBox _PictureLogo;
+		private System.Windows.Forms.PictureBox _PictureOpen;
 	}
 }
