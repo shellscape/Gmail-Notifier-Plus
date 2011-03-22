@@ -7,7 +7,7 @@ namespace GmailNotifierPlus.Utilities {
 
 		public static class Uris {
 			public const String Base = @"http://mail.google.com/{0}";
-			public const String Donate = @"https://www.paypal.com/cgi-bin/webscr?cmd=_s-Url_Donate=https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7491288";
+			public const String Donate = "";
 			public const String Feed = @"https://mail.google.com/{0}/feed/atom";
 			public const String Login = @"https://www.google.com/{0}/{1}?continue={2}&service=mail&Email={3}&Passwd={4}&null=Sign+in&GALX={5}";
 			public const String Shellscape = @"http://shellscape.org";
@@ -50,8 +50,13 @@ namespace GmailNotifierPlus.Utilities {
 
 		public static string GetBaseUrl(int accountIndex) {
 			Account account = _Config.Accounts[accountIndex];
+
+			return GetBaseUrl(account);
+		}
+
+		public static String GetBaseUrl(Account account) {
 			if ((account != null) && (account.Type != AccountTypes.Regular)) {
-				return string.Format(Uris.Base, Params.BaseApps + _Config.Accounts[accountIndex].Domain);
+				return string.Format(Uris.Base, Params.BaseApps + account.Domain);
 			}
 			return string.Format(Uris.Base, Params.Base);
 		}

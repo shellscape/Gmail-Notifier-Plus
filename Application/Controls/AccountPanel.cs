@@ -13,6 +13,7 @@ using GmailNotifierPlus;
 using Shellscape.UI.Controls;
 using Shellscape.UI.Controls.Preferences;
 
+using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.Shell;
 
@@ -35,6 +36,11 @@ namespace GmailNotifierPlus.Controls {
 
 		private Boolean _makeDefault = false;
 		private String _filler = new String('x', 30);
+		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
+		internal CheckBox _CheckMailto;
+		private Label _LabelBrowser;
+		private ComboBox _ComboBrowser;
+		private List<Shellscape.Browser> _browsers = Shellscape.Utilities.BrowserHelper.Enumerate();
 
 		public AccountPanel() : base() {
 			InitializeComponent();
@@ -74,6 +80,9 @@ namespace GmailNotifierPlus.Controls {
 			_LabelError.Text = Locale.Current.Labels.Error;
 			_LabelPassword.Text = Locale.Current.Labels.Password;
 			_LabelUsername.Text = Locale.Current.Labels.Login;
+			_LabelBrowser.Text = Locale.Current.Labels.Browser;
+
+			_CheckMailto.Text = Locale.Current.Checkboxes.UseMailto;
 		}
 
 		private void DataBind() {
@@ -84,7 +93,39 @@ namespace GmailNotifierPlus.Controls {
 			_TextPassword.Text = _filler;
 			_TextUsername.Text = Account.FullAddress;
 
-			_ButtonDefault.Enabled = !Account.Default;				
+			_CheckMailto.Enabled = false;
+			_CheckMailto.Checked = this.Account.HandlesMailto;
+			_CheckMailto.Enabled = true;
+
+			_ButtonDefault.Enabled = !Account.Default;
+
+			String columnName = "Name";
+			String columnValue = "Value";
+			DataTable dt = new DataTable();
+			List<Shellscape.Browser> browsers = Shellscape.Utilities.BrowserHelper.Enumerate();
+
+			dt.Columns.Add(columnName, typeof(String));
+			dt.Columns.Add(columnValue, typeof(Shellscape.Browser));
+
+			dt.Rows.Add(new object[] { "System Default", null });
+
+			foreach (Shellscape.Browser browser in browsers) {
+				dt.Rows.Add(new object[] { browser.Name, browser });
+			}
+
+			_ComboBrowser.DataSource = dt;
+			_ComboBrowser.DisplayMember = columnName;
+			_ComboBrowser.ValueMember = columnValue;
+
+			if (this.Account.Browser != null) {
+				Shellscape.Browser selectedBrowser = browsers.Where(o => o.Name == this.Account.Browser.Name).FirstOrDefault();
+				_ComboBrowser.SelectedIndex = browsers.IndexOf(selectedBrowser) + 1;
+			}
+			else{
+				_ComboBrowser.SelectedIndex = 0;
+			}
+
+			_ComboBrowser.SelectedValueChanged += _ComboBrowser_SelectedValueChanged;
 		}
 
 		private Boolean AccountExists() {
@@ -104,6 +145,56 @@ namespace GmailNotifierPlus.Controls {
 			return result;
 		}
 
+		private void SetMailtoState() {
+
+			if (_CheckMailto.Checked) {
+				Account defaultAccount = Config.Current.Accounts.Where(o => o.HandlesMailto).FirstOrDefault();
+
+				if (defaultAccount != null) {
+					defaultAccount.HandlesMailto = false;
+				}
+
+				Account.HandlesMailto = true;
+
+				foreach (Control control in this.Parent.Controls) {
+					
+					if (!(control is AccountPanel)) {
+						continue;
+					}
+					
+					AccountPanel panel = (AccountPanel)control;
+
+					if(panel == this) {
+						continue;
+					}
+
+					// really stupid flag hack so that unchecking the other checkboxes for other accounts doesn't trigger the (un/)register process.
+					panel._CheckMailto.Enabled = false;
+					panel._CheckMailto.Checked = false;
+					panel._CheckMailto.Enabled = true;
+				}
+
+			}
+			else {
+				Account.HandlesMailto = false;
+			}
+		}
+
+		private void RegisterMailto() {
+		
+			RegistryKey command = Registry.CurrentUser.OpenSubKey(@"Software\Classes\mailto\shell\open\command", true);
+			String value = String.Empty;
+
+			if (this.Account.HandlesMailto) {
+
+				Shellscape.Browser browser = this.Account.Browser ?? Shellscape.Utilities.BrowserHelper.DefaultBrowser;
+				
+				value = String.Concat(browser.Path, " \"", Utilities.UrlHelper.GetBaseUrl(this.Account), "?extsrc=mailto&url=%1\"");
+			}
+
+			command.SetValue(null, value);
+		}
+
 		private void InitializeComponent() {
 			this._ButtonDefault = new System.Windows.Forms.Button();
 			this._TextUsername = new Shellscape.UI.Controls.InputBufferedTextBox();
@@ -116,6 +207,10 @@ namespace GmailNotifierPlus.Controls {
 			this._ButtonRemove = new System.Windows.Forms.Button();
 			this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
 			this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+			this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+			this._CheckMailto = new System.Windows.Forms.CheckBox();
+			this._LabelBrowser = new System.Windows.Forms.Label();
+			this._ComboBrowser = new System.Windows.Forms.ComboBox();
 			((System.ComponentModel.ISupportInitialize)(this._PictureExclamation)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -124,7 +219,7 @@ namespace GmailNotifierPlus.Controls {
 			this._ButtonDefault.AutoSize = true;
 			this._ButtonDefault.Enabled = false;
 			this._ButtonDefault.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonDefault.Location = new System.Drawing.Point(100, 219);
+			this._ButtonDefault.Location = new System.Drawing.Point(100, 253);
 			this._ButtonDefault.MinimumSize = new System.Drawing.Size(65, 23);
 			this._ButtonDefault.Name = "_ButtonDefault";
 			this._ButtonDefault.Size = new System.Drawing.Size(173, 30);
@@ -201,7 +296,7 @@ namespace GmailNotifierPlus.Controls {
 			// 
 			this._ButtonRemove.AutoSize = true;
 			this._ButtonRemove.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this._ButtonRemove.Location = new System.Drawing.Point(100, 183);
+			this._ButtonRemove.Location = new System.Drawing.Point(100, 289);
 			this._ButtonRemove.MinimumSize = new System.Drawing.Size(65, 23);
 			this._ButtonRemove.Name = "_ButtonRemove";
 			this._ButtonRemove.Size = new System.Drawing.Size(173, 30);
@@ -214,10 +309,10 @@ namespace GmailNotifierPlus.Controls {
 			// 
 			this.lineShape1.BorderColor = System.Drawing.Color.Red;
 			this.lineShape1.Name = "lineShape1";
-			this.lineShape1.X1 = 0;
-			this.lineShape1.X2 = 300;
-			this.lineShape1.Y1 = 128;
-			this.lineShape1.Y2 = 128;
+			this.lineShape1.X1 = -5;
+			this.lineShape1.X2 = 295;
+			this.lineShape1.Y1 = 198;
+			this.lineShape1.Y2 = 198;
 			// 
 			// shapeContainer1
 			// 
@@ -225,13 +320,56 @@ namespace GmailNotifierPlus.Controls {
 			this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
 			this.shapeContainer1.Name = "shapeContainer1";
 			this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.lineShape2,
             this.lineShape1});
-			this.shapeContainer1.Size = new System.Drawing.Size(933, 759);
+			this.shapeContainer1.Size = new System.Drawing.Size(1035, 630);
 			this.shapeContainer1.TabIndex = 56;
 			this.shapeContainer1.TabStop = false;
 			// 
+			// lineShape2
+			// 
+			this.lineShape2.BorderColor = System.Drawing.Color.Red;
+			this.lineShape2.Name = "lineShape2";
+			this.lineShape2.X1 = 0;
+			this.lineShape2.X2 = 300;
+			this.lineShape2.Y1 = 128;
+			this.lineShape2.Y2 = 128;
+			// 
+			// _CheckMailto
+			// 
+			this._CheckMailto.AutoSize = true;
+			this._CheckMailto.Location = new System.Drawing.Point(100, 184);
+			this._CheckMailto.Name = "_CheckMailto";
+			this._CheckMailto.Size = new System.Drawing.Size(183, 19);
+			this._CheckMailto.TabIndex = 57;
+			this._CheckMailto.Text = "Use Account For mailto: Links";
+			this._CheckMailto.UseVisualStyleBackColor = true;
+			this._CheckMailto.CheckedChanged += new System.EventHandler(this._CheckMailto_CheckedChanged);
+			// 
+			// _LabelBrowser
+			// 
+			this._LabelBrowser.AutoSize = true;
+			this._LabelBrowser.Location = new System.Drawing.Point(12, 212);
+			this._LabelBrowser.Name = "_LabelBrowser";
+			this._LabelBrowser.Size = new System.Drawing.Size(52, 15);
+			this._LabelBrowser.TabIndex = 59;
+			this._LabelBrowser.Text = "Browser:";
+			// 
+			// _ComboBrowser
+			// 
+			this._ComboBrowser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this._ComboBrowser.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this._ComboBrowser.FormattingEnabled = true;
+			this._ComboBrowser.Location = new System.Drawing.Point(100, 209);
+			this._ComboBrowser.Name = "_ComboBrowser";
+			this._ComboBrowser.Size = new System.Drawing.Size(249, 23);
+			this._ComboBrowser.TabIndex = 58;
+			// 
 			// AccountPanel
 			// 
+			this.Controls.Add(this._LabelBrowser);
+			this.Controls.Add(this._ComboBrowser);
+			this.Controls.Add(this._CheckMailto);
 			this.Controls.Add(this._ButtonDefault);
 			this.Controls.Add(this._ButtonRemove);
 			this.Controls.Add(this._TextPassword);
@@ -244,7 +382,7 @@ namespace GmailNotifierPlus.Controls {
 			this.Controls.Add(this.shapeContainer1);
 			this.Name = "AccountPanel";
 			this.Padding = new System.Windows.Forms.Padding(2, 45, 2, 2);
-			this.Size = new System.Drawing.Size(937, 806);
+			this.Size = new System.Drawing.Size(1039, 677);
 			((System.ComponentModel.ISupportInitialize)(this._PictureExclamation)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -346,6 +484,27 @@ namespace GmailNotifierPlus.Controls {
 
 			Config.Current.Accounts.Remove(this.Account);
 			Config.Current.Save();
+		}
+
+		private void _CheckMailto_CheckedChanged(object sender, EventArgs e) {
+			if (_CheckMailto.Enabled) {
+				SetMailtoState();
+				RegisterMailto();
+			}
+
+			Config.Current.Save();
+		}
+
+		private void _ComboBrowser_SelectedValueChanged(object sender, EventArgs e) {
+
+			this.Account.Browser = _ComboBrowser.SelectedValue as Shellscape.Browser;
+
+			if (this.Account.HandlesMailto) {
+				RegisterMailto();
+			}
+
+			Config.Current.Save();
+
 		}
 	}
 }

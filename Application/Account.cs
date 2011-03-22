@@ -53,10 +53,19 @@ namespace GmailNotifierPlus {
 		[DataMember(Name="default")]
 		public Boolean Default { get; set; }
 
+		[DataMember(Name = "mailto")]
+		public Boolean HandlesMailto { get; set; }
+
 		public String Domain { get; private set; }
 		public String FullAddress { get; private set; }
 		public String Name { get; private set; }
 		public AccountTypes Type { get; private set; }
+		
+		/// <summary>
+		/// Null indicates that we should use the system default.
+		/// </summary>
+		[DataMember(Name = "browser")]
+		public Shellscape.Browser Browser { get; set; }
 
 		[DataMember(Name = "ahead")]
 		private String LoginEncrypted {

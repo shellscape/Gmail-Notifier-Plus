@@ -87,16 +87,19 @@ namespace GmailNotifierPlus {
 					AppDomain appDomain = AppDomain.CurrentDomain;
 					appDomain.UnhandledException += AppDomain_UnhandledException;
 
+					Form startForm = null;
+
 					try {
 						Config.Init();
 
-						mainForm = new GmailNotifierPlus.Forms.Main(args);
+						startForm = mainForm = new GmailNotifierPlus.Forms.Main(args);
+						//startForm = new GmailNotifierPlus.Forms.ToastTest();
 					}
 					catch (Exception e) {
 						Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
 					}
 
-					Application.Run(mainForm);
+					Application.Run(startForm);
 				}
 			}
 		}

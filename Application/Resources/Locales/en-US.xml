@@ -17,6 +17,7 @@
 	<Labels>
 		<About>About Gmail Notifier Plus</About>
 		<Additional>Additional Settings</Additional>
+		<Browser>Browser:</Browser>
 		<BrowseDialog>Browse for a new notification sound.</BrowseDialog>
 		<CheckLogin>Please check your account settings.</CheckLogin>
 		<CheckMail>Check for New Mail</CheckMail>
@@ -77,5 +78,6 @@
 		<ShowTray>Show Email count in System Tray</ShowTray>
 		<ShowToast>Show Toast notifications for New Email</ShowToast>
 		<CheckUpdates>Check for Updates</CheckUpdates>
+		<UseMailto>Use Account For mailto: Links</UseMailto>
 	</Checkboxes>
 </Locale>

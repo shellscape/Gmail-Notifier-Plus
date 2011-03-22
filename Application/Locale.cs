@@ -49,6 +49,7 @@ namespace GmailNotifierPlus {
 			public String ShowTray { get; set; }
 			public String ShowToast { get; set; }
 			public String CheckUpdates { get; set; }
+			public String UseMailto { get; set; }
 		}
 
 		public class LocaleConfig {
@@ -73,6 +74,7 @@ namespace GmailNotifierPlus {
 			public String AccountsIntro { get; set; }
 			public String AccountsIntroNone { get; set; }
 			public String Additional { get; set; }
+			public String Browser { get; set; }
 			public String BrowseDialog { get; set; }
 			public String CheckLogin { get; set; }
 			public String CheckMail { get; set; }

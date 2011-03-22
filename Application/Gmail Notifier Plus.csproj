@@ -107,8 +107,20 @@
     <Compile Include="Controls\AccountPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Forms\Toast.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Toast.designer.cs">
+      <DependentUpon>Toast.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Preferences.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ToastTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ToastTest.Designer.cs">
+      <DependentUpon>ToastTest.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\AboutPanel.cs">
@@ -140,6 +152,7 @@
     <Compile Include="Resources\Resources.cs" />
     <Compile Include="Utilities\EncryptionHelper.cs" />
     <Compile Include="Utilities\ErrorHelper.cs" />
+    <Compile Include="Utilities\GlassHelper.cs" />
     <Compile Include="Utilities\ImageHelper.cs" />
     <Compile Include="Utilities\ResourceHelper.cs" />
     <Compile Include="Program.cs" />
@@ -167,7 +180,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Locales\pt-BR.xml" />
+    <EmbeddedResource Include="Resources\Locales\pt-BR.xml" />
     <EmbeddedResource Include="Controls\AccountPanel.resx">
       <DependentUpon>AccountPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -180,7 +193,7 @@
     <EmbeddedResource Include="Forms\Preferences.resx">
       <DependentUpon>Preferences.cs</DependentUpon>
     </EmbeddedResource>
-    <Content Include="Resources\Locales\en-US.xml" />
+    <EmbeddedResource Include="Resources\Locales\en-US.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

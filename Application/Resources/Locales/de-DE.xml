@@ -17,6 +17,7 @@
 	<Labels>
 		<About>Über Gmail Notifier Plus</About>
 		<Additional>Zusätzliche Einstellungen</Additional>
+		<Browser>Browser:</Browser>
 		<BrowseDialog>Nach neuem Benachrichtigungston suchen.</BrowseDialog>
 		<CheckLogin>Bitte Kontoeinstellungen prüfen.</CheckLogin>
 		<CheckMail>Auf neue Mail prüfen</CheckMail>
@@ -77,5 +78,6 @@
 		<ShowTray>Zeige E-Mail zählen in der Taskleiste</ShowTray>
 		<ShowToast>Zeige Toast Benachrichtigungen über neue E-Mail</ShowToast>
 		<CheckUpdates>Überprüfung auf neue Versionen</CheckUpdates>
+		<UseMailto>Use Account For mailto: Links</UseMailto>
 	</Checkboxes>
 </Locale>

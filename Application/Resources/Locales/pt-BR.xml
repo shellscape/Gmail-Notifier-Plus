@@ -17,6 +17,7 @@
 	<Labels>
 		<About>Sobre o Gmail Notifier Plus</About>
 		<Additional>Configutações Adicionais</Additional>
+		<Browser>Browser:</Browser>
 		<BrowseDialog>Procurar por um novo som de notificação.</BrowseDialog>
 		<CheckLogin>Por favor verifique as configurações de sua conta.</CheckLogin>
 		<CheckMail>Verificar se existem E-mails Novos</CheckMail>
@@ -78,5 +79,6 @@
 		<ShowTray>Mostrar o número de E-mails na Área de Notificação</ShowTray>
 		<ShowToast>Exibir um Popup em forma de Balão para E-mails novos</ShowToast>
 		<CheckUpdates>Verificar se existem Atualizações</CheckUpdates>
+		<UseMailto>Use Account For mailto: Links</UseMailto>
 	</Checkboxes>
 </Locale>

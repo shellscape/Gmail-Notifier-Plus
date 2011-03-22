@@ -35,7 +35,7 @@ namespace GmailNotifierPlus {
 
 		public Config() {
 			this.Interval = 60;
-			this.Language = "en-us";
+			this.Language = "en-US";
 			this.Sound = "default";
 			this.FirstRun = true;
 			this.FlashCount = 4;

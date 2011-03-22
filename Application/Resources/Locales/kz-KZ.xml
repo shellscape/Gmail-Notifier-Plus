@@ -17,6 +17,7 @@
 	<Labels>
 		<About>Бағдарлама туралы</About>
 		<Additional>Қосымша баптаулар</Additional>
+		<Browser>Browser:</Browser>
 		<BrowseDialog>Дыбысты хабарландыруды таңдау.</BrowseDialog>
 		<CheckLogin>Қолданушы баптауын тексеріңіз.</CheckLogin>
 		<CheckMail>Поштаны тексеру</CheckMail>
@@ -77,5 +78,6 @@
 		<ShowTray>Show Email count in System Tray</ShowTray>
 		<ShowToast>Show Toast notifications for New Email</ShowToast>
 		<CheckUpdates>Check for Updates</CheckUpdates>
+		<UseMailto>Use Account For mailto: Links</UseMailto>
 	</Checkboxes>
 </Locale>

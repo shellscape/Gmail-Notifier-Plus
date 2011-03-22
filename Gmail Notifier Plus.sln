@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gmail Notifier Plus", "Appl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shellscape.Lib", "..\Shellscape.Lib\Shellscape.Lib\Shellscape.Lib.csproj", "{F7F1F64D-F6CD-42A9-B167-546E4EA31463}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toast", "Toast\Toast.csproj", "{9B453AE1-8623-4271-A286-27BEEAD775B8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows API Core", "..\Shellscape.Lib\Windows API Code Pack\Core\Windows API Core.csproj", "{2E1FB0DF-F9BB-4909-9F32-2D9D022A8E57}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows API Shell", "..\Shellscape.Lib\Windows API Code Pack\Shell\Windows API Shell.csproj", "{AA0C00CB-8699-4F37-BFAE-40CA87ACC06D}"
@@ -63,24 +61,6 @@ Global
 		{F7F1F64D-F6CD-42A9-B167-546E4EA31463}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F7F1F64D-F6CD-42A9-B167-546E4EA31463}.Release|x64.ActiveCfg = Release|Any CPU
 		{F7F1F64D-F6CD-42A9-B167-546E4EA31463}.Release|x86.ActiveCfg = Release|Any CPU
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.CodeAnalysisDebug|Any CPU.ActiveCfg = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.CodeAnalysisDebug|Mixed Platforms.ActiveCfg = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.CodeAnalysisDebug|Mixed Platforms.Build.0 = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.CodeAnalysisDebug|x64.ActiveCfg = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.CodeAnalysisDebug|x86.ActiveCfg = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.CodeAnalysisDebug|x86.Build.0 = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Debug|x64.ActiveCfg = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Debug|x86.ActiveCfg = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Debug|x86.Build.0 = Debug|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Release|Any CPU.ActiveCfg = Release|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Release|Mixed Platforms.Build.0 = Release|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Release|x64.ActiveCfg = Release|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Release|x86.ActiveCfg = Release|x86
-		{9B453AE1-8623-4271-A286-27BEEAD775B8}.Release|x86.Build.0 = Release|x86
 		{2E1FB0DF-F9BB-4909-9F32-2D9D022A8E57}.CodeAnalysisDebug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E1FB0DF-F9BB-4909-9F32-2D9D022A8E57}.CodeAnalysisDebug|Any CPU.Build.0 = Debug|Any CPU
 		{2E1FB0DF-F9BB-4909-9F32-2D9D022A8E57}.CodeAnalysisDebug|Mixed Platforms.ActiveCfg = Debug|x64

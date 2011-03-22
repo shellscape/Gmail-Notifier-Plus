@@ -17,6 +17,7 @@
 	<Labels>
 		<About>О программе Gmail Notifier Plus</About>
 		<Additional>Дополнительно</Additional>
+		<Browser>Browser:</Browser>
 		<BrowseDialog>Выбрать звук уведомления.</BrowseDialog>
 		<CheckLogin>Пожалуйста, проверьте свое сетевое подключение.</CheckLogin>
 		<CheckMail>Проверить почту</CheckMail>
@@ -77,5 +78,6 @@
 		<ShowTray>Показать Email кол в системном трее</ShowTray>
 		<ShowToast>Показать Тост уведомления о Email Новые</ShowToast>
 		<CheckUpdates>Проверить наличие обновлений</CheckUpdates>
+		<UseMailto>Use Account For mailto: Links</UseMailto>
 	</Checkboxes>
 </Locale>
