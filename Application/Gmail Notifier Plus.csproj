@@ -167,6 +167,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Locales\pt-BR.xml" />
     <EmbeddedResource Include="Controls\AccountPanel.resx">
       <DependentUpon>AccountPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -179,7 +180,7 @@
     <EmbeddedResource Include="Forms\Preferences.resx">
       <DependentUpon>Preferences.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Locales\en-us.xml" />
+    <Content Include="Resources\Locales\en-US.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -200,7 +201,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Locales\kz-kz.xml" />
+    <EmbeddedResource Include="Resources\Locales\kz-KZ.xml" />
     <EmbeddedResource Include="Resources\Icons\gmail-classic.ico" />
     <Content Include="Resources\Icons\about.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -211,8 +212,8 @@
     <None Include="Resources\Images\gmail-limon.png" />
     <None Include="Resources\Images\gmail-orangish.png" />
     <None Include="Resources\Images\gmail-pinky.png" />
-    <EmbeddedResource Include="Resources\Locales\de-de.xml" />
-    <EmbeddedResource Include="Resources\Locales\ru-ru.xml" />
+    <EmbeddedResource Include="Resources\Locales\de-DE.xml" />
+    <EmbeddedResource Include="Resources\Locales\ru-RU.xml" />
     <EmbeddedResource Include="Resources\Icons\Mail.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

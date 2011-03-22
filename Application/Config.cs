@@ -72,7 +72,7 @@ namespace GmailNotifierPlus {
 				config.Save();
 			}
 
-			config.Language = config.Language.ToLower();
+			config.Language = config.Language;
 
 			Config.Current = config;
 
@@ -180,7 +180,7 @@ namespace GmailNotifierPlus {
 
 			// in case the config xml gets hosed, or a user goes a-tamperin'
 			if (locale == null) {
-				locale = Utilities.ResourceHelper.GetLocale("en-us");
+				locale = Utilities.ResourceHelper.GetLocale("en-US");
 			}
 
 			locale.Init();
