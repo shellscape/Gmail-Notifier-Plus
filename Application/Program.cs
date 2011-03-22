@@ -23,6 +23,7 @@ namespace GmailNotifierPlus {
 			public const String Check = "-check";
 			public const String Settings = "-settings";
 			public const String About = "-about";
+			public const String Help = "-help";
 		}
 
 		public static System.Drawing.Icon Icon { get; private set; }
@@ -30,7 +31,7 @@ namespace GmailNotifierPlus {
 		internal static String channelName;
 		internal static GmailNotifierPlus.Forms.Main mainForm;
 
-		private static List<String> _validArgs = new List<String>() { Arguments.About, Arguments.Check, Arguments.Settings };
+		private static List<String> _validArgs = new List<String>() { Arguments.About, Arguments.Check, Arguments.Settings, Arguments.Help };
 
 		private static void CallRunningInstance(string[] args) {
 			RemotingService service = (RemotingService)RemotingServices.Connect(typeof(RemotingService), "ipc://" + channelName + "/service.rem");
@@ -48,6 +49,9 @@ namespace GmailNotifierPlus {
 			}
 			else if (firstArg == Arguments.Settings) {
 				service.OpenSettingsWindow();
+			}
+			else if (firstArg == Arguments.Help) {
+				Help.ShowHelp(Program.mainForm, "https://github.com/shellscape/Gmail-Notifier-Plus/wiki");
 			}
 		}
 

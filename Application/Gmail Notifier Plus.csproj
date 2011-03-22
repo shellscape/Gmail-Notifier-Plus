@@ -225,6 +225,9 @@
     <Content Include="Resources\Icons\GoInbox.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Icons\help.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Icons\Settings.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -247,10 +247,16 @@ namespace GmailNotifierPlus.Forms {
 				Arguments = "-about"
 			};
 
+			JumpListTask help = new JumpListLink(exePath, Locale.Current.Labels.Help) {
+				IconReference = new IconReference(Path.Combine(path, "help.ico"), 0),
+				Arguments = "-help"
+			};
+
 			_jumpList.AddUserTasks(compose);
 			_jumpList.AddUserTasks(inbox);
 			_jumpList.AddUserTasks(refresh);
 			_jumpList.AddUserTasks(settings);
+			_jumpList.AddUserTasks(help);
 			_jumpList.AddUserTasks(about);
 		}
 

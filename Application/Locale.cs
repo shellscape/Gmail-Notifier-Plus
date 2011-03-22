@@ -85,6 +85,7 @@ namespace GmailNotifierPlus {
 			public String DefaultSound { get; set; }
 			public String Edit { get; set; }
 			public String Error { get; set; }
+			public String Help { get; set; }
 			public String Inbox { get; set; }
 			public String Interval { get; set; }
 			public String Language { get; set; }

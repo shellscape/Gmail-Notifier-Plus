@@ -29,6 +29,7 @@
 		<DefaultSound>Default</DefaultSound>
 		<Edit>Edit account information</Edit>
 		<Error>An account with this username already exists. Please enter a different username.</Error>
+		<Help>Help Wiki</Help>
 		<Inbox>Go to your Inbox</Inbox>
 		<Interval>Check Email every:</Interval>
 		<Language>Display language:</Language>

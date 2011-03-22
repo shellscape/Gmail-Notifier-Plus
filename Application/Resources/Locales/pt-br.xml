@@ -29,6 +29,7 @@
 		<DefaultSound>Padrão</DefaultSound>
 		<Edit>Editar dados da conta</Edit>
 		<Error>Já existe uma conta com este usuário. Por favor entre um nome de usuário diferente.</Error>
+		<Help>Help Wiki</Help>
 		<Inbox>Abrir caixa de entrada</Inbox>
 		<Interval>Verificar novos e-mail a cada:</Interval>
 		<Language>Idioma de exibição:</Language>
