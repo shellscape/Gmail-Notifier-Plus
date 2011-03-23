@@ -9,13 +9,16 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
+using Shellscape;
 using Shellscape.Utilities;
+
+using System.Diagnostics;
 
 namespace GmailNotifierPlus.Forms {
 
 	public partial class Toast : Form {
 
-		#region .    API    
+		#region .    API
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct MARGINS {
@@ -122,15 +125,46 @@ namespace GmailNotifierPlus.Forms {
 
 		#endregion
 
+		private class State {
+			public const int Normal = 1;
+			public const int Hot = 2;
+			public const int Pressed = 3;
+			public const int Disabled = 4;
+		}
+
 		private MARGINS _dwmMargins;
-		private bool _setMargins;
-		private bool _aeroEnabled;
+		private Boolean _setMargins;
+		private Boolean _aeroEnabled;
 		private Size _buttonSize = new Size(26, 22);
+		private Boolean _rectsInitialized = false;
 
 		private const int LeftControl = 9;
 		private const int CenterControl = 10;
 		private const int RightControl = 11;
 
+		private Rectangle _rectClose = Rectangle.Empty;
+		private Rectangle _rectNext = Rectangle.Empty;
+		private Rectangle _rectPrev = Rectangle.Empty;
+		private Rectangle _rectInbox = Rectangle.Empty;
+		private Rectangle _rectClient = Rectangle.Empty;
+
+		private int _stateClose = 1;
+		private int _statePrev = 1;
+		private int _stateInbox = 1;
+		private int _stateNext = 1;
+
+		private Timer _closeTimer = new Timer() { Interval = 5000, Enabled = false };
+
+		private VisualStyleElement _elementClose = null;
+		private VisualStyleElement _elementPrev = null;
+		private VisualStyleElement _elementInbox = null;
+		private VisualStyleElement _elementNext = null;
+
+		private Icon _iconPrev = null;
+		private Icon _iconInbox = null;
+		private Icon _iconNext = null;
+		private Icon _iconWindow = null;
+		
 		public Toast() {
 			InitializeComponent();
 
@@ -144,38 +178,178 @@ namespace GmailNotifierPlus.Forms {
 			int response = DwmIsCompositionEnabled(ref enabled);
 
 			_aeroEnabled = enabled == 1;
+
+			this.Opacity = 0;
+
+			_closeTimer.Tick += delegate(object sender, EventArgs e) {
+				this.Close();
+			};
+
+			_elementClose = VisualStyleElement.Window.SmallCloseButton.Normal;
+			_elementPrev = VisualStyleElement.CreateElement("TaskbandExtendedUI", LeftControl, 1);
+			_elementInbox = VisualStyleElement.CreateElement("TaskbandExtendedUI", CenterControl, 1);
+			_elementNext = VisualStyleElement.CreateElement("TaskbandExtendedUI", RightControl, 1);
+
+			_iconPrev = ResourceHelper.GetIcon("Previous.ico");
+			_iconInbox = ResourceHelper.GetIcon("Inbox.ico");
+			_iconNext = ResourceHelper.GetIcon("Next.ico");
+			_iconWindow = ResourceHelper.GetIcon("gmail-classic.ico", 16);
+
 		}
-		
+
+		protected override bool ShowWithoutActivation {
+			get { return true; }
+		}
+
 		protected override void OnActivated(EventArgs e) {
 			base.OnActivated(e);
 
-			DwmExtendFrameIntoClientArea(this.Handle, ref _dwmMargins);
+			_closeTimer.Enabled = false;
 		}
 
-		protected override void OnPaint(PaintEventArgs e) {
-			base.OnPaint(e);
+		protected override void OnClick(EventArgs e) {
+			base.OnClick(e);
 
-			e.Graphics.Clear(_aeroEnabled ? Color.Transparent : SystemColors.Control);
+			Point mouse = this.PointToClient(MousePosition);
 
-			e.Graphics.FillRectangle(SystemBrushes.Control, 
-				new Rectangle(
-					_dwmMargins.cxLeftWidth,
-					_dwmMargins.cyTopHeight,
-					Width - _dwmMargins.cxRightWidth - _dwmMargins.cxLeftWidth,
-					Height - _dwmMargins.cyBottomHeight - _dwmMargins.cyTopHeight
-				)
-			);
+			if (_rectClient.Contains(mouse)) {
 
-			e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-			Font font = SystemFonts.CaptionFont;
-			Utilities.GlassHelper.DrawText(e.Graphics, "  andrew@shellscape.org", font, new Rectangle(_dwmMargins.cxLeftWidth + 16, _dwmMargins.cxLeftWidth, 200, 16), this.ForeColor, TextFormatFlags.Default, Utilities.TextStyle.Glowing);
+			}
+			else if (_rectClose.Contains(mouse)) {
+				//this.Close();
+			}
+			else if (_rectPrev.Contains(mouse)) {
 
-			using (Icon icon = ResourceHelper.GetIcon("gmail-classic.ico", 16)) {
-				e.Graphics.DrawIcon(icon, new Rectangle(_dwmMargins.cxLeftWidth, _dwmMargins.cxLeftWidth, 16, 16));
+			}
+			else if (_rectInbox.Contains(mouse)) {
+
+			}
+			else if (_rectNext.Contains(mouse)) {
+
+			}
+		}
+
+		protected override void OnFormClosing(FormClosingEventArgs e) {
+			base.OnFormClosing(e);
+
+			Timer timer = new Timer() {
+				Interval = 50
+			};
+
+			timer.Tick += delegate(object sender, EventArgs args) {
+				this.Opacity = Math.Max(this.Opacity - 0.1, 0);
+
+				if (this.Opacity == 0) {
+					timer.Stop();
+					timer.Dispose();
+				}
+			};
+
+			timer.Start();
+		}
+
+		protected override void OnDeactivate(EventArgs e) {
+			base.OnDeactivate(e);
+
+			_closeTimer.Start();
+		}
+
+		protected override void OnLoad(EventArgs e) {
+			base.OnLoad(e);
+
+			DwmExtendFrameIntoClientArea(this.Handle, ref _dwmMargins);
+
+			Timer timer = new Timer() {
+				Interval = 50
+			};
+
+			timer.Tick += delegate(object sender, EventArgs args) {
+				this.Opacity = Math.Min(this.Opacity + 0.1, 1);
+
+				if (this.Opacity == 1) {
+					timer.Stop();
+					timer.Dispose();
+				}
+			};
+
+			timer.Start();
+			_closeTimer.Start();
+		}
+
+		protected override void OnMouseDown(MouseEventArgs e) {
+			base.OnMouseDown(e);
+
+			if (_rectClose.Contains(e.Location)) {
+
+				Debug.WriteLine("Mouse Down");
+				_stateClose = State.Pressed;
+				Invalidate(_rectClose);
+			}
+			else if (_rectPrev.Contains(e.Location)) {
+				_statePrev = State.Pressed;
+				Invalidate(_rectPrev);
+			}
+			else if (_rectInbox.Contains(e.Location)) {
+				_stateInbox = State.Pressed;
+				Invalidate(_rectInbox);
+			}
+			else if (_rectNext.Contains(e.Location)) {
+				_stateNext = State.Pressed;
+				Invalidate(_rectNext);
+			}
+		}
+
+		protected override void OnMouseMove(MouseEventArgs e) {
+			base.OnMouseMove(e);
+
+			Boolean pressed = e.Button != System.Windows.Forms.MouseButtons.None;
+
+			if (_rectClose.Contains(e.Location) && _stateClose != State.Pressed) {
+				Debug.WriteLine("Mouse Move - " + _stateClose.ToString());
+
+				_stateClose = pressed ? State.Pressed : State.Hot;
+				_statePrev = State.Normal;
+				_stateInbox = State.Normal;
+				_stateNext = State.Normal;
+			}
+			else if (_rectPrev.Contains(e.Location)) {
+				_stateClose = State.Normal;
+				_statePrev = pressed ? State.Pressed : State.Hot;
+				_stateInbox = State.Normal;
+				_stateNext = State.Normal;
+			}
+			else if (_rectInbox.Contains(e.Location)) {
+				_stateClose = State.Normal;
+				_statePrev = State.Normal;
+				_stateInbox = pressed ? State.Pressed : State.Hot;
+				_stateNext = State.Normal;
+			}
+			else if (_rectNext.Contains(e.Location)) {
+				_stateClose = State.Normal;
+				_statePrev = State.Normal;
+				_stateInbox = State.Normal;
+				_stateNext = pressed ? State.Pressed : State.Hot;
+			}
+			else {
+				_stateClose = State.Normal;
+				_statePrev = State.Normal;
+				_stateInbox = State.Normal;
+				_stateNext = State.Normal;
 			}
 
-			// render window title
-			VisualStyleRenderer renderer = new VisualStyleRenderer(VisualStyleElement.Window.Caption.Active);
+			Invalidate();
+		}
+
+		protected override void OnLostFocus(EventArgs e) {
+			base.OnLostFocus(e);
+
+			_closeTimer.Enabled = true;
+		}
+
+		private void InitRects(Graphics g) {
+			if (_rectsInitialized) {
+				return;
+			}
 
 			int totalButtonWidth = _buttonSize.Width * 3;
 			int startX = ((Width - totalButtonWidth) / 2);
@@ -183,42 +357,54 @@ namespace GmailNotifierPlus.Forms {
 			int iconY = (_buttonSize.Height - 16) / 2;
 			int buttonY = this.Height - _buttonSize.Height;
 
-			// render prev
-			VisualStyleElement element = VisualStyleElement.CreateElement("TaskbandExtendedUI", LeftControl, 1);
-			renderer.SetParameters(element);
-			renderer.DrawBackground(e.Graphics, new Rectangle(startX, buttonY, _buttonSize.Width, _buttonSize.Height));
+			_rectClient = new Rectangle(
+				_dwmMargins.cxLeftWidth,
+				_dwmMargins.cyTopHeight,
+				Width - _dwmMargins.cxRightWidth - _dwmMargins.cxLeftWidth,
+				Height - _dwmMargins.cyBottomHeight - _dwmMargins.cyTopHeight
+			);
 
-			using (Icon icon = ResourceHelper.GetIcon("Previous.ico")) {
-				e.Graphics.DrawIcon(icon, new Rectangle(iconX + startX, iconY + buttonY, 16, 16));
-				//ControlPaint.DrawImageDisabled(e.Graphics, icon.ToBitmap(), iconX + startX, iconY + buttonY, Color.Transparent);
-			}
-
-			startX += _buttonSize.Width;
-
-			// render inbox
-			element = VisualStyleElement.CreateElement("TaskbandExtendedUI", CenterControl, 1);
-			renderer.SetParameters(element);
-			renderer.DrawBackground(e.Graphics, new Rectangle(startX, buttonY, _buttonSize.Width, _buttonSize.Height));
-
-			using (Icon icon = ResourceHelper.GetIcon("Inbox.ico")) {
-				e.Graphics.DrawIcon(icon, new Rectangle(iconX + startX, iconY + buttonY, 16, 16));
-			}
+			_rectPrev = new Rectangle(startX, buttonY, _buttonSize.Width, _buttonSize.Height);
 
 			startX += _buttonSize.Width;
 
-			// render next
-			element = VisualStyleElement.CreateElement("TaskbandExtendedUI", RightControl, 1);
-			renderer.SetParameters(element);
-			renderer.DrawBackground(e.Graphics, new Rectangle(startX, buttonY, _buttonSize.Width, _buttonSize.Height));
+			_rectInbox = new Rectangle(startX, buttonY, _buttonSize.Width, _buttonSize.Height);
 
-			using (Icon icon = ResourceHelper.GetIcon("Next.ico")) {
-				e.Graphics.DrawIcon(icon, new Rectangle(iconX + startX, iconY + buttonY, 16, 16));
-			}
+			startX += _buttonSize.Width;
 
-			// render tiny close button
-			renderer.SetParameters(VisualStyleElement.Window.SmallCloseButton.Normal);
-			Size closeSize = renderer.GetPartSize(e.Graphics, ThemeSizeType.True);
-			renderer.DrawBackground(e.Graphics, new Rectangle(Width - _dwmMargins.cxLeftWidth - closeSize.Width, 8, closeSize.Width, closeSize.Height));
+			_rectNext = new Rectangle(startX, buttonY, _buttonSize.Width, _buttonSize.Height);
+
+			VisualStyleRenderer renderer = new VisualStyleRenderer(_elementClose);
+			Size closeSize = renderer.GetPartSize(g, ThemeSizeType.True);
+
+			_rectClose = new Rectangle(Width - _dwmMargins.cxLeftWidth - closeSize.Width, 8, closeSize.Width, closeSize.Height);
+
+		}
+
+		protected override void OnPaint(PaintEventArgs e) {
+			base.OnPaint(e);
+
+			InitRects(e.Graphics);
+
+			e.Graphics.Clear(_aeroEnabled ? Color.Transparent : SystemColors.Control);
+			e.Graphics.FillRectangle(SystemBrushes.Control, _rectClient);
+
+			e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+			Font font = SystemFonts.CaptionFont;
+			Utilities.GlassHelper.DrawText(e.Graphics, "  andrew@shellscape.org", font, new Rectangle(_dwmMargins.cxLeftWidth + 16, _dwmMargins.cxLeftWidth, 200, 16), this.ForeColor, TextFormatFlags.Default, Utilities.TextStyle.Glowing);
+
+			e.Graphics.DrawIcon(_iconWindow, new Rectangle(_dwmMargins.cxLeftWidth, _dwmMargins.cxLeftWidth, 16, 16));
+
+			PaintElement(e.Graphics, _elementPrev, _rectPrev, _statePrev);
+			PaintIcon(e.Graphics, _iconPrev, _rectPrev);
+
+			PaintElement(e.Graphics, _elementInbox, _rectInbox, _stateInbox);
+			PaintIcon(e.Graphics, _iconInbox, _rectInbox);
+
+			PaintElement(e.Graphics, _elementNext, _rectNext, _stateNext);
+			PaintIcon(e.Graphics, _iconNext, _rectNext);
+
+			PaintElement(e.Graphics, _elementClose, _rectClose, _stateClose);
 		}
 
 		protected override void WndProc(ref Message m) {
@@ -259,6 +445,23 @@ namespace GmailNotifierPlus.Forms {
 			else {
 				base.WndProc(ref m);
 			}
+		}
+
+		private void PaintIcon(Graphics g, Icon icon, Rectangle rect) {
+
+			int x = (rect.Width - icon.Width) / 2;
+			int y = (rect.Height - icon.Height) / 2;
+
+			g.DrawIcon(icon, new Rectangle(x + rect.Left, y + rect.Top, icon.Width, icon.Height));
+
+		}
+
+		private void PaintElement(Graphics g, VisualStyleElement element, Rectangle rect, int state) {
+
+			VisualStyleElement e = VisualStyleElement.CreateElement(element.ClassName, element.Part, state);
+			VisualStyleRenderer renderer = new VisualStyleRenderer(e);
+
+			renderer.DrawBackground(g, rect);
 		}
 
 	}
