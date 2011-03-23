@@ -408,13 +408,13 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _PanelParent
 			// 
+			this._PanelParent.Controls.Add(this._PanelNewAccount);
 			this._PanelParent.Controls.Add(this._PanelAppearance);
 			this._PanelParent.Controls.Add(this._PanelAccounts);
-			this._PanelParent.Controls.Add(this._PanelNewAccount);
-			this._PanelParent.Controls.SetChildIndex(this._PanelNewAccount, 0);
-			this._PanelParent.Controls.SetChildIndex(this._PanelGeneral, 0);
 			this._PanelParent.Controls.SetChildIndex(this._PanelAccounts, 0);
 			this._PanelParent.Controls.SetChildIndex(this._PanelAppearance, 0);
+			this._PanelParent.Controls.SetChildIndex(this._PanelNewAccount, 0);
+			this._PanelParent.Controls.SetChildIndex(this._PanelGeneral, 0);
 			// 
 			// _PanelAccounts
 			// 
@@ -450,7 +450,7 @@ namespace GmailNotifierPlus.Forms {
 			this._LabelAccountIntro.Size = new System.Drawing.Size(436, 30);
 			this._LabelAccountIntro.TabIndex = 1;
 			this._LabelAccountIntro.Text = "Click an account to the left to manage your individual accounts. Click the button" +
-		" below to add a new account.";
+    " below to add a new account.";
 			// 
 			// _ButtonNewAccount
 			// 
@@ -593,6 +593,7 @@ namespace GmailNotifierPlus.Forms {
 			this._CheckUpdates.TabIndex = 51;
 			this._CheckUpdates.Text = "Check for Updates";
 			this._CheckUpdates.UseVisualStyleBackColor = true;
+			this._CheckUpdates.Visible = false;
 			// 
 			// _LabelSound
 			// 
