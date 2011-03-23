@@ -322,7 +322,7 @@ namespace GmailNotifierPlus.Controls {
 			this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
             this.lineShape2,
             this.lineShape1});
-			this.shapeContainer1.Size = new System.Drawing.Size(1035, 630);
+			this.shapeContainer1.Size = new System.Drawing.Size(0, 0);
 			this.shapeContainer1.TabIndex = 56;
 			this.shapeContainer1.TabStop = false;
 			// 
@@ -382,7 +382,7 @@ namespace GmailNotifierPlus.Controls {
 			this.Controls.Add(this.shapeContainer1);
 			this.Name = "AccountPanel";
 			this.Padding = new System.Windows.Forms.Padding(2, 45, 2, 2);
-			this.Size = new System.Drawing.Size(1039, 677);
+			this.Size = new System.Drawing.Size(0, 0);
 			((System.ComponentModel.ISupportInitialize)(this._PictureExclamation)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
