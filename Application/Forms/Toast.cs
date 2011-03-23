@@ -195,6 +195,9 @@ namespace GmailNotifierPlus.Forms {
 			_iconNext = ResourceHelper.GetIcon("Next.ico");
 			_iconWindow = ResourceHelper.GetIcon("gmail-classic.ico", 16);
 
+			using (Icon icon = ResourceHelper.GetIcon("Open.ico")) {
+				_PictureOpen.Image = icon.ToBitmap();
+			}
 		}
 
 		protected override bool ShowWithoutActivation {
@@ -363,6 +366,9 @@ namespace GmailNotifierPlus.Forms {
 				Width - _dwmMargins.cxRightWidth - _dwmMargins.cxLeftWidth,
 				Height - _dwmMargins.cyBottomHeight - _dwmMargins.cyTopHeight
 			);
+
+			_Panel.Top = _rectClient.Top;
+			_Panel.Left = _rectClient.Left;
 
 			_rectPrev = new Rectangle(startX, buttonY, _buttonSize.Width, _buttonSize.Height);
 
