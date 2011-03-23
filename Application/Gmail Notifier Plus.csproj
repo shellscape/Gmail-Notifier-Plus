@@ -180,6 +180,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\Toast.resx">
+      <DependentUpon>Toast.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ToastTest.resx">
+      <DependentUpon>ToastTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Locales\pt-BR.xml" />
     <EmbeddedResource Include="Controls\AccountPanel.resx">
       <DependentUpon>AccountPanel.cs</DependentUpon>
