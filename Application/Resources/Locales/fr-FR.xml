@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Locale>
+  <Name>Français (fr-FR)</Name>
+  <Buttons>
+    <AddNewAccount>Ajouter un nouveau compte</AddNewAccount>
+    <Browse>Parcourir...</Browse>
+    <Cancel>Annuler</Cancel>
+    <Default>Par défaut</Default>
+    <Edit>Éditer</Edit>
+    <Next>Suivant</Next>
+    <OK>OK</OK>
+    <Save>Sauver</Save>
+    <LetsGo>Allons-y !</LetsGo>
+    <Sweet>Super, merci</Sweet>
+    <Remove>Enlever le compte</Remove>
+  </Buttons>
+  <Labels>
+    <About>À propos de Gmail Notifier Plus</About>
+    <Additional>Paramètres additionnels</Additional>
+	<Browser>Browser:</Browser>
+    <BrowseDialog>Rechercher un son d'avertissement.</BrowseDialog>
+    <CheckLogin>Merci de vérifier les paramètres du compte.</CheckLogin>
+    <CheckMail>Vérifier maintenant</CheckMail>
+    <Compose>Écrire un e-mail</Compose>
+    <Configuration>Gérer les comptes</Configuration>
+    <ConfigurationShort>Modifier les paramètres</ConfigurationShort>
+    <Connecting>Recherche de nouveaux e-mails...</Connecting>
+    <ConnectionUnavailable>Merci de vérifier l'état de la connexion à Internet</ConnectionUnavailable>
+    <CustomSound>Personnalisé...</CustomSound>
+    <DefaultSound>Par défaut</DefaultSound>
+    <Edit>Modifier les informations du compte</Edit>
+    <Error>Il y a déjà un compte avec ce nom. Merci d'en choisir un autre.</Error>
+	<Help>Help Wiki</Help>    
+	<Inbox>Aller à votre boîte de réception</Inbox>
+    <Interval>Vérifier la présence de mails chaque :</Interval>
+    <Language>Langue :</Language>
+    <Login>Nom d'utilisateur :</Login>
+    <Minutes>minute(s)</Minutes>
+    <No>Non</No>
+    <NoAccount>Merci de configurer un compte.</NoAccount>
+    <NoMail>Pas de nouveau e-mail</NoMail>
+    <NoSound>Aucun</NoSound>
+    <NoSubject>(aucun sujet)</NoSubject>
+    <OSErrorContent>Ce logiciel a été créé pour ne tourner que sousn Windows 7.</OSErrorContent>
+    <OSErrorTitle>Erreur de compatibilité du système d'exploitation</OSErrorTitle>
+    <Password>Mot de passe :</Password>
+    <RemoveConfirmation>Voulez-vous vraiment enlever ce compte ?</RemoveConfirmation>
+    <RemoveConfirmationTitle>Enlever un compte</RemoveConfirmationTitle>
+    <Sound>Son d'avertissement</Sound>
+    <Unread>Non lu</Unread>
+    <WaveFiles>Fichier Wave</WaveFiles>
+    <Yes>Oui</Yes>
+    <AccountsIntro>Cliquez sur un compte à gauche pour gérer vos comptes. Cliquez sur le bouton ci-dessous pour ajouter un compte.</AccountsIntro>
+    <AccountsIntroNone>Bienvenue dans Gmail Notifier Plus.\n\nPour commencer, cliquez sur le bouton ci-dessous pour ajouter un compte.</AccountsIntroNone>
+  </Labels>
+  <Tooltips>
+    <About>À propos de Gmail Notifier Plus</About>
+    <Add>Ajouter un nouveau compte</Add>
+    <Inbox>Boîte de réception</Inbox>
+    <Next>Suivant</Next>
+    <OpenMail>Ouvrir la boîte de réception</OpenMail>
+    <Previous>Précédent</Previous>
+    <Settings>Paramètres</Settings>
+  </Tooltips>
+  <Config>
+    <Accounts>Comptes</Accounts>
+    <Appearance>Apparence</Appearance>
+    <General>Général</General>
+    <Panels>
+      <Accounts>Gérez vos comptes</Accounts>
+      <Appearance>Choisir comment Gmail Notifier Plus se comporte</Appearance>
+      <General>Paramètres généraux de Gmail Notifier Plus</General>
+      <NewAccount>Ajouter un nouveau compte</NewAccount>
+    </Panels>
+  </Config>
+  <Checkboxes>
+    <FlashTaskbar>Flasher la barre des tâches lors de la réception d'un e-mail</FlashTaskbar>
+    <ShowTray>Montrer le nombre d'e-mails dans la zone de notification</ShowTray>
+    <ShowToast>Montrer un aperçu des nouveaux e-mails</ShowToast>
+    <CheckUpdates>Rechercher une mise à jour</CheckUpdates>
+	<UseMailto>Use Account For mailto: Links</UseMailto>
+  </Checkboxes>
+</Locale>

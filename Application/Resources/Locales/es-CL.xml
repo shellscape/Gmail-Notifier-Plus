@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Locale>
+	<Name>Español Chileno (es-CL)</Name>
+	<Buttons>
+		<AddNewAccount>Agregar Nueva Cuenta</AddNewAccount>
+		<Browse>Examinar...</Browse>
+		<Cancel>Cancelar</Cancel>
+		<Default>Predeterminada</Default>
+		<Edit>Editar</Edit>
+		<Next>Siguiente</Next>
+		<OK>Aceptar</OK>
+		<Save>Guardar</Save>
+		<LetsGo>¡Vamos!</LetsGo>
+		<Sweet>Genial, Gracias</Sweet>
+		<Remove>Quitar Cuenta</Remove>
+	</Buttons>
+	<Labels>
+		<About>Acerca de Gmail Notifier Plus</About>
+		<Additional>Configuración Adicional</Additional>
+		<Browser>Browser:</Browser>
+		<BrowseDialog>Examinar un nuevo sonido de notificación.</BrowseDialog>
+		<CheckLogin>Por favor revisa la configuración de tu cuenta.</CheckLogin>
+		<CheckMail>Revisar si hay nuevos mensajes</CheckMail>
+		<Compose>Redactar mensaje</Compose>
+		<Configuration>Administrar Cuentas</Configuration>
+		<ConfigurationShort>Cambiar Configuración</ConfigurationShort>
+		<Connecting>Revisando nuevos mensajes...</Connecting>
+		<ConnectionUnavailable>Por favor verifica tu conexión a internet</ConnectionUnavailable>
+		<CustomSound>Personalizado...</CustomSound>
+		<DefaultSound>Predeterminado</DefaultSound>
+		<Edit>Editar información de cuenta</Edit>
+		<Error>Una cuenta con este nombre de usuario ya existe. Por favor escribe un nombre de usuario distinto.</Error>
+		<Help>Help Wiki</Help>		
+		<Inbox>Ir a Recibidos</Inbox>
+		<Interval>Revisar email cada:</Interval>
+		<Language>Idioma de visualización:</Language>
+		<Login>Nombre de usuario:</Login>
+		<Minutes>minuto(s)</Minutes>
+		<No>No</No>
+		<NoAccount>Por favor configure una cuenta.</NoAccount>
+		<NoMail>No hay mensajes nuevos</NoMail>
+		<NoSound>Ninguno</NoSound>
+		<NoSubject>(sin asunto)</NoSubject>
+		<OSErrorContent>Este software ha sido diseñado para correr exclusivamente bajo Windows 7.</OSErrorContent>
+		<OSErrorTitle>Error de incompatibilidad de Sistema Operativo</OSErrorTitle>
+		<Password>Contraseña:</Password>
+		<RemoveConfirmation>¿Estás seguro que quieres quitar esta cuenta?</RemoveConfirmation>
+		<RemoveConfirmationTitle>Quitar Cuenta</RemoveConfirmationTitle>
+		<Sound>Sonido de notificación</Sound>
+		<Unread>No leído</Unread>
+		<WaveFiles>Archivo de sonido</WaveFiles>
+		<Yes>Sí</Yes>
+		<AccountsIntro>Haz click en una cuenta de la izquierda para administrar tu cuenta individualmente. Haz click en el botón de abajo para agregar una cuenta nueva.</AccountsIntro>
+		<AccountsIntroNone>Bienvenido a Gmail Notifier Plus.\n\nPara comenzar, haz click en el botón de abajo para agregar una cuenta nueva.</AccountsIntroNone>
+	</Labels>
+	<Tooltips>
+		<About>Acerca de Gmail Notifier Plus</About>
+		<Add>Agregar Nueva Cuenta</Add>
+		<Inbox>Recibidos</Inbox>
+		<Next>Siguiente</Next>
+		<OpenMail>Abrir Recibidos</OpenMail>
+		<Previous>Anterior</Previous>
+		<Settings>Configuración</Settings>
+	</Tooltips>
+	<Config>
+		<Accounts>Cuentas</Accounts>
+		<Appearance>Apariencia</Appearance>
+		<General>General</General>
+		<Panels>
+			<Accounts>Administra Tus Cuentas</Accounts>
+			<AccountWarn>Al hacer clic en guardar inmediatamente se guardarán los cambios realizados a esta cuenta.</AccountWarn>
+			<General>Configuración básica para Gmail Notifier Plus</General>
+			<NewAccount>Agregar Nueva Cuenta</NewAccount>
+		</Panels>
+	</Config>
+	<Checkboxes>
+		<FlashTaskbar>Parpadeo de la barra de herramientas para nuevos mensajes</FlashTaskbar>
+		<ShowTray>Mostrar recuento de mensajes en el Área de notificación</ShowTray>
+		<ShowToast>Mostrar notificaciones instantáneas para nuevos mensajes</ShowToast>
+		<CheckUpdates>Buscar actualizaciones</CheckUpdates>
+		<UseMailto>Use Account For mailto: Links</UseMailto>
+	</Checkboxes>
+</Locale>
