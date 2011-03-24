@@ -222,6 +222,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Locales\es-CL.xml" />
+    <EmbeddedResource Include="Resources\Locales\fr-FR.xml" />
     <EmbeddedResource Include="Resources\Locales\kz-KZ.xml" />
     <EmbeddedResource Include="Resources\Icons\gmail-classic.ico" />
     <Content Include="Resources\Icons\about.ico">

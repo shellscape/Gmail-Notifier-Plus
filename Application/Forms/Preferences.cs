@@ -269,6 +269,7 @@ namespace GmailNotifierPlus.Forms {
 			PreferencesButtonItem item = new PreferencesButtonItem() {
 				ButtonText = accountName,
 				AssociatedPanel = new AccountPanel() {
+					NewAccount = true,
 					Account = account,
 					ControlBackColor = _PanelAccounts.ControlBackColor
 				}
@@ -408,13 +409,13 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _PanelParent
 			// 
+			this._PanelParent.Controls.Add(this._PanelAccounts);
 			this._PanelParent.Controls.Add(this._PanelNewAccount);
 			this._PanelParent.Controls.Add(this._PanelAppearance);
-			this._PanelParent.Controls.Add(this._PanelAccounts);
-			this._PanelParent.Controls.SetChildIndex(this._PanelAccounts, 0);
 			this._PanelParent.Controls.SetChildIndex(this._PanelAppearance, 0);
 			this._PanelParent.Controls.SetChildIndex(this._PanelNewAccount, 0);
 			this._PanelParent.Controls.SetChildIndex(this._PanelGeneral, 0);
+			this._PanelParent.Controls.SetChildIndex(this._PanelAccounts, 0);
 			// 
 			// _PanelAccounts
 			// 
@@ -433,6 +434,7 @@ namespace GmailNotifierPlus.Forms {
 			this._PanelAccounts.HeaderImage = null;
 			this._PanelAccounts.HeaderPadding = new System.Windows.Forms.Padding(10, 5, 10, 5);
 			this._PanelAccounts.HeaderText = "Manage your accounts";
+			this._PanelAccounts.HeaderTextPrefix = null;
 			this._PanelAccounts.Location = new System.Drawing.Point(12, 12);
 			this._PanelAccounts.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
 			this._PanelAccounts.Name = "_PanelAccounts";
@@ -483,6 +485,7 @@ namespace GmailNotifierPlus.Forms {
 			this._PanelAppearance.HeaderImage = null;
 			this._PanelAppearance.HeaderPadding = new System.Windows.Forms.Padding(10, 5, 10, 5);
 			this._PanelAppearance.HeaderText = "";
+			this._PanelAppearance.HeaderTextPrefix = null;
 			this._PanelAppearance.Location = new System.Drawing.Point(12, 12);
 			this._PanelAppearance.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
 			this._PanelAppearance.Name = "_PanelAppearance";
@@ -576,6 +579,7 @@ namespace GmailNotifierPlus.Forms {
 			this._PanelNewAccount.HeaderImage = null;
 			this._PanelNewAccount.HeaderPadding = new System.Windows.Forms.Padding(10, 5, 10, 5);
 			this._PanelNewAccount.HeaderText = "Add a New Account";
+			this._PanelNewAccount.HeaderTextPrefix = "";
 			this._PanelNewAccount.Location = new System.Drawing.Point(12, 12);
 			this._PanelNewAccount.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
 			this._PanelNewAccount.Name = "_PanelNewAccount";

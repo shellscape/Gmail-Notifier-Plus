@@ -27,7 +27,6 @@ namespace GmailNotifierPlus.Forms {
 		private TaskbarManager _taskbarManager = TaskbarManager.Instance;
 
 		private Config _config = Config.Current;
-		private Account _account = null;
 
 		private WebClient _webClient = new WebClient();
 
@@ -39,14 +38,12 @@ namespace GmailNotifierPlus.Forms {
 			Offline
 		}		
 
-		public Notifier(int accountIndex) {
+		public Notifier(Account account) {
 			InitializeComponent();
 
 			this.Icon = Program.Icon;
 
-			AccountIndex = accountIndex;
-
-			_account = _config.Accounts[accountIndex];
+			this.Account = account;
 			
 			_LabelStatus.RightToLeft = Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
 			_LabelStatus.Width = this.Width;
@@ -64,13 +61,13 @@ namespace GmailNotifierPlus.Forms {
 
 			_PictureOpen.Cursor = Cursors.Hand;
 
-			this.Text = _account.FullAddress;	
+			this.Text = Account.FullAddress;	
 		}
 
 #region .    Public Properties    
 
-		public List<Email> Emails { get { return _account.Emails; } }
-		public int AccountIndex { get; private set; }
+		public List<Email> Emails { get { return Account.Emails; } }
+		public Account Account { get; private set; }
 		public NotifierStatus ConnectionStatus { get; private set; }
 
 		/// <summary>
@@ -82,9 +79,9 @@ namespace GmailNotifierPlus.Forms {
 		/// Returns the number of unread emails for associated account.
 		/// </summary>
 		public int Unread {
-			get { return this._account.Unread; }
+			get { return this.Account.Unread; }
 			private set {
-				this._account.Unread = value;
+				this.Account.Unread = value;
 			}
 		}
 
@@ -139,8 +136,8 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			try {
-				_webClient.Credentials = new NetworkCredential(_account.Login, _config.Accounts[AccountIndex].Password);
-				_webClient.DownloadDataAsync(new Uri(UrlHelper.GetFeedUrl(AccountIndex)));
+				_webClient.Credentials = new NetworkCredential(Account.Login, Account.Password);
+				_webClient.DownloadDataAsync(new Uri(UrlHelper.GetFeedUrl(Account)));
 
 				SetCheckingPreview();
 			}
@@ -193,10 +190,10 @@ namespace GmailNotifierPlus.Forms {
 					Unread = Convert.ToInt32(node.InnerText);
 					//XmlMail = document.SelectNodes("/feed/entry");
 
-					_account.Emails.Clear();
+					Account.Emails.Clear();
 
 					foreach (XmlNode mailNode in document.SelectNodes("/feed/entry")) {
-						_account.Emails.Add(Email.FromNode(mailNode, _account));
+						Account.Emails.Add(Email.FromNode(mailNode, Account));
 					}
 
 					_mailIndex = 0;
@@ -216,6 +213,10 @@ namespace GmailNotifierPlus.Forms {
 
 			UpdateMailPreview();
 			CheckMailFinished(this, EventArgs.Empty);
+
+			if (Unread != _previousUnread && _config.ShowToast) {
+				ToastManager.Pop(Account);
+			}
 		}
 
 #endregion
@@ -336,7 +337,7 @@ namespace GmailNotifierPlus.Forms {
 						//  _LabelFrom.Text = string.Empty;
 						//}
 
-						Email email = _account.Emails[_mailIndex];
+						Email email = Account.Emails[_mailIndex];
 
 						_LabelDate.Text = email.Date;
 						_LabelFrom.Text = email.From;
@@ -347,10 +348,6 @@ namespace GmailNotifierPlus.Forms {
 						_mailUrl = email.Url;
 
 						this.ShowMails();
-
-						if (Unread != _previousUnread && _config.ShowToast) {
-							ToastManager.Pop(_account);
-						}
 					}
 					else {
 						this.SetNoMailPreview();
@@ -399,13 +396,13 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void OpenInbox() {
-			Help.ShowHelp(this, UrlHelper.BuildInboxUrl(AccountIndex));
+			Utilities.UrlHelper.Launch(this.Account, UrlHelper.BuildInboxUrl(Account));
 			this.Refresh();
 		}
 
 		private void OpenEmail() {
 			if (!String.IsNullOrEmpty(_mailUrl)) {
-				Help.ShowHelp(this, _mailUrl);
+				Utilities.UrlHelper.Launch(this.Account, _mailUrl);
 				this.Refresh();
 			}
 		}

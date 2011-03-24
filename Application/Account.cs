@@ -11,7 +11,7 @@ namespace GmailNotifierPlus {
 		GoogleApps
 	}
 
-	[DataContract(Name="account")]
+	[DataContract(Name = "account")]
 	public class Account {
 
 		public event AccountChangedEventHandler AccountChanged;
@@ -30,15 +30,19 @@ namespace GmailNotifierPlus {
 			this.Login = this.Password = this.Name = this.Domain = this.FullAddress = String.Empty;
 			this.Type = AccountTypes.Regular;
 			this.Emails = new List<Email>();
+			this.Guid = System.Guid.NewGuid().ToString();
 		}
 
 		public Account(String login, String password) {
 
 			this.Login = login;
 			this.Password = password;
+			this.Guid = System.Guid.NewGuid().ToString();
 
 			Init();
 		}
+
+		public String Guid { get; private set; }
 
 		public String Login {
 			get { return _login; }
@@ -46,13 +50,15 @@ namespace GmailNotifierPlus {
 				String original = _login;
 				_login = value;
 
-				if (original != _login && AccountChanged != null) {
+				if (original != _login) {
 					Init();
-					AccountChanged(this);
+					if (AccountChanged != null) {
+						AccountChanged(this);
+					}
 				}
 			}
 		}
-		
+
 		public String Password {
 			get { return _password; }
 			set {
@@ -65,7 +71,7 @@ namespace GmailNotifierPlus {
 			}
 		}
 
-		[DataMember(Name="default")]
+		[DataMember(Name = "default")]
 		public Boolean Default { get; set; }
 
 		[DataMember(Name = "mailto")]
@@ -77,7 +83,7 @@ namespace GmailNotifierPlus {
 		public String Name { get; private set; }
 		public AccountTypes Type { get; private set; }
 		public int Unread { get; set; }
-		
+
 		/// <summary>
 		/// Null indicates that we should use the system default.
 		/// </summary>
@@ -105,8 +111,17 @@ namespace GmailNotifierPlus {
 		}
 
 		public void Init() {
-			
-			this.Emails = new List<Email>();
+
+			if (this.Emails == null) {
+				this.Emails = new List<Email>();
+			}
+			else {
+				this.Emails.Clear();
+			}
+
+			if (Guid == null) {
+				this.Guid = System.Guid.NewGuid().ToString();
+			}
 
 			if (!String.IsNullOrEmpty(this.Login)) {
 				String[] strArray = this.Login.Split(new char[] { '@' });

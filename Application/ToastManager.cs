@@ -33,6 +33,10 @@ namespace GmailNotifierPlus {
 
 			start.Y -= (_loaf.Count * slice.Height); // all of the slices are a constant height
 
+			if (_loaf.Count > 1) {
+				start.Y -= 8;
+			}
+
 			slice.Location = start;
 		}
 

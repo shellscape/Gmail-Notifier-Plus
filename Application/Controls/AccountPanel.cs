@@ -45,10 +45,16 @@ namespace GmailNotifierPlus.Controls {
 			InitializeComponent();
 		}
 
+		public Boolean NewAccount { get; set; }
 		public Account Account { get; set; }
 
 		private Button DefaultButton {
 			get { return _ButtonDefault; }
+		}
+
+		public override string HeaderTextPrefix {
+			get { return String.Empty; }
+			set { }
 		}
 
 		protected override void OnLoad(EventArgs e) {
@@ -399,21 +405,29 @@ namespace GmailNotifierPlus.Controls {
 			Boolean somethingChanged = false;
 
 			if((_TextUsername.Text != this.Account.Login) || (_TextUsername.Text.Length > 0)) { // dude, change something already.
-				Account.Login = _TextUsername.Text;
-				somethingChanged = true;
+				if (!NewAccount) {
+					somethingChanged = true;
+				}
 			}
 
 			if ((_TextPassword.Text != _filler) && (_TextPassword.Text.Length > 0)) {
-				Account.Password = _TextPassword.Text;
 				somethingChanged = true;
 			}
 
-			if (!Config.Current.Accounts.Contains(Account)) {
+			if (somethingChanged && !Config.Current.Accounts.Contains(Account)) {
 				Config.Current.Accounts.Add(Account);
 				somethingChanged = true;
+				NewAccount = false;
 			}
 
 			if (somethingChanged) {
+				Account.Login = _TextUsername.Text;
+				Account.Password = _TextPassword.Text;
+
+				PreferencesButtonItem item = GetButtonItem();
+
+				item.ButtonText = this.HeaderText = Account.FullAddress;
+
 				Config.Current.Save();
 			}
 		}
@@ -504,6 +518,15 @@ namespace GmailNotifierPlus.Controls {
 
 			Config.Current.Save();
 
+		}
+
+		private PreferencesButtonItem GetButtonItem() {
+			Forms.Preferences form = this.ParentForm as Forms.Preferences;
+
+			PreferencesButton buttonAccounts = form._ButtonGroup.Controls.Find("_ButtonAccounts", true)[0] as PreferencesButton;
+			PreferencesButtonItem thisItem = buttonAccounts.ButtonItems.All().Where(o => o.AssociatedPanel == this).FirstOrDefault();
+
+			return thisItem;
 		}
 	}
 }

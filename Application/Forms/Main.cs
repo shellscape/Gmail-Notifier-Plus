@@ -52,7 +52,7 @@ namespace GmailNotifierPlus.Forms {
 			this.Text = this._TrayIcon.Text = GmailNotifierPlus.Resources.WindowTitle;
 
 			this.CreateInstances();
-			
+
 			if (args.Length > 0 && args[0] == Program.Arguments.Settings) {
 				this.OpenSettingsWindow();
 			}
@@ -112,7 +112,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void _Account_Changed(Account account) {
 
-			Notifier notifier = _instances.Values.Where(o => o.AccountIndex == _config.Accounts.IndexOf(account)).FirstOrDefault();
+			Notifier notifier = _instances.Values.Where(o => o.Account.Guid == account.Guid).FirstOrDefault();
 
 			if (notifier != null) {
 				notifier.Text = account.FullAddress;
@@ -181,8 +181,8 @@ namespace GmailNotifierPlus.Forms {
 			notifier.FormClosed -= _Notifier_FormClosed;
 			notifier.CheckMailFinished -= _Notifier_CheckFinished;
 
-			if (_instances.ContainsKey(notifier.Text)) {
-				_instances.Remove(notifier.Text);
+			if (_instances.ContainsKey(notifier.Account.Guid)) {
+				_instances.Remove(notifier.Account.Guid);
 			}
 
 			if (_statusList.ContainsKey(notifier.Text)) {
@@ -197,7 +197,7 @@ namespace GmailNotifierPlus.Forms {
 				base.Close();
 			}
 			else {
-				_taskbarManager.TabbedThumbnail.SetActiveTab(_instances[_config.Accounts[0].FullAddress].Handle);
+				_taskbarManager.TabbedThumbnail.SetActiveTab(_instances[_config.Accounts[0].Guid].Handle);
 			}
 		}
 
@@ -272,27 +272,28 @@ namespace GmailNotifierPlus.Forms {
 
 		private void CloseInstances() {
 
-			List<string> list = new List<string>();
-
-			foreach (Notifier notifier in _instances.Values) {
-				if (_config.Accounts[notifier.AccountIndex] == null) {
-					list.Add(notifier.Text);
+			foreach (String key in _instances.Keys.ToList()) {
+				
+				if (_config.Accounts.Where(o => o.Guid == key).Count() > 0) {
+					continue;
 				}
-			}
 
-			foreach (string str in list) {
-				TabbedThumbnail thumbnailPreview = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(_instances[str].Handle);
+				Notifier form = _instances[key];
+				TabbedThumbnail thumbnailPreview = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(form.Handle);
+
 				thumbnailPreview.TabbedThumbnailClosed -= _Preview_TabbedThumbnailClosed;
 
 				_taskbarManager.TabbedThumbnail.RemoveThumbnailPreview(thumbnailPreview);
 
-				this._UnreadTotal -= _instances[str].Unread;
+				this._UnreadTotal -= form.Unread;
 
-				_instances[str].Close();
+				_instances.Remove(key);
+
+				form.Close();
 			}
 
 			if (_config.Accounts.Count > 0) {
-				_taskbarManager.TabbedThumbnail.SetActiveTab(_instances[_config.Accounts[0].FullAddress].Handle);
+				_taskbarManager.TabbedThumbnail.SetActiveTab(_instances[_config.Accounts[0].Guid].Handle);
 			}
 		}
 
@@ -302,15 +303,15 @@ namespace GmailNotifierPlus.Forms {
 
 				Account account = _config.Accounts[i];
 
-				if (_instances.ContainsKey(account.FullAddress)) {
+				if (_instances.ContainsKey(account.Guid)) {
 					continue;
 				}
 
-				Notifier notifier = new Notifier(i);
+				Notifier notifier = new Notifier(account);
 				notifier.FormClosed += _Notifier_FormClosed;
 				notifier.CheckMailFinished += _Notifier_CheckFinished;
 
-				_instances.Add(account.FullAddress, notifier);
+				_instances.Add(account.Guid, notifier);
 
 				notifier.Show(this);
 
@@ -327,11 +328,12 @@ namespace GmailNotifierPlus.Forms {
 
 			if (_config.Accounts.Count > 0) {
 				Account account = _config.Accounts[0];
-				_taskbarManager.TabbedThumbnail.SetActiveTab(_instances[account.FullAddress].Handle);
+				_taskbarManager.TabbedThumbnail.SetActiveTab(_instances[account.Guid].Handle);
 			}
 		}
 
 		private void FinalizeChecks() {
+
 			if (_statusList.Count != _instances.Count) {
 				return;
 			}
@@ -417,7 +419,7 @@ namespace GmailNotifierPlus.Forms {
 		internal void SetWarningOverlay() {
 
 			if (_taskbarManager != null) {
-				_taskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon(".Warning.ico"), String.Empty);
+				_taskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon("Warning.ico"), String.Empty);
 
 				CleanupDigitIcon();
 				HideTrayIcon();
@@ -530,8 +532,8 @@ namespace GmailNotifierPlus.Forms {
 			while (i < unreadCount) {
 				String linkText;
 
-				Notifier notifier = _instances[_config.Accounts[index].FullAddress];
-				Account account = _config.Accounts[notifier.AccountIndex];
+				Notifier notifier = _instances[_config.Accounts[index].Guid];
+				Account account = notifier.Account;
 
 				if (Locale.Current.IsRightToLeftLanguage) {
 					linkText = String.Concat("(", notifier.Unread, ") ", account.FullAddress, " ");
@@ -545,11 +547,7 @@ namespace GmailNotifierPlus.Forms {
 				}
 
 				if (mailCount < notifier.Emails.Count) {
-					//XmlNode node = notifier.XmlMail[mailCount];
-					//String innerText = node.ChildNodes.Item(0).InnerText;
-					//String linkTitle = String.IsNullOrEmpty(innerText) ? Locale.Current.Labels.NoSubject : innerText;
-					//String linkUrl = UrlHelper.BuildMailUrl(node.ChildNodes.Item(2).Attributes["href"].Value, notifier.AccountIndex);
-					
+
 					Email email = notifier.Emails[mailCount];
 					String path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\Icons");
 

@@ -26,6 +26,29 @@ namespace GmailNotifierPlus.Utilities {
 
 		private static Config _Config = Config.Current;
 
+		public static void Launch(Account account, String url) {
+			if (account == null || account.Browser == null) {
+				System.Windows.Forms.Help.ShowHelp(Program.mainForm, url);
+				return;
+			}
+
+			Boolean poop = false;
+			System.Diagnostics.Process browser = new System.Diagnostics.Process();
+
+			browser.StartInfo.Arguments = url;
+			browser.StartInfo.FileName = account.Browser.Path;
+
+			try {
+				browser.Start();
+			}
+			catch (InvalidOperationException) { poop = true; }
+			catch (System.ComponentModel.Win32Exception) { poop = true; }
+
+			if (poop) {
+				System.Windows.Forms.Help.ShowHelp(Program.mainForm, url);
+			}
+		}
+
 		public static string BuildComposeUrl(int accountIndex) {
 			return (GetBaseUrl(accountIndex) + "#compose");
 		}
@@ -70,11 +93,11 @@ namespace GmailNotifierPlus.Utilities {
 			return string.Format(Uris.Base, Params.Base);
 		}
 
-		public static string GetFeedUrl(int accountIndex) {
-			if (_Config.Accounts[accountIndex].Type == AccountTypes.Regular) {
+		public static string GetFeedUrl(Account account) {
+			if (account.Type == AccountTypes.Regular) {
 				return string.Format(Uris.Feed, Params.Base);
 			}
-			return string.Format(Uris.Feed, Params.BaseApps + _Config.Accounts[accountIndex].Domain);
+			return string.Format(Uris.Feed, Params.BaseApps + account.Domain);
 		}
 
 		public static string ToLoginUrl(string continueUrl, int accountIndex) {

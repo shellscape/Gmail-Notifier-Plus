@@ -255,7 +255,7 @@ namespace GmailNotifierPlus.Forms {
 				}
 			}
 			else if (_rectInbox.Contains(mouse)) {
-				Help.ShowHelp(this, Utilities.UrlHelper.BuildInboxUrl(this.Account));
+				Utilities.UrlHelper.Launch(this.Account, Utilities.UrlHelper.BuildInboxUrl(this.Account));
 			}
 			else if (_rectNext.Contains(mouse) && _stateNext != State.Disabled) {
 
@@ -577,7 +577,7 @@ namespace GmailNotifierPlus.Forms {
 			String url = this.Account.Emails[_mailIndex].Url;
 
 			if (!String.IsNullOrEmpty(url)) {
-				Help.ShowHelp(this, url);
+				Utilities.UrlHelper.Launch(this.Account, url);
 			}
 		}
 	}

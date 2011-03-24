@@ -51,7 +51,7 @@ namespace GmailNotifierPlus {
 				service.OpenSettingsWindow();
 			}
 			else if (firstArg == Arguments.Help) {
-				Help.ShowHelp(Program.mainForm, "https://github.com/shellscape/Gmail-Notifier-Plus/wiki");
+				Utilities.UrlHelper.Launch(null, "https://github.com/shellscape/Gmail-Notifier-Plus/wiki");
 			}
 		}
 
