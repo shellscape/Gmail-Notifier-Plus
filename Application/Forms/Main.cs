@@ -544,14 +544,16 @@ namespace GmailNotifierPlus.Forms {
 					dictionary.Add(linkText, new List<JumpListLink>());
 				}
 
-				if (mailCount < notifier.XmlMail.Count) {
-					XmlNode node = notifier.XmlMail[mailCount];
-					String innerText = node.ChildNodes.Item(0).InnerText;
-					String linkTitle = String.IsNullOrEmpty(innerText) ? Locale.Current.Labels.NoSubject : innerText;
-					String linkUrl = UrlHelper.BuildMailUrl(node.ChildNodes.Item(2).Attributes["href"].Value, notifier.AccountIndex);
+				if (mailCount < notifier.Emails.Count) {
+					//XmlNode node = notifier.XmlMail[mailCount];
+					//String innerText = node.ChildNodes.Item(0).InnerText;
+					//String linkTitle = String.IsNullOrEmpty(innerText) ? Locale.Current.Labels.NoSubject : innerText;
+					//String linkUrl = UrlHelper.BuildMailUrl(node.ChildNodes.Item(2).Attributes["href"].Value, notifier.AccountIndex);
+					
+					Email email = notifier.Emails[mailCount];
 					String path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\Icons");
 
-					JumpListLink item = new JumpListLink(linkUrl, linkTitle) {
+					JumpListLink item = new JumpListLink(email.Url, email.Title) {
 						IconReference = new IconReference(Path.Combine(path, "Mail.ico"), 0)
 					};
 

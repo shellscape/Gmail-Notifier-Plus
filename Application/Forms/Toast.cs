@@ -200,6 +200,8 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
+		public Account Account { get; set; }
+
 		protected override bool ShowWithoutActivation {
 			get { return true; }
 		}
@@ -219,13 +221,13 @@ namespace GmailNotifierPlus.Forms {
 
 			}
 			else if (_rectClose.Contains(mouse)) {
-				//this.Close();
+				this.Close();
 			}
 			else if (_rectPrev.Contains(mouse)) {
 
 			}
 			else if (_rectInbox.Contains(mouse)) {
-
+				Help.ShowHelp(this, Utilities.UrlHelper.BuildInboxUrl(this.Account));
 			}
 			else if (_rectNext.Contains(mouse)) {
 

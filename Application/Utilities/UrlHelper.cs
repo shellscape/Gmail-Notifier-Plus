@@ -34,7 +34,16 @@ namespace GmailNotifierPlus.Utilities {
 			return (GetBaseUrl(accountIndex) + "#inbox");
 		}
 
+		public static string BuildInboxUrl(Account account) {
+			return (GetBaseUrl(account) + "#inbox");
+		}
+
 		public static string BuildMailUrl(string link, int accountIndex) {
+			Account account = _Config.Accounts[accountIndex];
+			return BuildMailUrl(link, account);
+		}
+
+		public static string BuildMailUrl(string link, Account account) {
 			string str = string.Empty;
 			try {
 				string str2 = "message_id=";
@@ -45,7 +54,7 @@ namespace GmailNotifierPlus.Utilities {
 			catch {
 				return string.Empty;
 			}
-			return (GetBaseUrl(accountIndex) + "#inbox/" + str);
+			return (GetBaseUrl(account) + "#inbox/" + str);
 		}
 
 		public static string GetBaseUrl(int accountIndex) {

@@ -13,21 +13,22 @@ using System.Xml;
 namespace GmailNotifierPlus.Forms {
 	public partial class Notifier : Form {
 
-		private const int _FeedMax = 20;
-		private int _MailIndex;
-		private String _MailUrl;
+		private const int FeedMax = 20;
+
+		private int _mailIndex;
+		private String _mailUrl;
 		private Boolean _thumbActivated = false;
 
 		private TabbedThumbnail _preview = null;
 		private ThumbnailToolBarButton _ButtonInbox;
 		private ThumbnailToolBarButton _ButtonNext;
 		private ThumbnailToolBarButton _ButtonPrev;
-		private TaskbarManager _TaskbarManager = TaskbarManager.Instance;
+		private TaskbarManager _taskbarManager = TaskbarManager.Instance;
 
-		private Config _Config = Config.Current;
-		private Account _Account = null;
-		
-		private WebClient _WebClient = new WebClient();
+		private Config _config = Config.Current;
+		private Account _account = null;
+
+		private WebClient _webClient = new WebClient();
 
 		public event CheckMailFinishedEventHandler CheckMailFinished;
 
@@ -44,13 +45,13 @@ namespace GmailNotifierPlus.Forms {
 
 			AccountIndex = accountIndex;
 
-			_Account = _Config.Accounts[accountIndex];
+			_account = _config.Accounts[accountIndex];
 			
 			_LabelStatus.RightToLeft = Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
 			_LabelStatus.Width = this.Width;
 
-			_WebClient.DownloadDataCompleted += _WebClient_DownloadDataCompleted;
-			_Config.Saved += _Config_Saved;
+			_webClient.DownloadDataCompleted += _WebClient_DownloadDataCompleted;
+			_config.Saved += _Config_Saved;
 
 			ToolTip openTip = new ToolTip();
 
@@ -62,18 +63,19 @@ namespace GmailNotifierPlus.Forms {
 
 			_PictureOpen.Cursor = Cursors.Hand;
 
-			this.Text = _Account.FullAddress;	
+			this.Text = _account.FullAddress;	
 		}
 
 #region .    Public Properties    
 
+		public List<Email> Emails { get { return _account.Emails; } }
 		public int AccountIndex { get; private set; }
 		public NotifierStatus ConnectionStatus { get; private set; }
 
 		/// <summary>
 		/// Returns an XmlNodeList containing the last response from the server.
 		/// </summary>
-		public XmlNodeList XmlMail { get; private set; }
+		//public XmlNodeList XmlMail { get; private set; }
 
 		/// <summary>
 		/// Returns the number of unread emails for associated account.
@@ -110,7 +112,7 @@ namespace GmailNotifierPlus.Forms {
 		private void Notifier_Activated(object sender, EventArgs e) {
 			this.Refresh();
 
-			TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this); //_PictureLogo);
+			TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this); //_PictureLogo);
 			
 			if(thumb !=  null){
 				thumb.InvalidatePreview();
@@ -126,13 +128,13 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		internal void CheckMail() {
-			if (_WebClient.IsBusy) {
+			if (_webClient.IsBusy) {
 				return;
 			}
 
 			try {
-				_WebClient.Credentials = new NetworkCredential(_Account.Login, _Config.Accounts[AccountIndex].Password);
-				_WebClient.DownloadDataAsync(new Uri(UrlHelper.GetFeedUrl(AccountIndex)));
+				_webClient.Credentials = new NetworkCredential(_account.Login, _config.Accounts[AccountIndex].Password);
+				_webClient.DownloadDataAsync(new Uri(UrlHelper.GetFeedUrl(AccountIndex)));
 
 				SetCheckingPreview();
 			}
@@ -140,8 +142,8 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void _ButtonPrev_Click(object sender, ThumbnailButtonClickedEventArgs e) {
-			if (_MailIndex > 0) {
-				_MailIndex--;
+			if (_mailIndex > 0) {
+				_mailIndex--;
 				UpdateMailPreview();
 			}
 		}
@@ -152,8 +154,8 @@ namespace GmailNotifierPlus.Forms {
 
 		private void _ButtonNext_Click(object sender, ThumbnailButtonClickedEventArgs e) {
 			int num = (Unread > 20) ? 20 : Unread;
-			if (_MailIndex < num) {
-				_MailIndex++;
+			if (_mailIndex < num) {
+				_mailIndex++;
 				UpdateMailPreview();
 			}
 		}
@@ -181,8 +183,15 @@ namespace GmailNotifierPlus.Forms {
 					XmlNode node = document.SelectSingleNode("/feed/fullcount");
 
 					Unread = Convert.ToInt32(node.InnerText);
-					XmlMail = document.SelectNodes("/feed/entry");
-					_MailIndex = 0;
+					//XmlMail = document.SelectNodes("/feed/entry");
+
+					_account.Emails.Clear();
+
+					foreach (XmlNode mailNode in document.SelectNodes("/feed/entry")) {
+						_account.Emails.Add(Email.FromNode(mailNode, _account));
+					}
+
+					_mailIndex = 0;
 				}
 				catch (System.Xml.XmlException) { }
 				catch (Exception) { } // fixed issue #6. google will occasionally send back invalid xml.
@@ -214,7 +223,7 @@ namespace GmailNotifierPlus.Forms {
 			_ButtonNext = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Next.ico"), Locale.Current.Tooltips.Next);
 			_ButtonNext.Click += _ButtonNext_Click;
 			
-			_TaskbarManager.ThumbnailToolBars.AddButtons(base.Handle, new ThumbnailToolBarButton[] { _ButtonPrev, _ButtonInbox, _ButtonNext });
+			_taskbarManager.ThumbnailToolBars.AddButtons(base.Handle, new ThumbnailToolBarButton[] { _ButtonPrev, _ButtonInbox, _ButtonNext });
 		}
 
 		private void SetCheckingPreview() {
@@ -287,7 +296,7 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void UpdateMailPreview() {
-			_MailUrl = string.Empty;
+			_mailUrl = string.Empty;
 
 			this.UpdateThumbButtonsStatus();
 
@@ -304,22 +313,30 @@ namespace GmailNotifierPlus.Forms {
 				case NotifierStatus.OK:
 
 					if (Unread > 0) {
-						XmlNode node = XmlMail[_MailIndex];
-						DateTime time = DateTime.Parse(node.ChildNodes.Item(3).InnerText.Replace("T24:", "T00:"));
+						//XmlNode node = XmlMail[_MailIndex];
+						//DateTime time = DateTime.Parse(node.ChildNodes.Item(3).InnerText.Replace("T24:", "T00:"));
 
-						_LabelTitle.Text = string.IsNullOrEmpty(node.ChildNodes.Item(0).InnerText) ? Locale.Current.Labels.NoSubject : node.ChildNodes.Item(0).InnerText;
-						_LabelMessage.Text = node.ChildNodes.Item(1).InnerText;
-						_LabelDate.Text = time.ToShortDateString() + " " + time.ToShortTimeString();
-						_LabelIndex.Text = ((_MailIndex + 1)).ToString() + "/" + ((Unread > 20) ? 20 : Unread);
+						//_LabelTitle.Text = string.IsNullOrEmpty(node.ChildNodes.Item(0).InnerText) ? Locale.Current.Labels.NoSubject : node.ChildNodes.Item(0).InnerText;
+						//_LabelMessage.Text = node.ChildNodes.Item(1).InnerText;
+						//_LabelDate.Text = time.ToShortDateString() + " " + time.ToShortTimeString();
+						//_LabelIndex.Text = ((_MailIndex + 1)).ToString() + "/" + ((Unread > 20) ? 20 : Unread);
 
-						if ((node.ChildNodes.Item(6) != null) && (node.ChildNodes.Item(6).ChildNodes.Item(1) != null)) {
-							_LabelFrom.Text = node.ChildNodes.Item(6).ChildNodes[1].InnerText;
-						}
-						else {
-							_LabelFrom.Text = string.Empty;
-						}
+						//if ((node.ChildNodes.Item(6) != null) && (node.ChildNodes.Item(6).ChildNodes.Item(1) != null)) {
+						//  _LabelFrom.Text = node.ChildNodes.Item(6).ChildNodes[1].InnerText;
+						//}
+						//else {
+						//  _LabelFrom.Text = string.Empty;
+						//}
 
-						_MailUrl = UrlHelper.BuildMailUrl(node.ChildNodes.Item(2).Attributes["href"].Value, AccountIndex);
+						Email email = _account.Emails[_mailIndex];
+
+						_LabelDate.Text = email.Date;
+						_LabelFrom.Text = email.From;
+						_LabelIndex.Text = ((_mailIndex + 1)).ToString() + "/" + ((Unread > 20) ? 20 : Unread);
+						_LabelMessage.Text = email.Message;
+						_LabelTitle.Text = email.Title;
+
+						_mailUrl = email.Url;
 
 						this.ShowMails();
 					}
@@ -328,7 +345,7 @@ namespace GmailNotifierPlus.Forms {
 						this.ShowStatus();
 					}
 
-					TabbedThumbnail thumb = _TaskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
+					TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
 					
 					if (thumb != null) {
 						thumb.InvalidatePreview();
@@ -347,10 +364,10 @@ namespace GmailNotifierPlus.Forms {
 
 			int num = (Unread > 20) ? 20 : Unread;
 
-			_ButtonPrev.Enabled = _MailIndex != 0;
+			_ButtonPrev.Enabled = _mailIndex != 0;
 			_ButtonPrev.Tooltip = Locale.Current.Tooltips.Previous;
 
-			_ButtonNext.Enabled = _MailIndex < (num - 1);
+			_ButtonNext.Enabled = _mailIndex < (num - 1);
 			_ButtonNext.Tooltip = Locale.Current.Tooltips.Next;
 
 			//if (Unread == 0) {
@@ -377,8 +394,8 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void OpenEmail() {
-			if (!String.IsNullOrEmpty(_MailUrl)) {
-				Help.ShowHelp(this, _MailUrl);
+			if (!String.IsNullOrEmpty(_mailUrl)) {
+				Help.ShowHelp(this, _mailUrl);
 				this.Refresh();
 			}
 		}

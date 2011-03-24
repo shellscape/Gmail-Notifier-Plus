@@ -29,7 +29,7 @@ namespace GmailNotifierPlus {
 		public static System.Drawing.Icon Icon { get; private set; }
 
 		internal static String channelName;
-		internal static GmailNotifierPlus.Forms.Main mainForm;
+		internal static GmailNotifierPlus.Forms.Main mainForm = null;
 
 		private static List<String> _validArgs = new List<String>() { Arguments.About, Arguments.Check, Arguments.Settings, Arguments.Help };
 
@@ -92,8 +92,8 @@ namespace GmailNotifierPlus {
 					try {
 						Config.Init();
 
-						startForm = mainForm = new GmailNotifierPlus.Forms.Main(args);
-						//startForm = new GmailNotifierPlus.Forms.ToastTest();
+						//startForm = mainForm = new GmailNotifierPlus.Forms.Main(args);
+						startForm = new GmailNotifierPlus.Forms.ToastTest();
 					}
 					catch (Exception e) {
 						Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));

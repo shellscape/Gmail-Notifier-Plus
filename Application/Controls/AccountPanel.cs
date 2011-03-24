@@ -34,7 +34,6 @@ namespace GmailNotifierPlus.Controls {
 		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
 		private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
 
-		private Boolean _makeDefault = false;
 		private String _filler = new String('x', 30);
 		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
 		internal CheckBox _CheckMailto;

@@ -107,6 +107,7 @@
     <Compile Include="Controls\AccountPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Email.cs" />
     <Compile Include="Forms\Toast.cs">
       <SubType>Form</SubType>
     </Compile>

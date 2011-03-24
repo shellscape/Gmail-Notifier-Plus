@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 using GmailNotifierPlus.Utilities;
@@ -60,7 +61,8 @@ namespace GmailNotifierPlus {
 		public String FullAddress { get; private set; }
 		public String Name { get; private set; }
 		public AccountTypes Type { get; private set; }
-		
+		public List<Email> Emails { get; private set; }
+
 		/// <summary>
 		/// Null indicates that we should use the system default.
 		/// </summary>
