@@ -80,14 +80,13 @@
 			// _LabelIndex
 			// 
 			this._LabelIndex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this._LabelIndex.AutoSize = true;
 			this._LabelIndex.BackColor = System.Drawing.Color.Transparent;
 			this._LabelIndex.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelIndex.ForeColor = System.Drawing.Color.Gray;
-			this._LabelIndex.Location = new System.Drawing.Point(170, 90);
+			this._LabelIndex.Location = new System.Drawing.Point(114, 90);
 			this._LabelIndex.Margin = new System.Windows.Forms.Padding(0);
 			this._LabelIndex.Name = "_LabelIndex";
-			this._LabelIndex.Size = new System.Drawing.Size(19, 12);
+			this._LabelIndex.Size = new System.Drawing.Size(75, 12);
 			this._LabelIndex.TabIndex = 1;
 			this._LabelIndex.Text = "1/3";
 			this._LabelIndex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
