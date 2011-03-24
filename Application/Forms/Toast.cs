@@ -544,6 +544,8 @@ namespace GmailNotifierPlus.Forms {
 			_LabelTitle.Text = email.Title;
 
 			_LabelIndex.Text = String.Concat((_mailIndex + 1).ToString(), " / ", this.Account.Unread);
+
+			SetDefaultState();
 		}
 
 		private void SetDefaultState() {

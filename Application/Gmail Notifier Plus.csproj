@@ -151,6 +151,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="Account.cs" />
     <Compile Include="Resources\Resources.cs" />
+    <Compile Include="ToastManager.cs" />
     <Compile Include="Utilities\EncryptionHelper.cs" />
     <Compile Include="Utilities\ErrorHelper.cs" />
     <Compile Include="Utilities\GlassHelper.cs" />

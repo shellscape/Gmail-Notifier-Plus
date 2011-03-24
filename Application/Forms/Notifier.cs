@@ -15,6 +15,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private const int FeedMax = 20;
 
+		private int _previousUnread;
 		private int _mailIndex;
 		private String _mailUrl;
 		private Boolean _thumbActivated = false;
@@ -187,6 +188,8 @@ namespace GmailNotifierPlus.Forms {
 
 					XmlNode node = document.SelectSingleNode("/feed/fullcount");
 
+					_previousUnread = Unread;
+
 					Unread = Convert.ToInt32(node.InnerText);
 					//XmlMail = document.SelectNodes("/feed/entry");
 
@@ -344,6 +347,10 @@ namespace GmailNotifierPlus.Forms {
 						_mailUrl = email.Url;
 
 						this.ShowMails();
+
+						if (Unread != _previousUnread && _config.ShowToast) {
+							ToastManager.Pop(_account);
+						}
 					}
 					else {
 						this.SetNoMailPreview();
@@ -361,8 +368,8 @@ namespace GmailNotifierPlus.Forms {
 
 			_ButtonPrev.Enabled = false;
 			_ButtonNext.Enabled = false;
-			this.ShowStatus();
 
+			this.ShowStatus();
 		}
 
 		private void UpdateThumbButtonsStatus() {
