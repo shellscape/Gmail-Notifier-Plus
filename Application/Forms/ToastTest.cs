@@ -19,7 +19,7 @@ namespace GmailNotifierPlus.Forms {
 		private void button1_Click(object sender, EventArgs e) {
 
 			Account account = new Account("andrew@shellscape.org", String.Empty) {
-				Unread = 2
+				Unread = 2000
 			};
 
 			account.Emails.Add(new Email() {

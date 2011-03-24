@@ -155,7 +155,7 @@ namespace GmailNotifierPlus.Forms {
 		private int _stateNext = State.Disabled;
 		private int _mailIndex = 0;
 
-		private Timer _closeTimer = new Timer() { Interval = 5000, Enabled = false };
+		private Timer _closeTimer = new Timer() { Interval = 10000, Enabled = false };
 
 		private VisualStyleElement _elementClose = null;
 		private VisualStyleElement _elementPrev = null;
@@ -199,6 +199,12 @@ namespace GmailNotifierPlus.Forms {
 			_iconNext = ResourceHelper.GetIcon("Next.ico");
 			_iconWindow = ResourceHelper.GetIcon("gmail-classic.ico", 16);
 
+			ToolTip openTip = new ToolTip();
+			openTip.SetToolTip(_PictureOpen, Locale.Current.Tooltips.OpenMail);
+
+			_PictureOpen.Cursor = Cursors.Hand;
+			_PictureOpen.Click += OpenEmail;
+
 			using (Icon icon = ResourceHelper.GetIcon("Open.ico")) {
 				_PictureOpen.Image = icon.ToBitmap();
 			}
@@ -211,12 +217,6 @@ namespace GmailNotifierPlus.Forms {
 			_mailIndex = this.Account.Emails.Count - 1;
 
 			UpdateBody();
-
-			_Panel.Click += OpenEmail;
-			_LabelDate.Click += OpenEmail;
-			_LabelFrom.Click += OpenEmail;
-			_LabelMessage.Click += OpenEmail;
-			_LabelTitle.Click += OpenEmail;
 		}
 
 		public Account Account { get; set; }
@@ -439,7 +439,10 @@ namespace GmailNotifierPlus.Forms {
 
 			e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 			Font font = SystemFonts.CaptionFont;
-			Utilities.GlassHelper.DrawText(e.Graphics, "  andrew@shellscape.org", font, new Rectangle(_dwmMargins.cxLeftWidth + 16, _dwmMargins.cxLeftWidth, 200, 16), this.ForeColor, TextFormatFlags.Default, Utilities.TextStyle.Glowing);
+			Rectangle captionLayout = new Rectangle(_dwmMargins.cxLeftWidth + (_dwmMargins.cxLeftWidth / 2) + 16, _dwmMargins.cxLeftWidth, this.Width, _dwmMargins.cyTopHeight);
+			String caption = String.Concat(" ", this.Account.FullAddress); // stupid hack. padding so the glow doesnt get cut off on the left.
+
+			Utilities.GlassHelper.DrawText(e.Graphics, caption, font, captionLayout, this.ForeColor, TextFormatFlags.Default, Utilities.TextStyle.Glowing);
 
 			e.Graphics.DrawIcon(_iconWindow, new Rectangle(_dwmMargins.cxLeftWidth, _dwmMargins.cxLeftWidth, 16, 16));
 

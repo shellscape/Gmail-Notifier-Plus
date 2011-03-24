@@ -24,8 +24,8 @@ namespace GmailNotifierPlus.Forms {
 		/// </summary>
 		private void InitializeComponent() {
 			this._Panel = new Shellscape.UI.Controls.DoubleBufferedPanel();
-			this._PictureOpen = new System.Windows.Forms.PictureBox();
 			this._PanelLine = new System.Windows.Forms.Panel();
+			this._PictureOpen = new System.Windows.Forms.PictureBox();
 			this._LabelTitle = new System.Windows.Forms.Label();
 			this._LabelFrom = new System.Windows.Forms.Label();
 			this._LabelIndex = new System.Windows.Forms.Label();
@@ -50,14 +50,6 @@ namespace GmailNotifierPlus.Forms {
 			this._Panel.Size = new System.Drawing.Size(322, 108);
 			this._Panel.TabIndex = 15;
 			// 
-			// _PictureOpen
-			// 
-			this._PictureOpen.Location = new System.Drawing.Point(300, 4);
-			this._PictureOpen.Name = "_PictureOpen";
-			this._PictureOpen.Size = new System.Drawing.Size(16, 16);
-			this._PictureOpen.TabIndex = 16;
-			this._PictureOpen.TabStop = false;
-			// 
 			// _PanelLine
 			// 
 			this._PanelLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(213)))), ((int)(((byte)(223)))));
@@ -65,6 +57,14 @@ namespace GmailNotifierPlus.Forms {
 			this._PanelLine.Name = "_PanelLine";
 			this._PanelLine.Size = new System.Drawing.Size(290, 1);
 			this._PanelLine.TabIndex = 15;
+			// 
+			// _PictureOpen
+			// 
+			this._PictureOpen.Location = new System.Drawing.Point(300, 4);
+			this._PictureOpen.Name = "_PictureOpen";
+			this._PictureOpen.Size = new System.Drawing.Size(16, 16);
+			this._PictureOpen.TabIndex = 16;
+			this._PictureOpen.TabStop = false;
 			// 
 			// _LabelTitle
 			// 
@@ -95,14 +95,13 @@ namespace GmailNotifierPlus.Forms {
 			// _LabelIndex
 			// 
 			this._LabelIndex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this._LabelIndex.AutoSize = true;
 			this._LabelIndex.BackColor = System.Drawing.Color.Transparent;
 			this._LabelIndex.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelIndex.ForeColor = System.Drawing.Color.Gray;
-			this._LabelIndex.Location = new System.Drawing.Point(298, 92);
+			this._LabelIndex.Location = new System.Drawing.Point(179, 98);
 			this._LabelIndex.Margin = new System.Windows.Forms.Padding(0);
 			this._LabelIndex.Name = "_LabelIndex";
-			this._LabelIndex.Size = new System.Drawing.Size(19, 12);
+			this._LabelIndex.Size = new System.Drawing.Size(138, 12);
 			this._LabelIndex.TabIndex = 12;
 			this._LabelIndex.Text = "1/3";
 			this._LabelIndex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -115,7 +114,7 @@ namespace GmailNotifierPlus.Forms {
 			this._LabelMessage.Location = new System.Drawing.Point(0, 36);
 			this._LabelMessage.Name = "_LabelMessage";
 			this._LabelMessage.Padding = new System.Windows.Forms.Padding(3, 4, 3, 0);
-			this._LabelMessage.Size = new System.Drawing.Size(294, 52);
+			this._LabelMessage.Size = new System.Drawing.Size(294, 62);
 			this._LabelMessage.TabIndex = 10;
 			this._LabelMessage.Text = "Content";
 			// 
@@ -126,7 +125,7 @@ namespace GmailNotifierPlus.Forms {
 			this._LabelDate.BackColor = System.Drawing.Color.Transparent;
 			this._LabelDate.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this._LabelDate.ForeColor = System.Drawing.Color.Gray;
-			this._LabelDate.Location = new System.Drawing.Point(4, 92);
+			this._LabelDate.Location = new System.Drawing.Point(4, 98);
 			this._LabelDate.Margin = new System.Windows.Forms.Padding(0);
 			this._LabelDate.Name = "_LabelDate";
 			this._LabelDate.Size = new System.Drawing.Size(25, 12);
@@ -142,6 +141,7 @@ namespace GmailNotifierPlus.Forms {
 			this.ControlBox = false;
 			this.Controls.Add(this._Panel);
 			this.Name = "Toast";
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Toast";
 			this._Panel.ResumeLayout(false);

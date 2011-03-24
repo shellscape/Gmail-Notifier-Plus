@@ -92,8 +92,8 @@ namespace GmailNotifierPlus {
 					try {
 						Config.Init();
 
-						//startForm = mainForm = new GmailNotifierPlus.Forms.Main(args);
-						startForm = new GmailNotifierPlus.Forms.ToastTest();
+						startForm = mainForm = new GmailNotifierPlus.Forms.Main(args);
+						//startForm = new GmailNotifierPlus.Forms.ToastTest();
 					}
 					catch (Exception e) {
 						Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));

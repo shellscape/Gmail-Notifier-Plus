@@ -36,7 +36,6 @@ namespace GmailNotifierPlus {
 
 			this.Login = login;
 			this.Password = password;
-			this.Emails = new List<Email>();
 
 			Init();
 		}
@@ -106,6 +105,9 @@ namespace GmailNotifierPlus {
 		}
 
 		public void Init() {
+			
+			this.Emails = new List<Email>();
+
 			if (!String.IsNullOrEmpty(this.Login)) {
 				String[] strArray = this.Login.Split(new char[] { '@' });
 
