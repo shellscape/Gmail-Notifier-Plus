@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -149,9 +150,10 @@ namespace GmailNotifierPlus.Forms {
 		private Rectangle _rectClient = Rectangle.Empty;
 
 		private int _stateClose = 1;
-		private int _statePrev = 1;
+		private int _statePrev = State.Disabled;
 		private int _stateInbox = 1;
-		private int _stateNext = 1;
+		private int _stateNext = State.Disabled;
+		private int _mailIndex = 0;
 
 		private Timer _closeTimer = new Timer() { Interval = 5000, Enabled = false };
 
@@ -164,9 +166,11 @@ namespace GmailNotifierPlus.Forms {
 		private Icon _iconInbox = null;
 		private Icon _iconNext = null;
 		private Icon _iconWindow = null;
-		
-		public Toast() {
+
+		public Toast(Account account) {
 			InitializeComponent();
+
+			this.Account = account;
 
 			this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 			this.SetStyle(ControlStyles.UserPaint, true);
@@ -198,6 +202,21 @@ namespace GmailNotifierPlus.Forms {
 			using (Icon icon = ResourceHelper.GetIcon("Open.ico")) {
 				_PictureOpen.Image = icon.ToBitmap();
 			}
+
+			if (this.Account.Emails.Count > 1) {
+				_stateNext = State.Normal;
+			}
+
+			// show the last (newest) email
+			_mailIndex = this.Account.Emails.Count - 1;
+
+			UpdateBody();
+
+			_Panel.Click += OpenEmail;
+			_LabelDate.Click += OpenEmail;
+			_LabelFrom.Click += OpenEmail;
+			_LabelMessage.Click += OpenEmail;
+			_LabelTitle.Click += OpenEmail;
 		}
 
 		public Account Account { get; set; }
@@ -217,20 +236,42 @@ namespace GmailNotifierPlus.Forms {
 
 			Point mouse = this.PointToClient(MousePosition);
 
-			if (_rectClient.Contains(mouse)) {
-
-			}
-			else if (_rectClose.Contains(mouse)) {
+			if (_rectClose.Contains(mouse)) {
 				this.Close();
 			}
-			else if (_rectPrev.Contains(mouse)) {
+			else if (_rectPrev.Contains(mouse) && _statePrev != State.Disabled) {
+				if (_mailIndex > 0) {
+					_mailIndex--;
+					UpdateBody();
 
+					if (_stateNext == State.Disabled) {
+						_stateNext = State.Normal;
+						Invalidate(_rectNext);
+					}
+				}
+				else {
+					_stateNext = State.Disabled;
+					Invalidate(_rectNext);
+				}
 			}
 			else if (_rectInbox.Contains(mouse)) {
 				Help.ShowHelp(this, Utilities.UrlHelper.BuildInboxUrl(this.Account));
 			}
-			else if (_rectNext.Contains(mouse)) {
+			else if (_rectNext.Contains(mouse) && _stateNext != State.Disabled) {
 
+				if (_mailIndex < this.Account.Unread) {
+					_mailIndex++;
+					UpdateBody();
+
+					if (_statePrev == State.Disabled) {
+						_statePrev = State.Normal;
+						Invalidate(_rectPrev);
+					}
+				}
+				else {
+					_stateNext = State.Disabled;
+					Invalidate(_rectNext);
+				}
 			}
 		}
 
@@ -290,7 +331,7 @@ namespace GmailNotifierPlus.Forms {
 				_stateClose = State.Pressed;
 				Invalidate(_rectClose);
 			}
-			else if (_rectPrev.Contains(e.Location)) {
+			else if (_rectPrev.Contains(e.Location) && _statePrev != State.Disabled) {
 				_statePrev = State.Pressed;
 				Invalidate(_rectPrev);
 			}
@@ -298,48 +339,47 @@ namespace GmailNotifierPlus.Forms {
 				_stateInbox = State.Pressed;
 				Invalidate(_rectInbox);
 			}
-			else if (_rectNext.Contains(e.Location)) {
+			else if (_rectNext.Contains(e.Location) && _stateNext != State.Disabled) {
 				_stateNext = State.Pressed;
 				Invalidate(_rectNext);
 			}
 		}
 
+		/// <summary>
+		/// OH LAWD this method is soooo damned fugly. but i'm just not willing to pretty it up. you're an ugly bitch, aintcha?
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnMouseMove(MouseEventArgs e) {
 			base.OnMouseMove(e);
 
 			Boolean pressed = e.Button != System.Windows.Forms.MouseButtons.None;
 
 			if (_rectClose.Contains(e.Location) && _stateClose != State.Pressed) {
-				Debug.WriteLine("Mouse Move - " + _stateClose.ToString());
+
+				SetDefaultState();
 
 				_stateClose = pressed ? State.Pressed : State.Hot;
-				_statePrev = State.Normal;
-				_stateInbox = State.Normal;
-				_stateNext = State.Normal;
 			}
-			else if (_rectPrev.Contains(e.Location)) {
-				_stateClose = State.Normal;
+			else if (_rectPrev.Contains(e.Location) && _statePrev != State.Disabled) {
+
+				SetDefaultState();
+
 				_statePrev = pressed ? State.Pressed : State.Hot;
-				_stateInbox = State.Normal;
-				_stateNext = State.Normal;
 			}
 			else if (_rectInbox.Contains(e.Location)) {
-				_stateClose = State.Normal;
-				_statePrev = State.Normal;
+
+				SetDefaultState();
+
 				_stateInbox = pressed ? State.Pressed : State.Hot;
-				_stateNext = State.Normal;
 			}
-			else if (_rectNext.Contains(e.Location)) {
-				_stateClose = State.Normal;
-				_statePrev = State.Normal;
-				_stateInbox = State.Normal;
+			else if (_rectNext.Contains(e.Location) && _stateNext != State.Disabled) {
+
+				SetDefaultState();
+
 				_stateNext = pressed ? State.Pressed : State.Hot;
 			}
 			else {
-				_stateClose = State.Normal;
-				_statePrev = State.Normal;
-				_stateInbox = State.Normal;
-				_stateNext = State.Normal;
+				SetDefaultState();
 			}
 
 			Invalidate();
@@ -404,13 +444,13 @@ namespace GmailNotifierPlus.Forms {
 			e.Graphics.DrawIcon(_iconWindow, new Rectangle(_dwmMargins.cxLeftWidth, _dwmMargins.cxLeftWidth, 16, 16));
 
 			PaintElement(e.Graphics, _elementPrev, _rectPrev, _statePrev);
-			PaintIcon(e.Graphics, _iconPrev, _rectPrev);
+			PaintIcon(e.Graphics, _iconPrev, _rectPrev, _statePrev);
 
 			PaintElement(e.Graphics, _elementInbox, _rectInbox, _stateInbox);
-			PaintIcon(e.Graphics, _iconInbox, _rectInbox);
+			PaintIcon(e.Graphics, _iconInbox, _rectInbox, State.Normal);
 
 			PaintElement(e.Graphics, _elementNext, _rectNext, _stateNext);
-			PaintIcon(e.Graphics, _iconNext, _rectNext);
+			PaintIcon(e.Graphics, _iconNext, _rectNext, _stateNext);
 
 			PaintElement(e.Graphics, _elementClose, _rectClose, _stateClose);
 		}
@@ -455,13 +495,36 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
-		private void PaintIcon(Graphics g, Icon icon, Rectangle rect) {
+		private void PaintIcon(Graphics g, Icon icon, Rectangle rect, int state) {
 
 			int x = (rect.Width - icon.Width) / 2;
 			int y = (rect.Height - icon.Height) / 2;
+			Rectangle layout = new Rectangle(x + rect.Left, y + rect.Top, icon.Width, icon.Height);
 
-			g.DrawIcon(icon, new Rectangle(x + rect.Left, y + rect.Top, icon.Width, icon.Height));
+			if (state == State.Disabled) {
 
+				// ControlPaint.DrawImageDisabled sucks ass.
+
+				ColorMatrix cm = new ColorMatrix(new float[][]{ 
+					new float[]{0.3f,0.3f,0.3f,0,0},
+          new float[]{0.59f,0.59f,0.59f,0,0},
+          new float[]{0.11f,0.11f,0.11f,0,0},
+          new float[]{0,0,0,1,0,0},
+          new float[]{0,0,0,0,1,0},
+          new float[]{0,0,0,0,0,1}
+				});
+
+				using(Bitmap bitmap = icon.ToBitmap())
+				using (ImageAttributes ia = new ImageAttributes()) {
+
+					ia.SetColorMatrix(cm);
+
+					g.DrawImage(bitmap, layout, 0, 0, bitmap.Width, bitmap.Height, GraphicsUnit.Pixel, ia);
+				}				
+			}
+			else {
+				g.DrawIcon(icon, layout);
+			}
 		}
 
 		private void PaintElement(Graphics g, VisualStyleElement element, Rectangle rect, int state) {
@@ -472,5 +535,45 @@ namespace GmailNotifierPlus.Forms {
 			renderer.DrawBackground(g, rect);
 		}
 
+		private void UpdateBody() {
+			Email email = this.Account.Emails[_mailIndex];
+
+			_LabelDate.Text = email.Date;
+			_LabelFrom.Text = email.From;
+			_LabelMessage.Text = email.Message;
+			_LabelTitle.Text = email.Title;
+
+			_LabelIndex.Text = String.Concat((_mailIndex + 1).ToString(), " / ", this.Account.Unread);
+		}
+
+		private void SetDefaultState() {
+
+			_stateClose = State.Normal;
+			_stateInbox = State.Normal;
+
+			if (this.Account.Emails.Count == 1) {
+				_stateNext = _statePrev = State.Disabled;
+				return;
+			}
+
+			_statePrev = State.Normal;
+			_stateNext = State.Normal;
+
+			if (_mailIndex == 0) {
+				_statePrev = State.Disabled;
+			}
+			else if (_mailIndex == this.Account.Unread - 1) {
+				_stateNext = State.Disabled;
+			}
+
+		}
+
+		private void OpenEmail(object sender, EventArgs e) {
+			String url = this.Account.Emails[_mailIndex].Url;
+
+			if (!String.IsNullOrEmpty(url)) {
+				Help.ShowHelp(this, url);
+			}
+		}
 	}
 }

@@ -80,7 +80,12 @@ namespace GmailNotifierPlus.Forms {
 		/// <summary>
 		/// Returns the number of unread emails for associated account.
 		/// </summary>
-		public int Unread { get; private set; }
+		public int Unread {
+			get { return this._account.Unread; }
+			private set {
+				this._account.Unread = value;
+			}
+		}
 
 		public TabbedThumbnail PreviewThumbnail {
 			get { return _preview; }
@@ -153,8 +158,8 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void _ButtonNext_Click(object sender, ThumbnailButtonClickedEventArgs e) {
-			int num = (Unread > 20) ? 20 : Unread;
-			if (_mailIndex < num) {
+
+			if (_mailIndex < Unread) {
 				_mailIndex++;
 				UpdateMailPreview();
 			}
@@ -362,12 +367,10 @@ namespace GmailNotifierPlus.Forms {
 
 		private void UpdateThumbButtonsStatus() {
 
-			int num = (Unread > 20) ? 20 : Unread;
-
 			_ButtonPrev.Enabled = _mailIndex != 0;
 			_ButtonPrev.Tooltip = Locale.Current.Tooltips.Previous;
 
-			_ButtonNext.Enabled = _mailIndex < (num - 1);
+			_ButtonNext.Enabled = _mailIndex < (Unread - 1);
 			_ButtonNext.Tooltip = Locale.Current.Tooltips.Next;
 
 			//if (Unread == 0) {

@@ -26,7 +26,28 @@ namespace GmailNotifierPlus.Forms {
 		private static Queue<Toast> _loaf = new Queue<Toast>();
 
 		public static void Pop() {
-			Toast slice = new Toast();
+
+			Account account = new Account("andrew@shellscape.org", String.Empty) {
+				Unread = 1
+			};
+
+			account.Emails.Add(new Email() {
+				Title = "Test Email",
+				Date = "3/24/2011 10:27 AM",
+				Url = "http://google.com",
+				Message = "This is a test email.",
+				From = "stevo@hotmail.com"
+			});
+
+			account.Emails.Add(new Email() {
+				Title = "SECOND EMAIL",
+				Date = "3/14/2011 11:27 AM",
+				Url = "http://msn.com",
+				Message = "This is a test  22222.",
+				From = "stevo222@hotmail.com"
+			});
+			
+			Toast slice = new Toast(account);
 
 			slice.FormClosed += SliceClosed;
 

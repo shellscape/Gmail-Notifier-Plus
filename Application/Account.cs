@@ -26,6 +26,21 @@ namespace GmailNotifierPlus {
 		private String _login = String.Empty;
 		private String _password = String.Empty;
 
+		public Account() {
+			this.Login = this.Password = this.Name = this.Domain = this.FullAddress = String.Empty;
+			this.Type = AccountTypes.Regular;
+			this.Emails = new List<Email>();
+		}
+
+		public Account(String login, String password) {
+
+			this.Login = login;
+			this.Password = password;
+			this.Emails = new List<Email>();
+
+			Init();
+		}
+
 		public String Login {
 			get { return _login; }
 			set {
@@ -58,11 +73,12 @@ namespace GmailNotifierPlus {
 		public Boolean HandlesMailto { get; set; }
 
 		public String Domain { get; private set; }
+		public List<Email> Emails { get; private set; }
 		public String FullAddress { get; private set; }
 		public String Name { get; private set; }
 		public AccountTypes Type { get; private set; }
-		public List<Email> Emails { get; private set; }
-
+		public int Unread { get; set; }
+		
 		/// <summary>
 		/// Null indicates that we should use the system default.
 		/// </summary>
@@ -87,19 +103,6 @@ namespace GmailNotifierPlus {
 			set {
 				this.Password = EncryptionHelper.Decrypt(value);
 			}
-		}
-
-		public Account() {
-			this.Login = this.Password = this.Name = this.Domain = this.FullAddress = String.Empty;
-			this.Type = AccountTypes.Regular;
-		}
-
-		public Account(String login, String password) {
-
-			this.Login = login;
-			this.Password = password;
-
-			Init();
 		}
 
 		public void Init() {
