@@ -196,6 +196,8 @@ namespace GmailNotifierPlus.Forms {
 						Account.Emails.Add(Email.FromNode(mailNode, Account));
 					}
 
+					Account.Emails.Sort();
+
 					_mailIndex = 0;
 				}
 				catch (System.Xml.XmlException) { }
@@ -214,7 +216,7 @@ namespace GmailNotifierPlus.Forms {
 			UpdateMailPreview();
 			CheckMailFinished(this, EventArgs.Empty);
 
-			if (Unread != _previousUnread && _config.ShowToast) {
+			if (Unread > _previousUnread && _config.ShowToast && Account.Emails.Count > 0) {
 				ToastManager.Pop(Account);
 			}
 		}
@@ -339,7 +341,7 @@ namespace GmailNotifierPlus.Forms {
 
 						Email email = Account.Emails[_mailIndex];
 
-						_LabelDate.Text = email.Date;
+						_LabelDate.Text = email.When;
 						_LabelFrom.Text = email.From;
 						_LabelIndex.Text = ((_mailIndex + 1)).ToString() + "/" + ((Unread > 20) ? 20 : Unread);
 						_LabelMessage.Text = email.Message;

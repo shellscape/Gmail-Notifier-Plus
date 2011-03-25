@@ -539,9 +539,14 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void UpdateBody() {
+
+			if (_mailIndex > this.Account.Emails.Count) {
+				_mailIndex = this.Account.Emails.Count - 1;
+			}
+			
 			Email email = this.Account.Emails[_mailIndex];
 
-			_LabelDate.Text = email.Date;
+			_LabelDate.Text = email.When;
 			_LabelFrom.Text = email.From;
 			_LabelMessage.Text = email.Message;
 			_LabelTitle.Text = email.Title;

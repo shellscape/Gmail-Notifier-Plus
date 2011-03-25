@@ -24,7 +24,7 @@ namespace GmailNotifierPlus.Forms {
 
 			account.Emails.Add(new Email() {
 				Title = "Test Email",
-				Date = "3/24/2011 10:27 AM",
+				When = "3/24/2011 10:27 AM",
 				Url = "http://google.com",
 				Message = "This is a test email.",
 				From = "stevo@hotmail.com"
@@ -32,7 +32,7 @@ namespace GmailNotifierPlus.Forms {
 
 			account.Emails.Add(new Email() {
 				Title = "SECOND EMAIL",
-				Date = "3/14/2011 11:27 AM",
+				When = "3/14/2011 11:27 AM",
 				Url = "http://msn.com",
 				Message = "This is a test  22222.",
 				From = "stevo222@hotmail.com"
