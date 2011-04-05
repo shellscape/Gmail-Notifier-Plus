@@ -2,6 +2,8 @@ This solution requires, and its projects reference, the Shellscape.Lib project. 
 
 Shellscape.Lib can be cloned here: https://github.com/shellscape/Shellscape.Lib. 
 
+Shellscape.Lib is not written using Visual Basic.NET but utilizes a few aspects of the VB Power Pack, which is required to build it. The Visual Basic PowerPack can be downloaded here; http://msdn.microsoft.com/en-us/vbasic/bb735936
+
 By default, the solution expects it to be checked out at the same filesystem level as the Gmail Notifier Plus repo.
 
 End of line.
