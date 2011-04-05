@@ -18,9 +18,9 @@ namespace GmailNotifierPlus {
 
 			slice.FormClosed += SliceClosed;
 
-			PositionSlice(slice);
-
 			_loaf.Enqueue(slice);
+
+			PositionSlice(slice);
 
 			slice.Show();
 		}
@@ -31,7 +31,7 @@ namespace GmailNotifierPlus {
 			Rectangle workingArea = primary.WorkingArea;
 			Point start = new Point(workingArea.Width - slice.Width, workingArea.Height - slice.Height);
 
-			start.Y -= (_loaf.Count * slice.Height); // all of the slices are a constant height
+			start.Y -= ((_loaf.Count - 1) * slice.Height); // all of the slices are a constant height
 
 			if (_loaf.Count > 1) {
 				start.Y -= 8;

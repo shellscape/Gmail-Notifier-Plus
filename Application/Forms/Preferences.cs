@@ -11,7 +11,6 @@ using System.Windows.Forms;
 
 using GmailNotifierPlus.Controls;
 
-using Microsoft.VisualBasic.PowerPacks;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.Shell;
 
@@ -29,8 +28,6 @@ namespace GmailNotifierPlus.Forms {
 		private CheckBox _CheckFlash;
 		private Label _LabelLanguage;
 		private ComboBox _ComboLanguage;
-		private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer2;
-		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
 		private Controls.AccountPanel _PanelNewAccount;
 		private CheckBox _CheckUpdates;
 		private Label _LabelSound;
@@ -39,9 +36,6 @@ namespace GmailNotifierPlus.Forms {
 		private Shellscape.UI.Controls.NumericTextBox _TextInterval;
 		private ComboBox _ComboSound;
 		private Button _ButtonBrowse;
-		private ShapeContainer shapeContainer1;
-		private LineShape lineShape3;
-		private LineShape lineShape1;
 		private Button _ButtonNewAccount;
 
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -156,7 +150,7 @@ namespace GmailNotifierPlus.Forms {
 					}
 				};
 
-				InitPanelShapes(item.AssociatedPanel);
+				//InitPanelShapes(item.AssociatedPanel);
 				item.AssociatedPanel.Hide();
 				_PanelParent.Controls.Add(item.AssociatedPanel);
 				item.AssociatedPanel.BringToFront();
@@ -222,35 +216,35 @@ namespace GmailNotifierPlus.Forms {
 
 		private void InitPanels() {
 
-			foreach (Control control in _PanelParent.Controls) {
-				if (control is PreferencesPanel) {
-					InitPanelShapes(control as PreferencesPanel);
-				}
-			}
+			//foreach (Control control in _PanelParent.Controls) {
+			//  if (control is PreferencesPanel) {
+			//    InitPanelShapes(control as PreferencesPanel);
+			//  }
+			//}
 
 		}
 
-		private void InitPanelShapes(PreferencesPanel panel) {
-			foreach (Control c in panel.Controls) {
-				if (c is ShapeContainer) {
-					foreach (var shape in (c as ShapeContainer).Shapes) {
-						if (shape is LineShape) {
-							LineShape line = (shape as LineShape);
+		//private void InitPanelShapes(PreferencesPanel panel) {
+		//  foreach (Control c in panel.Controls) {
+		//    if (c is ShapeContainer) {
+		//      foreach (var shape in (c as ShapeContainer).Shapes) {
+		//        if (shape is LineShape) {
+		//          LineShape line = (shape as LineShape);
 
-							line.X1 = 0;
-							line.X2 = _PanelGeneral.ClientSize.Width; // we can use this as a gauge since theyre all the same size.
-							line.BorderColor = SystemColors.ControlLight;
+		//          line.X1 = 0;
+		//          line.X2 = _PanelGeneral.ClientSize.Width; // we can use this as a gauge since theyre all the same size.
+		//          line.BorderColor = SystemColors.ControlLight;
 
-							if (panel is AccountPanel) {
-								line.X1 = 8;
-								line.X2 -= 12; // account panels have no padding, 10 - 2 for the borders. yeah yeah, it's not dynamic. PPFTTT.
-							}
+		//          if (panel is AccountPanel) {
+		//            line.X1 = 8;
+		//            line.X2 -= 12; // account panels have no padding, 10 - 2 for the borders. yeah yeah, it's not dynamic. PPFTTT.
+		//          }
 
-						}
-					}
-				}
-			}
-		}
+		//        }
+		//      }
+		//    }
+		//  }
+		//}
 
 		private void _Config_LanguageChanged(Config sender) {
 			InitLabels();
@@ -277,7 +271,7 @@ namespace GmailNotifierPlus.Forms {
 			
 			_PanelParent.Controls.Add(item.AssociatedPanel);
 
-			InitPanelShapes(item.AssociatedPanel);
+			//InitPanelShapes(item.AssociatedPanel);
 
 			item.AssociatedPanel.BringToFront();
 			
@@ -377,8 +371,6 @@ namespace GmailNotifierPlus.Forms {
 			this._CheckFlash = new System.Windows.Forms.CheckBox();
 			this._LabelLanguage = new System.Windows.Forms.Label();
 			this._ComboLanguage = new System.Windows.Forms.ComboBox();
-			this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-			this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
 			this._PanelNewAccount = new GmailNotifierPlus.Controls.AccountPanel();
 			this._CheckUpdates = new System.Windows.Forms.CheckBox();
 			this._LabelSound = new System.Windows.Forms.Label();
@@ -387,9 +379,6 @@ namespace GmailNotifierPlus.Forms {
 			this._TextInterval = new Shellscape.UI.Controls.NumericTextBox();
 			this._ComboSound = new System.Windows.Forms.ComboBox();
 			this._ButtonBrowse = new System.Windows.Forms.Button();
-			this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
-			this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-			this.lineShape3 = new Microsoft.VisualBasic.PowerPacks.LineShape();
 			this._PanelGeneral.SuspendLayout();
 			this._PanelParent.SuspendLayout();
 			this._PanelAccounts.SuspendLayout();
@@ -405,7 +394,6 @@ namespace GmailNotifierPlus.Forms {
 			this._PanelGeneral.Controls.Add(this._LabelInterval);
 			this._PanelGeneral.Controls.Add(this._LabelSound);
 			this._PanelGeneral.Controls.Add(this._CheckUpdates);
-			this._PanelGeneral.Controls.Add(this.shapeContainer1);
 			// 
 			// _PanelParent
 			// 
@@ -474,7 +462,6 @@ namespace GmailNotifierPlus.Forms {
 			this._PanelAppearance.Controls.Add(this._CheckFlash);
 			this._PanelAppearance.Controls.Add(this._LabelLanguage);
 			this._PanelAppearance.Controls.Add(this._ComboLanguage);
-			this._PanelAppearance.Controls.Add(this.shapeContainer2);
 			this._PanelAppearance.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._PanelAppearance.DrawHeader = true;
 			this._PanelAppearance.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -542,26 +529,6 @@ namespace GmailNotifierPlus.Forms {
 			this._ComboLanguage.Name = "_ComboLanguage";
 			this._ComboLanguage.Size = new System.Drawing.Size(134, 23);
 			this._ComboLanguage.TabIndex = 0;
-			// 
-			// shapeContainer2
-			// 
-			this.shapeContainer2.Location = new System.Drawing.Point(10, 45);
-			this.shapeContainer2.Margin = new System.Windows.Forms.Padding(0);
-			this.shapeContainer2.Name = "shapeContainer2";
-			this.shapeContainer2.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.lineShape2});
-			this.shapeContainer2.Size = new System.Drawing.Size(480, 339);
-			this.shapeContainer2.TabIndex = 50;
-			this.shapeContainer2.TabStop = false;
-			// 
-			// lineShape2
-			// 
-			this.lineShape2.BorderColor = System.Drawing.Color.Red;
-			this.lineShape2.Name = "lineShape2";
-			this.lineShape2.X1 = -6;
-			this.lineShape2.X2 = 294;
-			this.lineShape2.Y1 = 35;
-			this.lineShape2.Y2 = 35;
 			// 
 			// _PanelNewAccount
 			// 
@@ -660,36 +627,6 @@ namespace GmailNotifierPlus.Forms {
 			this._ButtonBrowse.TabIndex = 57;
 			this._ButtonBrowse.Text = "Browse...";
 			this._ButtonBrowse.UseVisualStyleBackColor = true;
-			// 
-			// lineShape1
-			// 
-			this.lineShape1.BorderColor = System.Drawing.Color.Red;
-			this.lineShape1.Name = "lineShape1";
-			this.lineShape1.X1 = -3;
-			this.lineShape1.X2 = 297;
-			this.lineShape1.Y1 = 67;
-			this.lineShape1.Y2 = 67;
-			// 
-			// shapeContainer1
-			// 
-			this.shapeContainer1.Location = new System.Drawing.Point(10, 45);
-			this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-			this.shapeContainer1.Name = "shapeContainer1";
-			this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.lineShape3,
-            this.lineShape1});
-			this.shapeContainer1.Size = new System.Drawing.Size(480, 339);
-			this.shapeContainer1.TabIndex = 58;
-			this.shapeContainer1.TabStop = false;
-			// 
-			// lineShape3
-			// 
-			this.lineShape3.BorderColor = System.Drawing.Color.Red;
-			this.lineShape3.Name = "lineShape3";
-			this.lineShape3.X1 = 1;
-			this.lineShape3.X2 = 301;
-			this.lineShape3.Y1 = 109;
-			this.lineShape3.Y2 = 109;
 			// 
 			// Preferences
 			// 

@@ -155,7 +155,7 @@ namespace GmailNotifierPlus.Forms {
 		private int _stateNext = State.Disabled;
 		private int _mailIndex = 0;
 
-		private Timer _closeTimer = new Timer() { Interval = 10000, Enabled = false };
+		private Timer _closeTimer = new Timer() { Interval = 15000, Enabled = false };
 
 		private VisualStyleElement _elementClose = null;
 		private VisualStyleElement _elementPrev = null;

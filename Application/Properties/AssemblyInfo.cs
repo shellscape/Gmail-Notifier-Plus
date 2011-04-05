@@ -3,14 +3,16 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+[assembly: AssemblyResourceNamespace("GmailNotifierPlus.Resources")]
+
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GmailNotifierPlus")]
+[assembly: AssemblyTitle("Gmail Notifier Plus")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Shellscape Software")]
-[assembly: AssemblyProduct("GmailNotifierPlus")]
+[assembly: AssemblyProduct("Gmail Notifier Plus")]
 [assembly: AssemblyCopyright("Copyright © 2010 Baptiste Girod, Copyright © 2011 Andrew Powell, Shellscape Software")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -33,4 +35,4 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.2.0.0")]
+[assembly: AssemblyVersion("2.2.5003.2330")]

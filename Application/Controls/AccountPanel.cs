@@ -31,11 +31,8 @@ namespace GmailNotifierPlus.Controls {
 		private PictureBox _PictureExclamation;
 		private Shellscape.UI.Controls.InputBufferedTextBox _TextPassword;
 		private Button _ButtonRemove;
-		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
-		private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
 
 		private String _filler = new String('x', 30);
-		private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
 		internal CheckBox _CheckMailto;
 		private Label _LabelBrowser;
 		private ComboBox _ComboBrowser;
@@ -210,9 +207,6 @@ namespace GmailNotifierPlus.Controls {
 			this._PictureExclamation = new System.Windows.Forms.PictureBox();
 			this._TextPassword = new Shellscape.UI.Controls.InputBufferedTextBox();
 			this._ButtonRemove = new System.Windows.Forms.Button();
-			this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
-			this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-			this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
 			this._CheckMailto = new System.Windows.Forms.CheckBox();
 			this._LabelBrowser = new System.Windows.Forms.Label();
 			this._ComboBrowser = new System.Windows.Forms.ComboBox();
@@ -310,36 +304,6 @@ namespace GmailNotifierPlus.Controls {
 			this._ButtonRemove.UseVisualStyleBackColor = true;
 			this._ButtonRemove.Click += new System.EventHandler(this._ButtonRemove_Click);
 			// 
-			// lineShape1
-			// 
-			this.lineShape1.BorderColor = System.Drawing.Color.Red;
-			this.lineShape1.Name = "lineShape1";
-			this.lineShape1.X1 = -5;
-			this.lineShape1.X2 = 295;
-			this.lineShape1.Y1 = 198;
-			this.lineShape1.Y2 = 198;
-			// 
-			// shapeContainer1
-			// 
-			this.shapeContainer1.Location = new System.Drawing.Point(2, 45);
-			this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-			this.shapeContainer1.Name = "shapeContainer1";
-			this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.lineShape2,
-            this.lineShape1});
-			this.shapeContainer1.Size = new System.Drawing.Size(0, 0);
-			this.shapeContainer1.TabIndex = 56;
-			this.shapeContainer1.TabStop = false;
-			// 
-			// lineShape2
-			// 
-			this.lineShape2.BorderColor = System.Drawing.Color.Red;
-			this.lineShape2.Name = "lineShape2";
-			this.lineShape2.X1 = 0;
-			this.lineShape2.X2 = 300;
-			this.lineShape2.Y1 = 128;
-			this.lineShape2.Y2 = 128;
-			// 
 			// _CheckMailto
 			// 
 			this._CheckMailto.AutoSize = true;
@@ -384,7 +348,6 @@ namespace GmailNotifierPlus.Controls {
 			this.Controls.Add(this._TextUsername);
 			this.Controls.Add(this._LabelPassword);
 			this.Controls.Add(this._LabelUsername);
-			this.Controls.Add(this.shapeContainer1);
 			this.Name = "AccountPanel";
 			this.Padding = new System.Windows.Forms.Padding(2, 45, 2, 2);
 			this.Size = new System.Drawing.Size(0, 0);

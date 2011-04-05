@@ -36,7 +36,7 @@ namespace GmailNotifierPlus.Forms {
 			OK,
 			AuthenticationFailed,
 			Offline
-		}		
+		}
 
 		public Notifier(Account account) {
 			InitializeComponent();
@@ -44,7 +44,7 @@ namespace GmailNotifierPlus.Forms {
 			this.Icon = Program.Icon;
 
 			this.Account = account;
-			
+
 			_LabelStatus.RightToLeft = Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
 			_LabelStatus.Width = this.Width;
 
@@ -61,10 +61,10 @@ namespace GmailNotifierPlus.Forms {
 
 			_PictureOpen.Cursor = Cursors.Hand;
 
-			this.Text = Account.FullAddress;	
+			this.Text = Account.FullAddress;
 		}
 
-#region .    Public Properties    
+		#region .    Public Properties
 
 		public List<Email> Emails { get { return Account.Emails; } }
 		public Account Account { get; private set; }
@@ -92,32 +92,34 @@ namespace GmailNotifierPlus.Forms {
 					_preview = value;
 
 					if (_preview != null) {
-						_preview.TabbedThumbnailActivated += delegate(object sender, TabbedThumbnailEventArgs e) {
-							
-							// i can't track down why exactly, but this is being fired twice.
-							if (_thumbActivated) {
-								_thumbActivated = false;
-							}
-							else {
-								_thumbActivated = true;
-								OpenEmail();
-							}
-						};
+						_preview.TabbedThumbnailActivated += Thumbnail_Activated;
 					}
 				}
 			}
 		}
 
-#endregion
+		#endregion
 
-#region .    Events    
-		
+		#region .    Events
+
+		private void Thumbnail_Activated(object sender, TabbedThumbnailEventArgs e) {
+
+			// i can't track down why exactly, but this is being fired twice.
+			if (_thumbActivated) {
+				_thumbActivated = false;
+			}
+			else {
+				_thumbActivated = true;
+				OpenEmail();
+			}
+		}
+
 		private void Notifier_Activated(object sender, EventArgs e) {
 			this.Refresh();
 
 			TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this); //_PictureLogo);
-			
-			if(thumb !=  null){
+
+			if (thumb != null) {
 				thumb.InvalidatePreview();
 			}
 		}
@@ -221,7 +223,28 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
-#endregion
+		#endregion
+
+		// overriding onActivated and onGotFocus so that any focus to the notification windows
+		// will give focus to the main form. this is being done so that clicking on a preview thumbnail
+		// will always open the email in the set browser.
+		// the way the clicks work, it activates the associated window. if the window is already activated (has focus)
+		// then the click is essentially cancelled.
+		protected override void OnActivated(EventArgs e) {
+			base.OnActivated(e);
+
+			if (Program.mainForm != null) {
+				Program.mainForm.Activate();
+			}
+		}
+
+		protected override void OnGotFocus(EventArgs e) {
+			base.OnGotFocus(e);
+
+			if (Program.mainForm != null) {
+				Program.mainForm.Activate();
+			}
+		}
 
 		private void CreateThumbButtons() {
 
@@ -233,12 +256,16 @@ namespace GmailNotifierPlus.Forms {
 
 			_ButtonNext = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Next.ico"), Locale.Current.Tooltips.Next);
 			_ButtonNext.Click += _ButtonNext_Click;
-			
+
 			_taskbarManager.ThumbnailToolBars.AddButtons(base.Handle, new ThumbnailToolBarButton[] { _ButtonPrev, _ButtonInbox, _ButtonNext });
 		}
 
 		private void SetCheckingPreview() {
+			_LabelStatus.AutoSize = false;
 			_LabelStatus.Top = 82;
+			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
+			_LabelStatus.Left = 0;
+			_LabelStatus.Width = this.Width;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Labels.Connecting;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Checking.png");
@@ -252,7 +279,7 @@ namespace GmailNotifierPlus.Forms {
 				(this.Width - _LabelStatus.Width) / 2,
 				(this.Height - _LabelStatus.Height) / 2
 			);
-			
+
 			_LabelStatus.ForeColor = System.Drawing.Color.Gray;
 			_PictureLogo.Image = null;
 			_PictureOpen.Visible = false;
@@ -307,6 +334,11 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void UpdateMailPreview() {
+
+			if (this.Disposing || this.IsDisposed) {
+				return;
+			}
+
 			_mailUrl = string.Empty;
 
 			this.UpdateThumbButtonsStatus();
@@ -357,7 +389,7 @@ namespace GmailNotifierPlus.Forms {
 					}
 
 					TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
-					
+
 					if (thumb != null) {
 						thumb.InvalidatePreview();
 					}
@@ -380,8 +412,8 @@ namespace GmailNotifierPlus.Forms {
 			_ButtonNext.Tooltip = Locale.Current.Tooltips.Next;
 
 			//if (Unread == 0) {
-				_ButtonInbox.Icon = Utilities.ResourceHelper.GetIcon("Inbox.ico");
-				_ButtonInbox.Tooltip = Locale.Current.Tooltips.Inbox;
+			_ButtonInbox.Icon = Utilities.ResourceHelper.GetIcon("Inbox.ico");
+			_ButtonInbox.Tooltip = Locale.Current.Tooltips.Inbox;
 			//}
 			//else {
 			//  _ButtonInbox.Icon = Utilities.ResourceHelper.GetIcon("Open.ico");
