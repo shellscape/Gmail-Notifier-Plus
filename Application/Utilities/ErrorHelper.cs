@@ -118,8 +118,11 @@ namespace GmailNotifierPlus.Utilities {
 			FileInfo file = new FileInfo(path);
 			String data = null;
 
-			using (StreamReader sr = file.OpenText()) {
-				data = sr.ReadToEnd();
+			// in some fringe cases, the file won't already exist. permissions issues, etc.
+			if (file.Exists) {
+				using (StreamReader sr = file.OpenText()) {
+					data = sr.ReadToEnd();
+				}
 			}
 
 			// TODO: send this to a hop server, which will then send to github.
