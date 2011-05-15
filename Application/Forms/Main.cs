@@ -46,6 +46,7 @@ namespace GmailNotifierPlus.Forms {
 			InitializeComponent();
 
 			_iconWindow = ResourceHelper.GetIcon("gmail-classic.ico");
+			_taskbarManager.ApplicationId = String.Concat("Gmail-Notifier-Plus-", Shellscape.Utilities.AssemblyMeta.Guid, "-", DateTime.Now.Ticks.ToString());
 
 			this.Icon = _iconWindow;
 			this.Location = new Point(-10000, -10000);
@@ -96,6 +97,8 @@ namespace GmailNotifierPlus.Forms {
 			_jumpList.KnownCategoryToDisplay = JumpListKnownCategoryType.Neither;
 
 			BuildJumpList();
+
+			_jumpList.Refresh();
 		}
 
 		private void Main_Shown(object sender, EventArgs e) {
