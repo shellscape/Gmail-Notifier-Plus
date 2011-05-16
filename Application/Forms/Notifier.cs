@@ -408,7 +408,8 @@ namespace GmailNotifierPlus.Forms {
 			_ButtonPrev.Enabled = _mailIndex != 0;
 			_ButtonPrev.Tooltip = Locale.Current.Tooltips.Previous;
 
-			_ButtonNext.Enabled = _mailIndex < (Unread - 1);
+			// gmail's atom feed only sends data for the first 20 unread
+			_ButtonNext.Enabled = _mailIndex < 20 && _mailIndex < (Unread - 1);
 			_ButtonNext.Tooltip = Locale.Current.Tooltips.Next;
 
 			//if (Unread == 0) {
