@@ -27,6 +27,9 @@ namespace GmailNotifierPlus.Utilities {
 		private static Config _Config = Config.Current;
 
 		public static void Launch(Account account, String url) {
+			
+			
+			
 			if (account == null || account.Browser == null) {
 				System.Windows.Forms.Help.ShowHelp(Program.mainForm, url);
 				return;

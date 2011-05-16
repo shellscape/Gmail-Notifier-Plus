@@ -198,7 +198,8 @@ namespace GmailNotifierPlus.Forms {
 						Account.Emails.Add(Email.FromNode(mailNode, Account));
 					}
 
-					Account.Emails.Sort();
+					// at a point, i thought that the oldest should be shown first. not sure why.
+					//Account.Emails.Sort();
 
 					_mailIndex = 0;
 				}
