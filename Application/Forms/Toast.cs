@@ -572,7 +572,8 @@ namespace GmailNotifierPlus.Forms {
 			if (_mailIndex == 0) {
 				_statePrev = State.Disabled;
 			}
-			else if (_mailIndex == this.Account.Unread - 1) {
+			// gmail's atom feed only sends data for 20 messages
+			else if (_mailIndex >= 19) { //_mailIndex == this.Account.Unread - 1) {
 				_stateNext = State.Disabled;
 			}
 
