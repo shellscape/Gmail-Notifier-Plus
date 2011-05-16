@@ -52,6 +52,11 @@ namespace GmailNotifierPlus.Utilities {
 
 		public static String GetDefaultBrowserPath() {
 			Account defaultAccount = Config.Current.Accounts.Default;
+
+			if (defaultAccount == null) {
+				return String.Empty;
+			}
+
 			Shellscape.Browser browser = defaultAccount.Browser;
 
 			if(browser == null){
