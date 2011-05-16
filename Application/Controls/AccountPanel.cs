@@ -38,7 +38,8 @@ namespace GmailNotifierPlus.Controls {
 		private ComboBox _ComboBrowser;
 		private List<Shellscape.Browser> _browsers = Shellscape.Utilities.BrowserHelper.Enumerate();
 
-		public AccountPanel() : base() {
+		public AccountPanel()
+			: base() {
 			InitializeComponent();
 		}
 
@@ -123,7 +124,7 @@ namespace GmailNotifierPlus.Controls {
 				Shellscape.Browser selectedBrowser = browsers.Where(o => o.Name == this.Account.Browser.Name).FirstOrDefault();
 				_ComboBrowser.SelectedIndex = browsers.IndexOf(selectedBrowser) + 1;
 			}
-			else{
+			else {
 				_ComboBrowser.SelectedIndex = 0;
 			}
 
@@ -137,9 +138,9 @@ namespace GmailNotifierPlus.Controls {
 
 			// if the username has changed to something other than the original saved username,
 			// and the new username exists already, take a big fat poop all over the screen.
-			if (_TextUsername.Text.ToLower() != Account.FullAddress.ToLower() && 
-				accounts.Where(o => o.FullAddress.ToLower() == _TextUsername.Text.ToLower()).Count() > 0){
-					result = true;
+			if (_TextUsername.Text.ToLower() != Account.FullAddress.ToLower() &&
+				accounts.Where(o => o.FullAddress.ToLower() == _TextUsername.Text.ToLower()).Count() > 0) {
+				result = true;
 			}
 
 			_PictureExclamation.Visible = _LabelError.Visible = result;
@@ -159,14 +160,14 @@ namespace GmailNotifierPlus.Controls {
 				Account.HandlesMailto = true;
 
 				foreach (Control control in this.Parent.Controls) {
-					
+
 					if (!(control is AccountPanel)) {
 						continue;
 					}
-					
+
 					AccountPanel panel = (AccountPanel)control;
 
-					if(panel == this) {
+					if (panel == this) {
 						continue;
 					}
 
@@ -183,18 +184,24 @@ namespace GmailNotifierPlus.Controls {
 		}
 
 		private void RegisterMailto() {
-		
+
 			RegistryKey command = Registry.CurrentUser.OpenSubKey(@"Software\Classes\mailto\shell\open\command", true);
 			String value = String.Empty;
+
+			if (command == null) {
+				command = Registry.CurrentUser.CreateSubKey(@"Software\Classes\mailto\shell\open\command");
+			}
 
 			if (this.Account.HandlesMailto) {
 
 				Shellscape.Browser browser = this.Account.Browser ?? Shellscape.Utilities.BrowserHelper.DefaultBrowser;
-				
+
 				value = String.Concat(browser.Path, " \"", Utilities.UrlHelper.GetBaseUrl(this.Account), "?extsrc=mailto&url=%1\"");
 			}
 
 			command.SetValue(null, value);
+			command.Close();
+			command.Dispose();
 		}
 
 		private void InitializeComponent() {
@@ -367,7 +374,7 @@ namespace GmailNotifierPlus.Controls {
 
 			Boolean somethingChanged = false;
 
-			if((_TextUsername.Text != this.Account.Login) || (_TextUsername.Text.Length > 0)) { // dude, change something already.
+			if ((_TextUsername.Text != this.Account.Login) || (_TextUsername.Text.Length > 0)) { // dude, change something already.
 				if (!NewAccount) {
 					somethingChanged = true;
 				}
@@ -437,7 +444,7 @@ namespace GmailNotifierPlus.Controls {
 			dialog.Controls.Add(buttonNo);
 			dialog.Show();
 		}
-		
+
 		private void _TaskButtonNo_Click(object sender, EventArgs e) {
 			TaskDialogButton button = (TaskDialogButton)sender;
 			((TaskDialog)button.HostingDialog).Close();
