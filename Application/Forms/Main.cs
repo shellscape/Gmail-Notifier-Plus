@@ -224,15 +224,18 @@ namespace GmailNotifierPlus.Forms {
 			int defaultAccountIndex = _config.Accounts.IndexOf(_config.Accounts.Default);
 			String exePath = Application.ExecutablePath;
 			String path = Path.Combine(Path.GetDirectoryName(exePath), "Resources\\Icons");
+			String browserPath = UrlHelper.GetDefaultBrowserPath();
 
-			JumpListTask compose = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Compose) {
-				IconReference = new IconReference(Path.Combine(path, "Compose.ico"), 0)
+			JumpListTask compose = new JumpListLink(browserPath, Locale.Current.Labels.Compose) {
+				IconReference = new IconReference(Path.Combine(path, "Compose.ico"), 0),
+				Arguments = UrlHelper.BuildComposeUrl(defaultAccountIndex)
 			};
 
 			// we need a different icon name here, there's a really whacky conflict between an embedded resource, and a content resource file name.
 
-			JumpListTask inbox = new JumpListLink(UrlHelper.BuildInboxUrl(defaultAccountIndex), Locale.Current.Labels.Inbox) {
-				IconReference = new IconReference(Path.Combine(path, "GoInbox.ico"), 0)
+			JumpListTask inbox = new JumpListLink(browserPath, Locale.Current.Labels.Inbox) {
+				IconReference = new IconReference(Path.Combine(path, "GoInbox.ico"), 0),
+				Arguments = UrlHelper.BuildInboxUrl(defaultAccountIndex)
 			};
 
 			JumpListTask refresh = new JumpListLink(exePath, Locale.Current.Labels.CheckMail) {
