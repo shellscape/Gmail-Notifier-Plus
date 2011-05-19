@@ -437,7 +437,10 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void OpenEmail() {
-			if (!String.IsNullOrEmpty(_mailUrl)) {
+			if (String.IsNullOrEmpty(_mailUrl)) {
+				OpenInbox();
+			}
+			else {
 				Utilities.UrlHelper.Launch(this.Account, _mailUrl);
 				this.Refresh();
 			}
