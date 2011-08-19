@@ -71,7 +71,7 @@ namespace GmailNotifierPlus {
 			String guid = "{421a0043-b2ab-4b86-8dec-63ce3b8bd764}";
 			String name = String.Concat(@"Local\GmailNotifierPlus", guid);
 
-            SystemEvents.SessionEnded += new SessionEndedEventHandler(SystemEvents_SessionEnded);
+			SystemEvents.SessionEnded += new SessionEndedEventHandler(SystemEvents_SessionEnded);
 
 			using (new Mutex(true, name, out createdNew)) {
 				if (!createdNew) {
@@ -106,12 +106,6 @@ namespace GmailNotifierPlus {
 			}
 		}
 
-        static void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e)
-        {
-            SystemEvents.SessionEnded -= SystemEvents_SessionEnded;
-            Application.Exit();
-        }
-
 		public class RemotingService : MarshalByRefObject {
 			public void CheckMail() {
 				Program.mainForm.RemoteCheckMails();
@@ -132,6 +126,10 @@ namespace GmailNotifierPlus {
 
 		public static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
 			ErrorHelper.Report(e.Exception);
+		}
+
+		public static void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e) {
+			Application.Exit();
 		}
 	}
 }
