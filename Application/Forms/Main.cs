@@ -388,29 +388,34 @@ namespace GmailNotifierPlus.Forms {
 			}
 			else {
 
-				int digitsNumber;
-				Int32.TryParse(count.ToString("00"), out digitsNumber);
+				try {
+					int digitsNumber;
+					Int32.TryParse(count.ToString("00"), out digitsNumber);
 
-				using (Bitmap numbers = ImageHelper.GetDigitIcon(digitsNumber)) {
+					using (Bitmap numbers = ImageHelper.GetDigitIcon(digitsNumber)) {
 
-					if (numbers == null) {
-						_iconDigits = Utilities.ResourceHelper.GetIcon("Warning.ico");
+						if (numbers == null) {
+							_iconDigits = Utilities.ResourceHelper.GetIcon("Warning.ico");
+						}
+						else {
+							_iconDigits = Icon.FromHandle(numbers.GetHicon());
+						}
+
+						using (Bitmap trayNumbers = ImageHelper.GetTrayIcon(numbers)) {
+							_iconTray = Icon.FromHandle(trayNumbers.GetHicon());
+						}
+
 					}
-					else {
-						_iconDigits = Icon.FromHandle(numbers.GetHicon());
-					}
 
-					using (Bitmap trayNumbers = ImageHelper.GetTrayIcon(numbers)) {
-						_iconTray = Icon.FromHandle(trayNumbers.GetHicon());
-					}
+					_taskbarManager.SetOverlayIcon(base.Handle, _iconDigits, String.Empty);
 
+					if (_config.ShowTrayIcon) {
+						_TrayIcon.Icon = _iconTray;
+						_TrayIcon.Visible = true;
+					}
 				}
-
-				_taskbarManager.SetOverlayIcon(base.Handle, _iconDigits, String.Empty);
-
-				if (_config.ShowTrayIcon) {
-					_TrayIcon.Icon = _iconTray;
-					_TrayIcon.Visible = true;
+				catch (System.Runtime.InteropServices.ExternalException) {
+					SetWarningOverlay();
 				}
 
 			}
