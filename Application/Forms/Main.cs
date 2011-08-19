@@ -46,6 +46,7 @@ namespace GmailNotifierPlus.Forms {
 			InitializeComponent();
 
 			_iconWindow = ResourceHelper.GetIcon("gmail-classic.ico");
+			_taskbarManager.ApplicationId = String.Concat("Gmail-Notifier-Plus-", Shellscape.Utilities.AssemblyMeta.Guid, "-", Shellscape.Utilities.AssemblyMeta.Version);
 
 			this.Icon = _iconWindow;
 			this.Location = new Point(-10000, -10000);
@@ -96,6 +97,8 @@ namespace GmailNotifierPlus.Forms {
 			_jumpList.KnownCategoryToDisplay = JumpListKnownCategoryType.Neither;
 
 			BuildJumpList();
+
+			_jumpList.Refresh();
 		}
 
 		private void Main_Shown(object sender, EventArgs e) {
@@ -221,15 +224,20 @@ namespace GmailNotifierPlus.Forms {
 			int defaultAccountIndex = _config.Accounts.IndexOf(_config.Accounts.Default);
 			String exePath = Application.ExecutablePath;
 			String path = Path.Combine(Path.GetDirectoryName(exePath), "Resources\\Icons");
+			String browserPath = UrlHelper.GetDefaultBrowserPath();
+			String url = UrlHelper.BuildComposeUrl(defaultAccountIndex);
 
-			JumpListTask compose = new JumpListLink(UrlHelper.BuildComposeUrl(defaultAccountIndex), Locale.Current.Labels.Compose) {
-				IconReference = new IconReference(Path.Combine(path, "Compose.ico"), 0)
+			JumpListTask compose = new JumpListLink(String.IsNullOrEmpty(browserPath) ? url : browserPath, Locale.Current.Labels.Compose) {
+				IconReference = new IconReference(Path.Combine(path, "Compose.ico"), 0),
+				Arguments = String.IsNullOrEmpty(browserPath) ? String.Empty : url
 			};
 
-			// we need a different icon name here, there's a really whacky conflict between an embedded resource, and a content resource file name.
+			url = UrlHelper.BuildInboxUrl(defaultAccountIndex);
 
-			JumpListTask inbox = new JumpListLink(UrlHelper.BuildInboxUrl(defaultAccountIndex), Locale.Current.Labels.Inbox) {
-				IconReference = new IconReference(Path.Combine(path, "GoInbox.ico"), 0)
+			// we need a different icon name here, there's a really whacky conflict between an embedded resource, and a content resource file name.
+			JumpListTask inbox = new JumpListLink(String.IsNullOrEmpty(browserPath) ? url : browserPath, Locale.Current.Labels.Inbox) {
+				IconReference = new IconReference(Path.Combine(path, "GoInbox.ico"), 0),
+				Arguments = String.IsNullOrEmpty(browserPath) ? String.Empty : url
 			};
 
 			JumpListTask refresh = new JumpListLink(exePath, Locale.Current.Labels.CheckMail) {

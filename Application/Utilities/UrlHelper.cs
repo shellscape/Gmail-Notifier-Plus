@@ -27,6 +27,7 @@ namespace GmailNotifierPlus.Utilities {
 		private static Config _Config = Config.Current;
 
 		public static void Launch(Account account, String url) {
+				
 			if (account == null || account.Browser == null) {
 				System.Windows.Forms.Help.ShowHelp(Program.mainForm, url);
 				return;
@@ -49,16 +50,32 @@ namespace GmailNotifierPlus.Utilities {
 			}
 		}
 
+		public static String GetDefaultBrowserPath() {
+			Account defaultAccount = Config.Current.Accounts.Default;
+
+			if (defaultAccount == null) {
+				return String.Empty;
+			}
+
+			Shellscape.Browser browser = defaultAccount.Browser;
+
+			if(browser == null){
+				return String.Empty;
+			}
+
+			return browser.Path;
+		}
+
 		public static string BuildComposeUrl(int accountIndex) {
-			return (GetBaseUrl(accountIndex) + "#compose");
+			return GetBaseUrl(accountIndex) + "#compose";
 		}
 
 		public static string BuildInboxUrl(int accountIndex) {
-			return (GetBaseUrl(accountIndex) + "#inbox");
+			return GetBaseUrl(accountIndex) + "#inbox";
 		}
 
 		public static string BuildInboxUrl(Account account) {
-			return (GetBaseUrl(account) + "#inbox");
+			return GetBaseUrl(account) + "#inbox";
 		}
 
 		public static string BuildMailUrl(string link, int accountIndex) {

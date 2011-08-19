@@ -17,7 +17,7 @@ using Microsoft.WindowsAPICodePack.Shell;
 using Shellscape.UI.Controls.Preferences;
 
 namespace GmailNotifierPlus.Forms {
-	
+
 	public partial class Preferences : PreferencesForm {
 
 		private PreferencesPanel _PanelAccounts;
@@ -46,8 +46,9 @@ namespace GmailNotifierPlus.Forms {
 		private PreferencesButton _ButtonAppearance;
 
 		public Preferences() : base() {
-			InitializeComponent();
 
+			InitializeComponent();			
+			
 			InitButtons();
 
 			DataBind();
@@ -75,9 +76,13 @@ namespace GmailNotifierPlus.Forms {
 			_CheckUpdates.CheckedChanged += _CheckUpdates_CheckedChanged;
 
 			_TextInterval.TextChanged += _TextInterval_TextChanged;
-		
-			_ComboSound.SelectedValueChanged +=_ComboSound_SelectedValueChanged;
+
+			_ComboSound.SelectedValueChanged += _ComboSound_SelectedValueChanged;
 			_ComboLanguage.SelectedValueChanged += _ComboLanguage_SelectedValueChanged;
+
+			if (Config.Current.SoundNotification == SoundNotification.Custom) {
+				_ButtonBrowse.Enabled = true;
+			}
 		}
 
 		public void InitFirstRun() {
@@ -210,8 +215,9 @@ namespace GmailNotifierPlus.Forms {
 			_CheckTray.Text = Locale.Current.Checkboxes.ShowTray;
 			_CheckUpdates.Text = Locale.Current.Checkboxes.CheckUpdates;
 
-			this.Text = String.Concat(Resources.WindowTitle, " - ", Locale.Current.Labels.ConfigurationShort);
+			_ComboLanguage.Left = _LabelLanguage.Width + _LabelLanguage.Left + 8;
 
+			this.Text = String.Concat(Resources.WindowTitle, " - ", Locale.Current.Labels.ConfigurationShort);
 		}
 
 		private void InitPanels() {
@@ -251,7 +257,7 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void _ButtonNewAccount_Click(object sender, EventArgs e) {
-			
+
 			// create a new account for the user to edit. this is how it's done on the mac, and requires less clicks.
 			String accountName = "[New Account]";
 			Account account = new Account(accountName, String.Empty);
@@ -268,13 +274,13 @@ namespace GmailNotifierPlus.Forms {
 					ControlBackColor = _PanelAccounts.ControlBackColor
 				}
 			};
-			
+
 			_PanelParent.Controls.Add(item.AssociatedPanel);
 
 			//InitPanelShapes(item.AssociatedPanel);
 
 			item.AssociatedPanel.BringToFront();
-			
+
 			_ButtonAccounts.ButtonItems.Add(item);
 
 			item.Activate();
@@ -294,14 +300,20 @@ namespace GmailNotifierPlus.Forms {
 			dialog.DefaultDirectory = Directory.Exists(path) ? path : KnownFolders.Desktop.Path;
 			dialog.Filters.Add(filter);
 
+			DataTable dataSource = (DataTable)_ComboSound.DataSource;
+			String label = Locale.Current.Labels.CustomSound;
+			String data = String.Empty;
+
+			dataSource.Rows.RemoveAt(2);
+
 			if (dialog.ShowDialog() == CommonFileDialogResult.Ok) {
-				DataTable dataSource = (DataTable)_ComboSound.DataSource;
-
-				dataSource.Rows.RemoveAt(2);
-				dataSource.Rows.Add(new string[] { Path.GetFileName(dialog.FileName), dialog.FileName });
-
-				_ComboSound.SelectedIndex = 2;
+				data = Path.GetFileName(dialog.FileName);
+				label = dialog.FileName;
 			}
+
+			dataSource.Rows.Add(new string[] { data, label });
+
+			_ComboSound.SelectedIndex = 2;
 		}
 
 		// I really need to create a class that maps these values to these inputs, auto-wires the events 
@@ -312,10 +324,20 @@ namespace GmailNotifierPlus.Forms {
 
 		private void _ComboSound_SelectedValueChanged(object sender, EventArgs e) {
 
-			if ((_ComboSound.SelectedIndex == 2) && string.IsNullOrEmpty(_ComboSound.SelectedValue.ToString())) {
-				Config.Current.SoundNotification = 0;
+			//if ((_ComboSound.SelectedIndex == (int)SoundNotification.Custom) && String.IsNullOrEmpty(_ComboSound.SelectedValue.ToString())) {
+			//  Config.Current.SoundNotification = SoundNotification.None;
+			//}
+			if (_ComboSound.SelectedIndex == (int)SoundNotification.Custom) {
+				_ButtonBrowse.Enabled = true;
+
+				if(!String.IsNullOrEmpty(_ComboSound.SelectedValue.ToString())){
+					Config.Current.SoundNotification = (SoundNotification)_ComboSound.SelectedIndex;
+					Config.Current.Sound = _ComboSound.SelectedValue.ToString();
+				}
 			}
 			else {
+				_ButtonBrowse.Enabled = false;
+
 				Config.Current.SoundNotification = (SoundNotification)_ComboSound.SelectedIndex;
 				Config.Current.Sound = _ComboSound.SelectedValue.ToString();
 			}
@@ -402,8 +424,8 @@ namespace GmailNotifierPlus.Forms {
 			this._PanelParent.Controls.Add(this._PanelAppearance);
 			this._PanelParent.Controls.SetChildIndex(this._PanelAppearance, 0);
 			this._PanelParent.Controls.SetChildIndex(this._PanelNewAccount, 0);
-			this._PanelParent.Controls.SetChildIndex(this._PanelGeneral, 0);
 			this._PanelParent.Controls.SetChildIndex(this._PanelAccounts, 0);
+			this._PanelParent.Controls.SetChildIndex(this._PanelGeneral, 0);
 			// 
 			// _PanelAccounts
 			// 
@@ -440,7 +462,7 @@ namespace GmailNotifierPlus.Forms {
 			this._LabelAccountIntro.Size = new System.Drawing.Size(436, 30);
 			this._LabelAccountIntro.TabIndex = 1;
 			this._LabelAccountIntro.Text = "Click an account to the left to manage your individual accounts. Click the button" +
-    " below to add a new account.";
+					" below to add a new account.";
 			// 
 			// _ButtonNewAccount
 			// 
@@ -550,6 +572,7 @@ namespace GmailNotifierPlus.Forms {
 			this._PanelNewAccount.Location = new System.Drawing.Point(12, 12);
 			this._PanelNewAccount.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
 			this._PanelNewAccount.Name = "_PanelNewAccount";
+			this._PanelNewAccount.NewAccount = false;
 			this._PanelNewAccount.Padding = new System.Windows.Forms.Padding(2, 45, 2, 2);
 			this._PanelNewAccount.SeperatorColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
 			this._PanelNewAccount.Size = new System.Drawing.Size(500, 394);
