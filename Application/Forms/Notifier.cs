@@ -356,20 +356,6 @@ namespace GmailNotifierPlus.Forms {
 				case NotifierStatus.OK:
 
 					if (Unread > 0) {
-						//XmlNode node = XmlMail[_MailIndex];
-						//DateTime time = DateTime.Parse(node.ChildNodes.Item(3).InnerText.Replace("T24:", "T00:"));
-
-						//_LabelTitle.Text = string.IsNullOrEmpty(node.ChildNodes.Item(0).InnerText) ? Locale.Current.Labels.NoSubject : node.ChildNodes.Item(0).InnerText;
-						//_LabelMessage.Text = node.ChildNodes.Item(1).InnerText;
-						//_LabelDate.Text = time.ToShortDateString() + " " + time.ToShortTimeString();
-						//_LabelIndex.Text = ((_MailIndex + 1)).ToString() + "/" + ((Unread > 20) ? 20 : Unread);
-
-						//if ((node.ChildNodes.Item(6) != null) && (node.ChildNodes.Item(6).ChildNodes.Item(1) != null)) {
-						//  _LabelFrom.Text = node.ChildNodes.Item(6).ChildNodes[1].InnerText;
-						//}
-						//else {
-						//  _LabelFrom.Text = string.Empty;
-						//}
 
 						Email email = Account.Emails[_mailIndex];
 
@@ -388,7 +374,13 @@ namespace GmailNotifierPlus.Forms {
 						this.ShowStatus();
 					}
 
-					TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
+					TabbedThumbnail thumb = null;
+
+					// for some reason, at this point specifically, the form is sometimes disposed by the time the process enters GetThumbnailPreview.
+					try {
+						thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
+					}
+					catch (ObjectDisposedException) { }
 
 					if (thumb != null) {
 						thumb.InvalidatePreview();
