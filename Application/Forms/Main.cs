@@ -369,6 +369,7 @@ namespace GmailNotifierPlus.Forms {
 
 				_PreviousTotal = _UnreadTotal;
 			}
+
 			if (_statusList.ContainsValue(Notifier.NotifierStatus.AuthenticationFailed)) {
 				SetWarningOverlay();
 			}

@@ -217,7 +217,10 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			UpdateMailPreview();
-			CheckMailFinished(this, EventArgs.Empty);
+
+			if (CheckMailFinished != null) {
+				CheckMailFinished(this, EventArgs.Empty);
+			}
 
 			if (Unread > _previousUnread && _config.ShowToast && Account.Emails.Count > 0) {
 				ToastManager.Pop(Account);
