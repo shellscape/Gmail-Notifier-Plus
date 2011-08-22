@@ -585,6 +585,8 @@ namespace GmailNotifierPlus.Forms {
 			if (!String.IsNullOrEmpty(url)) {
 				Utilities.UrlHelper.Launch(this.Account, url);
 			}
+
+			this.Close();
 		}
 	}
 }
