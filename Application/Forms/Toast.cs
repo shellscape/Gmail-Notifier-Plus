@@ -150,7 +150,7 @@ namespace GmailNotifierPlus.Forms {
 		private Rectangle _rectClient = Rectangle.Empty;
 
 		private int _stateClose = 1;
-		private int _statePrev = State.Disabled;
+		private int _statePrev = State.Normal;
 		private int _stateInbox = 1;
 		private int _stateNext = State.Disabled;
 		private int _mailIndex = 0;
@@ -214,7 +214,7 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			// show the last (newest) email
-			_mailIndex = this.Account.Emails.Count - 1;
+			_mailIndex = 0; //this.Account.Emails.Count - 1;
 
 			UpdateBody();
 		}
@@ -239,9 +239,14 @@ namespace GmailNotifierPlus.Forms {
 			if (_rectClose.Contains(mouse)) {
 				this.Close();
 			}
+			else if (_rectInbox.Contains(mouse)) {
+				Utilities.UrlHelper.Launch(this.Account, Utilities.UrlHelper.BuildInboxUrl(this.Account));
+			}
+			// Prev Rect
 			else if (_rectPrev.Contains(mouse) && _statePrev != State.Disabled) {
-				if (_mailIndex > 0) {
-					_mailIndex--;
+
+				if (_mailIndex < this.Account.Unread - 1) {
+					_mailIndex++;
 					UpdateBody();
 
 					if (_stateNext == State.Disabled) {
@@ -250,17 +255,14 @@ namespace GmailNotifierPlus.Forms {
 					}
 				}
 				else {
-					_stateNext = State.Disabled;
-					Invalidate(_rectNext);
+					_statePrev = State.Disabled;
+					Invalidate(_rectPrev);
 				}
 			}
-			else if (_rectInbox.Contains(mouse)) {
-				Utilities.UrlHelper.Launch(this.Account, Utilities.UrlHelper.BuildInboxUrl(this.Account));
-			}
+				// Next Rect
 			else if (_rectNext.Contains(mouse) && _stateNext != State.Disabled) {
-
-				if (_mailIndex < this.Account.Unread) {
-					_mailIndex++;
+				if (_mailIndex > 0) {
+					_mailIndex--;
 					UpdateBody();
 
 					if (_statePrev == State.Disabled) {
@@ -551,7 +553,10 @@ namespace GmailNotifierPlus.Forms {
 			_LabelMessage.Text = email.Message;
 			_LabelTitle.Text = email.Title;
 
-			_LabelIndex.Text = String.Concat((_mailIndex + 1).ToString(), " / ", this.Account.Unread);
+			String start = (this.Account.Unread - _mailIndex).ToString();
+			String end = this.Account.Unread.ToString();
+
+			_LabelIndex.Text = String.Concat(start, " / ", end); //String.Concat((_mailIndex + 1).ToString(), " / ", this.Account.Unread);
 
 			SetDefaultState();
 		}
@@ -566,15 +571,19 @@ namespace GmailNotifierPlus.Forms {
 				return;
 			}
 
-			_statePrev = State.Normal;
-			_stateNext = State.Normal;
+			if (_statePrev != State.Disabled) {
+				_statePrev = State.Normal;
+			}
+			if (_stateNext != State.Disabled) {
+				_stateNext = State.Normal;
+			}
 
 			if (_mailIndex == 0) {
-				_statePrev = State.Disabled;
+				_stateNext = State.Disabled;
 			}
 			// gmail's atom feed only sends data for 20 messages
-			else if (_mailIndex >= 19) { //_mailIndex == this.Account.Unread - 1) {
-				_stateNext = State.Disabled;
+			else if (_mailIndex >= 19 || _mailIndex >= this.Account.Unread - 1) {
+				_statePrev = State.Disabled;
 			}
 
 		}
