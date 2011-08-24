@@ -1,0 +1,3 @@
+[submodule "External/Shellscape.Common"]
+	path = External/Shellscape.Common
+	url = git://github.com/shellscape/Shellscape.Common.git

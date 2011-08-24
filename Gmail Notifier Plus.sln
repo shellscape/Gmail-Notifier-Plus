@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows API Core", "..\Shel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows API Shell", "..\Shellscape.Lib\Windows API Code Pack\Shell\Windows API Shell.csproj", "{AA0C00CB-8699-4F37-BFAE-40CA87ACC06D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gmail Notifier Plus Update", "Updater\Gmail Notifier Plus Update.csproj", "{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CodeAnalysisDebug|Any CPU = CodeAnalysisDebug|Any CPU
@@ -103,6 +105,24 @@ Global
 		{AA0C00CB-8699-4F37-BFAE-40CA87ACC06D}.Release|x64.ActiveCfg = Release|x64
 		{AA0C00CB-8699-4F37-BFAE-40CA87ACC06D}.Release|x64.Build.0 = Release|x64
 		{AA0C00CB-8699-4F37-BFAE-40CA87ACC06D}.Release|x86.ActiveCfg = Release|x64
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.CodeAnalysisDebug|Any CPU.ActiveCfg = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.CodeAnalysisDebug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.CodeAnalysisDebug|Mixed Platforms.Build.0 = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.CodeAnalysisDebug|x64.ActiveCfg = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.CodeAnalysisDebug|x86.ActiveCfg = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.CodeAnalysisDebug|x86.Build.0 = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Debug|x64.ActiveCfg = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Debug|x86.ActiveCfg = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Debug|x86.Build.0 = Debug|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Release|Any CPU.ActiveCfg = Release|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Release|x64.ActiveCfg = Release|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Release|x86.ActiveCfg = Release|x86
+		{DF6E3FFB-76F2-4AF8-A530-1F6CDC19FFCC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
