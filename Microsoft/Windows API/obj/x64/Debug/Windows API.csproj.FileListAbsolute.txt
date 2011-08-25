@@ -1,0 +1,14 @@
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\obj\x64\Debug\ResolveAssemblyReference.cache
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\obj\x64\Debug\Shell\Controls\CommandLinkWPF.baml
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\obj\x64\Debug\Shell\Controls\CommandLinkWPF.g.cs
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\obj\x64\Debug\Microsoft.WindowsAPI_MarkupCompile.cache
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\obj\x64\Debug\Microsoft.WindowsAPI.g.resources
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\obj\x64\Debug\Microsoft.WindowsAPI.Resources.LocalizedMessages.resources
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\obj\x64\Debug\Microsoft.WindowsAPI.Shell.Resources.LocalizedMessages.resources
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\obj\x64\Debug\GenerateResource.read.1.tlog
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\obj\x64\Debug\GenerateResource.write.1.tlog
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\bin\x64\Debug\Microsoft.WindowsAPI.dll
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\bin\x64\Debug\Microsoft.WindowsAPI.pdb
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\bin\x64\Debug\Microsoft.WindowsAPICodePack.XML
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\obj\x64\Debug\Microsoft.WindowsAPI.dll
+N:\Git\Gmail-Notifier-Plus\Microsoft\Windows API\obj\x64\Debug\Microsoft.WindowsAPI.pdb
