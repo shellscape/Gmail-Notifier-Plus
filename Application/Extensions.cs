@@ -5,9 +5,10 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.ComponentModel;
+using System.Windows.Shell;
 
-using Microsoft.WindowsAPICodePack.Shell;
-using Microsoft.WindowsAPICodePack.Taskbar;
+//using Microsoft.WindowsAPI.Shell;
+//using Microsoft.WindowsAPI.Taskbar;
 
 namespace GmailNotifierPlus {
 	public static class Extensions {
@@ -19,15 +20,19 @@ namespace GmailNotifierPlus {
 		/// </summary>
 		/// <param name="list"></param>
 		public static void RemoveCustomCategories(this JumpList list) {
-			
-			FieldInfo fi = typeof(JumpList).GetField("customCategoriesCollection", BindingFlags.NonPublic | BindingFlags.Instance);
-			
-			object categories = fi.GetValue(list);
 
-			if (categories != null) {
-				MethodInfo method = categories.GetType().GetMethod("Clear");
-				method.Invoke(categories, null);
-			}
+			//List<JumpItem> items = list.JumpItems.Where();
+
+			list.JumpItems.RemoveAll(item => !String.IsNullOrEmpty(item.CustomCategory));
+
+			//FieldInfo fi = typeof(JumpList).GetField("customCategoriesCollection", BindingFlags.NonPublic | BindingFlags.Instance);
+			
+			//object categories = fi.GetValue(list);
+
+			//if (categories != null) {
+			//  MethodInfo method = categories.GetType().GetMethod("Clear");
+			//  method.Invoke(categories, null);
+			//}
 		}
 
 		public static IEnumerable<Control> All(this Control.ControlCollection controls) {

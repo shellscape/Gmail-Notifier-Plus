@@ -10,8 +10,8 @@ using System.Windows.Forms;
 
 using Microsoft.CSharp;
 using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPI.Dialogs;
+using Microsoft.WindowsAPI.Shell;
 
 using GmailNotifierPlus.Utilities;
 

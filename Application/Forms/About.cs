@@ -9,8 +9,8 @@ using System.Resources;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-using Microsoft.WindowsAPICodePack.Dialogs;
-using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPI.Dialogs;
+using Microsoft.WindowsAPI.Shell;
 
 using GmailNotifierPlus.Controls;
 using GmailNotifierPlus.Utilities;

@@ -8,10 +8,11 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Windows.Shell;
 using System.Xml;
 
-using Microsoft.WindowsAPICodePack.Shell;
-using Microsoft.WindowsAPICodePack.Taskbar;
+//using Microsoft.WindowsAPI.Shell;
+using Microsoft.WindowsAPI.Taskbar;
 
 using GmailNotifierPlus.Utilities;
 
@@ -46,7 +47,33 @@ namespace GmailNotifierPlus.Forms {
 			InitializeComponent();
 
 			_iconWindow = ResourceHelper.GetIcon("gmail-classic.ico");
-			_taskbarManager.ApplicationId = String.Concat("Gmail-Notifier-Plus-", Shellscape.Utilities.AssemblyMeta.Guid, "-", Shellscape.Utilities.AssemblyMeta.Version);
+
+			// since we're using the native jumplist stuff, we really shouldn't need this. we'll see.
+			//_taskbarManager.ApplicationId = String.Concat("Gmail-Notifier-Plus-", Shellscape.Utilities.AssemblyMeta.Guid, "-", Shellscape.Utilities.AssemblyMeta.Version);
+
+			_jumpList = new JumpList(); //JumpList.GetJumpList(System.Windows.Application.Current);
+			_jumpList.ShowFrequentCategory = false;
+			_jumpList.ShowRecentCategory = false;
+
+			var app = new System.Windows.Application();
+			JumpList.SetJumpList(app, _jumpList);
+
+			//JumpTask jumpTask1 = new JumpTask();
+			//// Get the path to Calculator and set the JumpTask properties.
+			//jumpTask1.ApplicationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), "calc.exe");
+			//jumpTask1.IconResourcePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), "calc.exe");
+			//jumpTask1.Title = "Calculator";
+			//jumpTask1.Description = "Open Calculator.";
+			//jumpTask1.CustomCategory = "AWESOME";
+
+			//_jumpList.JumpItems.Add(jumpTask1);
+			//_jumpList.Apply(); // refreshes
+
+			TaskbarItemInfo info = new TaskbarItemInfo();
+
+			info.ProgressState = TaskbarItemProgressState.Indeterminate;
+			info.ProgressValue = 20;
+
 
 			this.Icon = _iconWindow;
 			this.Location = new Point(-10000, -10000);
@@ -81,8 +108,8 @@ namespace GmailNotifierPlus.Forms {
 			try {
 				HideTrayIcon();
 
-				this._jumpList.RemoveCustomCategories();
-				this._jumpList.Refresh();
+				_jumpList.RemoveCustomCategories();
+				_jumpList.Apply(); //this._jumpList.Refresh();
 			}
 			catch {
 			}
@@ -92,13 +119,13 @@ namespace GmailNotifierPlus.Forms {
 
 			AllowTaskbarWindowMessagesThroughUIPI();
 
-			_jumpList = JumpList.CreateJumpListForIndividualWindow(this._taskbarManager.ApplicationId, base.Handle);
-			_jumpList.JumpListItemsRemoved += delegate(object o, UserRemovedJumpListItemsEventArgs ev) { };
-			_jumpList.KnownCategoryToDisplay = JumpListKnownCategoryType.Neither;
+			//_jumpList = JumpList.CreateJumpListForIndividualWindow(this._taskbarManager.ApplicationId, base.Handle);
+			//_jumpList.JumpListItemsRemoved += delegate(object o, UserRemovedJumpListItemsEventArgs ev) { };
+			//_jumpList.KnownCategoryToDisplay = JumpListKnownCategoryType.Neither;
 
-			BuildJumpList();
+			InitJumpList();
 
-			_jumpList.Refresh();
+			//_jumpList.Refresh();
 		}
 
 		private void Main_Shown(object sender, EventArgs e) {
@@ -125,11 +152,10 @@ namespace GmailNotifierPlus.Forms {
 				if (thumb != null) {
 					thumb.Title = account.FullAddress;
 				}
-
 			}
 
-			this.BuildJumpList();
-			this.UpdateMailsJumpList();
+			this.InitJumpList();
+			this.UpdateJumpList();
 			this.CheckMail();
 		}
 
@@ -144,8 +170,8 @@ namespace GmailNotifierPlus.Forms {
 					this.CreateInstances();
 				}
 
-				this.BuildJumpList();
-				this.UpdateMailsJumpList();
+				this.InitJumpList();
+				this.UpdateJumpList();
 				this.CheckMail();
 			}
 
@@ -217,56 +243,121 @@ namespace GmailNotifierPlus.Forms {
 
 		#region .    Private Methods
 
-		private void BuildJumpList() {
-
-			_jumpList.ClearAllUserTasks();
+		private void InitJumpList() {
 
 			int defaultAccountIndex = _config.Accounts.IndexOf(_config.Accounts.Default);
+
 			String exePath = Application.ExecutablePath;
-			String path = Path.Combine(Path.GetDirectoryName(exePath), "Resources\\Icons");
+			String iconsPath = Path.Combine(Path.GetDirectoryName(exePath), "Resources\\Icons");
 			String browserPath = UrlHelper.GetDefaultBrowserPath();
-			String url = UrlHelper.BuildComposeUrl(defaultAccountIndex);
+			String url = UrlHelper.BuildInboxUrl(defaultAccountIndex);
+			String categoryName = "Default Account";
 
-			JumpListTask compose = new JumpListLink(String.IsNullOrEmpty(browserPath) ? url : browserPath, Locale.Current.Labels.Compose) {
-				IconReference = new IconReference(Path.Combine(path, "Compose.ico"), 0),
-				Arguments = String.IsNullOrEmpty(browserPath) ? String.Empty : url
-			};
+			_jumpList.JumpItems.Clear();
 
-			url = UrlHelper.BuildInboxUrl(defaultAccountIndex);
+			_jumpList.JumpItems.Add(new JumpTask() {
+				ApplicationPath = String.IsNullOrEmpty(browserPath) ? url : browserPath,
+				Arguments = String.IsNullOrEmpty(browserPath) ? String.Empty : url,
+				IconResourceIndex = 0,
+				IconResourcePath = Path.Combine(iconsPath, "GoInbox.ico"), // there's a really whacky conflict between an embedded resource, and a content resource file name.
+				Title = Locale.Current.Labels.Inbox,
+				CustomCategory = categoryName
+			});
 
-			// we need a different icon name here, there's a really whacky conflict between an embedded resource, and a content resource file name.
-			JumpListTask inbox = new JumpListLink(String.IsNullOrEmpty(browserPath) ? url : browserPath, Locale.Current.Labels.Inbox) {
-				IconReference = new IconReference(Path.Combine(path, "GoInbox.ico"), 0),
-				Arguments = String.IsNullOrEmpty(browserPath) ? String.Empty : url
-			};
+			url = UrlHelper.BuildComposeUrl(defaultAccountIndex);
 
-			JumpListTask refresh = new JumpListLink(exePath, Locale.Current.Labels.CheckMail) {
-				IconReference = new IconReference(Path.Combine(path, "Refresh.ico"), 0),
-				Arguments = "-check"
-			};
+			_jumpList.JumpItems.Add(new JumpTask() {
+				ApplicationPath = String.IsNullOrEmpty(browserPath) ? url : browserPath,
+				Arguments = String.IsNullOrEmpty(browserPath) ? String.Empty : url,
+				IconResourceIndex = 0,
+				IconResourcePath = Path.Combine(iconsPath, "Compose.ico"),
+				Title = Locale.Current.Labels.Compose,
+				CustomCategory = categoryName
+			});
 
-			JumpListTask settings = new JumpListLink(exePath, Locale.Current.Labels.ConfigurationShort) {
-				IconReference = new IconReference(Path.Combine(path, "Settings.ico"), 0),
-				Arguments = "-settings"
-			};
+			// general tasks
 
-			JumpListTask about = new JumpListLink(exePath, Locale.Current.Labels.About) {
-				IconReference = new IconReference(Path.Combine(path, "about.ico"), 0),
-				Arguments = "-about"
-			};
+			_jumpList.JumpItems.Add(new JumpTask() {
+				Arguments = "-check",
+				IconResourceIndex = 0,
+				IconResourcePath = Path.Combine(iconsPath, "Refresh.ico"),
+				Title = Locale.Current.Labels.CheckMail
+			});
 
-			JumpListTask help = new JumpListLink(exePath, Locale.Current.Labels.Help) {
-				IconReference = new IconReference(Path.Combine(path, "help.ico"), 0),
-				Arguments = "-help"
-			};
+			_jumpList.JumpItems.Add(new JumpTask() {
+				Arguments = "-settings",
+				IconResourceIndex = 0,
+				IconResourcePath = Path.Combine(iconsPath, "Settings.ico"),
+				Title = Locale.Current.Labels.ConfigurationShort
+			});
 
-			_jumpList.AddUserTasks(compose);
-			_jumpList.AddUserTasks(inbox);
-			_jumpList.AddUserTasks(refresh);
-			_jumpList.AddUserTasks(settings);
-			_jumpList.AddUserTasks(help);
-			_jumpList.AddUserTasks(about);
+			_jumpList.JumpItems.Add(new JumpTask() {
+				Arguments = "-help",
+				IconResourceIndex = 0,
+				IconResourcePath = Path.Combine(iconsPath, "help.ico"),
+				Title = Locale.Current.Labels.Help
+			});
+
+			_jumpList.JumpItems.Add(new JumpTask() {
+				Arguments = "-about",
+				IconResourceIndex = 0,
+				IconResourcePath = Path.Combine(iconsPath, "about.ico"),
+				Title = Locale.Current.Labels.About
+			});
+
+			_jumpList.Apply();
 		}
+
+		//private void BuildJumpList() {
+
+			//_jumpList.ClearAllUserTasks();
+
+			//int defaultAccountIndex = _config.Accounts.IndexOf(_config.Accounts.Default);
+			//String exePath = Application.ExecutablePath;
+			//String path = Path.Combine(Path.GetDirectoryName(exePath), "Resources\\Icons");
+			//String browserPath = UrlHelper.GetDefaultBrowserPath();
+			//String url = UrlHelper.BuildComposeUrl(defaultAccountIndex);
+
+			//JumpListTask compose = new JumpListLink(String.IsNullOrEmpty(browserPath) ? url : browserPath, Locale.Current.Labels.Compose) {
+			//  IconReference = new IconReference(Path.Combine(path, "Compose.ico"), 0),
+			//  Arguments = String.IsNullOrEmpty(browserPath) ? String.Empty : url
+			//};
+
+			//url = UrlHelper.BuildInboxUrl(defaultAccountIndex);
+
+			//// we need a different icon name here, there's a really whacky conflict between an embedded resource, and a content resource file name.
+			//JumpListTask inbox = new JumpListLink(String.IsNullOrEmpty(browserPath) ? url : browserPath, Locale.Current.Labels.Inbox) {
+			//  IconReference = new IconReference(Path.Combine(path, "GoInbox.ico"), 0),
+			//  Arguments = String.IsNullOrEmpty(browserPath) ? String.Empty : url
+			//};
+
+			//JumpListTask refresh = new JumpListLink(exePath, Locale.Current.Labels.CheckMail) {
+			//  IconReference = new IconReference(Path.Combine(path, "Refresh.ico"), 0),
+			//  Arguments = "-check"
+			//};
+
+			//JumpListTask settings = new JumpListLink(exePath, Locale.Current.Labels.ConfigurationShort) {
+			//  IconReference = new IconReference(Path.Combine(path, "Settings.ico"), 0),
+			//  Arguments = "-settings"
+			//};
+
+			//JumpListTask about = new JumpListLink(exePath, Locale.Current.Labels.About) {
+			//  IconReference = new IconReference(Path.Combine(path, "about.ico"), 0),
+			//  Arguments = "-about"
+			//};
+
+			//JumpListTask help = new JumpListLink(exePath, Locale.Current.Labels.Help) {
+			//  IconReference = new IconReference(Path.Combine(path, "help.ico"), 0),
+			//  Arguments = "-help"
+			//};
+
+			//_jumpList.AddUserTasks(compose);
+			//_jumpList.AddUserTasks(inbox);
+			//_jumpList.AddUserTasks(refresh);
+			//_jumpList.AddUserTasks(settings);
+			//_jumpList.AddUserTasks(help);
+			//_jumpList.AddUserTasks(about);
+		//}
 
 		private void CheckMail() {
 			_statusList.Clear();
@@ -277,11 +368,47 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
+		/// <summary>
+		/// Updates the portion of the JumpList which shows new/unread email.
+		/// </summary>
+		private void UpdateJumpList() {
+
+			if (!_config.RecentDocsTracked) { // if the user doesn't have recent docs turned on, this will method throw errors.
+				return;
+			}
+
+			_jumpList.RemoveCustomCategories();
+
+			String iconPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\Icons\\Mail.ico");
+			String inboxFormat = "{0} ({1})";
+
+			foreach (Notifier notifier in _instances.Values) {
+
+				Account account = notifier.Account;
+				String category = String.Format(inboxFormat, account.FullAddress, notifier.Unread);
+
+				foreach (Email email in notifier.Emails) {
+					JumpTask task = new JumpTask() {
+						ApplicationPath = String.Empty,
+						IconResourceIndex = 0,
+						IconResourcePath = iconPath,
+						Title = email.Title,
+						CustomCategory = category
+					};
+
+					_jumpList.JumpItems.Add(task);
+				}
+
+			}
+
+			_jumpList.Apply(); // refreshes
+
+		}
 
 		private void CloseInstances() {
 
 			foreach (String key in _instances.Keys.ToList()) {
-				
+
 				if (_config.Accounts.Where(o => o.Guid == key).Count() > 0) {
 					continue;
 				}
@@ -348,7 +475,7 @@ namespace GmailNotifierPlus.Forms {
 
 			if (_UnreadTotal != _PreviousTotal) {
 
-				UpdateMailsJumpList();
+				UpdateJumpList();
 
 				if (_UnreadTotal > _PreviousTotal) {
 					switch (Config.Current.SoundNotification) {
@@ -528,77 +655,77 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
-		private void UpdateMailsJumpList() {
+		//private void UpdateMailsJumpList() {
 
-			if (!_config.RecentDocsTracked) {
-				return;
-			}
+		//  if (!_config.RecentDocsTracked) {
+		//    return;
+		//  }
 
-			_jumpList.RemoveCustomCategories();
+		//  _jumpList.RemoveCustomCategories();
 
-			Dictionary<string, List<JumpListLink>> dictionary = new Dictionary<string, List<JumpListLink>>();
+		//  Dictionary<string, List<JumpItem>> dictionary = new Dictionary<string, List<JumpItem>>();
 
-			int i = 0;
-			int unreadCount = Math.Min(_UnreadTotal, (int)_jumpList.MaxSlotsInList);
-			int index = 0;
-			int mailCount = 0;
+		//  int i = 0;
+		//  int unreadCount = _UnreadTotal; // Math.Min(_UnreadTotal, (int)_jumpList.MaxSlotsInList);
+		//  int index = 0;
+		//  int mailCount = 0;
 
-			while (i < unreadCount) {
-				String linkText;
+		//  while (i < unreadCount) {
+		//    String linkText;
 
-				Notifier notifier = _instances[_config.Accounts[index].Guid];
-				Account account = notifier.Account;
+		//    Notifier notifier = _instances[_config.Accounts[index].Guid];
+		//    Account account = notifier.Account;
 
-				if (Locale.Current.IsRightToLeftLanguage) {
-					linkText = String.Concat("(", notifier.Unread, ") ", account.FullAddress, " ");
-				}
-				else {
-					linkText = String.Concat(account.FullAddress, " (", notifier.Unread, ")");
-				}
+		//    if (Locale.Current.IsRightToLeftLanguage) {
+		//      linkText = String.Concat("(", notifier.Unread, ") ", account.FullAddress, " ");
+		//    }
+		//    else {
+		//      linkText = String.Concat(account.FullAddress, " (", notifier.Unread, ")");
+		//    }
 
-				if (!dictionary.ContainsKey(linkText)) {
-					dictionary.Add(linkText, new List<JumpListLink>());
-				}
+		//    //if (!dictionary.ContainsKey(linkText)) {
+		//    //  dictionary.Add(linkText, new List<JumpListLink>());
+		//    //}
 
-				if (mailCount < notifier.Emails.Count) {
+		//    if (mailCount < notifier.Emails.Count) {
 
-					Email email = notifier.Emails[mailCount];
-					String path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\Icons");
+		//      Email email = notifier.Emails[mailCount];
+		//      String path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\Icons");
 
-					JumpListLink item = new JumpListLink(email.Url, email.Title) {
-						IconReference = new IconReference(Path.Combine(path, "Mail.ico"), 0)
-					};
+		//      //JumpListLink item = new JumpListLink(email.Url, email.Title) {
+		//      //  IconReference = new IconReference(Path.Combine(path, "Mail.ico"), 0)
+		//      //};
 
-					dictionary[linkText].Add(item);
-					i++;
-				}
+		//      dictionary[linkText].Add(item);
+		//      i++;
+		//    }
 
-				if (index < (_instances.Count - 1)) {
-					index++;
-				}
-				else {
-					index = 0;
-					mailCount++;
-				}
+		//    if (index < (_instances.Count - 1)) {
+		//      index++;
+		//    }
+		//    else {
+		//      index = 0;
+		//      mailCount++;
+		//    }
 
-			}
+		//  }
 
-			foreach (KeyValuePair<string, List<JumpListLink>> pair in dictionary) {
-				JumpListCustomCategory category = new JumpListCustomCategory(pair.Key);
-				category.AddJumpListItems(pair.Value.ToArray());
+		//  //foreach (KeyValuePair<string, List<JumpListLink>> pair in dictionary) {
+		//  //  JumpListCustomCategory category = new JumpListCustomCategory(pair.Key);
+		//  //  category.AddJumpListItems(pair.Value.ToArray());
 
-				_jumpList.AddCustomCategories(new JumpListCustomCategory[] { category });
-			}
+		//  //  _jumpList.AddCustomCategories(new JumpListCustomCategory[] { category });
+		//  //}
 
-			try {
-				_jumpList.Refresh();
-			}
-			catch (Exception e) {
-				// https://github.com/shellscape/Gmail-Notifier-Plus/issues/#issue/3
-				// Unable to remove files to be replaced. (Exception from HRESULT: 0x80070497)
-				Utilities.ErrorHelper.Log(e, Guid.NewGuid());
-			}
-		}
+		//  //try {
+		//  //  _jumpList.Refresh();
+		//  //}
+		//  //catch (Exception e) {
+		//  //  // https://github.com/shellscape/Gmail-Notifier-Plus/issues/#issue/3
+		//  //  // Unable to remove files to be replaced. (Exception from HRESULT: 0x80070497)
+		//  //  Utilities.ErrorHelper.Log(e, Guid.NewGuid());
+		//  //}
+		//}
 
 		#endregion
 

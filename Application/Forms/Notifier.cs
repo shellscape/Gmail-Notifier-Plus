@@ -1,6 +1,6 @@
 ﻿using GmailNotifierPlus.Utilities;
 
-using Microsoft.WindowsAPICodePack.Taskbar;
+using Microsoft.WindowsAPI.Taskbar;
 
 using System;
 using System.Collections.Generic;

@@ -7,8 +7,8 @@ using System.Security.Permissions;
 using System.Text;
 
 using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPI.Dialogs;
+using Microsoft.WindowsAPI.Shell;
 
 namespace GmailNotifierPlus.Utilities {
 	public static class ErrorHelper {

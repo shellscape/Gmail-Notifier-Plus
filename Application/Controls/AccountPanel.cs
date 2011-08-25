@@ -14,8 +14,8 @@ using Shellscape.UI.Controls;
 using Shellscape.UI.Controls.Preferences;
 
 using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPI.Dialogs;
+using Microsoft.WindowsAPI.Shell;
 
 namespace GmailNotifierPlus.Controls {
 

@@ -206,20 +206,6 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Shellscape.Lib\Shellscape.Lib\Shellscape.Lib.csproj">
-      <Project>{F7F1F64D-F6CD-42A9-B167-546E4EA31463}</Project>
-      <Name>Shellscape.Lib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Shellscape.Lib\Windows API Code Pack\Core\Windows API Core.csproj">
-      <Project>{2E1FB0DF-F9BB-4909-9F32-2D9D022A8E57}</Project>
-      <Name>Windows API Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Shellscape.Lib\Windows API Code Pack\Shell\Windows API Shell.csproj">
-      <Project>{AA0C00CB-8699-4F37-BFAE-40CA87ACC06D}</Project>
-      <Name>Windows API Shell</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\Locales\es-CL.xml" />
     <EmbeddedResource Include="Resources\Locales\fr-FR.xml" />
     <EmbeddedResource Include="Resources\Locales\kz-KZ.xml" />
@@ -284,6 +270,16 @@
     <Content Include="Resources\Icons\Refresh.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\External\Shellscape.Common\Shellscape.Common\Shellscape.Common.csproj">
+      <Project>{F7F1F64D-F6CD-42A9-B167-546E4EA31463}</Project>
+      <Name>Shellscape.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft\Windows API\Windows API.csproj">
+      <Project>{A8C6E474-E434-4759-BA2B-DAA963C1EFBB}</Project>
+      <Name>Windows API</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

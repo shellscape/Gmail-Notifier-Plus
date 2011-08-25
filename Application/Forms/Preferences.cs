@@ -11,8 +11,8 @@ using System.Windows.Forms;
 
 using GmailNotifierPlus.Controls;
 
-using Microsoft.WindowsAPICodePack.Dialogs;
-using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPI.Dialogs;
+using Microsoft.WindowsAPI.Shell;
 
 using Shellscape.UI.Controls.Preferences;
 
