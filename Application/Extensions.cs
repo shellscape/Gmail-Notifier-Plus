@@ -20,19 +20,7 @@ namespace GmailNotifierPlus {
 		/// </summary>
 		/// <param name="list"></param>
 		public static void RemoveCustomCategories(this JumpList list) {
-
-			//List<JumpItem> items = list.JumpItems.Where();
-
-			list.JumpItems.RemoveAll(item => !String.IsNullOrEmpty(item.CustomCategory));
-
-			//FieldInfo fi = typeof(JumpList).GetField("customCategoriesCollection", BindingFlags.NonPublic | BindingFlags.Instance);
-			
-			//object categories = fi.GetValue(list);
-
-			//if (categories != null) {
-			//  MethodInfo method = categories.GetType().GetMethod("Clear");
-			//  method.Invoke(categories, null);
-			//}
+			list.JumpItems.RemoveAll(item => !String.IsNullOrEmpty(item.CustomCategory) && item.CustomCategory != "Default Account");
 		}
 
 		public static IEnumerable<Control> All(this Control.ControlCollection controls) {

@@ -281,6 +281,7 @@ namespace GmailNotifierPlus.Forms {
 			// general tasks
 
 			_jumpList.JumpItems.Add(new JumpTask() {
+				ApplicationPath = exePath,
 				Arguments = "-check",
 				IconResourceIndex = 0,
 				IconResourcePath = Path.Combine(iconsPath, "Refresh.ico"),
@@ -288,6 +289,7 @@ namespace GmailNotifierPlus.Forms {
 			});
 
 			_jumpList.JumpItems.Add(new JumpTask() {
+				ApplicationPath = exePath,
 				Arguments = "-settings",
 				IconResourceIndex = 0,
 				IconResourcePath = Path.Combine(iconsPath, "Settings.ico"),
@@ -295,6 +297,7 @@ namespace GmailNotifierPlus.Forms {
 			});
 
 			_jumpList.JumpItems.Add(new JumpTask() {
+				ApplicationPath = exePath,
 				Arguments = "-help",
 				IconResourceIndex = 0,
 				IconResourcePath = Path.Combine(iconsPath, "help.ico"),
@@ -302,6 +305,7 @@ namespace GmailNotifierPlus.Forms {
 			});
 
 			_jumpList.JumpItems.Add(new JumpTask() {
+				ApplicationPath = exePath,
 				Arguments = "-about",
 				IconResourceIndex = 0,
 				IconResourcePath = Path.Combine(iconsPath, "about.ico"),
