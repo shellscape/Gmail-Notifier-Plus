@@ -241,6 +241,7 @@ namespace GmailNotifierPlus.Forms {
 			}
 			else if (_rectInbox.Contains(mouse)) {
 				Utilities.UrlHelper.Launch(this.Account, Utilities.UrlHelper.BuildInboxUrl(this.Account));
+				this.Close();
 			}
 			// Prev Rect
 			else if (_rectPrev.Contains(mouse) && _statePrev != State.Disabled) {
