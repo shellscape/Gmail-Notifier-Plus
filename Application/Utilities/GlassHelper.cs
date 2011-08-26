@@ -123,6 +123,12 @@ namespace GmailNotifierPlus.Utilities {
 		}
 
 		public static void DrawText(Graphics graphics, string text, Font font, Rectangle bounds, Color color, TextFormatFlags flags, TextStyle textStyle) {
+
+			if (!VisualStyleRenderer.IsSupported) {
+				TextRenderer.DrawText(graphics, text, font, bounds, color, flags);
+				return;
+			}
+			
 			IntPtr primaryHdc = graphics.GetHdc();
 
 			// Create a memory DC so we can work offscreen

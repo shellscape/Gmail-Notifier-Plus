@@ -140,6 +140,8 @@ namespace GmailNotifierPlus.Forms {
 			this.ClientSize = new System.Drawing.Size(322, 130);
 			this.ControlBox = false;
 			this.Controls.Add(this._Panel);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "Toast";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

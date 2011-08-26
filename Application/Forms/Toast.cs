@@ -176,7 +176,14 @@ namespace GmailNotifierPlus.Forms {
 			this.SetStyle(ControlStyles.UserPaint, true);
 			this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 			this.SetStyle(ControlStyles.ResizeRedraw, true);
+
 			this.UpdateStyles();
+
+			if (!VisualStyleRenderer.IsSupported) {
+				this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+				this.ControlBox = true;
+				this.Icon = Program.mainForm.Icon;
+			}
 
 			int enabled = 0;
 			int response = DwmIsCompositionEnabled(ref enabled);
@@ -260,7 +267,7 @@ namespace GmailNotifierPlus.Forms {
 					Invalidate(_rectPrev);
 				}
 			}
-				// Next Rect
+			// Next Rect
 			else if (_rectNext.Contains(mouse) && _stateNext != State.Disabled) {
 				if (_mailIndex > 0) {
 					_mailIndex--;
@@ -306,7 +313,9 @@ namespace GmailNotifierPlus.Forms {
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
 
-			DwmExtendFrameIntoClientArea(this.Handle, ref _dwmMargins);
+			if (VisualStyleRenderer.IsSupported) {
+				DwmExtendFrameIntoClientArea(this.Handle, ref _dwmMargins);
+			}
 
 			Timer timer = new Timer() {
 				Interval = 50
@@ -395,22 +404,28 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void InitRects(Graphics g) {
+
 			if (_rectsInitialized) {
 				return;
 			}
 
 			int totalButtonWidth = _buttonSize.Width * 3;
-			int startX = ((Width - totalButtonWidth) / 2);
+			int startX = (((VisualStyleRenderer.IsSupported ? this.Width : this.ClientSize.Width) - totalButtonWidth) / 2);
 			int iconX = (_buttonSize.Width - 16) / 2;
 			int iconY = (_buttonSize.Height - 16) / 2;
-			int buttonY = this.Height - _buttonSize.Height;
+			int buttonY = VisualStyleRenderer.IsSupported ? (this.Height - _buttonSize.Height) : (this.ClientSize.Height - _buttonSize.Height);
 
-			_rectClient = new Rectangle(
-				_dwmMargins.cxLeftWidth,
-				_dwmMargins.cyTopHeight,
-				Width - _dwmMargins.cxRightWidth - _dwmMargins.cxLeftWidth,
-				Height - _dwmMargins.cyBottomHeight - _dwmMargins.cyTopHeight
-			);
+			if (VisualStyleRenderer.IsSupported) {
+				_rectClient = new Rectangle(
+					_dwmMargins.cxLeftWidth,
+					_dwmMargins.cyTopHeight,
+					Width - _dwmMargins.cxRightWidth - _dwmMargins.cxLeftWidth,
+					Height - _dwmMargins.cyBottomHeight - _dwmMargins.cyTopHeight
+				);
+			}
+			else {
+				_rectClient = this.ClientRectangle;
+			}
 
 			_Panel.Top = _rectClient.Top;
 			_Panel.Left = _rectClient.Left;
@@ -425,8 +440,16 @@ namespace GmailNotifierPlus.Forms {
 
 			_rectNext = new Rectangle(startX, buttonY, _buttonSize.Width, _buttonSize.Height);
 
-			VisualStyleRenderer renderer = new VisualStyleRenderer(_elementClose);
-			Size closeSize = renderer.GetPartSize(g, ThemeSizeType.True);
+			Size closeSize;
+
+			if (VisualStyleRenderer.IsSupported) {
+				VisualStyleRenderer renderer = new VisualStyleRenderer(_elementClose);
+
+				closeSize = renderer.GetPartSize(g, ThemeSizeType.True);
+			}
+			else {
+				closeSize = new Size(16, 14);
+			}
 
 			_rectClose = new Rectangle(Width - _dwmMargins.cxLeftWidth - closeSize.Width, 8, closeSize.Width, closeSize.Height);
 
@@ -462,6 +485,12 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		protected override void WndProc(ref Message m) {
+
+			if (!VisualStyleRenderer.IsSupported) {
+				base.WndProc(ref m);
+				return;
+			}
+
 			int WM_NCCALCSIZE = 0x83;
 
 			IntPtr result;
@@ -520,13 +549,13 @@ namespace GmailNotifierPlus.Forms {
           new float[]{0,0,0,0,0,1}
 				});
 
-				using(Bitmap bitmap = icon.ToBitmap())
+				using (Bitmap bitmap = icon.ToBitmap())
 				using (ImageAttributes ia = new ImageAttributes()) {
 
 					ia.SetColorMatrix(cm);
 
 					g.DrawImage(bitmap, layout, 0, 0, bitmap.Width, bitmap.Height, GraphicsUnit.Pixel, ia);
-				}				
+				}
 			}
 			else {
 				g.DrawIcon(icon, layout);
@@ -535,18 +564,39 @@ namespace GmailNotifierPlus.Forms {
 
 		private void PaintElement(Graphics g, VisualStyleElement element, Rectangle rect, int state) {
 
-			VisualStyleElement e = VisualStyleElement.CreateElement(element.ClassName, element.Part, state);
-			VisualStyleRenderer renderer = new VisualStyleRenderer(e);
+			if (VisualStyleRenderer.IsSupported) {
+				VisualStyleRenderer renderer = new VisualStyleRenderer(element.ClassName, element.Part, state);
 
-			renderer.DrawBackground(g, rect);
+				renderer.DrawBackground(g, rect);
+			}
+			else {
+
+				ButtonState buttonState = ButtonState.Normal;
+
+				if (state == State.Disabled) {
+					buttonState = ButtonState.Inactive;
+				}
+				else if (state == State.Pressed) {
+					buttonState = ButtonState.Pushed;
+				}
+
+				if (element == _elementClose) {
+					ControlPaint.DrawCaptionButton(g, rect, CaptionButton.Close, buttonState);
+				}
+				else {
+					ControlPaint.DrawButton(g, rect, buttonState);
+				}
+			}
 		}
 
 		private void UpdateBody() {
 
+			this.Text = this.Account.FullAddress;
+
 			if (_mailIndex > this.Account.Emails.Count) {
 				_mailIndex = this.Account.Emails.Count - 1;
 			}
-			
+
 			Email email = this.Account.Emails[_mailIndex];
 
 			_LabelDate.Text = email.When;
