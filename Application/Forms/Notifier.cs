@@ -10,6 +10,8 @@ using System.Net;
 using System.Windows.Forms;
 using System.Xml;
 
+using GmailNotifierPlus.Localization;
+
 namespace GmailNotifierPlus.Forms {
 	public partial class Notifier : Form {
 
@@ -51,15 +53,9 @@ namespace GmailNotifierPlus.Forms {
 			_webClient.DownloadDataCompleted += _WebClient_DownloadDataCompleted;
 			_config.Saved += _Config_Saved;
 
-			ToolTip openTip = new ToolTip();
-
-			openTip.SetToolTip(_PictureOpen, Locale.Current.Tooltips.OpenMail);
-
 			using (Icon icon = Utilities.ResourceHelper.GetIcon("Open.ico")) {
 				_PictureOpen.Image = icon.ToBitmap();
 			}
-
-			_PictureOpen.Cursor = Cursors.Hand;
 
 			this.Text = Account.FullAddress;
 		}
@@ -172,7 +168,7 @@ namespace GmailNotifierPlus.Forms {
 
 			UpdateThumbButtonsStatus();
 
-			_LabelStatus.RightToLeft = Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
+			_LabelStatus.RightToLeft = Localization.Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
 		}
 
 		private void _WebClient_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e) {
@@ -271,13 +267,13 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.Left = 0;
 			_LabelStatus.Width = this.Width;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
-			_LabelStatus.Text = Locale.Current.Labels.Connecting;
+			_LabelStatus.Text = Locale.Current.Thumbnails.Connecting;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Checking.png");
 			_PictureOpen.Visible = false;
 		}
 
 		private void SetNoMailPreview() {
-			_LabelStatus.Text = Locale.Current.Labels.NoMail;
+			_LabelStatus.Text = Locale.Current.Thumbnails.NoMail;
 
 			_LabelStatus.Location = new System.Drawing.Point(
 				(this.Width - _LabelStatus.Width) / 2,
@@ -294,7 +290,7 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.Width = this.Width;
 			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
-			_LabelStatus.Text = Locale.Current.Labels.ConnectionUnavailable;
+			_LabelStatus.Text = Locale.Current.Thumbnails.ConnectionUnavailable;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Offline.png");
 			_PictureOpen.Visible = false;
 		}
@@ -304,7 +300,7 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.Width = this.Width;
 			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
-			_LabelStatus.Text = Locale.Current.Labels.CheckLogin;
+			_LabelStatus.Text = Locale.Current.Thumbnails.CheckLogin;
 			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Warning.png");
 			_PictureOpen.Visible = false;
 		}
@@ -402,20 +398,14 @@ namespace GmailNotifierPlus.Forms {
 		private void UpdateThumbButtonsStatus() {
 
 			_ButtonPrev.Enabled = _mailIndex != 0;
-			_ButtonPrev.Tooltip = Locale.Current.Tooltips.Previous;
+			_ButtonPrev.Tooltip = Locale.Current.Common.Previous;
 
 			// gmail's atom feed only sends data for the first 20 unread
 			_ButtonNext.Enabled = _mailIndex < 20 && _mailIndex < (Unread - 1);
-			_ButtonNext.Tooltip = Locale.Current.Tooltips.Next;
+			_ButtonNext.Tooltip = Locale.Current.Common.Next;
 
-			//if (Unread == 0) {
 			_ButtonInbox.Icon = Utilities.ResourceHelper.GetIcon("Inbox.ico");
-			_ButtonInbox.Tooltip = Locale.Current.Tooltips.Inbox;
-			//}
-			//else {
-			//  _ButtonInbox.Icon = Utilities.ResourceHelper.GetIcon("Open.ico");
-			//  _ButtonInbox.Tooltip = Locale.Current.Tooltips.OpenMail;
-			//}
+			_ButtonInbox.Tooltip = Locale.Current.Thumbnails.Inbox;
 
 			_ButtonInbox.Enabled = ConnectionStatus == NotifierStatus.OK;
 		}
