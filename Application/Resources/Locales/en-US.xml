@@ -12,6 +12,7 @@
 		<Unread>Unread</Unread>
 	</Common>
 	<JumpList>
+		<DefaultAccount>Default Account</DefaultAccount>
 		<Inbox>Go to your inbox</Inbox>
 		<Compose>Compose new email</Compose>
 		<Check>Check for new email</Check>
@@ -22,6 +23,7 @@
 	<About>
 		<WindowTitle>About</WindowTitle>
 		<Button>Sweet. Thanks!</Button>
+		<FirstRun>Lets Go!</FirstRun>
 	</About>
 	<Preferences>
 		<WindowTitle>Preferences</WindowTitle>
@@ -76,12 +78,13 @@
 		<CheckLogin>Please check your account settings</CheckLogin>
 		<Connecting>Checking for new email...</Connecting>
 		<ConnectionUnavailable>Please check your network connection</ConnectionUnavailable>
+		<Inbox>Inbox</Inbox>
 		<NoSubject>(no subject)</NoSubject>
 		<NoAccount>Please add an account</NoAccount>
 		<NoMail>No new mail</NoMail>
 	</Thumbnails>
 	<Toast>
-		<OpenInbox>Open inbox</OpenInbox>
+		<ViewEmail>View this email</ViewEmail>
 		<NoSubject>(no subject)</NoSubject>
 	</Toast>
 </Locale>

@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using GmailNotifierPlus;
+using GmailNotifierPlus.Localization;
 
 using Shellscape.UI.Controls;
 using Shellscape.UI.Controls.Preferences;
@@ -76,16 +77,16 @@ namespace GmailNotifierPlus.Controls {
 			_PictureExclamation.Visible = false;
 			_LabelError.Visible = false;
 
-			_ButtonDefault.Text = Locale.Current.Buttons.Default;
-			_ButtonRemove.Text = Locale.Current.Buttons.Remove;
+			_ButtonDefault.Text = Locale.Current.Preferences.Panels.Accounts.Account.DefaultAccount;
+			_ButtonRemove.Text = Locale.Current.Preferences.Panels.Accounts.Account.RemoveAccount;
 
-			_LabelAccountTitle.Text = Locale.Current.Labels.Edit;
-			_LabelError.Text = Locale.Current.Labels.Error;
-			_LabelPassword.Text = Locale.Current.Labels.Password;
-			_LabelUsername.Text = Locale.Current.Labels.Login;
-			_LabelBrowser.Text = Locale.Current.Labels.Browser;
+			_LabelAccountTitle.Text = "Edit Account";
+			//_LabelError.Text = Locale.Current.Labels.Error;
+			//_LabelPassword.Text = Locale.Current.Labels.Password;
+			//_LabelUsername.Text = Locale.Current.Labels.Login;
+			//_LabelBrowser.Text = Locale.Current.Labels.Browser;
 
-			_CheckMailto.Text = Locale.Current.Checkboxes.UseMailto;
+			//_CheckMailto.Text = Locale.Current.Checkboxes.UseMailto;
 		}
 
 		private void DataBind() {
@@ -429,15 +430,15 @@ namespace GmailNotifierPlus.Controls {
 		private void _ButtonRemove_Click(object sender, EventArgs e) {
 			TaskDialog dialog = new TaskDialog();
 			dialog.Caption = Resources.WindowTitle;
-			dialog.InstructionText = Locale.Current.Labels.RemoveConfirmation;
+			dialog.InstructionText = Locale.Current.Preferences.Panels.Accounts.Account.RemoveConfirmation;
 			dialog.Cancelable = true;
 			dialog.OwnerWindowHandle = base.Handle;
 
-			TaskDialogButton buttonYes = new TaskDialogButton("yesButton", Locale.Current.Labels.Yes);
+			TaskDialogButton buttonYes = new TaskDialogButton("yesButton", Locale.Current.Common.Yes);
 			buttonYes.Default = true;
 			buttonYes.Click += _TaskButtonYes_Click;
 
-			TaskDialogButton buttonNo = new TaskDialogButton("noButton", Locale.Current.Labels.No);
+			TaskDialogButton buttonNo = new TaskDialogButton("noButton", Locale.Current.Common.No);
 			buttonNo.Click += _TaskButtonNo_Click;
 
 			dialog.Controls.Add(buttonYes);

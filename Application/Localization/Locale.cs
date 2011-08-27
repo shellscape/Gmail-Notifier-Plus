@@ -52,6 +52,7 @@ namespace GmailNotifierPlus.Localization {
 
 	public class LocaleJumpList {
 
+		public String DefaultAccount { get; set; }
 		public String Inbox { get; set; }
 		public String Compose { get; set; }
 		public String Check { get; set; }
@@ -65,7 +66,7 @@ namespace GmailNotifierPlus.Localization {
 
 		public String WindowTitle { get; set; }
 		public String Button { get; set; }
-
+		public String FirstRun { get; set; }
 	}
 
 	public class LocalePreferences {
@@ -148,6 +149,7 @@ namespace GmailNotifierPlus.Localization {
 		public String CheckLogin { get; set; }
 		public String Connecting { get; set; }
 		public String ConnectionUnavailable { get; set; }
+		public String Inbox { get; set; }
 		public String NoSubject { get; set; }
 		public String NoAccount { get; set; }
 		public String NoMail { get; set; }
@@ -155,7 +157,7 @@ namespace GmailNotifierPlus.Localization {
 
 	public class LocaleToast {
 
-		public String OpenInbox { get; set; }
+		public String ViewEmail { get; set; }
 		public String NoSubject { get; set; }
 	}
 

@@ -6,6 +6,8 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 
+using GmailNotifierPlus.Localization;
+
 namespace GmailNotifierPlus.Utilities {
 	
 	public static class ResourceHelper {

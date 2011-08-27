@@ -33,7 +33,7 @@ namespace GmailNotifierPlus.Forms {
 
 			_PanelAbout.FirstRun = _firstRun = Config.Current.FirstRun;
 			_ButtonOK.Click += _ButtonOk_Click;
-			_ButtonOK.Text = _firstRun ? Locale.Current.Buttons.LetsGo : Locale.Current.Buttons.Sweet;
+			_ButtonOK.Text = _firstRun ? Localization.Locale.Current.About.FirstRun : Localization.Locale.Current.About.Button;
 		}
 
 		private void _PanelShellscape_Click(object sender, EventArgs e) {

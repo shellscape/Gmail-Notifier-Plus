@@ -106,6 +106,12 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Email.cs" />
+    <Compile Include="Forms\Prefs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Prefs.Designer.cs">
+      <DependentUpon>Prefs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Toast.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,7 +151,7 @@
     <Compile Include="Forms\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Locale.cs" />
+    <Compile Include="Localization\Locale.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Account.cs" />
     <Compile Include="Resources\Resources.cs" />
@@ -180,6 +186,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\Prefs.resx">
+      <DependentUpon>Prefs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Toast.resx">
       <DependentUpon>Toast.cs</DependentUpon>
     </EmbeddedResource>
@@ -289,7 +298,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_StartDate="2011/4/4" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_UpdateAssemblyVersion="True" />
+      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_StartDate="2011/4/4" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

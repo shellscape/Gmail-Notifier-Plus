@@ -11,9 +11,9 @@ using System.Windows.Forms;
 using System.Windows.Shell;
 using System.Xml;
 
-//using Microsoft.WindowsAPI.Shell;
 using Microsoft.WindowsAPI.Taskbar;
 
+using GmailNotifierPlus.Localization;
 using GmailNotifierPlus.Utilities;
 
 namespace GmailNotifierPlus.Forms {
@@ -27,7 +27,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private Dictionary<string, Notifier> _instances = new Dictionary<string, Notifier>();
 		private JumpList _jumpList;
-		private Preferences _preferences;
+		private Prefs _preferences;
 		private Dictionary<string, Notifier.NotifierStatus> _statusList = new Dictionary<string, Notifier.NotifierStatus>();
 		private TaskbarManager _taskbarManager = TaskbarManager.Instance;
 
@@ -254,7 +254,7 @@ namespace GmailNotifierPlus.Forms {
 			String iconsPath = Path.Combine(Path.GetDirectoryName(exePath), "Resources\\Icons");
 			String browserPath = UrlHelper.GetDefaultBrowserPath();
 			String url = UrlHelper.BuildInboxUrl(defaultAccountIndex);
-			String categoryName = "Default Account";
+			String categoryName = Locale.Current.JumpList.DefaultAccount;
 
 			_jumpList.JumpItems.Clear();
 
@@ -263,7 +263,7 @@ namespace GmailNotifierPlus.Forms {
 				Arguments = String.IsNullOrEmpty(browserPath) ? String.Empty : url,
 				IconResourceIndex = 0,
 				IconResourcePath = Path.Combine(iconsPath, "GoInbox.ico"), // there's a really whacky conflict between an embedded resource, and a content resource file name.
-				Title = Locale.Current.Labels.Inbox,
+				Title = Locale.Current.JumpList.Inbox,
 				CustomCategory = categoryName
 			});
 
@@ -274,7 +274,7 @@ namespace GmailNotifierPlus.Forms {
 				Arguments = String.IsNullOrEmpty(browserPath) ? String.Empty : url,
 				IconResourceIndex = 0,
 				IconResourcePath = Path.Combine(iconsPath, "Compose.ico"),
-				Title = Locale.Current.Labels.Compose,
+				Title = Locale.Current.JumpList.Compose,
 				CustomCategory = categoryName
 			});
 
@@ -285,7 +285,7 @@ namespace GmailNotifierPlus.Forms {
 				Arguments = "-check",
 				IconResourceIndex = 0,
 				IconResourcePath = Path.Combine(iconsPath, "Refresh.ico"),
-				Title = Locale.Current.Labels.CheckMail
+				Title = Locale.Current.JumpList.Check
 			});
 
 			_jumpList.JumpItems.Add(new JumpTask() {
@@ -293,7 +293,7 @@ namespace GmailNotifierPlus.Forms {
 				Arguments = "-settings",
 				IconResourceIndex = 0,
 				IconResourcePath = Path.Combine(iconsPath, "Settings.ico"),
-				Title = Locale.Current.Labels.ConfigurationShort
+				Title = Locale.Current.JumpList.Preferences
 			});
 
 			_jumpList.JumpItems.Add(new JumpTask() {
@@ -301,7 +301,7 @@ namespace GmailNotifierPlus.Forms {
 				Arguments = "-help",
 				IconResourceIndex = 0,
 				IconResourcePath = Path.Combine(iconsPath, "help.ico"),
-				Title = Locale.Current.Labels.Help
+				Title = Locale.Current.JumpList.Help
 			});
 
 			_jumpList.JumpItems.Add(new JumpTask() {
@@ -309,7 +309,7 @@ namespace GmailNotifierPlus.Forms {
 				Arguments = "-about",
 				IconResourceIndex = 0,
 				IconResourcePath = Path.Combine(iconsPath, "about.ico"),
-				Title = Locale.Current.Labels.About
+				Title = Locale.Current.JumpList.About
 			});
 
 			_jumpList.Apply();
@@ -562,7 +562,7 @@ namespace GmailNotifierPlus.Forms {
 		public void OpenSettingsWindow() {
 
 			if (_preferences == null) {
-				_preferences = new Preferences();
+				_preferences = new Prefs();
 				_preferences.FormClosed += _SettingsWindow_FormClosed;
 				_preferences.Show();
 

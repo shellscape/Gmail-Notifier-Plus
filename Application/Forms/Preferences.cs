@@ -10,6 +10,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using GmailNotifierPlus.Controls;
+using GmailNotifierPlus.Localization;
 
 using Microsoft.WindowsAPI.Dialogs;
 using Microsoft.WindowsAPI.Shell;
@@ -123,14 +124,14 @@ namespace GmailNotifierPlus.Forms {
 
 			dsSound.Columns.Add(columnName, typeof(string));
 			dsSound.Columns.Add(columnValue, typeof(string));
-			dsSound.Rows.Add(new string[] { Locale.Current.Labels.NoSound, string.Empty });
-			dsSound.Rows.Add(new string[] { Locale.Current.Labels.DefaultSound, string.Empty });
+			dsSound.Rows.Add(new string[] { Locale.Current.Preferences.Panels.General.Sound.None, string.Empty });
+			dsSound.Rows.Add(new string[] { Locale.Current.Preferences.Panels.General.Sound.Default, string.Empty });
 
 			if (System.IO.File.Exists(config.Sound)) {
 				dsSound.Rows.Add(new string[] { System.IO.Path.GetFileName(config.Sound), config.Sound });
 			}
 			else {
-				dsSound.Rows.Add(new string[] { Locale.Current.Labels.CustomSound, string.Empty });
+				dsSound.Rows.Add(new string[] { Locale.Current.Preferences.Panels.General.Sound.Custom, string.Empty });
 			}
 
 			_ComboLanguage.DataSource = dsLang;
@@ -192,32 +193,32 @@ namespace GmailNotifierPlus.Forms {
 
 		private void InitLabels() {
 
-			_ButtonNewAccount.Text = Locale.Current.Buttons.AddNewAccount;
-			_ButtonGeneral.ButtonText = Locale.Current.Config.General;
-			_ButtonAccounts.ButtonText = Locale.Current.Config.Accounts;
-			_ButtonAppearance.ButtonText = Locale.Current.Config.Appearance;
+			//_ButtonNewAccount.Text = Locale.Current.Buttons.AddNewAccount;
+			//_ButtonGeneral.ButtonText = Locale.Current.Config.General;
+			//_ButtonAccounts.ButtonText = Locale.Current.Config.Accounts;
+			//_ButtonAppearance.ButtonText = Locale.Current.Config.Appearance;
 
-			//_LabelAccountTitle.Text = Locale.Current.Buttons.AddNewAccount;
-			_LabelSound.Text = Locale.Current.Labels.Sound;
-			_LabelInterval.Text = Locale.Current.Labels.Interval;
-			_LabelMinutes.Text = Locale.Current.Labels.Minutes;
-			_LabelLanguage.Text = Locale.Current.Labels.Language;
+			////_LabelAccountTitle.Text = Locale.Current.Buttons.AddNewAccount;
+			//_LabelSound.Text = Locale.Current.Labels.Sound;
+			//_LabelInterval.Text = Locale.Current.Labels.Interval;
+			//_LabelMinutes.Text = Locale.Current.Labels.Minutes;
+			//_LabelLanguage.Text = Locale.Current.Labels.Language;
 
-			_TextInterval.Left = _LabelInterval.Left + _LabelInterval.Width + 4;
-			_LabelMinutes.Left = _TextInterval.Left + _TextInterval.Width + 4;
+			//_TextInterval.Left = _LabelInterval.Left + _LabelInterval.Width + 4;
+			//_LabelMinutes.Left = _TextInterval.Left + _TextInterval.Width + 4;
 
-			_PanelAccounts.HeaderText = Locale.Current.Config.Panels.Accounts;
-			_PanelAppearance.HeaderText = Locale.Current.Config.Panels.Accounts;
-			_PanelGeneral.HeaderText = Locale.Current.Config.Panels.Accounts;
+			//_PanelAccounts.HeaderText = Locale.Current.Config.Panels.Accounts;
+			//_PanelAppearance.HeaderText = Locale.Current.Config.Panels.Accounts;
+			//_PanelGeneral.HeaderText = Locale.Current.Config.Panels.Accounts;
 
-			_CheckFlash.Text = Locale.Current.Checkboxes.FlashTaskbar;
-			_CheckToast.Text = Locale.Current.Checkboxes.ShowToast;
-			_CheckTray.Text = Locale.Current.Checkboxes.ShowTray;
-			_CheckUpdates.Text = Locale.Current.Checkboxes.CheckUpdates;
+			//_CheckFlash.Text = Locale.Current.Checkboxes.FlashTaskbar;
+			//_CheckToast.Text = Locale.Current.Checkboxes.ShowToast;
+			//_CheckTray.Text = Locale.Current.Checkboxes.ShowTray;
+			//_CheckUpdates.Text = Locale.Current.Checkboxes.CheckUpdates;
 
-			_ComboLanguage.Left = _LabelLanguage.Width + _LabelLanguage.Left + 8;
+			//_ComboLanguage.Left = _LabelLanguage.Width + _LabelLanguage.Left + 8;
 
-			this.Text = String.Concat(Resources.WindowTitle, " - ", Locale.Current.Labels.ConfigurationShort);
+			//this.Text = String.Concat(Resources.WindowTitle, " - ", Locale.Current.Labels.ConfigurationShort);
 		}
 
 		private void InitPanels() {
@@ -291,17 +292,17 @@ namespace GmailNotifierPlus.Forms {
 		private void _ButtonBrowse_Click(object sender, EventArgs e) {
 			CommonOpenFileDialog dialog = new CommonOpenFileDialog();
 			CommonFileDialogStandardFilters.TextFiles.ShowExtensions = true;
-			CommonFileDialogFilter filter = new CommonFileDialogFilter(Locale.Current.Labels.WaveFiles, ".wav") { ShowExtensions = true };
+			CommonFileDialogFilter filter = new CommonFileDialogFilter(Locale.Current.Preferences.Panels.General.Sound.WaveFiles, ".wav") { ShowExtensions = true };
 
 			String path = string.IsNullOrEmpty(_ComboSound.SelectedValue.ToString()) ? Path.Combine(KnownFolders.Windows.Path, "Media") : Path.GetFullPath(_ComboSound.SelectedValue.ToString());
 
-			dialog.Title = Locale.Current.Labels.BrowseDialog;
+			dialog.Title = Locale.Current.Preferences.Panels.General.Sound.BrowseWindowTitle;
 			dialog.Multiselect = false;
 			dialog.DefaultDirectory = Directory.Exists(path) ? path : KnownFolders.Desktop.Path;
 			dialog.Filters.Add(filter);
 
 			DataTable dataSource = (DataTable)_ComboSound.DataSource;
-			String label = Locale.Current.Labels.CustomSound;
+			String label = Locale.Current.Preferences.Panels.General.Sound.Custom;
 			String data = String.Empty;
 
 			dataSource.Rows.RemoveAt(2);

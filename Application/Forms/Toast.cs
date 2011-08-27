@@ -191,6 +191,7 @@ namespace GmailNotifierPlus.Forms {
 			_aeroEnabled = enabled == 1;
 
 			this.Opacity = 0;
+			this.TopMost = true;
 
 			_closeTimer.Tick += delegate(object sender, EventArgs e) {
 				this.Close();
@@ -207,7 +208,7 @@ namespace GmailNotifierPlus.Forms {
 			_iconWindow = ResourceHelper.GetIcon("gmail-classic.ico", 16);
 
 			ToolTip openTip = new ToolTip();
-			openTip.SetToolTip(_PictureOpen, Locale.Current.Tooltips.OpenMail);
+			openTip.SetToolTip(_PictureOpen, Localization.Locale.Current.Toast.ViewEmail);
 
 			_PictureOpen.Cursor = Cursors.Hand;
 			_PictureOpen.Click += OpenEmail;
@@ -327,6 +328,8 @@ namespace GmailNotifierPlus.Forms {
 				if (this.Opacity == 1) {
 					timer.Stop();
 					timer.Dispose();
+
+					this.TopMost = false;
 				}
 			};
 

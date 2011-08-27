@@ -248,13 +248,13 @@ namespace GmailNotifierPlus.Forms {
 
 		private void CreateThumbButtons() {
 
-			_ButtonPrev = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Previous.ico"), Locale.Current.Tooltips.Previous);
+			_ButtonPrev = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Previous.ico"), Locale.Current.Common.Previous);
 			_ButtonPrev.Click += _ButtonPrev_Click;
 
-			_ButtonInbox = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Inbox.ico"), Locale.Current.Tooltips.Inbox);
+			_ButtonInbox = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Inbox.ico"), Locale.Current.Thumbnails.Inbox);
 			_ButtonInbox.Click += _ButtonInbox_Click;
 
-			_ButtonNext = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Next.ico"), Locale.Current.Tooltips.Next);
+			_ButtonNext = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Next.ico"), Locale.Current.Common.Next);
 			_ButtonNext.Click += _ButtonNext_Click;
 
 			_taskbarManager.ThumbnailToolBars.AddButtons(base.Handle, new ThumbnailToolBarButton[] { _ButtonPrev, _ButtonInbox, _ButtonNext });

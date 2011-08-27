@@ -23,14 +23,5 @@ namespace GmailNotifierPlus {
 			list.JumpItems.RemoveAll(item => !String.IsNullOrEmpty(item.CustomCategory) && item.CustomCategory != "Default Account");
 		}
 
-		public static IEnumerable<Control> All(this Control.ControlCollection controls) {
-			foreach (Control control in controls) {
-				foreach (Control grandChild in control.Controls.All())
-					yield return grandChild;
-
-				yield return control;
-			}
-		}
-
 	}
 }

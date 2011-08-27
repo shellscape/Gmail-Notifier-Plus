@@ -176,7 +176,7 @@ namespace GmailNotifierPlus {
 		}
 
 		private static void LoadLocale(Config config) {
-			Locale locale = Utilities.ResourceHelper.GetLocale(config.Language);
+			Localization.Locale locale = Utilities.ResourceHelper.GetLocale(config.Language);
 
 			// in case the config xml gets hosed, or a user goes a-tamperin'
 			if (locale == null) {
