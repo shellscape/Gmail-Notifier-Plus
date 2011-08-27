@@ -1,83 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Locale>
 	<Name>English (en-US)</Name>
-	<Buttons>
-		<AddNewAccount>Add New Account</AddNewAccount>
-		<Browse>Browse...</Browse>
+	<Common>
 		<Cancel>Cancel</Cancel>
-		<Default>Make Default</Default>
-		<Edit>Edit</Edit>
+		<Close>Close</Close>
 		<Next>Next</Next>
 		<OK>OK</OK>
-		<Save>Save</Save>
-		<LetsGo>Let's Go!</LetsGo>
-		<Sweet>Sweet, Thanks</Sweet>
-		<Remove>Remove Account</Remove>
-	</Buttons>
-	<Labels>
-		<About>About Gmail Notifier Plus</About>
-		<Additional>Additional Settings</Additional>
-		<Browser>Browser:</Browser>
-		<BrowseDialog>Browse for a new notification sound.</BrowseDialog>
-		<CheckLogin>Please check your account settings.</CheckLogin>
-		<CheckMail>Check for New Mail</CheckMail>
-		<Compose>Compose Mail</Compose>
-		<Configuration>Manage Accounts</Configuration>
-		<ConfigurationShort>Preferences</ConfigurationShort>
-		<Connecting>Checking for new mail...</Connecting>
-		<ConnectionUnavailable>Please check your network connection</ConnectionUnavailable>
-		<CustomSound>Custom...</CustomSound>
-		<DefaultSound>Default</DefaultSound>
-		<Edit>Edit account information</Edit>
-		<Error>An account with this username already exists. Please enter a different username.</Error>
-		<Help>Help Wiki</Help>
-		<Inbox>Go to your Inbox</Inbox>
-		<Interval>Check Email every:</Interval>
-		<Language>Display language:</Language>
-		<Login>Username:</Login>
-		<Minutes>minute(s)</Minutes>
-		<No>No</No>
-		<NoAccount>Please set up an account.</NoAccount>
-		<NoMail>No new mail</NoMail>
-		<NoSound>None</NoSound>
-		<NoSubject>(no subject)</NoSubject>
-		<OSErrorContent>This software was designed to run exclusively on Windows 7.</OSErrorContent>
-		<OSErrorTitle>Operating system compatibility error</OSErrorTitle>
-		<Password>Password:</Password>
-		<RemoveConfirmation>Are you sure you want to remove this account?</RemoveConfirmation>
-		<RemoveConfirmationTitle>Remove Account</RemoveConfirmationTitle>
-		<Sound>Sound notification</Sound>
-		<Unread>Unread</Unread>
-		<WaveFiles>Wave File</WaveFiles>
-		<Yes>Yes</Yes>
-		<AccountsIntro>Click an account to the left to manage your individual accounts. Click the button below to add a new account.</AccountsIntro>
-		<AccountsIntroNone>Welcome to Gmail Notifier Plus.\n\nTo get started, please click the button below to add a new account.</AccountsIntroNone>
-	</Labels>
-	<Tooltips>
-		<About>About Gmail Notifier Plus</About>
-		<Add>Add New Account</Add>
-		<Inbox>Inbox</Inbox>
-		<Next>Next</Next>
-		<OpenMail>Open Inbox</OpenMail>
 		<Previous>Previous</Previous>
-		<Settings>Settings</Settings>
-	</Tooltips>
-	<Config>
-		<Accounts>Accounts</Accounts>
-		<Appearance>Appearance</Appearance>
-		<General>General</General>
+		<No>No</No>
+		<Yes>Yes</Yes>
+		<Unread>Unread</Unread>
+	</Common>
+	<JumpList>
+		<Inbox>Go to your inbox</Inbox>
+		<Compose>Compose new email</Compose>
+		<Check>Check for new email</Check>
+		<Preferences>Preferences</Preferences>
+		<About>About Gmail Notifier Plus</About>
+		<Help>Help Wiki</Help>
+	</JumpList>
+	<About>
+		<WindowTitle>About</WindowTitle>
+		<Button>Sweet. Thanks!</Button>
+	</About>
+	<Preferences>
+		<WindowTitle>Preferences</WindowTitle>
+		<Navigation>
+			<General>General preferences</General>
+			<Accounts>Manage your accounts</Accounts>
+			<Appearance>Change display preferences</Appearance>
+		</Navigation>
 		<Panels>
-			<Accounts>Manage Your Accounts</Accounts>
-			<Appearance>Tell Gmail Notifier Plus how to Act and Look</Appearance>
-			<General>Bread n' Butter settings for Gmail Notifier Plus</General>
-			<NewAccount>Add New Account</NewAccount>
+			<General>
+				<Title>General Gmail Notifier Plus settings</Title>
+				<Sound>
+					<Title>Sound notification</Title>
+					<None>None</None>
+					<Default>Default</Default>
+					<Custom>Custom...</Custom>
+					<Browse>Browse...</Browse>
+					<BrowseWindowTitle>Select a notification sound</BrowseWindowTitle>
+					<WaveFiles>Wave File</WaveFiles>
+				</Sound>
+				<CheckEmail>Check email every</CheckEmail>
+				<CheckMinutes>minute(s)</CheckMinutes>
+				<CheckUpdates>Check for Updates</CheckUpdates>
+			</General>
+			<Accounts>
+				<Title>Choose the account you would like to change</Title>
+				<AddNew>Add a new account</AddNew>
+				<Account>
+					<Address>Address</Address>
+					<Password>Password</Password>
+					<Mailto>Use this account for mailto links</Mailto>
+					<DefaultAccount>Use this account as the default account</DefaultAccount>
+					<Browser>Browser</Browser>
+					<AddAccount>Add Account</AddAccount>
+					<RemoveAccount>Remove this account</RemoveAccount>
+					<RemoveConfirmation>Are you sure you want to remove this account?</RemoveConfirmation>
+					<RemoveConfirmationTitle>Remove Account</RemoveConfirmationTitle>
+					<AccountsIntroNone>Welcome to Gmail Notifier Plus.\n\nTo get started, please click the button below to add a new account.</AccountsIntroNone>
+					<Error>An account with this username already exists. Please enter a different username.</Error>
+				</Account>
+			</Accounts>
+			<Appearance>
+				<Title>Change the appearance of Gmail Notifier Plus</Title>
+				<Language>Display language</Language>
+				<FlashTaskbar>Flash Taskbar for new email</FlashTaskbar>
+				<ShowTray>Show email count in System Tray</ShowTray>
+				<ShowToast>Show Toast notifications for new email</ShowToast>
+			</Appearance>
 		</Panels>
-	</Config>
-	<Checkboxes>
-		<FlashTaskbar>Flash Taskbar for New Email</FlashTaskbar>
-		<ShowTray>Show Email count in System Tray</ShowTray>
-		<ShowToast>Show Toast notifications for New Email</ShowToast>
-		<CheckUpdates>Check for Updates</CheckUpdates>
-		<UseMailto>Use Account For mailto: Links</UseMailto>
-	</Checkboxes>
+	</Preferences>
+	<Thumbnails>
+		<CheckLogin>Please check your account settings</CheckLogin>
+		<Connecting>Checking for new email...</Connecting>
+		<ConnectionUnavailable>Please check your network connection</ConnectionUnavailable>
+		<NoSubject>(no subject)</NoSubject>
+		<NoAccount>Please add an account</NoAccount>
+		<NoMail>No new mail</NoMail>
+	</Thumbnails>
+	<Toast>
+		<OpenInbox>Open inbox</OpenInbox>
+		<NoSubject>(no subject)</NoSubject>
+	</Toast>
 </Locale>
