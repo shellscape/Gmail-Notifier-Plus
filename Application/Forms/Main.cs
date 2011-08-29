@@ -609,6 +609,9 @@ namespace GmailNotifierPlus.Forms {
 				}
 				base.Invoke(method);
 			}
+			else {
+				this.ShowAbout();
+			}
 		}
 
 		#endregion

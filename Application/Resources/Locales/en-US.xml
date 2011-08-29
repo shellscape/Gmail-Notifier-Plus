@@ -24,6 +24,7 @@
 		<WindowTitle>About</WindowTitle>
 		<Button>Sweet. Thanks!</Button>
 		<FirstRun>Lets Go!</FirstRun>
+		<Checking>Checking for updates...</Checking>
 	</About>
 	<Preferences>
 		<WindowTitle>Preferences</WindowTitle>

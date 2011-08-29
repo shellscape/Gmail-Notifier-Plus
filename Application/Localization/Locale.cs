@@ -67,6 +67,7 @@ namespace GmailNotifierPlus.Localization {
 		public String WindowTitle { get; set; }
 		public String Button { get; set; }
 		public String FirstRun { get; set; }
+		public String Checking { get; set; }
 	}
 
 	public class LocalePreferences {

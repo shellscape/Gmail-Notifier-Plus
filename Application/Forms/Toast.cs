@@ -607,7 +607,7 @@ namespace GmailNotifierPlus.Forms {
 			_LabelMessage.Text = email.Message;
 			_LabelTitle.Text = email.Title;
 
-			String start = (this.Account.Unread - _mailIndex).ToString();
+			String start = _mailIndex.ToString(); //(this.Account.Unread - _mailIndex).ToString();
 			String end = this.Account.Unread.ToString();
 
 			_LabelIndex.Text = String.Concat(start, " / ", end); //String.Concat((_mailIndex + 1).ToString(), " / ", this.Account.Unread);
