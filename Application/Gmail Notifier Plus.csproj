@@ -215,6 +215,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\download-updates.png" />
     <EmbeddedResource Include="Resources\Images\exclamation-updates.png" />
     <EmbeddedResource Include="Resources\Images\uptodate.png" />
     <Content Include="Resources\Images\arrow-circle-315.png" />

@@ -19,6 +19,20 @@ namespace GmailNotifierPlus {
 
 	internal static class Program {
 
+		public class RemotingService : MarshalByRefObject {
+			public void CheckMail() {
+				Program.mainForm.RemoteCheckMails();
+			}
+
+			public void OpenSettingsWindow() {
+				Program.mainForm.RemoteOpenSettingsWindow();
+			}
+
+			public void ShowAbout() {
+				Program.mainForm.RemoteShowAbout();
+			}
+		}
+
 		internal static class Arguments {
 			public const String Check = "-check";
 			public const String Settings = "-settings";
@@ -32,6 +46,66 @@ namespace GmailNotifierPlus {
 		internal static GmailNotifierPlus.Forms.Main mainForm = null;
 
 		private static List<String> _validArgs = new List<String>() { Arguments.About, Arguments.Check, Arguments.Settings, Arguments.Help };
+		
+		private static readonly String _repoUser = "shellscape";
+		private static readonly String _repoName = "Gmail-Notifier-Plus";
+
+		[STAThread]
+		private static void Main(string[] args) {
+			bool createdNew;
+
+			channelName = String.Concat(WindowsIdentity.GetCurrent().Name, "@GmailNotifierPlus");
+
+			Program.Icon = Utilities.ResourceHelper.GetIcon("gmail-classic.ico");
+
+			String guid = "{421a0043-b2ab-4b86-8dec-63ce3b8bd764}";
+			String name = String.Concat(@"Local\GmailNotifierPlus", guid);
+
+			using (new Mutex(true, name, out createdNew)) {
+				if (!createdNew) {
+					if (args.Length > 0) {
+						CallRunningInstance(args);
+					}
+				}
+				else {
+					InitRemoting();
+
+					SystemEvents.SessionEnded += delegate(object sender, SessionEndedEventArgs e) {
+						Shellscape.UpdateManager.Current.Stop();
+						Application.Exit();
+					};
+
+					Application.EnableVisualStyles();
+					Application.SetCompatibleTextRenderingDefault(false);
+					Application.ThreadException += Application_ThreadException;
+
+					AppDomain.CurrentDomain.UnhandledException += delegate(object sender, UnhandledExceptionEventArgs e) {
+						ErrorHelper.Report(e.ExceptionObject as Exception);
+					};
+
+					Form startForm = null;
+					
+					Shellscape.UpdateManager updates = new Shellscape.UpdateManager(_repoUser, _repoName, _repoName);
+					updates.Error += delegate(object sender, UnhandledExceptionEventArgs e) {
+						ErrorHelper.Report(e.ExceptionObject as Exception);
+					};
+					
+					try {
+						Config.Init();
+
+						startForm = mainForm = new GmailNotifierPlus.Forms.Main(args);
+						//startForm = new GmailNotifierPlus.Forms.Prefs();
+					}
+					catch (Exception e) {
+						Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
+					}
+
+					updates.StartTimer();
+
+					Application.Run(startForm);
+				}
+			}
+		}
 
 		private static void CallRunningInstance(string[] args) {
 			RemotingService service = (RemotingService)RemotingServices.Connect(typeof(RemotingService), "ipc://" + channelName + "/service.rem");
@@ -60,77 +134,10 @@ namespace GmailNotifierPlus {
 			RemotingConfiguration.RegisterWellKnownServiceType(typeof(RemotingService), "service.rem", WellKnownObjectMode.Singleton);
 		}
 
-		[STAThread]
-		private static void Main(string[] args) {
-			bool createdNew;
-
-			channelName = String.Concat(WindowsIdentity.GetCurrent().Name, "@GmailNotifierPlus");
-
-			Program.Icon = Utilities.ResourceHelper.GetIcon("gmail-classic.ico");
-
-			String guid = "{421a0043-b2ab-4b86-8dec-63ce3b8bd764}";
-			String name = String.Concat(@"Local\GmailNotifierPlus", guid);
-
-			SystemEvents.SessionEnded += new SessionEndedEventHandler(SystemEvents_SessionEnded);
-
-			using (new Mutex(true, name, out createdNew)) {
-				if (!createdNew) {
-					if (args.Length > 0) {
-						CallRunningInstance(args);
-					}
-				}
-				else {
-					InitRemoting();
-
-					Application.EnableVisualStyles();
-					Application.SetCompatibleTextRenderingDefault(false);
-					Application.ThreadException += Application_ThreadException;
-
-					AppDomain appDomain = AppDomain.CurrentDomain;
-					appDomain.UnhandledException += AppDomain_UnhandledException;
-
-					Form startForm = null;
-
-					try {
-						Config.Init();
-
-						startForm = mainForm = new GmailNotifierPlus.Forms.Main(args);
-						//startForm = new GmailNotifierPlus.Forms.Prefs();
-					}
-					catch (Exception e) {
-						Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
-					}
-
-					Application.Run(startForm);
-				}
-			}
-		}
-
-		public class RemotingService : MarshalByRefObject {
-			public void CheckMail() {
-				Program.mainForm.RemoteCheckMails();
-			}
-
-			public void OpenSettingsWindow() {
-				Program.mainForm.RemoteOpenSettingsWindow();
-			}
-
-			public void ShowAbout() {
-				Program.mainForm.RemoteShowAbout();
-			}
-		}
-
-		public static void AppDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
-			ErrorHelper.Report(e.ExceptionObject as Exception);
-		}
-
-		public static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
+		private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
 			ErrorHelper.Report(e.Exception);
 		}
 
-		public static void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e) {
-			Application.Exit();
-		}
 	}
 }
 

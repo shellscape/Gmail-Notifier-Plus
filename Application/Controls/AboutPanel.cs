@@ -72,7 +72,7 @@ namespace GmailNotifierPlus.Controls {
 
 		private Bitmap GetVersion() {
 
-			String version = String.Concat("version ", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+			String version = String.Concat("version ", Shellscape.UpdateManager.Current.CurrentVersion);
 			Bitmap result = null;
 			RectangleF bounds;
 			RectangleF rect = this.ClientRectangle;
