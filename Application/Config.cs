@@ -159,6 +159,8 @@ namespace GmailNotifierPlus {
 	
 		public Boolean RecentDocsTracked { get; private set; }
 
+		public String AppDataPath { get { return _path; } }
+
 		public void Save() {
 
 			String serialized = Utilities.Serializer.SerializeContract<Config>(this);

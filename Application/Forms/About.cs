@@ -40,7 +40,7 @@ namespace GmailNotifierPlus.Forms {
 			this.Icon = Program.Icon;
 
 			this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
-			this.Text = Resources.WindowTitle;
+			this.Text = String.Concat(Locale.Current.About.WindowTitle, " - ", Resources.WindowTitle);
 
 			_PanelAbout.FirstRun = _firstRun = Config.Current.FirstRun;
 			_ButtonOK.Click += _ButtonOk_Click;
@@ -76,7 +76,7 @@ namespace GmailNotifierPlus.Forms {
 				_PanelUpdate.Invalidate(new Rectangle(0, 0, 26, 26));
 			};
 
-			UpdateManager.Current.SafeStart();
+			UpdateManager.Current.Start();
 
 			_timer.Start();
 		}
@@ -117,7 +117,7 @@ namespace GmailNotifierPlus.Forms {
 				e.Graphics.DrawImage(_upToDate, 4, 4, _upToDate.Width, _upToDate.Height);
 			}
 			else if (status == UpdateManager.UpdateStatus.NewVersion) {
-				e.Graphics.DrawImage(_upToDate, 4, 4, _upToDate.Width, _upToDate.Height);
+				e.Graphics.DrawImage(_download, 4, 4, _upToDate.Width, _upToDate.Height);
 			}
 		}
 	}
