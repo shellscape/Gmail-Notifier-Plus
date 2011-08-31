@@ -1,12 +1,5 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-
-using Microsoft.WindowsAPI.Dialogs;
-using Microsoft.WindowsAPI.Shell;
-using GmailNotifierPlus.Controls;
-
-namespace GmailNotifierPlus.Forms {
-	partial class About {
+﻿namespace GmailNotifierPlus.Forms {
+	partial class Preferences {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -32,18 +25,18 @@ namespace GmailNotifierPlus.Forms {
 		private void InitializeComponent() {
 			this.SuspendLayout();
 			// 
-			// About
+			// Prefs
 			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.Window;
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "About";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.ClientSize = new System.Drawing.Size(800, 479);
+			this.Name = "Prefs";
+			this.Text = "Prefs";
 			this.ResumeLayout(false);
+
 		}
 
 		#endregion
+
 	}
 }

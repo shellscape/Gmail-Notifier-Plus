@@ -27,7 +27,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private Dictionary<string, Notifier> _instances = new Dictionary<string, Notifier>();
 		private JumpList _jumpList;
-		private Prefs _preferences;
+		private Preferences _preferences;
 		private Dictionary<string, Notifier.NotifierStatus> _statusList = new Dictionary<string, Notifier.NotifierStatus>();
 		private TaskbarManager _taskbarManager = TaskbarManager.Instance;
 
@@ -42,7 +42,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private static readonly int WM_TASKBARBUTTONCREATED = ((int)RegisterWindowMessage("TaskbarButtonCreated"));
 
-		public Main(string[] args) {
+		public Main() {
 
 			InitializeComponent();
 
@@ -56,19 +56,8 @@ namespace GmailNotifierPlus.Forms {
 			_jumpList.ShowRecentCategory = false;
 
 			var app = new System.Windows.Application();
+
 			JumpList.SetJumpList(app, _jumpList);
-
-			//JumpTask jumpTask1 = new JumpTask();
-			//// Get the path to Calculator and set the JumpTask properties.
-			//jumpTask1.ApplicationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), "calc.exe");
-			//jumpTask1.IconResourcePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), "calc.exe");
-			//jumpTask1.Title = "Calculator";
-			//jumpTask1.Description = "Open Calculator.";
-			//jumpTask1.CustomCategory = "AWESOME";
-
-			//_jumpList.JumpItems.Add(jumpTask1);
-			//_jumpList.Apply(); // refreshes
-
 			TaskbarItemInfo info = new TaskbarItemInfo();
 
 			info.ProgressState = TaskbarItemProgressState.Indeterminate;
@@ -81,10 +70,6 @@ namespace GmailNotifierPlus.Forms {
 
 			this.CreateInstances();
 
-			if (args.Length > 0 && args[0] == Program.Arguments.Settings) {
-				this.OpenSettingsWindow();
-			}
-
 			_config.Saved += _Config_Saved;
 			_config.Accounts.AccountChanged += _Account_Changed;
 
@@ -92,8 +77,6 @@ namespace GmailNotifierPlus.Forms {
 			_Timer.Interval = Math.Max(1, _config.Interval) * 1000;
 			_Timer.Enabled = true;
 		}
-
-		public Boolean FirstRun { get; set; }
 
 		protected override void WndProc(ref Message m) {
 			if (m.Msg == WM_TASKBARBUTTONCREATED) {
@@ -119,18 +102,16 @@ namespace GmailNotifierPlus.Forms {
 
 			AllowTaskbarWindowMessagesThroughUIPI();
 
-			//_jumpList = JumpList.CreateJumpListForIndividualWindow(this._taskbarManager.ApplicationId, base.Handle);
-			//_jumpList.JumpListItemsRemoved += delegate(object o, UserRemovedJumpListItemsEventArgs ev) { };
-			//_jumpList.KnownCategoryToDisplay = JumpListKnownCategoryType.Neither;
-
 			InitJumpList();
-
-			//_jumpList.Refresh();
 		}
 
 		private void Main_Shown(object sender, EventArgs e) {
 			if (_config.FirstRun) {
-				this.ShowAbout();
+
+				FirstRun firstRun = new FirstRun();
+				firstRun.Show();
+				firstRun.BringToFront();
+				firstRun.Focus();
 
 				_config.FirstRun = false;
 				_config.Save();
@@ -181,9 +162,6 @@ namespace GmailNotifierPlus.Forms {
 
 			_TrayIcon.Visible = Config.Current.ShowTrayIcon;
 
-			if (Config.Current.CheckForUpdates) {
-				// TODO - write code for checking updates from github
-			}
 		}
 
 		private void _Timer_Tick(object sender, EventArgs e) {
@@ -562,15 +540,10 @@ namespace GmailNotifierPlus.Forms {
 		public void OpenSettingsWindow() {
 
 			if (_preferences == null) {
-				_preferences = new Prefs();
+				_preferences = new Preferences();
 				_preferences.FormClosed += _SettingsWindow_FormClosed;
 				_preferences.Show();
 
-			}
-
-			if (FirstRun) {
-				FirstRun = false;
-				_preferences.InitFirstRun();
 			}
 
 			_preferences.Activate();

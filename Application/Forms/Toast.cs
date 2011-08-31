@@ -182,7 +182,7 @@ namespace GmailNotifierPlus.Forms {
 			if (!VisualStyleRenderer.IsSupported) {
 				this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 				this.ControlBox = true;
-				this.Icon = Program.mainForm.Icon;
+				this.Icon = Program.MainForm.Icon;
 			}
 
 			int enabled = 0;

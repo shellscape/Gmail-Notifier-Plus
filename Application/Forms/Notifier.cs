@@ -233,16 +233,16 @@ namespace GmailNotifierPlus.Forms {
 		protected override void OnActivated(EventArgs e) {
 			base.OnActivated(e);
 
-			if (Program.mainForm != null) {
-				Program.mainForm.Activate();
+			if (Program.MainForm != null) {
+				Program.MainForm.Activate();
 			}
 		}
 
 		protected override void OnGotFocus(EventArgs e) {
 			base.OnGotFocus(e);
 
-			if (Program.mainForm != null) {
-				Program.mainForm.Activate();
+			if (Program.MainForm != null) {
+				Program.MainForm.Activate();
 			}
 		}
 

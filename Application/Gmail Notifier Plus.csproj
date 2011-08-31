@@ -102,24 +102,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountList.cs" />
-    <Compile Include="Controls\AccountPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Email.cs" />
-    <Compile Include="Forms\Prefs.cs">
+    <Compile Include="Forms\FirstRun.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Prefs.Designer.cs">
-      <DependentUpon>Prefs.cs</DependentUpon>
+    <Compile Include="Forms\FirstRun.Designer.cs">
+      <DependentUpon>FirstRun.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Preferences.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Preferences.Designer.cs">
+      <DependentUpon>Preferences.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Toast.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Toast.designer.cs">
       <DependentUpon>Toast.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Preferences.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\ToastTest.cs">
       <SubType>Form</SubType>
@@ -154,6 +154,7 @@
     <Compile Include="Localization\Locale.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Account.cs" />
+    <Compile Include="RemotingService.cs" />
     <Compile Include="Resources\Resources.cs" />
     <Compile Include="ToastManager.cs" />
     <Compile Include="Utilities\EncryptionHelper.cs" />
@@ -186,8 +187,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\Prefs.resx">
-      <DependentUpon>Prefs.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FirstRun.resx">
+      <DependentUpon>FirstRun.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Preferences.resx">
+      <DependentUpon>Preferences.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Toast.resx">
       <DependentUpon>Toast.cs</DependentUpon>
@@ -195,18 +199,13 @@
     <EmbeddedResource Include="Forms\ToastTest.resx">
       <DependentUpon>ToastTest.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Images\Warning.png" />
     <EmbeddedResource Include="Resources\Locales\pt-BR.xml" />
-    <EmbeddedResource Include="Controls\AccountPanel.resx">
-      <DependentUpon>AccountPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Notifier.resx">
       <DependentUpon>Notifier.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Preferences.resx">
-      <DependentUpon>Preferences.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Locales\en-US.xml">
       <SubType>Designer</SubType>
@@ -217,10 +216,11 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\about-icon.png" />
+    <EmbeddedResource Include="Resources\Images\intro.png" />
     <EmbeddedResource Include="Resources\Images\download-updates.png" />
     <EmbeddedResource Include="Resources\Images\exclamation-updates.png" />
     <EmbeddedResource Include="Resources\Images\uptodate.png" />
-    <Content Include="Resources\Images\arrow-circle-315.png" />
     <EmbeddedResource Include="Resources\Locales\es-CL.xml" />
     <EmbeddedResource Include="Resources\Locales\fr-FR.xml" />
     <EmbeddedResource Include="Resources\Locales\kz-KZ.xml" />
@@ -228,12 +228,6 @@
     <Content Include="Resources\Icons\about.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\Images\gmail-bleu.png" />
-    <None Include="Resources\Images\gmail-classic.png" />
-    <None Include="Resources\Images\gmail-kuro.png" />
-    <None Include="Resources\Images\gmail-limon.png" />
-    <None Include="Resources\Images\gmail-orangish.png" />
-    <None Include="Resources\Images\gmail-pinky.png" />
     <EmbeddedResource Include="Resources\Locales\de-DE.xml" />
     <EmbeddedResource Include="Resources\Locales\ru-RU.xml" />
     <EmbeddedResource Include="Resources\Icons\Mail.ico">
@@ -255,26 +249,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Resources\Icons\Warning.ico" />
-    <EmbeddedResource Include="Resources\Images\About.png" />
-    <EmbeddedResource Include="Resources\Images\GetStarted.png" />
-    <EmbeddedResource Include="Resources\Images\Welcome.png" />
-    <EmbeddedResource Include="Resources\Images\Add.png" />
-    <EmbeddedResource Include="Resources\Images\AddDisabled.png" />
-    <EmbeddedResource Include="Resources\Images\AddHover.png" />
-    <EmbeddedResource Include="Resources\Images\AddPressed.png" />
-    <EmbeddedResource Include="Resources\Images\Background.png" />
     <EmbeddedResource Include="Resources\Images\Checking.png" />
-    <EmbeddedResource Include="Resources\Images\Exclamation.png" />
-    <EmbeddedResource Include="Resources\Images\Information.png" />
-    <EmbeddedResource Include="Resources\Images\Line.png" />
-    <EmbeddedResource Include="Resources\Images\Main.png" />
     <EmbeddedResource Include="Resources\Images\Offline.png" />
-    <EmbeddedResource Include="Resources\Images\Remove.png" />
-    <EmbeddedResource Include="Resources\Images\RemoveDisabled.png" />
-    <EmbeddedResource Include="Resources\Images\RemoveHover.png" />
-    <EmbeddedResource Include="Resources\Images\RemovePressed.png" />
-    <EmbeddedResource Include="Resources\Images\Warning.png" />
-    <EmbeddedResource Include="Resources\Images\Envelope.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Icons\Compose.ico">
@@ -287,13 +263,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\External\Shellscape.Common\Microsoft\Windows API\Windows API.csproj">
+      <Project>{B20A1853-BDC5-47D5-9369-3999BBD7F516}</Project>
+      <Name>Windows API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\External\Shellscape.Common\Shellscape.Common\Shellscape.Common.csproj">
       <Project>{F7F1F64D-F6CD-42A9-B167-546E4EA31463}</Project>
       <Name>Shellscape.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Microsoft\Windows API\Windows API.csproj">
-      <Project>{A8C6E474-E434-4759-BA2B-DAA963C1EFBB}</Project>
-      <Name>Windows API</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -304,7 +280,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_StartDate="2011/4/4" />
+      <UserProperties BuildVersion_StartDate="2011/4/4" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_UpdateAssemblyVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

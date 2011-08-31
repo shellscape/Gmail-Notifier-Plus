@@ -29,7 +29,14 @@ namespace GmailNotifierPlus.Utilities {
 		public static void Launch(Account account, String url) {
 				
 			if (account == null || account.Browser == null) {
-				System.Windows.Forms.Help.ShowHelp(Program.mainForm, url);
+
+				if (Program.MainForm.InvokeRequired) {
+					Program.MainForm.Invoke(new Action(() => System.Windows.Forms.Help.ShowHelp(Program.MainForm, url)));
+				}
+				else {
+					System.Windows.Forms.Help.ShowHelp(Program.MainForm, url);
+				}
+
 				return;
 			}
 
@@ -46,7 +53,7 @@ namespace GmailNotifierPlus.Utilities {
 			catch (System.ComponentModel.Win32Exception) { poop = true; }
 
 			if (poop) {
-				System.Windows.Forms.Help.ShowHelp(Program.mainForm, url);
+				System.Windows.Forms.Help.ShowHelp(Program.MainForm, url);
 			}
 		}
 

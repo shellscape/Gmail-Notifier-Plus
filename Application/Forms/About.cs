@@ -20,105 +20,95 @@ using GmailNotifierPlus.Utilities;
 using Shellscape;
 
 namespace GmailNotifierPlus.Forms {
-	public partial class About : Form {
+	public partial class About : Shellscape.UI.About {
 
-		private AnimatedCursor _animatedCursor;
-		private Bitmap _upToDate;
-		private Bitmap _exclamation;
-		private Bitmap _download;
-		private Boolean _firstRun;
+		//private AnimatedCursor _animatedCursor;
+		//private Bitmap _upToDate;
+		//private Bitmap _exclamation;
+		//private Bitmap _download;
 		
-		private Timer _timer;
+		//private Timer _timer;
 
-		[System.Runtime.InteropServices.DllImport("user32.dll")]
-		public static extern bool SetForegroundWindow(IntPtr hWnd);
+		//[System.Runtime.InteropServices.DllImport("user32.dll")]
+		//public static extern bool SetForegroundWindow(IntPtr hWnd);
 
-		public About() {
+		public About() : base() {
 			InitializeComponent();
 
-			this.TopMost = true;
 			this.Icon = Program.Icon;
-
-			this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 			this.Text = String.Concat(Locale.Current.About.WindowTitle, " - ", Resources.WindowTitle);
 
-			_PanelAbout.FirstRun = _firstRun = Config.Current.FirstRun;
-			_ButtonOK.Click += _ButtonOk_Click;
-			_ButtonOK.Text = _firstRun ? Localization.Locale.Current.About.FirstRun : Localization.Locale.Current.About.Button;
 
-			_upToDate = Utilities.ResourceHelper.GetImage("uptodate.png");
-			_exclamation = Utilities.ResourceHelper.GetImage("exclamation-updates.png");
-			_download = Utilities.ResourceHelper.GetImage("download-updates.png");
+			//this.TopMost = true;
+			//this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+			
 
-			_animatedCursor = new AnimatedCursor(Cursors.WaitCursor);
+			//_PanelAbout.FirstRun = _firstRun = Config.Current.FirstRun;
+			//_ButtonOK.Click += _ButtonOk_Click;
+			//_ButtonOK.Text = Localization.Locale.Current.About.Button;
 
-			_timer = new Timer() { Interval = 75 };
+			//_upToDate = Utilities.ResourceHelper.GetImage("uptodate.png");
+			//_exclamation = Utilities.ResourceHelper.GetImage("exclamation-updates.png");
+			//_download = Utilities.ResourceHelper.GetImage("download-updates.png");
 
-			_timer.Tick += delegate(object sender, EventArgs e) {
+			//_animatedCursor = new AnimatedCursor(Cursors.WaitCursor);
 
-				UpdateManager.UpdateStatus status = UpdateManager.Current.Status;
-				UpdateManager.LatestVersion latest = UpdateManager.Current.Latest;
+			//_timer = new Timer() { Interval = 75 };
 
-				if (status != UpdateManager.UpdateStatus.Checking) {
-					_timer.Stop();
+			//_timer.Tick += delegate(object sender, EventArgs e) {
 
-					if (status == UpdateManager.UpdateStatus.NewVersion) {
-						_LabelUpdate.Text = String.Format(Locale.Current.About.NewVersion, latest.Version); ;
-					}
-					else if (status == UpdateManager.UpdateStatus.Problem) {
-						_LabelUpdate.Text = Locale.Current.About.UpdateProblem;
-					}
-					else if (status == UpdateManager.UpdateStatus.UpToDate) {
-						_LabelUpdate.Text = String.Format(Locale.Current.About.UpToDate, latest.Version);
-					}
-				}
+			//  UpdateManager.UpdateStatus status = UpdateManager.Current.Status;
+			//  UpdateManager.LatestVersion latest = UpdateManager.Current.Latest;
 
-				_PanelUpdate.Invalidate(new Rectangle(0, 0, 26, 26));
-			};
+			//  if (status != UpdateManager.UpdateStatus.Checking) {
+			//    _timer.Stop();
 
-			UpdateManager.Current.Start();
+			//    if (status == UpdateManager.UpdateStatus.NewVersion) {
+			//      _LabelUpdate.Text = String.Format(Locale.Current.About.NewVersion, latest.Version); ;
+			//    }
+			//    else if (status == UpdateManager.UpdateStatus.Problem) {
+			//      _LabelUpdate.Text = Locale.Current.About.UpdateProblem;
+			//    }
+			//    else if (status == UpdateManager.UpdateStatus.UpToDate) {
+			//      _LabelUpdate.Text = String.Format(Locale.Current.About.UpToDate, latest.Version);
+			//    }
+			//  }
 
-			_timer.Start();
-		}
+			//  _PanelUpdate.Invalidate(new Rectangle(0, 0, 26, 26));
+			//};
 
-		private void _PanelShellscape_Click(object sender, EventArgs e) {
-			System.Diagnostics.Process.Start(UrlHelper.Uris.Shellscape);
+			//UpdateManager.Current.Start();
+
+			//_timer.Start();
 		}
 
 		protected override void OnShown(EventArgs e) {
 			base.OnShown(e);
 
 			this.TopMost = false;
-			SetForegroundWindow(base.Handle);
-
+			this.Focus();
 		}
 
-		private void _ButtonOk_Click(object sender, EventArgs e) {
+		//private void _ButtonOk_Click(object sender, EventArgs e) {
+		//  Close();
+		//}
 
-			if (_firstRun) {
-				Program.mainForm.FirstRun = true;
-				Program.mainForm.OpenSettingsWindow();
-			}
+		//private void _PanelUpdate_Paint(object sender, PaintEventArgs e) {
 
-			Close();
-		}
+		//  UpdateManager.UpdateStatus status = UpdateManager.Current.Status;
 
-		private void _PanelUpdate_Paint(object sender, PaintEventArgs e) {
-
-			UpdateManager.UpdateStatus status = UpdateManager.Current.Status;
-
-			if (status == UpdateManager.UpdateStatus.Checking) {
-				_animatedCursor.DrawStep(e.Graphics, -4, -4);
-			}
-			else if (status == UpdateManager.UpdateStatus.Problem) {
-				e.Graphics.DrawImage(_exclamation, 4, 4, _exclamation.Width, _exclamation.Height);
-			}
-			else if (status == UpdateManager.UpdateStatus.UpToDate) {
-				e.Graphics.DrawImage(_upToDate, 4, 4, _upToDate.Width, _upToDate.Height);
-			}
-			else if (status == UpdateManager.UpdateStatus.NewVersion) {
-				e.Graphics.DrawImage(_download, 4, 4, _upToDate.Width, _upToDate.Height);
-			}
-		}
+		//  if (status == UpdateManager.UpdateStatus.Checking) {
+		//    _animatedCursor.DrawStep(e.Graphics, -4, -4);
+		//  }
+		//  else if (status == UpdateManager.UpdateStatus.Problem) {
+		//    e.Graphics.DrawImage(_exclamation, 4, 4, _exclamation.Width, _exclamation.Height);
+		//  }
+		//  else if (status == UpdateManager.UpdateStatus.UpToDate) {
+		//    e.Graphics.DrawImage(_upToDate, 4, 4, _upToDate.Width, _upToDate.Height);
+		//  }
+		//  else if (status == UpdateManager.UpdateStatus.NewVersion) {
+		//    e.Graphics.DrawImage(_download, 4, 4, _upToDate.Width, _upToDate.Height);
+		//  }
+		//}
 	}
 }
