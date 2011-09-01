@@ -128,9 +128,6 @@
       <DependentUpon>ToastTest.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controls\AboutPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Forms\Main.cs">
