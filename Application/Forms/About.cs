@@ -32,18 +32,47 @@ namespace GmailNotifierPlus.Forms {
 		//[System.Runtime.InteropServices.DllImport("user32.dll")]
 		//public static extern bool SetForegroundWindow(IntPtr hWnd);
 
-		public About() : base() {
-			InitializeComponent();
+		private Bitmap _icon;
 
+		public About() : base() {
+			
 			this.Icon = Program.Icon;
 			this.Text = String.Concat(Locale.Current.About.WindowTitle, " - ", Resources.WindowTitle);
+			this._icon = Utilities.ResourceHelper.GetImage("about-icon.png");
 
+			InitializeComponent();
 
-			//this.TopMost = true;
-			//this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+			this._Flow.SuspendLayout();
+			this.SuspendLayout();
+
+			String toYear = DateTime.Now.Year.ToString();
+			String linkTarget = "Shellscape Software";
+
+			toYear = toYear == "2011" ? String.Empty : String.Concat("-", toYear);
+
+			this._Button.Font = SystemFonts.MessageBoxFont;
+			this._Button.Text = Localization.Locale.Current.About.Button;
+			this._LabelCopyright.Text = String.Join("\n",
+				String.Concat("Copyright © 2011", toYear, " Andrew Powell, ", linkTarget, ". All rights reserved."),
+				"Based on the application originally developed by Baptiste Girod\n",
+				"Gmail Notifier Plus is in no way associated with Gmail. Gmail is a registered trademark of Google, Inc."
+			);
+			this._LabelCopyright.Links.Add(this._LabelCopyright.Text.IndexOf(linkTarget), linkTarget.Length);
+			this._LabelCopyright.Font = SystemFonts.MessageBoxFont;
+			this._LabelCopyright.LinkColor = this._LabelCopyright.NormalColor = this._LabelCopyright.HoverColor;
+			this._LabelCopyright.LinkBehavior = LinkBehavior.AlwaysUnderline;
 			
+			this._Flow.ResumeLayout(true);
+			this.ResumeLayout(true);
 
-			//_PanelAbout.FirstRun = _firstRun = Config.Current.FirstRun;
+			this._Button.Click += delegate(object sender, EventArgs e) {
+				this.Close();
+			};
+
+			this._LabelCopyright.LinkClicked += delegate(object sender, LinkLabelLinkClickedEventArgs e) {
+				Help.ShowHelp(this, "http://shellscape.org");
+			};
+
 			//_ButtonOK.Click += _ButtonOk_Click;
 			//_ButtonOK.Text = Localization.Locale.Current.About.Button;
 
@@ -82,16 +111,16 @@ namespace GmailNotifierPlus.Forms {
 			//_timer.Start();
 		}
 
+		protected override void OnPaintIcon(Graphics g) {
+			g.DrawImage(this._icon, 326, 7, this._icon.Width, this._icon.Height);
+		}
+
 		protected override void OnShown(EventArgs e) {
 			base.OnShown(e);
 
 			this.TopMost = false;
 			this.Focus();
 		}
-
-		//private void _ButtonOk_Click(object sender, EventArgs e) {
-		//  Close();
-		//}
 
 		//private void _PanelUpdate_Paint(object sender, PaintEventArgs e) {
 
