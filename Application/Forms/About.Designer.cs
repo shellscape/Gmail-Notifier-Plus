@@ -3,7 +3,6 @@ using System.Windows.Forms;
 
 using Microsoft.WindowsAPI.Dialogs;
 using Microsoft.WindowsAPI.Shell;
-using GmailNotifierPlus.Controls;
 
 namespace GmailNotifierPlus.Forms {
 	partial class About {
@@ -57,10 +56,12 @@ namespace GmailNotifierPlus.Forms {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._LabelCopyright.AutoSize = true;
 			this._LabelCopyright.DisabledLinkColor = System.Drawing.Color.Gray;
+			this._LabelCopyright.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(74)))), ((int)(((byte)(229)))));
 			this._LabelCopyright.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
 			this._LabelCopyright.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(28)))), ((int)(((byte)(85)))));
 			this._LabelCopyright.Location = new System.Drawing.Point(3, 0);
 			this._LabelCopyright.Name = "_LabelCopyright";
+			this._LabelCopyright.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(28)))), ((int)(((byte)(85)))));
 			this._LabelCopyright.Size = new System.Drawing.Size(60, 15);
 			this._LabelCopyright.TabIndex = 0;
 			this._LabelCopyright.TabStop = true;

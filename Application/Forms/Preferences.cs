@@ -27,6 +27,7 @@ namespace GmailNotifierPlus.Forms {
 			TopMost = true;
 
 			InitNavigation();
+			InitAccountPanel();
 
 			if (Config.Current.FirstRun) {
 				InitFirstRun();
@@ -75,7 +76,7 @@ namespace GmailNotifierPlus.Forms {
 
 		public void InitAccountPanel() {
 
-			//SetWindowTheme(this._ListAccounts.Handle, "explorer", null);
+			SetWindowTheme(this._ListAccounts.Handle, "explorer", null);
 
 		}
 

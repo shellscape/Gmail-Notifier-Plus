@@ -3,7 +3,6 @@ using System.Windows.Forms;
 
 using Microsoft.WindowsAPI.Dialogs;
 using Microsoft.WindowsAPI.Shell;
-using GmailNotifierPlus.Controls;
 
 namespace GmailNotifierPlus.Forms {
 	partial class FirstRun {

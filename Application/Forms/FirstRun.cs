@@ -13,7 +13,6 @@ using System.Windows.Forms;
 using Microsoft.WindowsAPI.Dialogs;
 using Microsoft.WindowsAPI.Shell;
 
-using GmailNotifierPlus.Controls;
 using GmailNotifierPlus.Localization;
 using GmailNotifierPlus.Utilities;
 
