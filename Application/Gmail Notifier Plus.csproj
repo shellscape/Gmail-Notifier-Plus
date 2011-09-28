@@ -154,7 +154,6 @@
     <Compile Include="RemotingService.cs" />
     <Compile Include="Resources\Resources.cs" />
     <Compile Include="ToastManager.cs" />
-    <Compile Include="Utilities\CalendarHelper.cs" />
     <Compile Include="Utilities\EncryptionHelper.cs" />
     <Compile Include="Utilities\ErrorHelper.cs" />
     <Compile Include="Utilities\GlassHelper.cs" />
@@ -214,7 +213,8 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Utilities\CalendarFeedData.xml" />
+    <EmbeddedResource Include="Resources\Images\gmail-bleu.png" />
+    <EmbeddedResource Include="Resources\Images\gmail-limon.png" />
     <EmbeddedResource Include="Resources\Images\about-icon.png" />
     <EmbeddedResource Include="Resources\Images\intro.png" />
     <EmbeddedResource Include="Resources\Images\download-updates.png" />

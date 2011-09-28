@@ -126,6 +126,7 @@ namespace GmailNotifierPlus.Localization {
 
 	public class LocaleAccount {
 
+		public String Title { get; set; }
 		public String Address { get; set; }
 		public String Password { get; set; }
 		public String Mailto { get; set; }
