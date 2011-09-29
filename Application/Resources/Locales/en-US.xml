@@ -39,6 +39,7 @@
 		<Panels>
 			<General>
 				<Title>General Gmail Notifier Plus settings</Title>
+				<ApplyChanges>Apply Changes</ApplyChanges>
 				<Sound>
 					<Title>Sound notification</Title>
 					<None>None</None>
@@ -48,16 +49,19 @@
 					<BrowseWindowTitle>Select a notification sound</BrowseWindowTitle>
 					<WaveFiles>Wave File</WaveFiles>
 				</Sound>
-				<CheckEmail>Check email every</CheckEmail>
-				<CheckMinutes>minute(s)</CheckMinutes>
+				<CheckEmail>Check email interval (in minutes)</CheckEmail>
 				<CheckUpdates>Check for Updates</CheckUpdates>
+				<Language>Display language</Language>
+				<FlashTaskbar>Flash the taskbar for new email</FlashTaskbar>
+				<ShowTray>Show email count in system tray</ShowTray>
+				<ShowToast>Show Toast notifications for new email</ShowToast>
 			</General>
 			<Accounts>
 				<Title>Choose the account you would like to change</Title>
 				<AddNew>Add a new account</AddNew>
 				<Account>
 					<Title>Manage {0}</Title>
-					<Address>Address</Address>
+					<Address>Email address</Address>
 					<Password>Password</Password>
 					<Mailto>Use this account for mailto links</Mailto>
 					<DefaultAccount>Use this account as the default account</DefaultAccount>
@@ -70,13 +74,6 @@
 					<Error>An account with this username already exists. Please enter a different username.</Error>
 				</Account>
 			</Accounts>
-			<Appearance>
-				<Title>Change the appearance of Gmail Notifier Plus</Title>
-				<Language>Display language</Language>
-				<FlashTaskbar>Flash Taskbar for new email</FlashTaskbar>
-				<ShowTray>Show email count in System Tray</ShowTray>
-				<ShowToast>Show Toast notifications for new email</ShowToast>
-			</Appearance>
 		</Panels>
 	</Preferences>
 	<Thumbnails>

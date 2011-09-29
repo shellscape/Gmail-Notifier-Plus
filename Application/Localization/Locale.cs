@@ -85,24 +85,27 @@ namespace GmailNotifierPlus.Localization {
 		public String General { get; set; }
 		public String Accounts { get; set; }
 		public String Appearance { get; set; }
-
 	}
 
 	public class LocalePreferencesPanels {
 
 		public LocaleGeneral General { get; set; }
 		public LocaleAccountPanel Accounts { get; set; }
-		public LocaleAppearance Appearance { get; set; }
-
 	}
 
 	public class LocaleGeneral {
 
 		public String Title { get; set; }
+		public String ApplyChanges { get; set; }
 		public String CheckEmail { get; set; }
 		public String CheckMinutes { get; set; }
 		public String CheckUpdates { get; set; }
 		public LocaleGeneralSound Sound { get; set; }
+
+		public String Language { get; set; }
+		public String FlashTaskbar { get; set; }
+		public String ShowTray { get; set; }
+		public String ShowToast { get; set; }
 	}
 
 	public class LocaleGeneralSound {
@@ -138,15 +141,6 @@ namespace GmailNotifierPlus.Localization {
 		public String RemoveConfirmationTitle { get; set; }
 		public String AccountsIntroNone { get; set; }
 		public String Error { get; set; }
-	}
-
-	public class LocaleAppearance {
-
-		public String Title { get; set; }
-		public String Language { get; set; }
-		public String FlashTaskbar { get; set; }
-		public String ShowTray { get; set; }
-		public String ShowToast { get; set; }
 	}
 
 	public class LocaleThumbnails {
