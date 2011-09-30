@@ -153,7 +153,7 @@
 			this._ButtonApply.Location = new System.Drawing.Point(411, 398);
 			this._ButtonApply.Name = "_ButtonApply";
 			this._ButtonApply.Size = new System.Drawing.Size(125, 23);
-			this._ButtonApply.TabIndex = 13;
+			this._ButtonApply.TabIndex = 7;
 			this._ButtonApply.Text = "Apply Changes";
 			this._ButtonApply.UseVisualStyleBackColor = true;
 			// 
@@ -163,7 +163,7 @@
 			this._CheckToast.Location = new System.Drawing.Point(6, 199);
 			this._CheckToast.Name = "_CheckToast";
 			this._CheckToast.Size = new System.Drawing.Size(231, 19);
-			this._CheckToast.TabIndex = 12;
+			this._CheckToast.TabIndex = 0;
 			this._CheckToast.Text = "Show Toast notifications for new email";
 			this._CheckToast.UseVisualStyleBackColor = true;
 			// 
@@ -173,7 +173,7 @@
 			this._CheckTray.Location = new System.Drawing.Point(6, 174);
 			this._CheckTray.Name = "_CheckTray";
 			this._CheckTray.Size = new System.Drawing.Size(217, 19);
-			this._CheckTray.TabIndex = 11;
+			this._CheckTray.TabIndex = 5;
 			this._CheckTray.Text = "Show email count in the system tray";
 			this._CheckTray.UseVisualStyleBackColor = true;
 			// 
@@ -183,7 +183,7 @@
 			this._CheckFlashTaskbar.Location = new System.Drawing.Point(6, 149);
 			this._CheckFlashTaskbar.Name = "_CheckFlashTaskbar";
 			this._CheckFlashTaskbar.Size = new System.Drawing.Size(189, 19);
-			this._CheckFlashTaskbar.TabIndex = 10;
+			this._CheckFlashTaskbar.TabIndex = 4;
 			this._CheckFlashTaskbar.Text = "Flash the taskbar for new email";
 			this._CheckFlashTaskbar.UseVisualStyleBackColor = true;
 			// 
@@ -203,7 +203,7 @@
 			this._ComboLanguage.Location = new System.Drawing.Point(216, 68);
 			this._ComboLanguage.Name = "_ComboLanguage";
 			this._ComboLanguage.Size = new System.Drawing.Size(164, 23);
-			this._ComboLanguage.TabIndex = 8;
+			this._ComboLanguage.TabIndex = 2;
 			// 
 			// _TextInterval
 			// 
@@ -211,7 +211,7 @@
 			this._TextInterval.Location = new System.Drawing.Point(216, 97);
 			this._TextInterval.Name = "_TextInterval";
 			this._TextInterval.Size = new System.Drawing.Size(40, 23);
-			this._TextInterval.TabIndex = 7;
+			this._TextInterval.TabIndex = 3;
 			// 
 			// _LabelInterval
 			// 
@@ -227,7 +227,7 @@
 			this._ButtonSound.Location = new System.Drawing.Point(386, 38);
 			this._ButtonSound.Name = "_ButtonSound";
 			this._ButtonSound.Size = new System.Drawing.Size(65, 23);
-			this._ButtonSound.TabIndex = 5;
+			this._ButtonSound.TabIndex = 1;
 			this._ButtonSound.Text = "Browse...";
 			this._ButtonSound.UseVisualStyleBackColor = true;
 			// 
@@ -247,7 +247,7 @@
 			this._ComboSound.Location = new System.Drawing.Point(216, 39);
 			this._ComboSound.Name = "_ComboSound";
 			this._ComboSound.Size = new System.Drawing.Size(164, 23);
-			this._ComboSound.TabIndex = 3;
+			this._ComboSound.TabIndex = 0;
 			// 
 			// _LabelGeneral
 			// 
@@ -291,7 +291,7 @@
 			this._PanelAccountControls.Location = new System.Drawing.Point(3, 103);
 			this._PanelAccountControls.Name = "_PanelAccountControls";
 			this._PanelAccountControls.Size = new System.Drawing.Size(539, 287);
-			this._PanelAccountControls.TabIndex = 27;
+			this._PanelAccountControls.TabIndex = 0;
 			// 
 			// _ComboBrowser
 			// 
@@ -300,14 +300,14 @@
 			this._ComboBrowser.Location = new System.Drawing.Point(213, 58);
 			this._ComboBrowser.Name = "_ComboBrowser";
 			this._ComboBrowser.Size = new System.Drawing.Size(164, 23);
-			this._ComboBrowser.TabIndex = 39;
+			this._ComboBrowser.TabIndex = 10;
 			// 
 			// _TextPassword
 			// 
 			this._TextPassword.Location = new System.Drawing.Point(213, 29);
 			this._TextPassword.Name = "_TextPassword";
 			this._TextPassword.Size = new System.Drawing.Size(260, 23);
-			this._TextPassword.TabIndex = 38;
+			this._TextPassword.TabIndex = 9;
 			this._TextPassword.UseSystemPasswordChar = true;
 			// 
 			// _TextAddress
@@ -315,7 +315,7 @@
 			this._TextAddress.Location = new System.Drawing.Point(213, 0);
 			this._TextAddress.Name = "_TextAddress";
 			this._TextAddress.Size = new System.Drawing.Size(260, 23);
-			this._TextAddress.TabIndex = 36;
+			this._TextAddress.TabIndex = 8;
 			// 
 			// _LinkRemove
 			// 
@@ -329,7 +329,7 @@
 			this._LinkRemove.Name = "_LinkRemove";
 			this._LinkRemove.NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(74)))), ((int)(((byte)(229)))));
 			this._LinkRemove.Size = new System.Drawing.Size(118, 15);
-			this._LinkRemove.TabIndex = 35;
+			this._LinkRemove.TabIndex = 13;
 			this._LinkRemove.TabStop = true;
 			this._LinkRemove.Text = "Remove this account";
 			this._LinkRemove.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(74)))), ((int)(((byte)(229)))));
@@ -350,7 +350,7 @@
 			this._CheckMailto.Location = new System.Drawing.Point(4, 115);
 			this._CheckMailto.Name = "_CheckMailto";
 			this._CheckMailto.Size = new System.Drawing.Size(195, 19);
-			this._CheckMailto.TabIndex = 32;
+			this._CheckMailto.TabIndex = 12;
 			this._CheckMailto.Text = "Use this account for mailto links";
 			this._CheckMailto.UseVisualStyleBackColor = true;
 			// 
@@ -360,7 +360,7 @@
 			this._CheckDefaultAccount.Location = new System.Drawing.Point(4, 90);
 			this._CheckDefaultAccount.Name = "_CheckDefaultAccount";
 			this._CheckDefaultAccount.Size = new System.Drawing.Size(233, 19);
-			this._CheckDefaultAccount.TabIndex = 31;
+			this._CheckDefaultAccount.TabIndex = 1;
 			this._CheckDefaultAccount.Text = "Use this account as the default account";
 			this._CheckDefaultAccount.UseVisualStyleBackColor = true;
 			// 

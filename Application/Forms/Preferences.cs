@@ -295,6 +295,8 @@ namespace GmailNotifierPlus.Forms {
 
 			_ButtonAccountCancel.Text = Locale.Current.Common.Cancel;
 
+			_LinkRemove.Click += _LinkRemove_Click;
+
 			_PanelAccountGlyph.Height = _userFrame.Height;
 			_PanelAccountGlyph.Paint += delegate(object sender, PaintEventArgs e) {
 				if (_currentAccount == null) {
@@ -326,7 +328,13 @@ namespace GmailNotifierPlus.Forms {
 				_ButtonAccountAction.Enabled = true;
 			};
 
-			foreach (var control in _PanelGeneral.Controls) {
+			_ButtonAccountAction.Click += _ButtonAccountAction_Click;
+			_ButtonAccountCancel.Click += delegate(object sender, EventArgs e) {
+				HidePanels();
+				_PanelAccounts.Show();
+			};
+
+			foreach (var control in _PanelAccountControls.Controls) {
 				if (control is TextBox) {
 					(control as TextBox).TextChanged += changed;
 				}
@@ -350,8 +358,8 @@ namespace GmailNotifierPlus.Forms {
 
 				_TextAddress.Text = _TextPassword.Text = String.Empty;
 
-				_TextAddress.SetWatermark("GMail Address or Username");
-				_TextPassword.SetWatermark("GMail Password");
+				_TextAddress.SetWatermark("Gmail address or username");
+				_TextPassword.SetWatermark("Gmail password");
 
 				_ComboBrowser.SelectedIndex = 0;
 				_CheckMailto.Checked = false;
@@ -407,13 +415,23 @@ namespace GmailNotifierPlus.Forms {
 
 			_ButtonAccountAction.Enabled = false;
 
-			_ButtonAccountAction.Click += _ButtonAccountAction_Click;
-			_ButtonAccountCancel.Click += delegate(object sender, EventArgs e) {
-				HidePanels();
-				_PanelAccounts.Show();
-			};
-
 			_PanelAccount.Show();
+		}
+
+		/// <summary>
+		/// if the username has changed to something other than the original saved username,
+		/// and the new username exists already, take a big fat poop all over the screen.
+		/// </summary>
+		/// <returns></returns>
+		private Boolean AccountExists(Account account, Account compareTo) {
+
+			String address = account.Login.ToLower();
+
+			if (compareTo != null && address == compareTo.Login.ToLower()) {
+				return true;
+			}
+
+			return Config.Current.Accounts.Where(o => o.Login.ToLower() == address).Count() > 0;
 		}
 
 		private void PaintAccountGlyph(Graphics g, Rectangle bounds, Account account) {
@@ -498,6 +516,20 @@ namespace GmailNotifierPlus.Forms {
 			Account account = _currentAccount ?? new Account();
 
 			account.Login = _TextAddress.Text;
+
+			if (AccountExists(account, _currentAccount)) {
+				TaskDialog dialog = new TaskDialog() {
+					Caption = Program.MainForm.Text,
+					InstructionText = Locale.Current.Preferences.Panels.Accounts.Account.Error,
+					Cancelable = false,
+					OwnerWindowHandle = this.Handle,
+					Icon = TaskDialogStandardIcon.Warning
+				};
+
+				dialog.Show();
+				return;
+			}
+			
 			account.Password = _TextPassword.Text.Length > 0 ? _TextPassword.Text : account.Password;
 			account.Browser = _ComboBrowser.SelectedValue as Shellscape.Browser;
 
@@ -513,6 +545,7 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			if (_currentAccount == null) {
+				_ListAccounts.Items.Add(new AccountListItem(account));
 				Config.Current.Accounts.Add(account);
 			}
 
@@ -619,6 +652,44 @@ namespace GmailNotifierPlus.Forms {
 
 			//  _rendererListSmall.DrawText(e.Graphics, addressRect, Locale.Current.JumpList.DefaultAccount, true, TextFormatFlags.Left);
 			//}
+		}
+
+		private void _LinkRemove_Click(object sender, EventArgs e) {
+			TaskDialog dialog = new TaskDialog() {
+				Caption = Program.MainForm.Text,
+				InstructionText = Locale.Current.Preferences.Panels.Accounts.Account.RemoveConfirmation,
+				OwnerWindowHandle = base.Handle
+			};
+
+			TaskDialogButton buttonYes = new TaskDialogButton("yesButton", Locale.Current.Preferences.Panels.Accounts.Account.RemoveAccount);
+			buttonYes.Default = true;
+			buttonYes.Click += delegate(object s, EventArgs ev) {
+
+				AccountListItem target = _ListAccounts.Items.Cast<AccountListItem>().Where(o => o.Account == _currentAccount).FirstOrDefault();
+
+				if(target != null){
+					_ListAccounts.Items.Remove(target);
+				}
+
+				Config.Current.Accounts.Remove(_currentAccount);
+				Config.Current.Save();
+
+				_currentAccount = null;
+
+				dialog.Close();
+
+				HidePanels();
+				_PanelAccounts.Show();
+			};
+
+			TaskDialogButton buttonNo = new TaskDialogButton("noButton", Locale.Current.Common.No);
+			buttonNo.Click += delegate(object s, EventArgs ev) {
+				dialog.Close();
+			};
+
+			dialog.Controls.Add(buttonYes);
+			dialog.Controls.Add(buttonNo);
+			dialog.Show();
 		}
 
 		protected override void OnShown(EventArgs e) {
