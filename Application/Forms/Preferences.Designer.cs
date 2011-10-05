@@ -416,12 +416,13 @@
 			// 
 			// _LabelAccount
 			// 
+			this._LabelAccount.AutoSize = true;
 			this._LabelAccount.BackColor = System.Drawing.Color.Transparent;
 			this._LabelAccount.Dock = System.Windows.Forms.DockStyle.Top;
 			this._LabelAccount.Location = new System.Drawing.Point(3, 3);
 			this._LabelAccount.MinimumSize = new System.Drawing.Size(100, 20);
 			this._LabelAccount.Name = "_LabelAccount";
-			this._LabelAccount.Size = new System.Drawing.Size(539, 20);
+			this._LabelAccount.Size = new System.Drawing.Size(100, 20);
 			this._LabelAccount.TabIndex = 2;
 			this._LabelAccount.Text = "Manage Account";
 			this._LabelAccount.ThemeElement = null;
@@ -440,6 +441,7 @@
 			this._PanelGeneral.ResumeLayout(false);
 			this._PanelGeneral.PerformLayout();
 			this._PanelAccount.ResumeLayout(false);
+			this._PanelAccount.PerformLayout();
 			this._PanelAccountControls.ResumeLayout(false);
 			this._PanelAccountControls.PerformLayout();
 			this.ResumeLayout(false);

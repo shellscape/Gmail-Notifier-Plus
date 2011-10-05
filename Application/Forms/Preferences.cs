@@ -105,7 +105,7 @@ namespace GmailNotifierPlus.Forms {
 			ControlPanelTaskLink check = new ControlPanelTaskLink() { Text = Locale.Current.JumpList.Check };
 
 			about.Click += delegate(object sender, EventArgs e) {
-				Program.MainForm.RemoteShowAbout();
+				RemotingService.Instance.ShowAbout();
 			};
 
 			check.Click += delegate(object sender, EventArgs e) {
@@ -428,7 +428,7 @@ namespace GmailNotifierPlus.Forms {
 			String address = account.Login.ToLower();
 
 			if (compareTo != null && address == compareTo.Login.ToLower()) {
-				return true;
+				return false;
 			}
 
 			return Config.Current.Accounts.Where(o => o.Login.ToLower() == address).Count() > 0;
@@ -469,32 +469,43 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
-		// TODO: examine the mac notifier and how it injects subject, body, etc
-		private void RegisterMailto(Account account) {
+		private void ToggleMailto(Boolean addAssociation) {
 
 			RegistryKey command = Registry.CurrentUser.OpenSubKey(@"Software\Classes\mailto\shell\open\command", true);
-			String value = String.Empty;
-
+			
 			if (command == null) {
-				command = Registry.CurrentUser.CreateSubKey(@"Software\Classes\mailto\shell\open\command");
+				if (addAssociation) {
+					command = Registry.CurrentUser.CreateSubKey(@"Software\Classes\mailto\shell\open\command");
+				}
+				else {
+					return; // it doesn't exist, so something must have removed it. get out of here.
+				}
 			}
 
-			if (account.HandlesMailto) {
+			//if (account.HandlesMailto) {
 
-				Shellscape.Browser browser = account.Browser ?? Shellscape.Utilities.BrowserHelper.DefaultBrowser;
+			//  Shellscape.Browser browser = account.Browser ?? Shellscape.Utilities.BrowserHelper.DefaultBrowser;
 
-				value = String.Concat(browser.Path, " \"", Utilities.UrlHelper.GetBaseUrl(account), "?extsrc=mailto&url=%1\"");
+			//  value = String.Concat(browser.Path, " \"", Utilities.UrlHelper.GetBaseUrl(account), "?extsrc=mailto&url=%1\"");
+			//}
+
+			if (addAssociation) {
+				String value = String.Concat("\"", Application.ExecutablePath, "\" -mailto %1");
+				command.SetValue(null, value);
+			}
+			else {
+				command.DeleteValue(null);
 			}
 
-			command.SetValue(null, value);
 			command.Close();
 			command.Dispose();
 		}
 
 		private void _ButtonApply_Click(object sender, EventArgs e) {
 
+			Config.Current.SoundNotification = (SoundNotification)_ComboSound.SelectedIndex;
+
 			if (!String.IsNullOrEmpty(_ComboSound.SelectedValue.ToString())) {
-				Config.Current.SoundNotification = (SoundNotification)_ComboSound.SelectedIndex;
 				Config.Current.Sound = _ComboSound.SelectedValue.ToString();
 			}
 
@@ -509,6 +520,8 @@ namespace GmailNotifierPlus.Forms {
 			Config.Current.ShowToast = _CheckToast.Checked;
 
 			Config.Current.Save();
+
+			_ButtonApply.Enabled = false;
 		}
 
 		private void _ButtonAccountAction_Click(object sender, EventArgs e) {
@@ -538,10 +551,22 @@ namespace GmailNotifierPlus.Forms {
 				account.Default = true;
 			}
 
+			Account mailtoAccount = Config.Current.Accounts.Where(o => o.HandlesMailto).FirstOrDefault();
+
 			if (_CheckMailto.Checked) {
+				
+				if (mailtoAccount != null) {
+					mailtoAccount.HandlesMailto = false;
+				}
+
 				account.HandlesMailto = true;
 
-				RegisterMailto(account);
+				ToggleMailto(true);
+			}
+			else {
+				if (mailtoAccount == null) {
+					ToggleMailto(false);
+				}
 			}
 
 			if (_currentAccount == null) {

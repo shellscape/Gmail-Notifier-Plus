@@ -156,7 +156,7 @@ namespace GmailNotifierPlus {
 
 		[DataMember(Name = "checkupdates")]
 		public Boolean CheckForUpdates { get; set; }
-	
+
 		public Boolean RecentDocsTracked { get; private set; }
 
 		public String AppDataPath { get { return _path; } }

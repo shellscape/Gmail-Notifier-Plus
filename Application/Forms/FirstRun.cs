@@ -53,7 +53,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void _ButtonOk_Click(object sender, EventArgs e) {
 
-			Program.MainForm.OpenSettingsWindow();
+			RemotingService.Instance.ShowPreferences();
 
 			Close();
 		}
