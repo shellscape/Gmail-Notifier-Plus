@@ -20,7 +20,7 @@ namespace GmailNotifierPlus {
 
 	internal static class Program {
 
-		private static List<String> _validArgs = new List<String>() { Arguments.About, Arguments.Check, Arguments.Settings, Arguments.Help };
+		private static List<String> _validArgs = new List<String>() { RemoteMethods.About, RemoteMethods.Check, RemoteMethods.Settings, RemoteMethods.Help };
 		private static readonly String _repoUser = "shellscape";
 		private static readonly String _repoName = "Gmail-Notifier-Plus";
 

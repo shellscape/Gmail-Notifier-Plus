@@ -212,11 +212,6 @@ namespace GmailNotifierPlus.Forms {
 			(Control.FromHandle(e.WindowHandle) as Form).Close();
 		}
 
-		private void _SettingsWindow_FormClosed(object sender, FormClosedEventArgs e) {
-			_preferences.Dispose();
-			_preferences = null;
-		}
-
 		#endregion
 
 		#region .    Private Methods
@@ -330,7 +325,7 @@ namespace GmailNotifierPlus.Forms {
 
 		}
 		
-		private void CheckMail() {
+		internal void CheckMail() {
 			_statusList.Clear();
 			_UnreadTotal = 0;
 
@@ -530,63 +525,17 @@ namespace GmailNotifierPlus.Forms {
 			_TrayIcon.Icon = null;
 		}
 
-		private void ShowAbout() {
-			About about = new About();
-			about.Show();
-			about.BringToFront();
-			about.Focus();
-		}
+		//internal void RemoteCheckMails() {
+		//  MethodInvoker method = null;
 
-		public void OpenSettingsWindow() {
-
-			if (_preferences == null) {
-				_preferences = new Preferences();
-				_preferences.FormClosed += _SettingsWindow_FormClosed;
-				_preferences.Show();
-
-			}
-
-			_preferences.Activate();
-			_preferences.BringToFront();
-
-		}
-
-		internal void RemoteCheckMails() {
-			MethodInvoker method = null;
-
-			if (base.InvokeRequired) {
-				if (method == null) {
-					method = delegate { this.CheckMail(); };
-				}
-				base.Invoke(method);
-			}
-		}
-
-		internal void RemoteOpenSettingsWindow() {
-			MethodInvoker method = null;
-
-			if (base.InvokeRequired) {
-				if (method == null) {
-					method = delegate { this.OpenSettingsWindow(); };
-				}
-				base.Invoke(method);
-			}
-		}
-
-		internal void RemoteShowAbout() {
-			MethodInvoker method = null;
-
-			if (base.InvokeRequired) {
-				if (method == null) {
-					method = delegate { this.ShowAbout(); };
-				}
-				base.Invoke(method);
-			}
-			else {
-				this.ShowAbout();
-			}
-		}
-
+		//  if (base.InvokeRequired) {
+		//    if (method == null) {
+		//      method = delegate { this.CheckMail(); };
+		//    }
+		//    base.Invoke(method);
+		//  }
+		//}
+		
 		#endregion
 
 		#region .    Fix bug in Windows API Code Pack
