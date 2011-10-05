@@ -73,6 +73,10 @@ namespace GmailNotifierPlus.Utilities {
 			return browser.Path;
 		}
 
+		public static string BuildComposeUrl(Account account) {
+			return GetBaseUrl(account) + "#compose";
+		}
+
 		public static string BuildComposeUrl(int accountIndex) {
 			return GetBaseUrl(accountIndex) + "#compose";
 		}
