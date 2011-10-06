@@ -575,6 +575,8 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			Config.Current.Save();
+
+			_ButtonAccountAction.Enabled = false;
 		}
 
 		private void _ButtonSound_Click(object sender, EventArgs e) {

@@ -23,8 +23,6 @@ namespace GmailNotifierPlus.Forms {
 	public partial class FirstRun : Shellscape.UI.Form {
 
 		private Bitmap _background;
-		private Bitmap _welcome;
-		private Bitmap _getstarted;
 
 		public FirstRun() {
 			InitializeComponent();

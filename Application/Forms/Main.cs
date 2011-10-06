@@ -27,7 +27,6 @@ namespace GmailNotifierPlus.Forms {
 
 		private Dictionary<string, Notifier> _instances = new Dictionary<string, Notifier>();
 		private JumpList _jumpList;
-		private Preferences _preferences;
 		private Dictionary<string, Notifier.NotifierStatus> _statusList = new Dictionary<string, Notifier.NotifierStatus>();
 		private TaskbarManager _taskbarManager = TaskbarManager.Instance;
 
@@ -565,7 +564,11 @@ namespace GmailNotifierPlus.Forms {
 			Utilities.UrlHelper.Launch(null, "https://github.com/shellscape/Gmail-Notifier-Plus/wiki");
 		}
 
-		public void Jumplist_Mailto(String[] arguments) {
+		#endregion
+
+		#region .    Remote Methods    
+
+		public static void Remote_Mailto(String[] arguments) {
 
 			String mailto = arguments[0];
 			Account mailtoAccount = Config.Current.Accounts.Where(o => o.HandlesMailto).FirstOrDefault();

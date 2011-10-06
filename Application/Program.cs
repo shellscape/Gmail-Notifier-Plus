@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
@@ -41,6 +42,8 @@ namespace GmailNotifierPlus {
 
 			Shellscape.Program.MainInstanceStarted += delegate() {
 
+				Shellscape.Remoting.RemotingTaskMethods.Methods.Add("mailto", delegate(String[] arguments) { Forms.Main.Remote_Mailto(arguments); });
+
 		    AppDomain.CurrentDomain.UnhandledException += delegate(object sender, UnhandledExceptionEventArgs e) {
 		      ErrorHelper.Report(e.ExceptionObject as Exception);
 		    };
@@ -62,6 +65,7 @@ namespace GmailNotifierPlus {
 			Shellscape.Program.Run<GmailNotifierPlus.Forms.Main>(args);
 
 		}
+
 	}
 }
 

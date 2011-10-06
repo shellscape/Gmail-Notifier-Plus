@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Shellscape Software")]
 [assembly: AssemblyProduct("Gmail Notifier Plus")]
-[assembly: AssemblyCopyright("Copyright © 2010 Baptiste Girod, Copyright © 2011 Andrew Powell, Shellscape Software")]
+[assembly: AssemblyCopyright("Copyright © 2011 Andrew Powell, Shellscape Software")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: Debuggable(System.Diagnostics.DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
@@ -36,4 +36,4 @@ using System.Runtime.InteropServices;
 //      Revision
 //
 //[assembly: AssemblyVersion("2.3.130.1157")]
-[assembly: AssemblyVersion("2.2.259.1045")]
+[assembly: AssemblyVersion("2.3.18.1622")]
