@@ -22,8 +22,7 @@ Super Amazing Screenshots
 **Jumplist**  
 ![Jumplist](https://github.com/shellscape/Gmail-Notifier-Plus/raw/master/Promotional/jumplist.png)
 
-**v2.2 Settings**  
-![2.2 Settings](https://github.com/shellscape/Gmail-Notifier-Plus/raw/master/Promotional/settings.png)
+More screenshots here: 
 
 Boring Stuff
 ------------
