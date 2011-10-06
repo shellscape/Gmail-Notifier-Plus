@@ -521,34 +521,36 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
-		private static Preferences _prefs;
-
 		public void Jumplist_ShowPreferences(String[] arguments) {
 
-			if (_prefs == null) {
-				_prefs = new Preferences();
+			Preferences prefs = Shellscape.Program.FindForm(typeof(Preferences)) as Preferences ?? new Preferences();
 
-				_prefs.FormClosed += delegate(object sender, FormClosedEventArgs e) {
-					_prefs.Dispose();
-					_prefs = null;
-				};
-			}
-
-			MethodInvoker method = delegate() {
-				_prefs.Show();
-				_prefs.BringToFront();
-				_prefs.Focus();
+			MethodInvoker method = delegate() { // yes, all this ugly is necessary.
+				prefs.Show();
+				prefs.TopMost = true;
+				prefs.BringToFront();
+				prefs.Focus();
+				prefs.TopMost = false;
 			};
 
-			Program.MainForm.Invoke(method);
+			if (prefs.InvokeRequired) {
+				prefs.Invoke(method);
+			}
+			else {
+				method();
+			}
 		}
 
 		public void Jumplist_ShowAbout(String[] arguments) {
-			About about = new About();
-			MethodInvoker method = delegate() {
+			
+			About about = Shellscape.Program.FindForm(typeof(About)) as About ?? new About();
+
+			MethodInvoker method = delegate() { // yes, all this ugly is necessary.
 				about.Show();
+				about.TopMost = true;
 				about.BringToFront();
 				about.Focus();
+				about.TopMost = false;
 			};
 			
 			if (about.InvokeRequired) {
