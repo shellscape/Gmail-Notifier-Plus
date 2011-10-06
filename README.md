@@ -7,11 +7,8 @@ The original author disappeared and left the app abandoned, alone, wandering the
 
 Try as I might, I was not successful in getting a line on the original author through multiple channels. Enter Reflector. The source was exported from the binaries using reflector and lordy was it a mess. It was an ungodly mess. For Reflector had mangled the source and turned it into unusable mush. But I had a starting point with which to start to rebuild this fun little app. It would no longer roam alone.
 
-- - -
-
 And so that brings us to present day. Gmail Notifier Plus, as it is on this repo is completely usable. I'll get some proper download packages put together in due course.
 
-- - -
 
 Super Amazing Screenshots
 ------------
@@ -22,7 +19,7 @@ Super Amazing Screenshots
 **Jumplist**  
 ![Jumplist](https://github.com/shellscape/Gmail-Notifier-Plus/raw/master/Promotional/jumplist.png)
 
-More screenshots here: 
+More screenshots here: https://github.com/shellscape/Gmail-Notifier-Plus/wiki/Super-amazing-screenshots
 
 Boring Stuff
 ------------
