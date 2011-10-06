@@ -105,7 +105,7 @@ namespace GmailNotifierPlus.Forms {
 			ControlPanelTaskLink check = new ControlPanelTaskLink() { Text = Locale.Current.JumpList.Check };
 
 			about.Click += delegate(object sender, EventArgs e) {
-				RemotingService.Instance.ShowAbout();
+				Program.MainForm.Jumplist_ShowAbout(null);
 			};
 
 			check.Click += delegate(object sender, EventArgs e) {

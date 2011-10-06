@@ -253,37 +253,17 @@ namespace GmailNotifierPlus.Forms {
 
 			// general tasks
 
-			_jumpList.JumpItems.Add(new JumpTask() {
-				ApplicationPath = exePath,
-				Arguments = "-check",
-				IconResourceIndex = 0,
-				IconResourcePath = Path.Combine(iconsPath, "Refresh.ico"),
-				Title = Locale.Current.JumpList.Check
-			});
+			Shellscape.UI.JumplistTask check = new Shellscape.UI.JumplistTask("-check", Locale.Current.JumpList.Check, "Refresh.ico");
+			Shellscape.UI.JumplistTask settings = new Shellscape.UI.JumplistTask("-settings", Locale.Current.JumpList.Preferences, "Settings.ico");
+			Shellscape.UI.JumplistTask help = new Shellscape.UI.JumplistTask("-help", Locale.Current.JumpList.Help, "help.ico");
+			Shellscape.UI.JumplistTask about = new Shellscape.UI.JumplistTask("-about", Locale.Current.JumpList.About, "about.ico");
 
-			_jumpList.JumpItems.Add(new JumpTask() {
-				ApplicationPath = exePath,
-				Arguments = "-settings",
-				IconResourceIndex = 0,
-				IconResourcePath = Path.Combine(iconsPath, "Settings.ico"),
-				Title = Locale.Current.JumpList.Preferences
-			});
+			check.Click += Jumplist_CheckMail;
+			settings.Click += Jumplist_ShowPreferences;
+			help.Click += Jumplist_ShowHelp;
+			about.Click += Jumplist_ShowAbout;
 
-			_jumpList.JumpItems.Add(new JumpTask() {
-				ApplicationPath = exePath,
-				Arguments = "-help",
-				IconResourceIndex = 0,
-				IconResourcePath = Path.Combine(iconsPath, "help.ico"),
-				Title = Locale.Current.JumpList.Help
-			});
-
-			_jumpList.JumpItems.Add(new JumpTask() {
-				ApplicationPath = exePath,
-				Arguments = "-about",
-				IconResourceIndex = 0,
-				IconResourcePath = Path.Combine(iconsPath, "about.ico"),
-				Title = Locale.Current.JumpList.About
-			});
+			_jumpList.JumpItems.AddRange(new List<JumpItem>() { check, settings, help, about });
 
 			_jumpList.Apply();
 		}
@@ -324,7 +304,7 @@ namespace GmailNotifierPlus.Forms {
 			_jumpList.Apply(); // refreshes
 
 		}
-		
+
 		internal void CheckMail() {
 			_statusList.Clear();
 			_UnreadTotal = 0;
@@ -525,17 +505,94 @@ namespace GmailNotifierPlus.Forms {
 			_TrayIcon.Icon = null;
 		}
 
-		//internal void RemoteCheckMails() {
-		//  MethodInvoker method = null;
+		#endregion
 
-		//  if (base.InvokeRequired) {
-		//    if (method == null) {
-		//      method = delegate { this.CheckMail(); };
-		//    }
-		//    base.Invoke(method);
-		//  }
-		//}
-		
+		#region .    Jumplist Handling
+
+		public void Jumplist_CheckMail(String[] arguments) {
+
+			MethodInvoker method = delegate { this.CheckMail(); };
+
+			if (this.InvokeRequired) {
+				this.Invoke(method);
+			}
+			else {
+				method();
+			}
+		}
+
+		private static Preferences _prefs;
+
+		public void Jumplist_ShowPreferences(String[] arguments) {
+
+			if (_prefs == null) {
+				_prefs = new Preferences();
+
+				_prefs.FormClosed += delegate(object sender, FormClosedEventArgs e) {
+					_prefs.Dispose();
+					_prefs = null;
+				};
+			}
+
+			MethodInvoker method = delegate() {
+				_prefs.Show();
+				_prefs.BringToFront();
+				_prefs.Focus();
+			};
+
+			Program.MainForm.Invoke(method);
+		}
+
+		public void Jumplist_ShowAbout(String[] arguments) {
+			About about = new About();
+			MethodInvoker method = delegate() {
+				about.Show();
+				about.BringToFront();
+				about.Focus();
+			};
+			
+			if (about.InvokeRequired) {
+				about.Invoke(method);
+			}
+			else {
+				method();
+			}
+		}
+
+		public void Jumplist_ShowHelp(String[] arguments) {
+			Utilities.UrlHelper.Launch(null, "https://github.com/shellscape/Gmail-Notifier-Plus/wiki");
+		}
+
+		public void Jumplist_Mailto(String[] arguments) {
+
+			String mailto = arguments[0];
+			Account mailtoAccount = Config.Current.Accounts.Where(o => o.HandlesMailto).FirstOrDefault();
+
+			if (mailtoAccount == null) {
+				return;
+			}
+
+			//Uri mailtoUri = new Uri(mailto);
+			//System.Collections.Specialized.NameValueCollection queryString = System.Web.HttpUtility.ParseQueryString(mailtoUri.Query);
+			Shellscape.Browser browser = mailtoAccount.Browser ?? Shellscape.Utilities.BrowserHelper.DefaultBrowser;
+			String accountUrl = Utilities.UrlHelper.GetBaseUrl(mailtoAccount);
+
+			//String to = String.Concat(mailtoUri.UserInfo, "@", mailtoUri.Host);
+			//String parameters = String.Format("to={1}&su={2}&body={3}",  to, queryString["subject"], queryString["body"]);
+			String url = String.Concat(accountUrl, "?extsrc=mailto&url=", System.Web.HttpUtility.UrlEncode(mailto));
+
+			try {
+				using (System.Diagnostics.Process process = new System.Diagnostics.Process()) {
+					process.StartInfo.Arguments = url;
+					process.StartInfo.FileName = browser.Path;
+					process.Start();
+				}
+			}
+			catch (Exception e) {
+				Utilities.ErrorHelper.Report(e);
+			} // catch-all is fine here, not a critical function
+		}
+
 		#endregion
 
 		#region .    Fix bug in Windows API Code Pack

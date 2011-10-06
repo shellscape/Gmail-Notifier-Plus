@@ -20,7 +20,7 @@ namespace GmailNotifierPlus {
 
 	internal static class Program {
 
-		private static List<String> _validArgs = new List<String>() { RemoteMethods.About, RemoteMethods.Check, RemoteMethods.Settings, RemoteMethods.Help };
+		//private static List<String> _validArgs = new List<String>() { RemoteMethods.About, RemoteMethods.Check, RemoteMethods.Settings, RemoteMethods.Help };
 		private static readonly String _repoUser = "shellscape";
 		private static readonly String _repoName = "Gmail-Notifier-Plus";
 
@@ -35,7 +35,7 @@ namespace GmailNotifierPlus {
 		[STAThread]
 		private static void Main(string[] args) {
 
-			Shellscape.Program.RemotingServiceType = typeof(RemotingService);
+			//Shellscape.Program.RemotingServiceType = typeof(RemotingService);
 
 			Program.Icon = Utilities.ResourceHelper.GetIcon("gmail-classic.ico");
 

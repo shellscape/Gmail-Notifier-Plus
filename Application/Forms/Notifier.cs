@@ -47,6 +47,8 @@ namespace GmailNotifierPlus.Forms {
 
 			this.Account = account;
 
+			SetCheckingPreview();
+
 			_LabelStatus.RightToLeft = Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
 			_LabelStatus.Width = this.Width;
 
