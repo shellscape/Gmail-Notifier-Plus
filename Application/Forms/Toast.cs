@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -223,7 +224,7 @@ namespace GmailNotifierPlus.Forms {
 
 			// show the last (newest) email
 			_mailIndex = 0; //this.Account.Emails.Count - 1;
-
+			
 			UpdateBody();
 		}
 
@@ -233,10 +234,17 @@ namespace GmailNotifierPlus.Forms {
 			get { return true; }
 		}
 
-		protected override void OnActivated(EventArgs e) {
-			base.OnActivated(e);
+		private int _activatedCount = 0; // child controls activate the form automatically. this happens twice. any subsequent activations should stop the timer.
 
-			_closeTimer.Enabled = false;
+		protected override void OnGotFocus(EventArgs e) {
+			base.OnGotFocus(e);
+
+			if (_activatedCount >= 2) {
+				_closeTimer.Stop();
+			}
+
+			_activatedCount++;
+
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e) {
@@ -402,7 +410,7 @@ namespace GmailNotifierPlus.Forms {
 		protected override void OnLostFocus(EventArgs e) {
 			base.OnLostFocus(e);
 
-			_closeTimer.Enabled = true;
+			_closeTimer.Start();
 		}
 
 		private void InitRects(Graphics g) {
