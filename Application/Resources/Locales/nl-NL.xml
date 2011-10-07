@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Locale>
+	<Name>Nederlands (nl-NL)</Name>
+	<Common>
+		<Cancel>Annuleren</Cancel>
+		<Close>Sluiten</Close>
+		<Next>Volgende</Next>
+		<OK>OK</OK>
+		<Previous>Vorige</Previous>
+		<No>Nee</No>
+		<Yes>Ja</Yes>
+		<Unread>Ongelezen</Unread>
+	</Common>
+	<JumpList>
+		<DefaultAccount>Standaard Account</DefaultAccount>
+		<Inbox>Ga naar postvak IN</Inbox>
+		<Compose>Nieuw bericht maken</Compose>
+		<Check>Controleren voor nieuwe berichten</Check>
+		<Preferences>Voorkeuren</Preferences>
+		<About>Over Gmail Notifier Plus</About>
+		<Help>Help Wiki</Help>
+	</JumpList>
+	<About>
+		<WindowTitle>Over</WindowTitle>
+		<Button>Fijn. Bedankt!</Button>
+		<FirstRun>Beginnen!</FirstRun>
+		<Checking>Zoeken naar updates...</Checking>
+		<UpdateProblem>Er was een probleem bij het zoeken naar updates.</UpdateProblem>
+		<UpToDate>Gmail Notifier Plus is bijgewerkt ({0})</UpToDate>
+		<NewVersion>Downloaden van {0}...</NewVersion>
+	</About>
+	<Preferences>
+		<WindowTitle>Voorkeuren</WindowTitle>
+		<Navigation>
+			<General>Algemene voorkeuren</General>
+			<Accounts>Accounts behereren</Accounts>
+			<Appearance>Weergave aanpassen</Appearance>
+		</Navigation>
+		<Panels>
+			<General>
+				<Title>Algemene Gmail Notifier Plus voorkeuren</Title>
+				<ApplyChanges>Toepassen</ApplyChanges>
+				<Sound>
+					<Title>Meldingen</Title>
+					<None>Geen</None>
+					<Default>Standaard</Default>
+					<Custom>Aangepast...</Custom>
+					<Browse>Bladeren...</Browse>
+					<BrowseWindowTitle>Kies een meldingsgeluid</BrowseWindowTitle>
+					<WaveFiles>Wave Bestand</WaveFiles>
+				</Sound>
+				<CheckEmail>Email controleren iedere... (in minuten)</CheckEmail>
+				<CheckUpdates>Zoeken naar Updates</CheckUpdates>
+				<Language>Weergave taal</Language>
+				<FlashTaskbar>Taakbalk knipperen bij nieuwe email</FlashTaskbar>
+				<ShowTray>Toon aantal emails in systeemvak</ShowTray>
+				<ShowToast>Toon melding bij nieuwe email</ShowToast>
+			</General>
+			<Accounts>
+				<Title>Welk account wilt u aanpassen</Title>
+				<AddNew>Account toevoegen</AddNew>
+				<Account>
+					<Title>{0} beheren</Title>
+					<Address>Email adres</Address>
+					<Password>Wachtwoord</Password>
+					<Mailto>Gebruik dit account voor mailto links</Mailto>
+					<DefaultAccount>Gebruik dit account als standaard account</DefaultAccount>
+					<Browser>Browser</Browser>
+					<AddAccount>Account toevoegen</AddAccount>
+					<RemoveAccount>Account verwijderen</RemoveAccount>
+					<RemoveConfirmation>Weet u zeker dat u dit account wilt verwijderen?</RemoveConfirmation>
+					<RemoveConfirmationTitle>Account Verwijderen</RemoveConfirmationTitle>
+					<AccountsIntroNone>Welcome bij Gmail Notifier Plus.\n\nKlik om te beginnen op de knop hieronder om een account toe te voegen.</AccountsIntroNone>
+					<Error>Er bestaat al een acocunt met dit adres. Kies een ander adres.</Error>
+				</Account>
+			</Accounts>
+		</Panels>
+	</Preferences>
+	<Thumbnails>
+		<CheckLogin>Controleer uw account voorkeuren</CheckLogin>
+		<Connecting>Controleren voor nieuwe berichten...</Connecting>
+		<ConnectionUnavailable>Controleer uw netwerk verbinding</ConnectionUnavailable>
+		<Inbox>Postvak IN</Inbox>
+		<NoSubject>(geen onderwerp)</NoSubject>
+		<NoAccount>Voeg een account toe</NoAccount>
+		<NoMail>Geen nieuwe berichten</NoMail>
+	</Thumbnails>
+	<Toast>
+		<ViewEmail>Dit bericht bekijken</ViewEmail>
+		<NoSubject>(geen onderwerp)</NoSubject>
+	</Toast>
+</Locale>
