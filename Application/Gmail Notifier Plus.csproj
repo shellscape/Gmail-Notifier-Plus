@@ -196,7 +196,6 @@
       <DependentUpon>ToastTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Images\Warning.png" />
-    <EmbeddedResource Include="Resources\Locales\pt-BR.xml" />
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
@@ -212,6 +211,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Locales\nl-NL.xml" />
     <EmbeddedResource Include="Resources\Images\gmail-bleu.png" />
     <EmbeddedResource Include="Resources\Images\gmail-limon.png" />
     <EmbeddedResource Include="Resources\Images\about-icon.png" />
@@ -219,15 +219,10 @@
     <EmbeddedResource Include="Resources\Images\download-updates.png" />
     <EmbeddedResource Include="Resources\Images\exclamation-updates.png" />
     <EmbeddedResource Include="Resources\Images\uptodate.png" />
-    <EmbeddedResource Include="Resources\Locales\es-CL.xml" />
-    <EmbeddedResource Include="Resources\Locales\fr-FR.xml" />
-    <EmbeddedResource Include="Resources\Locales\kz-KZ.xml" />
     <EmbeddedResource Include="Resources\Icons\gmail-classic.ico" />
     <Content Include="Resources\Icons\about.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Resources\Locales\de-DE.xml" />
-    <EmbeddedResource Include="Resources\Locales\ru-RU.xml" />
     <EmbeddedResource Include="Resources\Icons\Mail.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -278,7 +273,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_StartDate="2011/4/4" />
+      <UserProperties BuildVersion_StartDate="2011/4/4" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_UpdateAssemblyVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

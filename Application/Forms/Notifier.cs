@@ -53,7 +53,11 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.Width = this.Width;
 
 			_webClient.DownloadDataCompleted += _WebClient_DownloadDataCompleted;
+			
 			_config.Saved += _Config_Saved;
+			_config.LanguageChanged += delegate(Config sender) {
+				UpdateMailPreview();
+			};
 
 			using (Icon icon = Utilities.ResourceHelper.GetIcon("Open.ico")) {
 				_PictureOpen.Image = icon.ToBitmap();

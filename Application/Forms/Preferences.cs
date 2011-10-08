@@ -509,6 +509,7 @@ namespace GmailNotifierPlus.Forms {
 				Config.Current.Sound = _ComboSound.SelectedValue.ToString();
 			}
 
+			String currentLanguage = Config.Current.Language;
 			Config.Current.Language = _ComboLanguage.SelectedValue.ToString();
 
 			if (_TextInterval.Value > 0) {
@@ -522,6 +523,10 @@ namespace GmailNotifierPlus.Forms {
 			Config.Current.Save();
 
 			_ButtonApply.Enabled = false;
+
+			if (currentLanguage != Config.Current.Language) {
+				Program.MainForm.Jumplist_ShowPreferences(new String[] { "refresh" });
+			}
 		}
 
 		private void _ButtonAccountAction_Click(object sender, EventArgs e) {

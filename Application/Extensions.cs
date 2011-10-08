@@ -23,5 +23,16 @@ namespace GmailNotifierPlus {
 			list.JumpItems.RemoveAll(item => !String.IsNullOrEmpty(item.CustomCategory) && item.CustomCategory != "Default Account");
 		}
 
+		public static void ClearTasks(this JumpList list) {
+
+			Type type = typeof(Shellscape.UI.JumplistTask);
+
+			foreach (Shellscape.UI.JumplistTask task in list.JumpItems.Where(t => t.GetType() == type)) {
+				Shellscape.Remoting.RemotingTaskMethods.Methods.Remove(task.Arguments);	
+			}
+
+			list.JumpItems.Clear();
+		}
+
 	}
 }

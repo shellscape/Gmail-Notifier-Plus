@@ -123,9 +123,12 @@ namespace GmailNotifierPlus {
 
 				_language = value;
 
-				if (previous != _language && LanguageChanged != null) {
+				if (previous != _language) {
 					Config.LoadLocale(this);
-					LanguageChanged(this);
+
+					if (LanguageChanged != null) {
+						LanguageChanged(this);
+					}
 				}
 			}
 		}

@@ -70,6 +70,11 @@ namespace GmailNotifierPlus.Forms {
 			this.CreateInstances();
 
 			_config.Saved += _Config_Saved;
+
+			_config.LanguageChanged += delegate(Config sender) {
+				InitJumpList();
+			};
+
 			_config.Accounts.AccountChanged += _Account_Changed;
 
 			_Timer.Tick += _Timer_Tick;
@@ -228,7 +233,7 @@ namespace GmailNotifierPlus.Forms {
 			String url = UrlHelper.BuildInboxUrl(defaultAccountIndex);
 			String categoryName = Locale.Current.JumpList.DefaultAccount;
 
-			_jumpList.JumpItems.Clear();
+			_jumpList.ClearTasks();
 
 			_jumpList.JumpItems.Add(new JumpTask() {
 				ApplicationPath = String.IsNullOrEmpty(browserPath) ? url : browserPath,
@@ -522,7 +527,19 @@ namespace GmailNotifierPlus.Forms {
 
 		public void Jumplist_ShowPreferences(String[] arguments) {
 
-			Preferences prefs = Shellscape.Program.FindForm(typeof(Preferences)) as Preferences ?? new Preferences();
+			Preferences prefs = Shellscape.Program.FindForm(typeof(Preferences)) as Preferences;
+
+			if (prefs != null) {
+				if (arguments != null && arguments.Length >= 1 && arguments[0] == "refresh") {
+					prefs.Close();
+					prefs.Dispose();
+					prefs = null;
+				}
+			}
+			
+			if(prefs == null) {
+				prefs = new Preferences();
+			}
 
 			MethodInvoker method = delegate() { // yes, all this ugly is necessary.
 				prefs.Show();
