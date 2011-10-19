@@ -45,7 +45,7 @@ namespace GmailNotifierPlus.Forms {
 
 			InitializeComponent();
 
-			_iconWindow = ResourceHelper.GetIcon("gmail-classic.ico");
+			_iconWindow = Resources.Icons.Window; // ResourceHelper.GetIcon("gmail-classic.ico");
 
 			// since we're using the native jumplist stuff, we really shouldn't need this. we'll see.
 			//_taskbarManager.ApplicationId = String.Concat("Gmail-Notifier-Plus-", Shellscape.Utilities.AssemblyMeta.Guid, "-", Shellscape.Utilities.AssemblyMeta.Version);
@@ -365,7 +365,7 @@ namespace GmailNotifierPlus.Forms {
 
 				TabbedThumbnail preview = new TabbedThumbnail(base.Handle, notifier.Handle);
 				preview.TabbedThumbnailClosed += _Preview_TabbedThumbnailClosed;
-				preview.SetWindowIcon(Utilities.ResourceHelper.GetIcon("gmail-classic.ico"));
+				preview.SetWindowIcon(Resources.Icons.Window); //Utilities.ResourceHelper.GetIcon("gmail-classic.ico"));
 				preview.Tooltip = String.Empty;
 				preview.Title = account.FullAddress;
 
@@ -444,7 +444,7 @@ namespace GmailNotifierPlus.Forms {
 					using (Bitmap numbers = ImageHelper.GetDigitIcon(digitsNumber)) {
 
 						if (numbers == null) {
-							_iconDigits = Utilities.ResourceHelper.GetIcon("Warning.ico");
+							_iconDigits = Resources.Icons.Warning.Clone() as Icon;
 						}
 						else {
 							_iconDigits = Icon.FromHandle(numbers.GetHicon());
@@ -473,7 +473,7 @@ namespace GmailNotifierPlus.Forms {
 		internal void SetWarningOverlay() {
 
 			if (_taskbarManager != null) {
-				_taskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon("Warning.ico"), String.Empty);
+				_taskbarManager.SetOverlayIcon(base.Handle, Resources.Icons.Warning, String.Empty);
 
 				CleanupDigitIcon();
 				HideTrayIcon();
@@ -484,7 +484,7 @@ namespace GmailNotifierPlus.Forms {
 		internal void SetOfflineOverlay() {
 
 			if (_taskbarManager != null) {
-				_taskbarManager.SetOverlayIcon(base.Handle, Utilities.ResourceHelper.GetIcon("Offline.ico"), String.Empty);
+				_taskbarManager.SetOverlayIcon(base.Handle, Resources.Icons.Offline, String.Empty);
 
 				CleanupDigitIcon();
 				HideTrayIcon();

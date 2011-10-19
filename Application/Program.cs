@@ -38,7 +38,7 @@ namespace GmailNotifierPlus {
 
 			//Shellscape.Program.RemotingServiceType = typeof(RemotingService);
 
-			Program.Icon = Utilities.ResourceHelper.GetIcon("gmail-classic.ico");
+			Program.Icon = Resources.Icons.Window; // Utilities.ResourceHelper.GetIcon("gmail-classic.ico");
 
 			Shellscape.Program.MainInstanceStarted += delegate() {
 

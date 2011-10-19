@@ -59,9 +59,11 @@ namespace GmailNotifierPlus.Forms {
 				UpdateMailPreview();
 			};
 
-			using (Icon icon = Utilities.ResourceHelper.GetIcon("Open.ico")) {
-				_PictureOpen.Image = icon.ToBitmap();
-			}
+			//using (Icon icon = Utilities.ResourceHelper.GetIcon("Open.ico")) {
+			//  _PictureOpen.Image = icon.ToBitmap();
+			//}
+
+			_PictureOpen.Image = Resources.Icons.Open.ToBitmap();
 
 			this.Text = Account.FullAddress;
 		}
@@ -254,13 +256,13 @@ namespace GmailNotifierPlus.Forms {
 
 		private void CreateThumbButtons() {
 
-			_ButtonPrev = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Previous.ico"), Locale.Current.Common.Previous);
+			_ButtonPrev = new ThumbnailToolBarButton(Resources.Icons.Previous, Locale.Current.Common.Previous);
 			_ButtonPrev.Click += _ButtonPrev_Click;
 
-			_ButtonInbox = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Inbox.ico"), Locale.Current.Thumbnails.Inbox);
+			_ButtonInbox = new ThumbnailToolBarButton(Resources.Icons.Inbox, Locale.Current.Thumbnails.Inbox);
 			_ButtonInbox.Click += _ButtonInbox_Click;
 
-			_ButtonNext = new ThumbnailToolBarButton(Utilities.ResourceHelper.GetIcon("Next.ico"), Locale.Current.Common.Next);
+			_ButtonNext = new ThumbnailToolBarButton(Resources.Icons.Next, Locale.Current.Common.Next);
 			_ButtonNext.Click += _ButtonNext_Click;
 
 			_taskbarManager.ThumbnailToolBars.AddButtons(base.Handle, new ThumbnailToolBarButton[] { _ButtonPrev, _ButtonInbox, _ButtonNext });
@@ -274,7 +276,7 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.Width = this.Width;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Thumbnails.Connecting;
-			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Checking.png");
+			_PictureLogo.Image = Resources.Bitmaps.Checking;
 			_PictureOpen.Visible = false;
 		}
 
@@ -297,7 +299,7 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Thumbnails.ConnectionUnavailable;
-			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Offline.png");
+			_PictureLogo.Image = Resources.Bitmaps.Offline;
 			_PictureOpen.Visible = false;
 		}
 
@@ -307,7 +309,7 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Thumbnails.CheckLogin;
-			_PictureLogo.Image = Utilities.ResourceHelper.GetImage("Warning.png");
+			_PictureLogo.Image = Resources.Bitmaps.Warning;
 			_PictureOpen.Visible = false;
 		}
 
@@ -410,7 +412,7 @@ namespace GmailNotifierPlus.Forms {
 			_ButtonNext.Enabled = _mailIndex < 20 && _mailIndex < (Unread - 1);
 			_ButtonNext.Tooltip = Locale.Current.Common.Next;
 
-			_ButtonInbox.Icon = Utilities.ResourceHelper.GetIcon("Inbox.ico");
+			_ButtonInbox.Icon = Resources.Icons.Inbox;
 			_ButtonInbox.Tooltip = Locale.Current.Thumbnails.Inbox;
 
 			_ButtonInbox.Enabled = ConnectionStatus == NotifierStatus.OK;

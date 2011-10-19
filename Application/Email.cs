@@ -27,7 +27,7 @@ namespace GmailNotifierPlus {
 			DateTime time = DateTime.Parse(node.ChildNodes.Item(3).InnerText.Replace("T24:", "T00:"));
 
 			Email email = new Email() {
-				Title = string.IsNullOrEmpty(node.ChildNodes.Item(0).InnerText) ? Localization.Locale.Current.Thumbnails.NoMail : node.ChildNodes.Item(0).InnerText,
+				Title = string.IsNullOrEmpty(node.ChildNodes.Item(0).InnerText) ? Localization.Locale.Current.Thumbnails.NoSubject : node.ChildNodes.Item(0).InnerText,
 				Message = node.ChildNodes.Item(1).InnerText,
 				When = time.ToShortDateString() + " " + time.ToShortTimeString(),
 				Url = Utilities.UrlHelper.BuildMailUrl(node.ChildNodes.Item(2).Attributes["href"].Value, account),
