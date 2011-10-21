@@ -23,7 +23,7 @@
 	<About>
 		<WindowTitle>About</WindowTitle>
 		<Button>Sweet. Thanks!</Button>
-		<FirstRun>Lets Go!</FirstRun>
+		<FirstRun>Let's Go!</FirstRun>
 		<Checking>Checking for updates...</Checking>
 		<UpdateProblem>There was a while problem checking for updates</UpdateProblem>
 		<UpToDate>Gmail Notifier Plus is up to date ({0})</UpToDate>
