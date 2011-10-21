@@ -35,27 +35,26 @@ namespace GmailNotifierPlus.Forms {
 			// _ButtonOK
 			// 
 			this._ButtonOK.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._ButtonOK.Location = new System.Drawing.Point(6, 310);
-			this._ButtonOK.Margin = new System.Windows.Forms.Padding(6);
+			this._ButtonOK.Location = new System.Drawing.Point(7, 222);
+			this._ButtonOK.Margin = new System.Windows.Forms.Padding(0);
 			this._ButtonOK.Name = "_ButtonOK";
-			this._ButtonOK.Padding = new System.Windows.Forms.Padding(6);
-			this._ButtonOK.Size = new System.Drawing.Size(286, 42);
+			this._ButtonOK.Size = new System.Drawing.Size(279, 48);
 			this._ButtonOK.TabIndex = 0;
-			this._ButtonOK.Text = "button1";
+			this._ButtonOK.Text = "Let\'s Go";
 			this._ButtonOK.UseVisualStyleBackColor = true;
 			// 
 			// FirstRun
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
-			this.ClientSize = new System.Drawing.Size(298, 358);
+			this.ClientSize = new System.Drawing.Size(293, 277);
 			this.Controls.Add(this._ButtonOK);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "FirstRun";
-			this.Padding = new System.Windows.Forms.Padding(6);
+			this.Padding = new System.Windows.Forms.Padding(7, 7, 7, 7);
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Gmail Notifier Plus";
 			this.ResumeLayout(false);

@@ -33,7 +33,9 @@ namespace GmailNotifierPlus.Forms {
 			_ButtonOK.Click += _ButtonOk_Click;
 			_ButtonOK.Text = Localization.Locale.Current.About.FirstRun;
 
-			_background  = Utilities.ResourceHelper.GetImage("intro.png");
+			_background = Utilities.ResourceHelper.GetImage("intro.png");
+
+			this.ClientSize = new Size(_background.Width, _background.Height + (this.Padding.Bottom + this.Padding.Top) + _ButtonOK.Height);
 		}
 		
 		protected override void OnShown(EventArgs e) {
