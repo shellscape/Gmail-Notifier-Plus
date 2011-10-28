@@ -1,92 +1,92 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Locale>
-	<Name>English (en-US)</Name>
+	<Name>Russian (ru-RU)</Name>
 	<Common>
-		<Cancel>Cancel</Cancel>
-		<Close>Close</Close>
-		<Next>Next</Next>
-		<OK>OK</OK>
-		<Previous>Previous</Previous>
-		<No>No</No>
-		<Yes>Yes</Yes>
-		<Unread>Unread</Unread>
+		<Cancel>Отмена</Cancel>
+		<Close>Закрыть</Close>
+		<Next>Следующее</Next>
+		<OK>ОК</OK>
+		<Previous>Предыдущее</Previous>
+		<No>Нет</No>
+		<Yes>Да</Yes>
+		<Unread>Не прочитано</Unread>
 	</Common>
 	<JumpList>
-		<DefaultAccount>Default Account</DefaultAccount>
-		<Inbox>Go to your inbox</Inbox>
-		<Compose>Compose new email</Compose>
-		<Check>Check for new email</Check>
-		<Preferences>Preferences</Preferences>
-		<About>About Gmail Notifier Plus</About>
-		<Help>Help Wiki</Help>
+		<DefaultAccount>Учетная запись по умолчанию</DefaultAccount>
+		<Inbox>Открыть входящие</Inbox>
+		<Compose>Написать письмо</Compose>
+		<Check>Получить новую почту</Check>
+		<Preferences>Настройки</Preferences>
+		<About>О программе</About>
+		<Help>Помощь</Help>
 	</JumpList>
 	<About>
-		<WindowTitle>About</WindowTitle>
-		<Button>Sweet. Thanks!</Button>
-		<FirstRun>Let's Go!</FirstRun>
-		<Checking>Checking for updates...</Checking>
-		<UpdateProblem>There was a while problem checking for updates</UpdateProblem>
-		<UpToDate>Gmail Notifier Plus is up to date ({0})</UpToDate>
-		<NewVersion>Downloading {0}...</NewVersion>
+		<WindowTitle>О программе</WindowTitle>
+		<Button>Здорово. Спасибо!</Button>
+		<FirstRun>Поехали!</FirstRun>
+		<Checking>Проверка обновлений...</Checking>
+		<UpdateProblem>При проверке обновлений возникла ошибка</UpdateProblem>
+		<UpToDate>У вас установлена самая новая версия программы ({0})</UpToDate>
+		<NewVersion>Загрузка {0}...</NewVersion>
 	</About>
 	<Preferences>
-		<WindowTitle>Preferences</WindowTitle>
+		<WindowTitle>Настройки</WindowTitle>
 		<Navigation>
-			<General>General preferences</General>
-			<Accounts>Manage your accounts</Accounts>
-			<Appearance>Change display preferences</Appearance>
+			<General>Общие</General>
+			<Accounts>Учетные записи</Accounts>
+			<Appearance>Отображение</Appearance>
 		</Navigation>
 		<Panels>
 			<General>
-				<Title>General Gmail Notifier Plus settings</Title>
-				<ApplyChanges>Apply Changes</ApplyChanges>
+				<Title>Общие настройки программы</Title>
+				<ApplyChanges>Применить</ApplyChanges>
 				<Sound>
-					<Title>Sound notification</Title>
-					<None>None</None>
-					<Default>Default</Default>
-					<Custom>Custom...</Custom>
-					<Browse>Browse...</Browse>
-					<BrowseWindowTitle>Select a notification sound</BrowseWindowTitle>
-					<WaveFiles>Wave File</WaveFiles>
+					<Title>Звуковое уведомление</Title>
+					<None>Не выбрано</None>
+					<Default>Звук по умолчанию</Default>
+					<Custom>Свой выбор...</Custom>
+					<Browse>Обзор...</Browse>
+					<BrowseWindowTitle>Выберите звук уведомления</BrowseWindowTitle>
+					<WaveFiles>WAVE звук</WaveFiles>
 				</Sound>
-				<CheckEmail>Check email interval (in minutes)</CheckEmail>
-				<CheckUpdates>Check for Updates</CheckUpdates>
-				<Language>Display language</Language>
-				<FlashTaskbar>Flash the taskbar for new email</FlashTaskbar>
-				<ShowTray>Show email count in system tray</ShowTray>
-				<ShowToast>Show Toast notifications for new email</ShowToast>
+				<CheckEmail>Интервал проверки почты (в минутах)</CheckEmail>
+				<CheckUpdates>Проверить обновления</CheckUpdates>
+				<Language>Язык</Language>
+				<FlashTaskbar>Подсветить панель задач при наличии новых писем</FlashTaskbar>
+				<ShowTray>Показывать счетчик новых писем в области уведомлений</ShowTray>
+				<ShowToast>Предпросмотр новых писем</ShowToast>
 			</General>
 			<Accounts>
-				<Title>Choose the account you would like to change</Title>
-				<AddNew>Add a new account</AddNew>
+				<Title>Выберите учетную запись для изменения</Title>
+				<AddNew>Добавить новую учетную запись</AddNew>
 				<Account>
-					<Title>Manage {0}</Title>
-					<Address>Email address</Address>
-					<Password>Password</Password>
-					<Mailto>Use this account for mailto links</Mailto>
-					<DefaultAccount>Use this account as the default account</DefaultAccount>
-					<Browser>Browser</Browser>
-					<AddAccount>Add Account</AddAccount>
-					<RemoveAccount>Remove this account</RemoveAccount>
-					<RemoveConfirmation>Are you sure you want to remove this account?</RemoveConfirmation>
-					<RemoveConfirmationTitle>Remove Account</RemoveConfirmationTitle>
-					<AccountsIntroNone>Welcome to Gmail Notifier Plus.\n\nTo get started, please click the button below to add a new account.</AccountsIntroNone>
-					<Error>An account with this address already exists. Please enter a different address.</Error>
+					<Title>Управление {0}</Title>
+					<Address>Электронная почта</Address>
+					<Password>Пароль</Password>
+					<Mailto>Использовать эту учетную запись для ссылок mailto:</Mailto>
+					<DefaultAccount>Использовать как учетную запись по умолчанию</DefaultAccount>
+					<Browser>Веб-браузер</Browser>
+					<AddAccount>Добавить учетную запись</AddAccount>
+					<RemoveAccount>Удалить эту учетную запись</RemoveAccount>
+					<RemoveConfirmation>Вы уверены, что хотите удалить эту учетную запись?</RemoveConfirmation>
+					<RemoveConfirmationTitle>Удалить учетную запись</RemoveConfirmationTitle>
+					<AccountsIntroNone>Добро пожаловать в Gmail Notifier Plus. \n\nДля начала работы, нажмите на кнопку ниже для создания учетной записи.</AccountsIntroNone>
+					<Error>Учетная запись с таким адресом уже существует. Пожалуйста введите другой адрес.</Error>
 				</Account>
 			</Accounts>
 		</Panels>
 	</Preferences>
 	<Thumbnails>
-		<CheckLogin>Please check your account settings</CheckLogin>
-		<Connecting>Checking for new email...</Connecting>
-		<ConnectionUnavailable>Please check your network connection</ConnectionUnavailable>
-		<Inbox>Inbox</Inbox>
-		<NoSubject>(no subject)</NoSubject>
-		<NoAccount>Please add an account</NoAccount>
-		<NoMail>No new mail</NoMail>
+		<CheckLogin>Проверьте настройки вашей учетной записи</CheckLogin>
+		<Connecting>Получение новой почты...</Connecting>
+		<ConnectionUnavailable>Проверьте настройки интернет соединения</ConnectionUnavailable>
+		<Inbox>Входящие</Inbox>
+		<NoSubject>(без темы)</NoSubject>
+		<NoAccount>Добавьте пожалуйста учетную запись</NoAccount>
+		<NoMail>Нет новых писем</NoMail>
 	</Thumbnails>
 	<Toast>
-		<ViewEmail>View this email</ViewEmail>
-		<NoSubject>(no subject)</NoSubject>
+		<ViewEmail>Просмотреть это письмо</ViewEmail>
+		<NoSubject>(без темы)</NoSubject>
 	</Toast>
 </Locale>
