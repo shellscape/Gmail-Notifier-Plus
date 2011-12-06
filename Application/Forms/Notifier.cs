@@ -233,6 +233,10 @@ namespace GmailNotifierPlus.Forms {
 
 		#endregion
 
+		protected override bool ShowWithoutActivation {
+			get { return true; }
+		}
+
 		// overriding onActivated and onGotFocus so that any focus to the notification windows
 		// will give focus to the main form. this is being done so that clicking on a preview thumbnail
 		// will always open the email in the set browser.
