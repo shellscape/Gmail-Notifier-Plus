@@ -391,7 +391,7 @@ namespace GmailNotifierPlus.Forms {
 					Shellscape.Browser selectedBrowser = browsers.Where(o => o.Name == _currentAccount.Browser.Name).FirstOrDefault();
 					_ComboBrowser.SelectedIndex = browsers.IndexOf(selectedBrowser) + 1;
 					//_ComboBrowser.SelectedValue = account.Browser; - selectedvalue isn't playing nice. 
-					//_ComboBrowser.SelectedText = account.Browser.Name;
+					//_ComboBrowser.SelectedText = account.Browser.Name; - inconsistent
 				}
 				else {
 					_ComboBrowser.SelectedIndex = 0;
