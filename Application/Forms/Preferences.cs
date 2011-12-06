@@ -387,9 +387,11 @@ namespace GmailNotifierPlus.Forms {
 				_TextPassword.Text = String.Empty;
 
 				if (account.Browser != null) {
-					//Shellscape.Browser selectedBrowser = browsers.Where(o => o.Name == _currentAccount.Browser.Name).FirstOrDefault();
-					//_ComboBrowser.SelectedIndex = browsers.IndexOf(selectedBrowser) + 1;
-					_ComboBrowser.SelectedValue = account.Browser;
+					List<Shellscape.Browser> browsers = Shellscape.Utilities.BrowserHelper.Enumerate();
+					Shellscape.Browser selectedBrowser = browsers.Where(o => o.Name == _currentAccount.Browser.Name).FirstOrDefault();
+					_ComboBrowser.SelectedIndex = browsers.IndexOf(selectedBrowser) + 1;
+					//_ComboBrowser.SelectedValue = account.Browser; - selectedvalue isn't playing nice. 
+					//_ComboBrowser.SelectedText = account.Browser.Name;
 				}
 				else {
 					_ComboBrowser.SelectedIndex = 0;
@@ -580,6 +582,10 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			Config.Current.Save();
+
+			if (_currentAccount != null) {
+				Config.Current.Accounts.TriggerDirty(account);
+			}
 
 			_ButtonAccountAction.Enabled = false;
 		}
