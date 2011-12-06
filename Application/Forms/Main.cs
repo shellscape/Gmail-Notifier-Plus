@@ -279,7 +279,7 @@ namespace GmailNotifierPlus.Forms {
 		/// <summary>
 		/// Updates the portion of the JumpList which shows new/unread email.
 		/// </summary>
-		private void UpdateJumpList() {
+		internal void UpdateJumpList() {
 
 			if (!_config.RecentDocsTracked) { // if the user doesn't have recent docs turned on, this will method throw errors.
 				return;
@@ -296,8 +296,10 @@ namespace GmailNotifierPlus.Forms {
 				String category = String.Format(inboxFormat, account.FullAddress, notifier.Unread);
 
 				foreach (Email email in notifier.Emails) {
+
 					JumpTask task = new JumpTask() {
-						ApplicationPath = String.Empty,
+						ApplicationPath = account.Browser != null ? account.Browser.Path : email.Url,
+						Arguments = email.Url,
 						IconResourceIndex = 0,
 						IconResourcePath = iconPath,
 						Title = email.Title,
