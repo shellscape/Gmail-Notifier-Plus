@@ -588,6 +588,9 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			_ButtonAccountAction.Enabled = false;
+
+			this.HidePanels();
+			_PanelAccounts.Show();
 		}
 
 		private void _ButtonSound_Click(object sender, EventArgs e) {

@@ -34,8 +34,8 @@ namespace GmailNotifierPlus.Forms {
 		private Bitmap _icon;
 
 		public About() : base() {
-			
-			this.Icon = Program.Icon;
+
+			this.Icon = Resources.Icons.Window;
 			this.Text = String.Concat(Locale.Current.About.WindowTitle, " - ", Resources.WindowTitle);
 			this._icon = Utilities.ResourceHelper.GetImage("about-icon.png");
 

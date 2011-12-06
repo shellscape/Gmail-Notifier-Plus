@@ -12,20 +12,36 @@ namespace GmailNotifierPlus {
 		public static readonly String WindowTitle = "Gmail Notifier Plus";
 
 		public static class Icons {
-			public static readonly Icon Previous = ResourceHelper.GetIcon("Previous.ico");
-			public static readonly Icon Inbox = ResourceHelper.GetIcon("Inbox.ico");
-			public static readonly Icon Next = ResourceHelper.GetIcon("Next.ico");
-			public static readonly Icon Window = ResourceHelper.GetIcon("gmail-classic.ico");
-			public static readonly Icon WindowSmall = ResourceHelper.GetIcon("gmail-classic.ico", 16);
-			public static readonly Icon Open = ResourceHelper.GetIcon("Open.ico");
-			public static readonly Icon Warning = ResourceHelper.GetIcon("Warning.ico");
-			public static readonly Icon Offline = ResourceHelper.GetIcon("Offline.ico");
+			private static readonly Icon _Previous = ResourceHelper.GetIcon("Previous.ico");
+			private static readonly Icon _Inbox = ResourceHelper.GetIcon("Inbox.ico");
+			private static readonly Icon _Next = ResourceHelper.GetIcon("Next.ico");
+			private static readonly Icon _Window = ResourceHelper.GetIcon("gmail-classic.ico");
+			private static readonly Icon _WindowSmall = ResourceHelper.GetIcon("gmail-classic.ico", 16);
+			private static readonly Icon _Open = ResourceHelper.GetIcon("Open.ico");
+			private static readonly Icon _Warning = ResourceHelper.GetIcon("Warning.ico");
+			private static readonly Icon _Offline = ResourceHelper.GetIcon("Offline.ico");
+
+			// i'm running into a shitload of Disposed issues with these and windows.
+			public static Icon Previous { get { return _Previous.Clone() as Icon; } }
+			public static Icon Inbox { get { return _Inbox.Clone() as Icon; } }
+			public static Icon Next { get { return _Next.Clone() as Icon; } }
+			public static Icon Window { get { return _Window.Clone() as Icon; } }
+			public static Icon WindowSmall { get { return _WindowSmall.Clone() as Icon; } }
+			public static Icon Open { get { return _Open.Clone() as Icon; } }
+			public static Icon Warning { get { return _Warning.Clone() as Icon; } }
+			public static Icon Offline { get { return _Offline.Clone() as Icon; } }
+
 		}
 
 		public static class Bitmaps {
-			public static readonly Bitmap Checking = ResourceHelper.GetImage("Checking.png");
-			public static readonly Bitmap Offline = ResourceHelper.GetImage("Offline.png");
-			public static readonly Bitmap Warning = ResourceHelper.GetImage("Warning.png");
+			private static readonly Bitmap _Checking = ResourceHelper.GetImage("Checking.png");
+			private static readonly Bitmap _Offline = ResourceHelper.GetImage("Offline.png");
+			private static readonly Bitmap _Warning = ResourceHelper.GetImage("Warning.png");
+
+			// running into more disposed issues. the references are being disposed when a window closes (the notifier)
+			public static Bitmap Checking { get { return _Checking.Clone() as Bitmap; } }
+			public static Bitmap Offline { get { return _Offline.Clone() as Bitmap; } }
+			public static Bitmap Warning { get { return _Warning.Clone() as Bitmap; } }
 		}
 
 	}

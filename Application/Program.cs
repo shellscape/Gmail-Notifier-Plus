@@ -25,8 +25,6 @@ namespace GmailNotifierPlus {
 		private static readonly String _repoUser = "shellscape";
 		private static readonly String _repoName = "Gmail-Notifier-Plus";
 
-		public static System.Drawing.Icon Icon { get; private set; }
-
 		public static GmailNotifierPlus.Forms.Main MainForm {
 			get {
 				return Shellscape.Program.Form as GmailNotifierPlus.Forms.Main;
@@ -35,10 +33,6 @@ namespace GmailNotifierPlus {
 
 		[STAThread]
 		private static void Main(string[] args) {
-
-			//Shellscape.Program.RemotingServiceType = typeof(RemotingService);
-
-			Program.Icon = Resources.Icons.Window; // Utilities.ResourceHelper.GetIcon("gmail-classic.ico");
 
 			Shellscape.Program.MainInstanceStarted += delegate() {
 

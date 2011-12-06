@@ -35,7 +35,6 @@ namespace GmailNotifierPlus.Forms {
 
 		private Icon _iconDigits = null;
 		private Icon _iconTray = null;
-		private Icon _iconWindow = null;
 
 		private Config _config = Config.Current;
 
@@ -44,8 +43,6 @@ namespace GmailNotifierPlus.Forms {
 		public Main() {
 
 			InitializeComponent();
-
-			_iconWindow = Resources.Icons.Window; // ResourceHelper.GetIcon("gmail-classic.ico");
 
 			// since we're using the native jumplist stuff, we really shouldn't need this. we'll see.
 			//_taskbarManager.ApplicationId = String.Concat("Gmail-Notifier-Plus-", Shellscape.Utilities.AssemblyMeta.Guid, "-", Shellscape.Utilities.AssemblyMeta.Version);
@@ -63,7 +60,7 @@ namespace GmailNotifierPlus.Forms {
 			info.ProgressValue = 20;
 
 
-			this.Icon = _iconWindow;
+			this.Icon = Resources.Icons.Window;
 			this.Location = new Point(-10000, -10000);
 			this.Text = this._TrayIcon.Text = GmailNotifierPlus.Resources.WindowTitle;
 
@@ -450,7 +447,7 @@ namespace GmailNotifierPlus.Forms {
 					using (Bitmap numbers = ImageHelper.GetDigitIcon(digitsNumber)) {
 
 						if (numbers == null) {
-							_iconDigits = Resources.Icons.Warning.Clone() as Icon;
+							_iconDigits = Resources.Icons.Warning as Icon;
 						}
 						else {
 							_iconDigits = Icon.FromHandle(numbers.GetHicon());

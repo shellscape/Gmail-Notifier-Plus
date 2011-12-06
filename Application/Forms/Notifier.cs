@@ -43,7 +43,7 @@ namespace GmailNotifierPlus.Forms {
 		public Notifier(Account account) {
 			InitializeComponent();
 
-			this.Icon = Program.Icon;
+			this.Icon = Resources.Icons.Window;
 
 			this.Account = account;
 
@@ -114,7 +114,15 @@ namespace GmailNotifierPlus.Forms {
 			}
 			else {
 				_thumbActivated = true;
-				OpenEmail();
+
+				if (ConnectionStatus == NotifierStatus.AuthenticationFailed) {
+					//Program.MainForm.Jumplist_ShowPreferences();
+				}
+				else {
+					if (ConnectionStatus != NotifierStatus.Offline) {
+						OpenEmail();
+					}
+				}
 			}
 		}
 
