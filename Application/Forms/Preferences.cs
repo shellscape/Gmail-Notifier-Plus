@@ -117,8 +117,8 @@ namespace GmailNotifierPlus.Forms {
 			this.OtherTasks.Add(check);
 		}
 
-		private void InitFirstRun() {
-
+		public void InitFirstRun() {
+			this.ManageAccount(null);
 		}
 
 		private void InitGeneralPanel() {

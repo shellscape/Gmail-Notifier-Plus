@@ -37,7 +37,7 @@ namespace GmailNotifierPlus.Forms {
 
 			this.ClientSize = new Size(_background.Width, _background.Height + (this.Padding.Bottom + this.Padding.Top) + _ButtonOK.Height);
 		}
-		
+
 		protected override void OnShown(EventArgs e) {
 			base.OnShown(e);
 
@@ -53,7 +53,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void _ButtonOk_Click(object sender, EventArgs e) {
 
-			Program.MainForm.Jumplist_ShowPreferences(null);
+			Program.MainForm.Jumplist_ShowPreferences(new String[] { "firstrun" });
 
 			Close();
 		}
