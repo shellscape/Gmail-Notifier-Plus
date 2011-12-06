@@ -26,7 +26,7 @@ namespace GmailNotifierPlus {
 		}
 
 		public new void Add(Account item) {
-			item.AccountChanged += _Account_Changed;
+			item.AccountChanged += TriggerDirty;
 			base.Add(item);
 		}
 		
@@ -40,13 +40,11 @@ namespace GmailNotifierPlus {
 			set {
 				base[index] = value;
 
-				if (AccountChanged != null) {
-					AccountChanged(base[index]);
-				}
+				TriggerDirty(base[index]);
 			}
 		}
 
-		public void _Account_Changed(Account account) {
+		public void TriggerDirty(Account account) {
 			if (AccountChanged != null) {
 				AccountChanged(account);
 			}
