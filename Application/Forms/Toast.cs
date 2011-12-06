@@ -125,6 +125,34 @@ namespace GmailNotifierPlus.Forms {
 		[DllImport("dwmapi.dll")]
 		public static extern int DwmDefWindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, out IntPtr result);
 
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
+
+		static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+		static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
+		static readonly IntPtr HWND_TOP = new IntPtr(0);
+		static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+
+		[Flags]
+		public enum SetWindowPosFlags : uint {
+			ASYNCWINDOWPOS = 0x4000,
+			DEFERERASE = 0x2000,
+			DRAWFRAME = 0x0020,
+			FRAMECHANGED = 0x0020,
+			HIDEWINDOW = 0x0080,
+			NOACTIVATE = 0x0010,
+			NOCOPYBITS = 0x0100,
+			NOMOVE = 0x0002,
+			NOOWNERZORDER = 0x0200,
+			NOREDRAW = 0x0008,
+			NOREPOSITION = 0x0200,
+			NOSENDCHANGING = 0x0400,
+			NOSIZE = 0x0001,
+			NOZORDER = 0x0004,
+			SHOWWINDOW = 0x0040,
+		}
+
 		#endregion
 
 		private class State {
@@ -192,7 +220,8 @@ namespace GmailNotifierPlus.Forms {
 			_aeroEnabled = enabled == 1;
 
 			this.Opacity = 0;
-			this.TopMost = true;
+			//this.TopMost = true;
+			SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, SetWindowPosFlags.NOACTIVATE | SetWindowPosFlags.NOSIZE | SetWindowPosFlags.NOREPOSITION);
 
 			_closeTimer.Tick += delegate(object sender, EventArgs e) {
 				this.Close();
@@ -226,7 +255,7 @@ namespace GmailNotifierPlus.Forms {
 
 			// show the last (newest) email
 			_mailIndex = 0; //this.Account.Emails.Count - 1;
-			
+
 			UpdateBody();
 		}
 
@@ -275,7 +304,7 @@ namespace GmailNotifierPlus.Forms {
 				else {
 					_statePrev = State.Disabled;
 					Invalidate(_rectPrev);
-				}				
+				}
 			}
 			// Next Rect
 			else if (_rectNext.Contains(mouse) && _stateNext != State.Disabled) {
@@ -338,7 +367,7 @@ namespace GmailNotifierPlus.Forms {
 					timer.Stop();
 					timer.Dispose();
 
-					this.TopMost = false;
+					//this.TopMost = false;
 				}
 			};
 
