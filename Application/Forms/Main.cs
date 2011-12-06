@@ -82,6 +82,10 @@ namespace GmailNotifierPlus.Forms {
 			_Timer.Enabled = true;
 		}
 
+		protected override bool ShowWithoutActivation {
+			get { return true; }
+		}
+
 		protected override void WndProc(ref Message m) {
 			if (m.Msg == WM_TASKBARBUTTONCREATED) {
 				this.CheckMail();
@@ -164,7 +168,7 @@ namespace GmailNotifierPlus.Forms {
 				_TrayIcon.Icon = _iconTray;
 			}
 
-			_TrayIcon.Visible = Config.Current.ShowTrayIcon;
+			_TrayIcon.Visible = Config.Current.ShowTrayIcon && _UnreadTotal > 0;
 
 		}
 
@@ -450,16 +454,17 @@ namespace GmailNotifierPlus.Forms {
 							_iconDigits = Icon.FromHandle(numbers.GetHicon());
 						}
 
+						// letting this generate even if the option isn't on. allows the user to show/hide the icon at will.
 						using (Bitmap trayNumbers = ImageHelper.GetTrayIcon(numbers)) {
 							_iconTray = Icon.FromHandle(trayNumbers.GetHicon());
 						}
-
 					}
 
 					_taskbarManager.SetOverlayIcon(base.Handle, _iconDigits, String.Empty);
 
+					_TrayIcon.Icon = _iconTray;
+
 					if (_config.ShowTrayIcon) {
-						_TrayIcon.Icon = _iconTray;
 						_TrayIcon.Visible = true;
 					}
 				}
@@ -476,7 +481,7 @@ namespace GmailNotifierPlus.Forms {
 				_taskbarManager.SetOverlayIcon(base.Handle, Resources.Icons.Warning, String.Empty);
 
 				CleanupDigitIcon();
-				HideTrayIcon();
+				//HideTrayIcon();
 			}
 
 		}
@@ -487,7 +492,7 @@ namespace GmailNotifierPlus.Forms {
 				_taskbarManager.SetOverlayIcon(base.Handle, Resources.Icons.Offline, String.Empty);
 
 				CleanupDigitIcon();
-				HideTrayIcon();
+				//HideTrayIcon();
 			}
 
 		}
@@ -528,20 +533,30 @@ namespace GmailNotifierPlus.Forms {
 		public void Jumplist_ShowPreferences(String[] arguments) {
 
 			Preferences prefs = Shellscape.Program.FindForm(typeof(Preferences)) as Preferences;
+			String arg = String.Empty;
+
+			if (arguments != null && arguments.Length >= 1) {
+				arg = arguments[0];
+			}
 
 			if (prefs != null) {
-				if (arguments != null && arguments.Length >= 1 && arguments[0] == "refresh") {
+				if (arg == "refresh") {
 					prefs.Close();
 					prefs.Dispose();
 					prefs = null;
 				}
 			}
-			
-			if(prefs == null) {
+
+			if (prefs == null) {
 				prefs = new Preferences();
 			}
 
 			MethodInvoker method = delegate() { // yes, all this ugly is necessary.
+
+				if (arg == "firstrun") {
+					prefs.InitFirstRun();
+				}
+
 				prefs.Show();
 				prefs.TopMost = true;
 				prefs.BringToFront();
@@ -558,7 +573,7 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		public void Jumplist_ShowAbout(String[] arguments) {
-			
+
 			About about = Shellscape.Program.FindForm(typeof(About)) as About ?? new About();
 
 			MethodInvoker method = delegate() { // yes, all this ugly is necessary.
@@ -568,7 +583,7 @@ namespace GmailNotifierPlus.Forms {
 				about.Focus();
 				about.TopMost = false;
 			};
-			
+
 			if (about.InvokeRequired) {
 				about.Invoke(method);
 			}
@@ -583,7 +598,7 @@ namespace GmailNotifierPlus.Forms {
 
 		#endregion
 
-		#region .    Remote Methods    
+		#region .    Remote Methods
 
 		public static void Remote_Mailto(String[] arguments) {
 

@@ -35,7 +35,7 @@
 			// 
 			// _TrayIcon
 			// 
-			this._TrayIcon.Visible = true;
+			this._TrayIcon.Visible = false;
 			// 
 			// Main
 			// 
