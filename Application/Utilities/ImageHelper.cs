@@ -20,7 +20,8 @@ namespace GmailNotifierPlus.Utilities {
 
 			using (ImageAttributes ia = new ImageAttributes())
 			using (Graphics graphics = Graphics.FromImage(bitmap))
-			using (Icon envelopeIcon = Resources.Icons.WindowSmall.Clone() as Icon)// Utilities.ResourceHelper.GetIcon("gmail-classic.ico"))
+			using (Icon resourceIcon = Utilities.ResourceHelper.GetIcon("gmail-classic.ico"))
+			using (Icon envelopeIcon = new Icon(resourceIcon, 16, 16)) //Resources.Icons.WindowSmall.Clone() as Icon - was throwing argumentexceptions inside ToBitmap
 			using (Bitmap envelope = envelopeIcon.ToBitmap()) {
 				ia.SetColorMatrix(cm);
 
