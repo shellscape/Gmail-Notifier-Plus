@@ -51,6 +51,7 @@ namespace GmailNotifierPlus.Forms {
 
 		public Preferences()
 			: base() {
+			
 			InitializeComponent();
 
 			Text = String.Concat(Locale.Current.Preferences.WindowTitle, " - ", Program.MainForm.Text);
