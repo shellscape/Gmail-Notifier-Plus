@@ -555,6 +555,9 @@ namespace GmailNotifierPlus.Forms {
 				if (arg == "firstrun") {
 					prefs.InitFirstRun();
 				}
+				else if (arg == "account") { // a quick hack to show an account from the thumbnail preview without rocking the boat here.
+					prefs.ShowAccount(arguments[1]);
+				}
 
 				prefs.Show();
 				prefs.TopMost = true;

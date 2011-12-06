@@ -348,6 +348,16 @@ namespace GmailNotifierPlus.Forms {
 
 		}
 
+		public void ShowAccount(String fullAddress) {
+			Account account = Config.Current.Accounts.Where(a => a.FullAddress == fullAddress).FirstOrDefault();
+
+			if (account == null) {
+				return;
+			}
+
+			ManageAccount(account);
+		}
+
 		private void ManageAccount(Account account) {
 
 			this.HidePanels();

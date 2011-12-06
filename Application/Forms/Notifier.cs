@@ -53,7 +53,7 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.Width = this.Width;
 
 			_webClient.DownloadDataCompleted += _WebClient_DownloadDataCompleted;
-			
+
 			_config.Saved += _Config_Saved;
 			_config.LanguageChanged += delegate(Config sender) {
 				UpdateMailPreview();
@@ -116,7 +116,7 @@ namespace GmailNotifierPlus.Forms {
 				_thumbActivated = true;
 
 				if (ConnectionStatus == NotifierStatus.AuthenticationFailed) {
-					//Program.MainForm.Jumplist_ShowPreferences();
+					Program.MainForm.Jumplist_ShowPreferences(new string[] { "account", this.Account.FullAddress });
 				}
 				else {
 					if (ConnectionStatus != NotifierStatus.Offline) {
