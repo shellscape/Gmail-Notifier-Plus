@@ -424,7 +424,14 @@ namespace GmailNotifierPlus.Forms {
 			_ButtonNext.Enabled = _mailIndex < 20 && _mailIndex < (Unread - 1);
 			_ButtonNext.Tooltip = Locale.Current.Common.Next;
 
+			try{
 			_ButtonInbox.Icon = Resources.Icons.Inbox;
+			}
+			catch(Microsoft.WindowsAPI.Shell.ShellException){
+				// happens from time to time, seems like only when the machine comes out of hibernation
+				// Exception: Microsoft.WindowsAPI.Shell.ShellException (0x800705B4): Shell Exception has occurred, look at inner exception for information.
+			}
+
 			_ButtonInbox.Tooltip = Locale.Current.Thumbnails.Inbox;
 
 			_ButtonInbox.Enabled = ConnectionStatus == NotifierStatus.OK;
