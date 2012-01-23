@@ -47,6 +47,9 @@ namespace GmailNotifierPlus.Forms {
 
 			this.Account = account;
 
+			this.StartPosition = FormStartPosition.Manual;
+			this.Location = new Point(-10000, -10000);
+
 			SetCheckingPreview();
 
 			_LabelStatus.RightToLeft = Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
@@ -58,10 +61,6 @@ namespace GmailNotifierPlus.Forms {
 			_config.LanguageChanged += delegate(Config sender) {
 				UpdateMailPreview();
 			};
-
-			//using (Icon icon = Utilities.ResourceHelper.GetIcon("Open.ico")) {
-			//  _PictureOpen.Image = icon.ToBitmap();
-			//}
 
 			_PictureOpen.Image = Resources.Icons.Open.ToBitmap();
 

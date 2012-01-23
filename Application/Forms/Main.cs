@@ -58,9 +58,9 @@ namespace GmailNotifierPlus.Forms {
 
 			info.ProgressState = TaskbarItemProgressState.Indeterminate;
 			info.ProgressValue = 20;
-
-
+			
 			this.Icon = Resources.Icons.Window;
+			this.StartPosition = FormStartPosition.Manual;
 			this.Location = new Point(-10000, -10000);
 			this.Text = this._TrayIcon.Text = GmailNotifierPlus.Resources.WindowTitle;
 
