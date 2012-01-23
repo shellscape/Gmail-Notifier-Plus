@@ -95,6 +95,10 @@ namespace GmailNotifierPlus {
 						int tracking = Convert.ToInt32(trackDocs);
 						config.RecentDocsTracked = tracking == 1;
 					}
+					else {
+						// if the value doesn't exist, that means it's turned on (but will probably not put out, slut.).
+						config.RecentDocsTracked = true;
+					}
 					key.Close();
 				}
 			}
