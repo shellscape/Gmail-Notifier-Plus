@@ -149,7 +149,7 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			try {
-				_webClient.Credentials = new NetworkCredential(Account.Login, Account.Password);
+				_webClient.Credentials = new NetworkCredential(Account.Login.ToLower(), Account.Password);
 				_webClient.DownloadDataAsync(new Uri(UrlHelper.GetFeedUrl(Account)));
 
 				SetCheckingPreview();
