@@ -243,11 +243,9 @@ namespace GmailNotifierPlus.Forms {
 			_PictureOpen.Cursor = Cursors.Hand;
 			_PictureOpen.Click += OpenEmail;
 
-			//using (Icon icon = ResourceHelper.GetIcon("Open.ico")) {
-			//  _PictureOpen.Image = icon.ToBitmap();
-			//}
-
-			_PictureOpen.Image = Resources.Icons.Open.ToBitmap();
+			using (Icon icon = ResourceHelper.GetIcon("Open.ico")) {
+			  _PictureOpen.Image = icon.ToBitmap();
+			}
 
 			if (this.Account.Emails.Count > 1) {
 				_stateNext = State.Normal;
