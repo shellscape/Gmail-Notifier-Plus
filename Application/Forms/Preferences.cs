@@ -136,6 +136,9 @@ namespace GmailNotifierPlus.Forms {
 
 			InitSound();
 			InitLanguages();
+
+			_TextInterval.Text = (Config.Current.Interval / 60).ToString();
+
 			InitCheckboxes();
 
 			EventHandler changed = delegate(object sender, EventArgs e) {
