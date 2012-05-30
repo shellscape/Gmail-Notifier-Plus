@@ -28,7 +28,7 @@ namespace GmailNotifierPlus.Forms {
 			InitializeComponent();
 
 			this.Icon = Resources.Icons.Window;
-			this.Text = Resources.WindowTitle;
+			this.Text = Resources.Strings.WindowTitle;
 
 			_ButtonOK.Click += _ButtonOk_Click;
 			_ButtonOK.Text = Localization.Locale.Current.About.FirstRun;
