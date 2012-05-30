@@ -374,6 +374,10 @@ namespace GmailNotifierPlus.Forms {
 
 				case NotifierStatus.OK:
 
+					if(_mailIndex >= Account.Emails.Count) {
+						_mailIndex = Math.Max(Account.Emails.Count - 1, 0);
+					}
+
 					if (Unread > 0) {
 
 						Email email = Account.Emails[_mailIndex];
