@@ -25,7 +25,7 @@
 		<Button>Sweet. Thanks!</Button>
 		<FirstRun>Let's Go!</FirstRun>
 		<Checking>Checking for updates...</Checking>
-		<UpdateProblem>There was a while problem checking for updates</UpdateProblem>
+		<UpdateProblem>There was a problem while checking for updates</UpdateProblem>
 		<UpToDate>Gmail Notifier Plus is up to date ({0})</UpToDate>
 		<NewVersion>Downloading {0}...</NewVersion>
 	</About>
