@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XML_DIZ_INFO>
+    <MASTER_PAD_VERSION_INFO>
+        <MASTER_PAD_VERSION>3.10</MASTER_PAD_VERSION>
+        <MASTER_PAD_EDITOR>PAD Fab</MASTER_PAD_EDITOR>
+        <MASTER_PAD_INFO>Portable Application Description, or PAD for short, is a data set that is used by shareware authors to disseminate information to anyone interested in their software products. To find out more go to http://www.asp-shareware.org/pad</MASTER_PAD_INFO>
+    </MASTER_PAD_VERSION_INFO>
+    <Company_Info>
+        <Company_Name>Shellscape Software</Company_Name>
+        <Address_1></Address_1>
+        <Address_2></Address_2>
+        <City_Town></City_Town>
+        <State_Province></State_Province>
+        <Zip_Postal_Code></Zip_Postal_Code>
+        <Country></Country>
+        <Company_WebSite_URL>http://www.shellscape.org</Company_WebSite_URL>
+        <Contact_Info>
+            <Author_First_Name>Andrew</Author_First_Name>
+            <Author_Last_Name>Powell</Author_Last_Name>
+            <Author_Email>andrew@shellscape.org</Author_Email>
+            <Contact_First_Name>Andrew</Contact_First_Name>
+            <Contact_Last_Name>Powell</Contact_Last_Name>
+            <Contact_Email>andrew@shellscape.org</Contact_Email>
+        </Contact_Info>
+        <Support_Info>
+            <Sales_Email>andrew@shellscape.org</Sales_Email>
+            <Support_Email>andrew@shellscape.org</Support_Email>
+            <General_Email>andrew@shellscape.org</General_Email>
+            <Sales_Phone></Sales_Phone>
+            <Support_Phone></Support_Phone>
+            <General_Phone></General_Phone>
+            <Fax_Phone></Fax_Phone>
+        </Support_Info>
+    </Company_Info>
+    <Program_Info>
+        <Program_Name>Gmail Notifier Plus</Program_Name>
+        <Program_Version>3.0</Program_Version>
+        <Program_Release_Month>01</Program_Release_Month>
+        <Program_Release_Day>03</Program_Release_Day>
+        <Program_Release_Year>2012</Program_Release_Year>
+        <Program_Cost_Dollars>0.00</Program_Cost_Dollars>
+        <Program_Cost_Other_Code></Program_Cost_Other_Code>
+        <Program_Cost_Other></Program_Cost_Other>
+        <Program_Type>Freeware</Program_Type>
+        <Program_Release_Status>Major Update</Program_Release_Status>
+        <Program_Install_Support>Install and Uninstall</Program_Install_Support>
+        <Program_OS_Support>Win7 x32,Win7 x64</Program_OS_Support>
+        <Program_Language>Abkhazian,Afar,Afrikaans,Albanian,Amharic,Arabic,Armenian,Assamese,Aymara,Azerbaijani,Bashkir,Basque,Bengali,Bhutani,Bihari,Bislama,Breton,Bulgarian,Burmese,Byelorussian,Cambodian,Catalan,Chinese,ChineseSimplified,ChineseTraditional,Corsican,Croatian,Czech,Danish,Dutch,English,Esperanto,Estonian,Faeroese,Fiji,Finnish,French,Frisian,Gaelic,Galician,Georgian,German,Greek,Greenlandic,Guarani,Gujarati,Hausa,Hebrew,Hindi,Hungarian,Icelandic,Indonesian,Interlingua,Interlingue,Inupiak,Irish,Italian,Japanese,Javanese,Kannada,Kashmiri,Kazakh,Kinyarwanda,Kirghiz,Kirundi,Korean,Kurdish,Laothian,Latin,Latvian,Lingala,Lithuanian,Macedonian,Malagasy,Malay,Malayalam,Maltese,Maori,Marathi,Moldavian,Mongolian,Nauru,Nepali,Norwegian,Occitan,Oriya,Oromo,Other,Pashto,Persian,Polish,Portuguese,Punjabi,Quechua,Rhaeto-Romance,Romanian,Russian,Samoan,Sangro,Sanskrit,Serbian,Serbo-Croatian,Sesotho,Setswana,Shona,Sindhi,Singhalese,Siswati,Slovak,Slovenian,Somali,Spanish,Sudanese,Swahili,Swedish,Tagalog,Tajik,Tamil,Tatar,Telugu,Thai,Tibetan,Tigrinya,Tonga,Tsonga,Turkish,Turkmen,Twi,Ukrainian,Urdu,Uzbek,Vietnamese,Volapuk,Welsh,Wolof,Xhosa,Yiddish,Yoruba,Zulu</Program_Language>
+        <Program_Change_Info></Program_Change_Info>
+        <Program_Specific_Category>Internet</Program_Specific_Category>
+        <Program_Category_Class>Communications::Other E-Mail Tools</Program_Category_Class>
+        <Program_System_Requirements>.NET 4.0</Program_System_Requirements>
+        <File_Info>
+            <File_Size_Bytes>1048576</File_Size_Bytes>
+            <File_Size_K>1024.00</File_Size_K>
+            <File_Size_MB>1.00</File_Size_MB>
+        </File_Info>
+        <Expire_Info>
+            <Has_Expire_Info>N</Has_Expire_Info>
+            <Expire_Count></Expire_Count>
+            <Expire_Based_On></Expire_Based_On>
+            <Expire_Other_Info></Expire_Other_Info>
+            <Expire_Month></Expire_Month>
+            <Expire_Day></Expire_Day>
+            <Expire_Year></Expire_Year>
+        </Expire_Info>
+    </Program_Info>
+    <Program_Descriptions>
+        <English>
+            <Keywords>gmail notifier multiple account windows taskbar system tray superbar thumbnail preview toast</Keywords>
+            <Char_Desc_45>Monitor multiple Gmail / Google Apps accounts</Char_Desc_45>
+            <Char_Desc_80>Gmail Notifier Plus monitors multiple Gmail / GApps accounts from your taskbar.</Char_Desc_80>
+            <Char_Desc_250>Gmail Notifier Plus is an application to monitor multiple Gmail and Google Apps Mail accounts from a single point. Gmail Notifier Plus notifies you of your new mail, and allows you to quickly navigate old and new mail without opening a browser.</Char_Desc_250>
+            <Char_Desc_450>Gmail Notifier Plus is a small, fun application to monitor multiple Gmail and Google Apps Mail accounts from a single, compact point. With it's slick, native look, Gmail Notifier Plus notifies you in a variety of ways of your new mail, and allows you to quickly navigate old and new mail without opening a browser.</Char_Desc_450>
+            <Char_Desc_2000>Gmail Notifier Plus is a small, fun application to monitor multiple Gmail and Google Apps Mail accounts from a single, compact point. With it's slick, native look, Gmail Notifier Plus notifies you in a variety of ways of your new mail, and allows you to quickly navigate old and new mail without opening a browser.</Char_Desc_2000>
+        </English>
+    </Program_Descriptions>
+    <Web_Info>
+        <Application_URLs>
+            <Application_Info_URL>http://shellscape.org/#Gmail-Notifier-Plus</Application_Info_URL>
+            <Application_Order_URL></Application_Order_URL>
+            <Application_Screenshot_URL>http://github.com/shellscape/Gmail-Notifier-Plus/raw/master/Promotional/email.preview.png</Application_Screenshot_URL>
+            <Application_Icon_URL>http://github.com/shellscape/Gmail-Notifier-Plus/raw/master/Application/Resources/Images/about-icon.png</Application_Icon_URL>
+            <Application_XML_File_URL>http://raw.github.com/shellscape/Gmail-Notifier-Plus/master/pad.xml</Application_XML_File_URL>
+        </Application_URLs>
+        <Download_URLs>
+            <Primary_Download_URL>http://github.com/downloads/shellscape/Gmail-Notifier-Plus/Gmail-Notifier-Plus-3.0.zip</Primary_Download_URL>
+            <Secondary_Download_URL></Secondary_Download_URL>
+            <Additional_Download_URL_1></Additional_Download_URL_1>
+            <Additional_Download_URL_2></Additional_Download_URL_2>
+        </Download_URLs>
+    </Web_Info>
+    <Permissions>
+        <Distribution_Permissions></Distribution_Permissions>
+        <EULA>The MIT License
+
+Copyright (c) 2011 Andrew Powell, Shellscape Software
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</EULA>
+    </Permissions>
+</XML_DIZ_INFO>
