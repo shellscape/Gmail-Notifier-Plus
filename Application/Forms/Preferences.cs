@@ -498,19 +498,14 @@ namespace GmailNotifierPlus.Forms {
 				}
 			}
 
-			//if (account.HandlesMailto) {
-
-			//  Shellscape.Browser browser = account.Browser ?? Shellscape.Utilities.BrowserHelper.DefaultBrowser;
-
-			//  value = String.Concat(browser.Path, " \"", Utilities.UrlHelper.GetBaseUrl(account), "?extsrc=mailto&url=%1\"");
-			//}
-
 			if (addAssociation) {
 				String value = String.Concat("\"", Application.ExecutablePath, "\" -mailto %1");
 				command.SetValue(null, value);
 			}
 			else {
-				command.DeleteValue(null);
+				if(command.GetValue(null) != null) { // fixes #87
+					command.DeleteValue(null);
+				}
 			}
 
 			command.Close();
