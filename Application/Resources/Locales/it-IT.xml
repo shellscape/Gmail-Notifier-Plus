@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Locale>
+	<Name>Italiano (it-IT)</Name>
+	<Common>
+		<Cancel>Annulla</Cancel>
+		<Close>Chiudi</Close>
+		<Next>Prossimo</Next>
+		<OK>OK</OK>
+		<Previous>Precedente</Previous>
+		<No>No</No>
+		<Yes>Si</Yes>
+		<Unread>Non letto</Unread>
+	</Common>
+	<JumpList>
+		<DefaultAccount>Account predefinito</DefaultAccount>
+		<Inbox>Vai a Posta in arrivo</Inbox>
+		<Compose>Scrivi nuovo messaggio</Compose>
+		<Check>Controlla nuovi messaggi</Check>
+		<Preferences>Preferenze</Preferences>
+		<About>Informazioni su Gmail Notifier Plus</About>
+		<Help>Wiki di supporto</Help>
+	</JumpList>
+	<About>
+		<WindowTitle>Informazioni</WindowTitle>
+		<Button>Grazie!</Button>
+		<FirstRun>Iniziamo!</FirstRun>
+		<Checking>Controllo aggiornamenti...</Checking>
+		<UpdateProblem>Errore durante il controllo degli aggiornamenti</UpdateProblem>
+		<UpToDate>Gmail Notifier Plus e' aggiornato ({0})</UpToDate>
+		<NewVersion>Download in corso {0}...</NewVersion>
+	</About>
+	<Preferences>
+		<WindowTitle>Preferenze</WindowTitle>
+		<Navigation>
+			<General>Preferenze generali</General>
+			<Accounts>Gestione account</Accounts>
+			<Appearance>Preferenze visualizzazione</Appearance>
+		</Navigation>
+		<Panels>
+			<General>
+				<Title>Preferenze generali Gmail Notifier Plus</Title>
+				<ApplyChanges>Applica cambiamenti</ApplyChanges>
+				<Sound>
+					<Title>Notifiche audio</Title>
+					<None>Nessuna</None>
+					<Default>Predefinita</Default>
+					<Custom>Personalizzata...</Custom>
+					<Browse>Sfoglia...</Browse>
+					<BrowseWindowTitle>Seleziona una notifica audio</BrowseWindowTitle>
+					<WaveFiles>File Wav</WaveFiles>
+				</Sound>
+				<CheckEmail>Intervallo controllo messaggi (in minuti)</CheckEmail>
+				<CheckUpdates>Controllo aggiornamenti</CheckUpdates>
+				<Language>Lingua</Language>
+				<FlashTaskbar>Lampeggio della barra delle applicazioni su nuovo messaggio</FlashTaskbar>
+				<ShowTray>Visualizza numero messaggi nell'area di notifica</ShowTray>
+				<ShowToast>Visualizza notifica Toast su nuovo messaggio</ShowToast>
+			</General>
+			<Accounts>
+				<Title>Scegli l'account da modificare</Title>
+				<AddNew>Aggiungi nuovo account</AddNew>
+				<Account>
+					<Title>Gestisci {0}</Title>
+					<Address>Indirizzo e-mail</Address>
+					<Password>Password</Password>
+					<Mailto>Usa questo account per links mailto</Mailto>
+					<DefaultAccount>Usa questo account come predefinito</DefaultAccount>
+					<Browser>Browser</Browser>
+					<AddAccount>Aggiungi Account</AddAccount>
+					<RemoveAccount>Rimuovi questo account</RemoveAccount>
+					<RemoveConfirmation>Sei sicuro di voler rimuover questo account?</RemoveConfirmation>
+					<RemoveConfirmationTitle>Rimuovi Account</RemoveConfirmationTitle>
+					<AccountsIntroNone>Benvenuto in Gmail Notifier Plus.\n\nPer iniziare, clicca sul pulsante in basso per aggiungere un nuovo account.</AccountsIntroNone>
+					<Error>Esiste gia' un account con questo indirizzo. Inserire un indirizzo diverso.</Error>
+				</Account>
+			</Accounts>
+		</Panels>
+	</Preferences>
+	<Thumbnails>
+		<CheckLogin>Controllare le impostazioni dell'account</CheckLogin>
+		<Connecting>Controllo nuovi messaggi...</Connecting>
+		<ConnectionUnavailable>Controllare la connessione ad internet</ConnectionUnavailable>
+		<Inbox>In Arrivo</Inbox>
+		<NoSubject>(nessun oggetto)</NoSubject>
+		<NoAccount>Aggiungere un account</NoAccount>
+		<NoMail>Nessun nuovo messaggio</NoMail>
+	</Thumbnails>
+	<Toast>
+		<ViewEmail>Visualizza questo messaggio</ViewEmail>
+		<NoSubject>(nessun oggetto)</NoSubject>
+	</Toast>
+</Locale>
