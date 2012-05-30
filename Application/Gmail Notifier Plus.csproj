@@ -153,6 +153,11 @@
     <Compile Include="Localization\Locale.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Account.cs" />
+    <Compile Include="Resources\Icons.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Icons.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Resources.cs" />
     <Compile Include="ToastManager.cs" />
     <Compile Include="Utilities\EncryptionHelper.cs" />
@@ -197,6 +202,10 @@
     <EmbeddedResource Include="Forms\ToastTest.resx">
       <DependentUpon>ToastTest.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Icons.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Icons.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Images\Warning.png" />
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
@@ -214,6 +223,9 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Locales\it-IT.xml" />
+    <EmbeddedResource Include="Resources\Locales\ur-PK.xml" />
+    <None Include="Resources\Icons\gmail-classic-small.ico" />
     <EmbeddedResource Include="Resources\Locales\es-AR.xml" />
     <EmbeddedResource Include="Resources\Locales\nl-NL.xml" />
     <EmbeddedResource Include="Resources\Images\gmail-bleu.png" />
@@ -223,41 +235,41 @@
     <EmbeddedResource Include="Resources\Images\download-updates.png" />
     <EmbeddedResource Include="Resources\Images\exclamation-updates.png" />
     <EmbeddedResource Include="Resources\Images\uptodate.png" />
-    <EmbeddedResource Include="Resources\Icons\gmail-classic.ico" />
-    <Content Include="Resources\Icons\about.ico">
+    <None Include="Resources\Icons\gmail-classic.ico" />
+    <None Include="Resources\Icons\about.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <EmbeddedResource Include="Resources\Icons\Mail.ico">
+    </None>
+    <None Include="Resources\Icons\Mail.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Icons\Next.ico" />
-    <EmbeddedResource Include="Resources\Icons\Offline.ico" />
-    <EmbeddedResource Include="Resources\Icons\Open.ico" />
-    <EmbeddedResource Include="Resources\Icons\Previous.ico" />
-    <EmbeddedResource Include="Resources\Icons\Inbox.ico" />
+    </None>
+    <None Include="Resources\Icons\Next.ico" />
+    <None Include="Resources\Icons\Offline.ico" />
+    <None Include="Resources\Icons\Open.ico" />
+    <None Include="Resources\Icons\Previous.ico" />
+    <None Include="Resources\Icons\Inbox.ico" />
     <Content Include="Application.ico" />
-    <Content Include="Resources\Icons\GoInbox.ico">
+    <None Include="Resources\Icons\GoInbox.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Icons\help.ico">
+    </None>
+    <None Include="Resources\Icons\help.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Icons\Settings.ico">
+    </None>
+    <None Include="Resources\Icons\Settings.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <EmbeddedResource Include="Resources\Icons\Warning.ico" />
+    </None>
+    <None Include="Resources\Icons\Warning.ico" />
     <EmbeddedResource Include="Resources\Images\Checking.png" />
     <EmbeddedResource Include="Resources\Images\Offline.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Icons\Compose.ico">
+    <None Include="Resources\Icons\Compose.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Icons\Refresh.ico">
+    <None Include="Resources\Icons\Refresh.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\External\Shellscape.Common\Microsoft\Windows API\Windows API.csproj">
