@@ -62,7 +62,7 @@ namespace GmailNotifierPlus.Forms {
 			this.Icon = Resources.Icons.Window;
 			this.StartPosition = FormStartPosition.Manual;
 			this.Location = new Point(-10000, -10000);
-			this.Text = this._TrayIcon.Text = GmailNotifierPlus.Resources.WindowTitle;
+			this.Text = this._TrayIcon.Text = GmailNotifierPlus.Resources.Strings.WindowTitle;
 
 			this.CreateInstances();
 
@@ -368,7 +368,7 @@ namespace GmailNotifierPlus.Forms {
 
 				TabbedThumbnail preview = new TabbedThumbnail(base.Handle, notifier.Handle);
 				preview.TabbedThumbnailClosed += _Preview_TabbedThumbnailClosed;
-				preview.SetWindowIcon(Resources.Icons.Window); //Utilities.ResourceHelper.GetIcon("gmail-classic.ico"));
+				preview.SetWindowIcon(Resources.Icons.Window);
 				preview.Tooltip = String.Empty;
 				preview.Title = account.FullAddress;
 

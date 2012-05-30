@@ -232,10 +232,10 @@ namespace GmailNotifierPlus.Forms {
 			_elementInbox = VisualStyleElement.CreateElement("TaskbandExtendedUI", CenterControl, 1);
 			_elementNext = VisualStyleElement.CreateElement("TaskbandExtendedUI", RightControl, 1);
 
-			_iconPrev = Resources.Icons.Previous; // ResourceHelper.GetIcon("Previous.ico");
-			_iconInbox = Resources.Icons.Inbox; // ResourceHelper.GetIcon("Inbox.ico");
-			_iconNext = Resources.Icons.Next; // ResourceHelper.GetIcon("Next.ico");
-			_iconWindow = Resources.Icons.Window; // ResourceHelper.GetIcon("gmail-classic.ico", 16);
+			_iconPrev = Resources.Icons.Previous;
+			_iconInbox = Resources.Icons.Inbox;
+			_iconNext = Resources.Icons.Next;
+			_iconWindow = Resources.Icons.Window;
 
 			ToolTip openTip = new ToolTip();
 			openTip.SetToolTip(_PictureOpen, Localization.Locale.Current.Toast.ViewEmail);
@@ -243,9 +243,9 @@ namespace GmailNotifierPlus.Forms {
 			_PictureOpen.Cursor = Cursors.Hand;
 			_PictureOpen.Click += OpenEmail;
 
-			using (Icon icon = ResourceHelper.GetIcon("Open.ico")) {
-			  _PictureOpen.Image = icon.ToBitmap();
-			}
+			//using (Icon icon = ResourceHelper.GetIcon("Open.ico")) {
+			  _PictureOpen.Image = Resources.Icons.Open.ToBitmap();
+			//}
 
 			if (this.Account.Emails.Count > 1) {
 				_stateNext = State.Normal;
