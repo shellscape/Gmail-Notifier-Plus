@@ -481,7 +481,6 @@ namespace GmailNotifierPlus.Forms {
 				_taskbarManager.SetOverlayIcon(base.Handle, Resources.Icons.Warning, String.Empty);
 
 				CleanupDigitIcon();
-				//HideTrayIcon();
 			}
 
 		}
@@ -492,7 +491,6 @@ namespace GmailNotifierPlus.Forms {
 				_taskbarManager.SetOverlayIcon(base.Handle, Resources.Icons.Offline, String.Empty);
 
 				CleanupDigitIcon();
-				//HideTrayIcon();
 			}
 
 		}
