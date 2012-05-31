@@ -462,6 +462,7 @@ namespace GmailNotifierPlus.Forms {
 					_taskbarManager.SetOverlayIcon(base.Handle, _iconDigits, String.Empty);
 
 					_TrayIcon.Icon = _iconTray;
+					_TrayIcon.Text = String.Concat(GmailNotifierPlus.Resources.Strings.WindowTitle, " (Unread: ", digitsNumber.ToString(), ")");
 
 					if (_config.ShowTrayIcon) {
 						_TrayIcon.Visible = true;
