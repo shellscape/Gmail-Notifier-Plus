@@ -500,6 +500,9 @@ namespace GmailNotifierPlus.Forms {
 						_iconTray = Resources.Icons.WindowSmall;
 					}
 				}
+				else {
+					throw;
+				}
 			}
 			
 		}
