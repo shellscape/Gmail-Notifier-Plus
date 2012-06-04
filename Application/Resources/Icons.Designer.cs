@@ -102,6 +102,13 @@ namespace GmailNotifierPlus.Resources {
             }
         }
         
+        internal static System.Drawing.Icon NewFallback {
+            get {
+                object obj = ResourceManager.GetObject("NewFallback", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         internal static System.Drawing.Icon Next {
             get {
                 object obj = ResourceManager.GetObject("Next", resourceCulture);

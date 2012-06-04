@@ -23,6 +23,9 @@ namespace GmailNotifierPlus.Forms {
 		[DllImport("user32.dll")]
 		public static extern uint RegisterWindowMessage(string message);
 
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		extern static bool DestroyIcon(IntPtr handle);
+
 		private const int _UNREAD_MAX = 0x63;
 
 		private Dictionary<string, Notifier> _instances = new Dictionary<string, Notifier>();
@@ -44,10 +47,7 @@ namespace GmailNotifierPlus.Forms {
 
 			InitializeComponent();
 
-			// since we're using the native jumplist stuff, we really shouldn't need this. we'll see.
-			//_taskbarManager.ApplicationId = String.Concat("Gmail-Notifier-Plus-", Shellscape.Utilities.AssemblyMeta.Guid, "-", Shellscape.Utilities.AssemblyMeta.Version);
-
-			_jumpList = new JumpList(); //JumpList.GetJumpList(System.Windows.Application.Current);
+			_jumpList = new JumpList(); 
 			_jumpList.ShowFrequentCategory = false;
 			_jumpList.ShowRecentCategory = false;
 
@@ -444,20 +444,7 @@ namespace GmailNotifierPlus.Forms {
 					int digitsNumber;
 					Int32.TryParse(count.ToString("00"), out digitsNumber);
 
-					using (Bitmap numbers = ImageHelper.GetDigitIcon(digitsNumber)) {
-
-						if (numbers == null) {
-							_iconDigits = Resources.Icons.Warning as Icon;
-						}
-						else {
-							_iconDigits = Icon.FromHandle(numbers.GetHicon());
-						}
-
-						// letting this generate even if the option isn't on. allows the user to show/hide the icon at will.
-						using (Bitmap trayNumbers = ImageHelper.GetTrayIcon(numbers)) {
-							_iconTray = Icon.FromHandle(trayNumbers.GetHicon());
-						}
-					}
+					DrawUnreadOverlay(digitsNumber, null);
 
 					_taskbarManager.SetOverlayIcon(base.Handle, _iconDigits, String.Empty);
 
@@ -473,6 +460,48 @@ namespace GmailNotifierPlus.Forms {
 				}
 
 			}
+		}
+
+		private void DrawUnreadOverlay(int unread, Exception priorException) {
+
+			try {
+
+				if(_iconDigits != null) {
+					DestroyIcon(_iconDigits.Handle);
+				}
+
+				if(_iconTray != null) {
+					DestroyIcon(_iconTray.Handle);
+				}
+
+				using(Bitmap numbers = ImageHelper.GetDigitIcon(unread)) {
+
+					if(numbers == null) {
+						_iconDigits = Resources.Icons.Warning as Icon;
+					}
+					else {
+						_iconDigits = Icon.FromHandle(numbers.GetHicon());
+					}
+
+					// letting this generate even if the option isn't on. allows the user to show/hide the icon at will.
+					using(Bitmap trayNumbers = ImageHelper.GetTrayIcon(numbers)) {
+						_iconTray = Icon.FromHandle(trayNumbers.GetHicon());
+					}
+				}
+
+			}
+			catch(System.ComponentModel.Win32Exception ex) { // trying to solve the "The operation completed successfully" exception on Icon ctor.
+				if(ex.NativeErrorCode != 0) {
+					if(priorException == null) {
+						DrawUnreadOverlay(unread, ex);
+					}
+					else {
+						_iconDigits = Resources.Icons.NewFallback;
+						_iconTray = Resources.Icons.WindowSmall;
+					}
+				}
+			}
+			
 		}
 
 		internal void SetWarningOverlay() {
