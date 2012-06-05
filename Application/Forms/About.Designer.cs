@@ -36,7 +36,7 @@ namespace GmailNotifierPlus.Forms {
 			// 
 			// _Button
 			// 
-			this._Button.Location = new System.Drawing.Point(435, 236);
+			this._Button.Location = new System.Drawing.Point(435, 243);
 			// 
 			// _Flow
 			// 
@@ -46,7 +46,7 @@ namespace GmailNotifierPlus.Forms {
 			this._Flow.Controls.Add(this._LabelCopyright);
 			this._Flow.Location = new System.Drawing.Point(3, 152);
 			this._Flow.Name = "_Flow";
-			this._Flow.Size = new System.Drawing.Size(519, 87);
+			this._Flow.Size = new System.Drawing.Size(519, 85);
 			this._Flow.TabIndex = 2;
 			// 
 			// _LabelCopyright
@@ -73,7 +73,7 @@ namespace GmailNotifierPlus.Forms {
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
-			this.ClientSize = new System.Drawing.Size(526, 269);
+			this.ClientSize = new System.Drawing.Size(526, 276);
 			this.Controls.Add(this._Flow);
 			this.Name = "About";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
