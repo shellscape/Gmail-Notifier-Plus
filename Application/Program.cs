@@ -45,6 +45,7 @@ namespace GmailNotifierPlus {
 		    Config.Init();
 
 		    Shellscape.UpdateManager updates = new Shellscape.UpdateManager(_repoUser, _repoName, _repoName);
+
 		    updates.Error += delegate(object sender, UnhandledExceptionEventArgs e) {
 		      ErrorHelper.Report(e.ExceptionObject as Exception);
 		    };
@@ -55,7 +56,7 @@ namespace GmailNotifierPlus {
 		    };
 
 			};
-
+			
 			Shellscape.Program.Run<GmailNotifierPlus.Forms.Main>(args);
 
 		}
