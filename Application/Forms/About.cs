@@ -21,7 +21,6 @@ using Shellscape;
 namespace GmailNotifierPlus.Forms {
 	public partial class About : Shellscape.UI.About {
 
-		private AnimatedCursor _animatedCursor;
 		private Bitmap _upToDate;
 		private Bitmap _exclamation;
 		private Bitmap _download;
@@ -46,8 +45,9 @@ namespace GmailNotifierPlus.Forms {
 
 			toYear = toYear == "2011" ? String.Empty : String.Concat("-", toYear);
 
-			this._Button.Font = SystemFonts.MessageBoxFont;
+			this._Button.Font = this._ButtonDonate.Font = SystemFonts.MessageBoxFont;
 			this._Button.Text = Localization.Locale.Current.About.Button;
+			this._ButtonDonate.Text = Localization.Locale.Current.About.Donate;
 			this._LabelCopyright.Text = String.Join("\n",
 				String.Concat("Copyright © 2011", toYear, " Andrew Powell, ", linkTarget, ". All rights reserved."),
 				"Based on the application originally developed by Baptiste Girod\n",
@@ -75,26 +75,13 @@ namespace GmailNotifierPlus.Forms {
 
 		}
 
+		protected override string DonationDescription {
+			get { return "Gmail%20Notifier%20Plus%20Donation"; }
+		}
+
 		protected override void OnPaintIcon(Graphics g) {
 			g.DrawImage(this._icon, 326, 7, this._icon.Width, this._icon.Height);
 		}
 
-		//private void _PanelUpdate_Paint(object sender, PaintEventArgs e) {
-
-		//  UpdateManager.UpdateStatus status = UpdateManager.Current.Status;
-
-		//  if(status == UpdateManager.UpdateStatus.Checking) {
-		//    _animatedCursor.DrawStep(e.Graphics, -4, -4);
-		//  }
-		//  else if(status == UpdateManager.UpdateStatus.Problem) {
-		//    e.Graphics.DrawImage(_exclamation, 4, 4, _exclamation.Width, _exclamation.Height);
-		//  }
-		//  else if(status == UpdateManager.UpdateStatus.UpToDate) {
-		//    e.Graphics.DrawImage(_upToDate, 4, 4, _upToDate.Width, _upToDate.Height);
-		//  }
-		//  else if(status == UpdateManager.UpdateStatus.NewVersion) {
-		//    e.Graphics.DrawImage(_download, 4, 4, _upToDate.Width, _upToDate.Height);
-		//  }
-		//}
 	}
 }
