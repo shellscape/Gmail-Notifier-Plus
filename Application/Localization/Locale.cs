@@ -34,7 +34,7 @@ namespace GmailNotifierPlus.Localization {
 		public LocalePreferences Preferences { get; set; }
 		public LocaleThumbnails Thumbnails { get; set; }
 		public LocaleToast Toast { get; set; }
-
+		public LocaleUpdates Updates { get; set; }
 	}
 
 	public class LocaleCommon {
@@ -67,10 +67,7 @@ namespace GmailNotifierPlus.Localization {
 		public String WindowTitle { get; set; }
 		public String Button { get; set; }
 		public String FirstRun { get; set; }
-		public String Checking { get; set; }
-		public String UpdateProblem { get; set; }
-		public String UpToDate { get; set; }
-		public String NewVersion { get; set; }
+		public String Donate { get; set; }
 	}
 
 	public class LocalePreferences {
@@ -158,6 +155,16 @@ namespace GmailNotifierPlus.Localization {
 
 		public String ViewEmail { get; set; }
 		public String NoSubject { get; set; }
+	}
+
+	public class LocaleUpdates {
+
+		public String WindowTitle { get; set; }
+		public String Text { get; set; }
+		public String YesText { get; set; }
+		public String YesInstruction { get; set; }
+		public String NoText { get; set; }
+		public String NoInstruction { get; set; }
 	}
 
 }

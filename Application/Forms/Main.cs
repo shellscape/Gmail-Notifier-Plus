@@ -223,7 +223,9 @@ namespace GmailNotifierPlus.Forms {
 				base.Close();
 			}
 			else {
-				_taskbarManager.TabbedThumbnail.SetActiveTab(_instances[_config.Accounts[0].Guid].Handle);
+				if(_config.Accounts.Count > 0 && _instances.ContainsKey(_config.Accounts[0].Guid)) {
+					_taskbarManager.TabbedThumbnail.SetActiveTab(_instances[_config.Accounts[0].Guid].Handle);
+				}
 			}
 		}
 
@@ -239,23 +241,35 @@ namespace GmailNotifierPlus.Forms {
 
 		private void _Updates_DownloadComplete(object sender, AsyncCompletedEventArgs e) {
 
+			Shellscape.UpdateManager.Current.Replace(Config.Current.AppDataPath, Path.GetDirectoryName(Application.ExecutablePath)); // @"C:\Users\Andrew\AppData\Roaming\Gmail Notifier Plus\Updates\test");
+
 			using(TaskDialog dialog = new TaskDialog() {
-				Text = "A new version of Gmail Notifier Plus has been downloaded and is ready! You can restart Gmail Notifier Plus now to apply the update.",
+				Text = Locale.Current.Updates.Text,
 				Icon = TaskDialogStandardIcon.Information
 			}) {
 
-				TaskDialogCommandLink yes = new TaskDialogCommandLink("yes", "Restart Gmail Notifier Plus", "I need the new hotness.");
+				TaskDialogCommandLink yes = new TaskDialogCommandLink("yes", Locale.Current.Updates.YesText, Locale.Current.Updates.YesInstruction);
 				yes.Click += delegate(object s, EventArgs ea) {
+
+					EventHandler handler = null;
+					
+					handler = delegate(object o, EventArgs args) {
+						Application.ApplicationExit -= handler;
+						System.Diagnostics.Process.Start(Application.ExecutablePath);
+					};
+
+					Application.ApplicationExit += handler;
+					Application.Exit();
 
 					dialog.Close();
 				};
 
-				TaskDialogCommandLink no = new TaskDialogCommandLink("yes", "No, Thanks", "I like to live on the edge.");
+				TaskDialogCommandLink no = new TaskDialogCommandLink("no", Locale.Current.Updates.NoText, Locale.Current.Updates.NoInstruction);
 				no.Click += delegate(object s, EventArgs ea) {
 					dialog.Close();
 				};
 
-				dialog.Caption = dialog.InstructionText = "Gmail Notifier Plus Update";
+				dialog.Caption = dialog.InstructionText = "Gmail Notifier Plus " + Locale.Current.Updates.WindowTitle;
 				dialog.Controls.Add(yes);
 				dialog.Controls.Add(no);
 				dialog.Show();

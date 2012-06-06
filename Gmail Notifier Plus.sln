@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shellscape.Common", "Extern
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows API", "External\Shellscape.Common\Microsoft\Windows API\Windows API.csproj", "{B20A1853-BDC5-47D5-9369-3999BBD7F516}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{52972B46-12FE-4E55-91C7-0D33B38C8450}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CodeAnalysisDebug|Any CPU = CodeAnalysisDebug|Any CPU
@@ -77,6 +79,18 @@ Global
 		{B20A1853-BDC5-47D5-9369-3999BBD7F516}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B20A1853-BDC5-47D5-9369-3999BBD7F516}.Release|x64.ActiveCfg = Release|Any CPU
 		{B20A1853-BDC5-47D5-9369-3999BBD7F516}.Release|x86.ActiveCfg = Release|Any CPU
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.CodeAnalysisDebug|Any CPU.ActiveCfg = Debug
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.CodeAnalysisDebug|Mixed Platforms.ActiveCfg = Debug
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.CodeAnalysisDebug|x64.ActiveCfg = Debug
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.CodeAnalysisDebug|x86.ActiveCfg = Debug
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.Debug|Any CPU.ActiveCfg = Debug
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.Debug|x64.ActiveCfg = Debug
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.Debug|x86.ActiveCfg = Debug
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.Release|Any CPU.ActiveCfg = Release
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.Release|Mixed Platforms.ActiveCfg = Release
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.Release|x64.ActiveCfg = Release
+		{52972B46-12FE-4E55-91C7-0D33B38C8450}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

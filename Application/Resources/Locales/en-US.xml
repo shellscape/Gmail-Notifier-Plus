@@ -24,10 +24,7 @@
 		<WindowTitle>About</WindowTitle>
 		<Button>Sweet. Thanks!</Button>
 		<FirstRun>Let's Go!</FirstRun>
-		<Checking>Checking for updates...</Checking>
-		<UpdateProblem>There was a problem while checking for updates</UpdateProblem>
-		<UpToDate>Gmail Notifier Plus is up to date ({0})</UpToDate>
-		<NewVersion>Downloading {0}...</NewVersion>
+		<Donate>Please consider donating</Donate>
 	</About>
 	<Preferences>
 		<WindowTitle>Preferences</WindowTitle>
@@ -50,7 +47,6 @@
 					<WaveFiles>Wave File</WaveFiles>
 				</Sound>
 				<CheckEmail>Check email interval (in minutes)</CheckEmail>
-				<CheckUpdates>Check for Updates</CheckUpdates>
 				<Language>Display language</Language>
 				<FlashTaskbar>Flash the taskbar for new email</FlashTaskbar>
 				<ShowTray>Show email count in system tray</ShowTray>
@@ -89,4 +85,12 @@
 		<ViewEmail>View this email</ViewEmail>
 		<NoSubject>(no subject)</NoSubject>
 	</Toast>
+	<Updates>
+		<WindowTitle>Update</WindowTitle>
+		<Text>A new version of Gmail Notifier Plus has been downloaded and is ready! You can restart Gmail Notifier Plus now to apply the update.</Text>
+		<YesText>Restart Gmail Notifier Plus</YesText>
+		<YesInstruction>I need the new hotness.</YesInstruction>
+		<NoText>No, Thanks</NoText>
+		<NoInstruction>I like to live on the edge.</NoInstruction>
+	</Updates>
 </Locale>

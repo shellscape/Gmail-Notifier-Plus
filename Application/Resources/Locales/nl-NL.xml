@@ -24,10 +24,7 @@
 		<WindowTitle>Over</WindowTitle>
 		<Button>Fijn. Bedankt!</Button>
 		<FirstRun>Beginnen!</FirstRun>
-		<Checking>Zoeken naar updates...</Checking>
-		<UpdateProblem>Er was een probleem bij het zoeken naar updates.</UpdateProblem>
-		<UpToDate>Gmail Notifier Plus is bijgewerkt ({0})</UpToDate>
-		<NewVersion>Downloaden van {0}...</NewVersion>
+		<Donate>Aanmelden doneren</Donate>
 	</About>
 	<Preferences>
 		<WindowTitle>Voorkeuren</WindowTitle>
@@ -89,4 +86,12 @@
 		<ViewEmail>Dit bericht bekijken</ViewEmail>
 		<NoSubject>(geen onderwerp)</NoSubject>
 	</Toast>
+	<Updates>
+		<WindowTitle>Update</WindowTitle>
+		<Text>A new version of Gmail Notifier Plus has been downloaded and is ready! You can restart Gmail Notifier Plus now to apply the update.</Text>
+		<YesText>Restart Gmail Notifier Plus</YesText>
+		<YesInstruction>I need the new hotness.</YesInstruction>
+		<NoText>No, Thanks</NoText>
+		<NoInstruction>I like to live on the edge.</NoInstruction>
+	</Updates>
 </Locale>

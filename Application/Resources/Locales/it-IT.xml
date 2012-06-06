@@ -24,10 +24,7 @@
 		<WindowTitle>Informazioni</WindowTitle>
 		<Button>Grazie!</Button>
 		<FirstRun>Iniziamo!</FirstRun>
-		<Checking>Controllo aggiornamenti...</Checking>
-		<UpdateProblem>Errore durante il controllo degli aggiornamenti</UpdateProblem>
-		<UpToDate>Gmail Notifier Plus e' aggiornato ({0})</UpToDate>
-		<NewVersion>Download in corso {0}...</NewVersion>
+		<Donate>Si prega di donare</Donate>
 	</About>
 	<Preferences>
 		<WindowTitle>Preferenze</WindowTitle>
@@ -89,4 +86,12 @@
 		<ViewEmail>Visualizza questo messaggio</ViewEmail>
 		<NoSubject>(nessun oggetto)</NoSubject>
 	</Toast>
+	<Updates>
+		<WindowTitle>Update</WindowTitle>
+		<Text>A new version of Gmail Notifier Plus has been downloaded and is ready! You can restart Gmail Notifier Plus now to apply the update.</Text>
+		<YesText>Restart Gmail Notifier Plus</YesText>
+		<YesInstruction>I need the new hotness.</YesInstruction>
+		<NoText>No, Thanks</NoText>
+		<NoInstruction>I like to live on the edge.</NoInstruction>
+	</Updates>
 </Locale>
