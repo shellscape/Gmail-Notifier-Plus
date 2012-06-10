@@ -15,7 +15,7 @@
 		<DefaultAccount>Standaard Account</DefaultAccount>
 		<Inbox>Ga naar postvak IN</Inbox>
 		<Compose>Nieuw bericht maken</Compose>
-		<Check>Controleren voor nieuwe berichten</Check>
+		<Check>Controleren op nieuwe berichten</Check>
 		<Preferences>Voorkeuren</Preferences>
 		<About>Over Gmail Notifier Plus</About>
 		<Help>Help Wiki</Help>
@@ -24,13 +24,13 @@
 		<WindowTitle>Over</WindowTitle>
 		<Button>Fijn. Bedankt!</Button>
 		<FirstRun>Beginnen!</FirstRun>
-		<Donate>Aanmelden doneren</Donate>
+		<Donate>Overweeg donatie</Donate>
 	</About>
 	<Preferences>
 		<WindowTitle>Voorkeuren</WindowTitle>
 		<Navigation>
 			<General>Algemene voorkeuren</General>
-			<Accounts>Accounts behereren</Accounts>
+			<Accounts>Accounts beheren</Accounts>
 			<Appearance>Weergave aanpassen</Appearance>
 		</Navigation>
 		<Panels>
@@ -44,9 +44,9 @@
 					<Custom>Aangepast...</Custom>
 					<Browse>Bladeren...</Browse>
 					<BrowseWindowTitle>Kies een meldingsgeluid</BrowseWindowTitle>
-					<WaveFiles>Wave Bestand</WaveFiles>
+					<WaveFiles>Wave bestand</WaveFiles>
 				</Sound>
-				<CheckEmail>Email controleren iedere... (in minuten)</CheckEmail>
+				<CheckEmail>Email controleren iedere... (minuten)</CheckEmail>
 				<CheckUpdates>Zoeken naar Updates</CheckUpdates>
 				<Language>Weergave taal</Language>
 				<FlashTaskbar>Taakbalk knipperen bij nieuwe email</FlashTaskbar>
@@ -66,16 +66,16 @@
 					<AddAccount>Account toevoegen</AddAccount>
 					<RemoveAccount>Account verwijderen</RemoveAccount>
 					<RemoveConfirmation>Weet u zeker dat u dit account wilt verwijderen?</RemoveConfirmation>
-					<RemoveConfirmationTitle>Account Verwijderen</RemoveConfirmationTitle>
-					<AccountsIntroNone>Welcome bij Gmail Notifier Plus.\n\nKlik om te beginnen op de knop hieronder om een account toe te voegen.</AccountsIntroNone>
-					<Error>Er bestaat al een acocunt met dit adres. Kies een ander adres.</Error>
+					<RemoveConfirmationTitle>Account verwijderen</RemoveConfirmationTitle>
+					<AccountsIntroNone>Welkom bij Gmail Notifier Plus.\n\nKlik om te beginnen op de knop hieronder om een account toe te voegen.</AccountsIntroNone>
+					<Error>Er bestaat al een account met dit adres. Kies een ander adres.</Error>
 				</Account>
 			</Accounts>
 		</Panels>
 	</Preferences>
 	<Thumbnails>
 		<CheckLogin>Controleer uw account voorkeuren</CheckLogin>
-		<Connecting>Controleren voor nieuwe berichten...</Connecting>
+		<Connecting>Controleren op nieuwe berichten...</Connecting>
 		<ConnectionUnavailable>Controleer uw netwerk verbinding</ConnectionUnavailable>
 		<Inbox>Postvak IN</Inbox>
 		<NoSubject>(geen onderwerp)</NoSubject>
@@ -88,10 +88,10 @@
 	</Toast>
 	<Updates>
 		<WindowTitle>Update</WindowTitle>
-		<Text>A new version of Gmail Notifier Plus has been downloaded and is ready! You can restart Gmail Notifier Plus now to apply the update.</Text>
-		<YesText>Restart Gmail Notifier Plus</YesText>
-		<YesInstruction>I need the new hotness.</YesInstruction>
-		<NoText>No, Thanks</NoText>
-		<NoInstruction>I like to live on the edge.</NoInstruction>
+		<Text>Een nieuwe versie van Gmail Notifier Plus is gedownload en beschikbaar! U kunt Gmail Notifier Plus nu herstarten om de update uit te voeren.</Text>
+		<YesText>Herstart Gmail Notifier Plus</YesText>
+		<YesInstruction>Ik wil de nieuwe versie.</YesInstruction>
+		<NoText>Nee, bedankt.</NoText>
+		<NoInstruction>Het hoeft voor mij niet.</NoInstruction>
 	</Updates>
 </Locale>
