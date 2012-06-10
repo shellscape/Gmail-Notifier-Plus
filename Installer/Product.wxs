@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+	<Product Id="882e1c57-0b1b-4887-9feb-5d2b24b6ace6" Name="$(var.GmailNotifierPlus.TargetName) !(bind.FileVersion.GmailNotifierPlusExe)" Language="1033" Version="!(bind.FileVersion.GmailNotifierPlusExe)" Manufacturer="Shellscape Software" UpgradeCode="3b2f2964-2da8-4af0-80ef-847e78999421">
+
+		<Package InstallerVersion="200" Compressed="yes" />
+
+		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+		<UI>
+			<UIRef Id="WixUI_Minimal" />
+			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+		</UI>
+
+		<Icon Id="icon.ico" SourceFile="..\Application\Resources\Icons\gmail-classic.ico" />
+		<Property Id="ARPPRODUCTICON" Value="icon.ico" />
+
+		<WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+		<WixVariable Id="WixUIBannerBmp" Value="banner.jpg" />
+		<WixVariable Id="WixUIDialogBmp" Value="dialog.jpg" />
+
+		<PropertyRef Id="NETFRAMEWORK40FULL"/>
+		<Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
+			<![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+		</Condition>
+
+		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch $(var.GmailNotifierPlus.TargetName)" />
+		<Property Id="WixShellExecTarget" Value="[#GmailNotifierPlusExe]" />
+		<CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="$(var.GmailNotifierPlus.TargetName)" />
+			</Directory>
+			
+			<Directory Id="LocalAppDataFolder">
+				<Directory Id="VendorDirectory" Name="Shellscape">
+
+					<Directory Id="INSTALLLOCATION" Name="$(var.GmailNotifierPlus.TargetName)">
+						<Component Id="ProductComponent" Guid="e66738e2-6058-4a48-9f24-59a79d2cd346">
+
+							<File Id="GmailNotifierPlusExe" Name="$(var.GmailNotifierPlus.TargetFileName)" Source="$(var.GmailNotifierPlus.TargetPath)" DiskId="1" />
+							<File Id="ShellscapeCommonDll" Name="$(var.ShellscapeCommon.TargetFileName)" Source="$(var.ShellscapeCommon.TargetPath)" DiskId="1" />
+							<File Id="WindowsAPIDll" Name="$(var.WindowsAPI.TargetFileName)" Source="$(var.WindowsAPI.TargetPath)" DiskId="1" />
+							<File Id="IconicZipDll" Name="Ionic.Zip.Reduced.dll" Source="$(var.ShellscapeCommon.TargetDir)\Ionic.Zip.Reduced.dll" DiskId="1" />
+
+							<RegistryValue Root="HKCU" Key="Software\Shellscape\$(var.GmailNotifierPlus.TargetName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+
+							<RemoveFolder Id="RemoveINSTALLLOCATION" Directory="INSTALLLOCATION" On="uninstall" />
+							<RemoveFolder Id="RemoveVendorDirectory" Directory="VendorDirectory" On="uninstall" />
+
+						</Component>
+
+						<Directory Id="ResourcesDirectory" Name="Resources">
+							<Directory Id="IconsDirectory" Name="Icons">
+								<Component Id="Resources" Guid="38AB3F0C-43D1-4D7F-91C1-1756FC4F46E8">
+
+									<File Id="aboutico" Name="about.ico" Source="$(var.GmailNotifierPlus.TargetDir)Resources\Icons\about.ico" DiskId="1" />
+									<File Id="Composeico" Name="Compose.ico" Source="$(var.GmailNotifierPlus.TargetDir)Resources\Icons\Compose.ico" DiskId="1" />
+									<File Id="GoInboxico" Name="GoInbox.ico" Source="$(var.GmailNotifierPlus.TargetDir)Resources\Icons\GoInbox.ico" DiskId="1" />
+									<File Id="helpico" Name="help.ico" Source="$(var.GmailNotifierPlus.TargetDir)Resources\Icons\help.ico" DiskId="1" />
+									<File Id="Mailico" Name="Mail.ico" Source="$(var.GmailNotifierPlus.TargetDir)Resources\Icons\Mail.ico" DiskId="1" />
+									<File Id="Refreshico" Name="Refresh.ico" Source="$(var.GmailNotifierPlus.TargetDir)Resources\Icons\Refresh.ico" DiskId="1" />
+									<File Id="Settingsico" Name="Settings.ico" Source="$(var.GmailNotifierPlus.TargetDir)Resources\Icons\Settings.ico" DiskId="1" />
+
+									<RegistryValue Root="HKCU" Key="Software\Shellscape\$(var.GmailNotifierPlus.TargetName)\Resources" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+
+									<RemoveFolder Id="RemoveIconsDirectory" Directory="IconsDirectory" On="uninstall" />
+									<RemoveFolder Id="RemoveResourcesDirectory" Directory="ResourcesDirectory" On="uninstall" />
+
+								</Component>
+							</Directory>
+						</Directory>
+
+					</Directory>
+
+				</Directory>
+			</Directory>
+
+		</Directory>
+
+		<!-- Start Menu -->
+		<DirectoryRef Id="ApplicationProgramsFolder">
+			<Component Id="ApplicationShortcut" Guid="67CDE77B-25CA-4555-B2F0-AFC1A2160F07">
+				<Shortcut Id="ApplicationStartMenuShortcut" Name="$(var.GmailNotifierPlus.TargetName)" Description="$(var.GmailNotifierPlus.TargetName)" Target="[APPLICATIONROOTDIRECTORY]$(var.GmailNotifierPlus.TargetFileName)" WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
+				<Shortcut Id="UninstallProduct" Name="Uninstall $(var.GmailNotifierPlus.TargetName)" Description="Uninstalls $(var.GmailNotifierPlus.TargetName)" Target="[SystemFolder]msiexec.exe" Arguments="/x [ProductCode]"/>
+				<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+				<RegistryValue Root="HKCU" Key="Software\Shellscape\$(var.GmailNotifierPlus.TargetName)\shortcut" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+			</Component>
+		</DirectoryRef>
+
+		<Feature Id="ProductFeature" Title="$(var.GmailNotifierPlus.TargetName) !(bind.FileVersion.GmailNotifierPlusExe)" Level="1">
+			<ComponentRef Id="ProductComponent" />
+			<ComponentRef Id="Resources" />
+			<ComponentRef Id="ApplicationShortcut" />
+
+			<!-- Note: The following ComponentGroupRef is required to pull in generated authoring from project references. -->
+			<ComponentGroupRef Id="Product.Generated" />
+		</Feature>
+	</Product>
+</Wix>
