@@ -24,7 +24,7 @@
 		<WindowTitle>متعلق</WindowTitle>
 		<Button>اچھا۔ شکریہ۔</Button>
 		<FirstRun>چلو چلتے ہیں۔</FirstRun>
-		<Donate>Please consider donating</Donate>
+		<Donate>براہ کرم عطیہ دینے میں غور کریں</Donate>
 	</About>
 	<Preferences>
 		<WindowTitle>ترجیحات</WindowTitle>
@@ -35,7 +35,7 @@
 		</Navigation>
 		<Panels>
 			<General>
-				<Title>عام جی میل نوٹیفکیشن پلس ترتیبات</Title>
+				<Title>عام جی میل نوٹیفائر پلس ترتیبات</Title>
 				<ApplyChanges>تبدیلیاں لاگو کریں</ApplyChanges>
 				<Sound>
 					<Title>صوتی اطلاعات</Title>
@@ -49,18 +49,18 @@
 				<CheckEmail>ای میل چیک کرنے کا دورانیہ منٹوں میں</CheckEmail>
 				<CheckUpdates>اپ ڈیٹس کے لئے چیک کریں</CheckUpdates>
 				<Language>زبان دکھائیں</Language>
-				<FlashTaskbar>نئی ای میل پر ٹاسک بار فلیش کریں</FlashTaskbar>
-				<ShowTray>سسٹم ٹرے میں ای میل کی گنتی دکھائیں</ShowTray>
+				<FlashTaskbar>نئی ای میل پر ٹاسک بار فلیش کریں</FlashTaskbar>
+				<ShowTray>سسٹم ٹرے میں ای میل کی گنتی دکھائیں</ShowTray>
 				<ShowToast>نیا ای میل کے لئے ٹوسٹ نوٹیفکیشن دکھائیں</ShowToast>
 			</General>
 			<Accounts>
-				<Title>اکاؤنٹ کا انتخاب کیں جسں کو آپ تبدیل کرنا چاہتے ہیں</Title>
+				<Title>اکاؤنٹ کا انتخاب کیں جسں کو آپ تبدیل کرنا چاہتے ہیں</Title>
 				<AddNew>نیا اکاؤنٹ شامل کریں</AddNew>
 				<Account>
 					<Title>{0} منظم کریں</Title>
 					<Address>ای میل ایڈریس</Address>
 					<Password>پاس ورڈ</Password>
-					<Mailto>دئیے گئے ای میل لنکس کے لیے اس ای میل کا استعمال کریں</Mailto>
+					<Mailto>دئیے گئے ای میل لنکس کے لیے اس ای میل کا استعمال کریں</Mailto>
 					<DefaultAccount>پہلے سے طے شدہ اکاؤنٹ کے طور پر اس اکاؤنٹ کا استعمال کریں</DefaultAccount>
 					<Browser>براؤزر</Browser>
 					<AddAccount>اکاؤنٹ شامل کریں</AddAccount>
@@ -68,8 +68,8 @@
 					<RemoveConfirmation>آپ کو یقین ہے کہ آپ اس اکاؤنٹ کو خارج کرنا چاہتے ہیں ؟</RemoveConfirmation>
 					<RemoveConfirmationTitle>اکاؤنٹ کو ہٹا دیں</RemoveConfirmationTitle>
 					<AccountsIntroNone>
-						/n /n جی میل نوٹیفکیشن پلس میں خوش آمدید
-						آغاز کرنے کیلئے، براہ مہربانی بٹن دبا کر نئے اکاؤنٹ کو شامل کریں۔
+						/n /n جی میل نوٹیفائر پلس میں خوش آمدید
+						آغاز کرنے کیلئے، براہ مہربانی بٹن دبا کر نئے اکاؤنٹ کو شامل کریں۔
 					</AccountsIntroNone>
 					<Error>اس ای میل ایڈریس کے ساتھ ایک اکاؤنٹ پہلے سے ہی موجود ہے. براہ کرم ایک مختلف ایڈریس درج کریں۔</Error>
 				</Account>
@@ -90,11 +90,11 @@
 		<NoSubject>(بغیر موضوع)</NoSubject>
 	</Toast>
 	<Updates>
-		<WindowTitle>Update</WindowTitle>
-		<Text>A new version of Gmail Notifier Plus has been downloaded and is ready! You can restart Gmail Notifier Plus now to apply the update.</Text>
-		<YesText>Restart Gmail Notifier Plus</YesText>
-		<YesInstruction>I need the new hotness.</YesInstruction>
-		<NoText>No, Thanks</NoText>
-		<NoInstruction>I like to live on the edge.</NoInstruction>
+		<WindowTitle>اپ ڈیٹ</WindowTitle>
+		<Text>جی میل نوٹیفائر پلس کا نیا ورژن ڈاؤن لوڈ ہو گیا ہے۔ آپ دوبارہ سے شروع کرکے نیا ورژن حاصل کرسکتے ہیں۔</Text>
+		<YesText>جی میل نوٹیفائر کو دوبارہ شروع کریں</YesText>
+		<YesInstruction>مجھے کچھ نئے کی تلاش ہے۔</YesInstruction>
+		<NoText>نہیں، شکریہ۔</NoText>
+		<NoInstruction>میں سب سے حالیہ ورژن پر رہنا چاہتا ہوں۔</NoInstruction>
 	</Updates>
 </Locale>
