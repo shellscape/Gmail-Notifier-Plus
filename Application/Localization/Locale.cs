@@ -82,6 +82,7 @@ namespace GmailNotifierPlus.Localization {
 		public String General { get; set; }
 		public String Accounts { get; set; }
 		public String Appearance { get; set; }
+		public String Donate { get; set; }
 	}
 
 	public class LocalePreferencesPanels {

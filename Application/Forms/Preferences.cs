@@ -94,29 +94,23 @@ namespace GmailNotifierPlus.Forms {
 				Text = Locale.Current.Preferences.Navigation.Accounts,
 				AssociatedPanel = _PanelAccounts
 			};
-			//ControlPanelTaskLink appearance = new ControlPanelTaskLink() {
-			//  Text = Locale.Current.Preferences.Navigation.Appearance,
-			//  AssociatedPanel = _PanelAppearance
-			//};
 
 			this.Tasks.Add(general);
 			this.Tasks.Add(accounts);
-			//this.Tasks.Add(appearance);
 
 			ControlPanelTaskLink about = new ControlPanelTaskLink() { Text = Locale.Current.JumpList.About };
-			ControlPanelTaskLink check = new ControlPanelTaskLink() { Text = Locale.Current.JumpList.Check };
+			ControlPanelTaskLink donate = new ControlPanelTaskLink() { Text = Locale.Current.Preferences.Navigation.Donate};
 
 			about.Click += delegate(object sender, EventArgs e) {
 				Program.MainForm.Jumplist_ShowAbout(null);
 			};
 
-			check.Click += delegate(object sender, EventArgs e) {
-				// TODO: Check for updates
-				// do a little circly thingie like chrome, show a check if up to date
+			donate.Click += delegate(object sender, EventArgs e) {
+				Shellscape.Utilities.ApplicationHelper.Donate("Gmail%20Notifier%20Plus%20Donation");
 			};
 
 			this.OtherTasks.Add(about);
-			this.OtherTasks.Add(check);
+			this.OtherTasks.Add(donate);
 		}
 
 		public void InitFirstRun() {
@@ -405,8 +399,6 @@ namespace GmailNotifierPlus.Forms {
 					List<Shellscape.Browser> browsers = Shellscape.Utilities.BrowserHelper.Enumerate();
 					Shellscape.Browser selectedBrowser = browsers.Where(o => o.Name == _currentAccount.Browser.Name).FirstOrDefault();
 					_ComboBrowser.SelectedIndex = browsers.IndexOf(selectedBrowser) + 1;
-					//_ComboBrowser.SelectedValue = account.Browser; - selectedvalue isn't playing nice. 
-					//_ComboBrowser.SelectedText = account.Browser.Name; - inconsistent
 				}
 				else {
 					_ComboBrowser.SelectedIndex = 0;
@@ -670,39 +662,6 @@ namespace GmailNotifierPlus.Forms {
 			}
 
 			PaintAccountGlyph(e.Graphics, e.Item.Bounds, item.Account);
-
-			//int tileWidth = _userFrame.Width;
-			//int tileHeight = (int)(((float)tileWidth / (float)image.Width) * image.Height);
-			//RectangleF clipRect = new RectangleF(item.Bounds.Left + 14, item.Bounds.Top + 13, _userFrame.Width - 30, _userFrame.Height - 30);
-
-			////
-
-			//e.Graphics.SetClip(clipRect);
-			//e.Graphics.DrawImage(image, item.Bounds.Left, item.Bounds.Top + 10, tileWidth, tileHeight);
-			//e.Graphics.ResetClip();
-
-			//e.Graphics.DrawImage(_userFrame, new Rectangle(item.Bounds.Left, item.Bounds.Top, _userFrame.Width, _userFrame.Height));
-
-			//Point addressPoint = new Point(item.Bounds.Left + _userFrame.Width, item.Bounds.Top);
-			//Rectangle addressRect = new Rectangle(addressPoint.X, addressPoint.Y, item.Bounds.Width - _userFrame.Width, item.Bounds.Height);
-			//Rectangle textExtent = _rendererListSmall.GetTextExtent(e.Graphics, addressRect, item.Account.FullAddress, TextFormatFlags.Left);
-			//int center = (_userFrame.Height - textExtent.Height) / 2;
-
-			//if (item.Account.Default) {
-			//  Rectangle defaultExtent = _rendererListSmall.GetTextExtent(e.Graphics, addressRect, Locale.Current.JumpList.DefaultAccount, TextFormatFlags.Left);
-
-			//  center -= (defaultExtent.Height / 2) + 4; // 4 is the additional padding we're adding
-			//}
-
-			//addressRect.Offset(0, center);
-
-			//_rendererListSmall.DrawText(e.Graphics, addressRect, item.Account.FullAddress, false, TextFormatFlags.Left);
-
-			//if (item.Account.Default) {
-			//  addressRect.Offset(0, textExtent.Height + 4);
-
-			//  _rendererListSmall.DrawText(e.Graphics, addressRect, Locale.Current.JumpList.DefaultAccount, true, TextFormatFlags.Left);
-			//}
 		}
 
 		private void _LinkRemove_Click(object sender, EventArgs e) {
