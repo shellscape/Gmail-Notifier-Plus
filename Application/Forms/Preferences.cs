@@ -11,6 +11,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
+using Shellscape;
 using Shellscape.UI.ControlPanel;
 
 using GmailNotifierPlus.Localization;
