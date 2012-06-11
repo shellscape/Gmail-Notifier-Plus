@@ -25,8 +25,6 @@ namespace GmailNotifierPlus.Forms {
 		private Bitmap _exclamation;
 		private Bitmap _download;
 
-		//private Timer _timer;
-
 		private Bitmap _icon;
 
 		public About() : base() {
