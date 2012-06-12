@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Svenska (sv-SE)</Name>
+  <Common>
+    <Cancel>Avbryt</Cancel>
+    <Close>Stäng</Close>
+    <Next>Nästa</Next>
+    <OK>Okej</OK>
+    <Previous>Tidigare</Previous>
+    <No>Nej</No>
+    <Yes>Ja</Yes>
+    <Unread>Olästa</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Standardkonto</DefaultAccount>
+    <Inbox>Gå till Inkorgen</Inbox>
+    <Compose>Skapa nytt e-postmeddelande</Compose>
+    <Check>Kontrollera om ny e-post</Check>
+    <Preferences>Inställningar</Preferences>
+    <About>Om Gmail Notifier Plus</About>
+    <Help>Hjälp Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Om</WindowTitle>
+    <Button>Söt. Tack!</Button>
+    <FirstRun>Kom så går vi!</FirstRun>
+    <Donate>Överväg donera</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Inställningar</WindowTitle>
+    <Navigation>
+      <General>Allmänna inställningar</General>
+      <Accounts>Hantera dina konton</Accounts>
+      <Appearance>Ändra visningsinställningar</Appearance>
+      <Donate>Vänligen donera</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Allmänna inställningar för Gmail Notifier Plus</Title>
+        <ApplyChanges>Tillämpa ändringar</ApplyChanges>
+        <Sound>
+          <Title>Ljudindikering</Title>
+          <None>Ingen</None>
+          <Default>Standard</Default>
+          <Custom>Anpassad...</Custom>
+          <Browse>Bläddra...</Browse>
+          <BrowseWindowTitle>Välj en anmälan ljud</BrowseWindowTitle>
+          <WaveFiles>Ljudfil</WaveFiles>
+        </Sound>
+        <CheckEmail>Kontrollera e-intervall (i minuter)</CheckEmail>
+        <Language>Visningsspråk</Language>
+        <FlashTaskbar>Flash i Aktivitetsfältet för ny e-post</FlashTaskbar>
+        <ShowTray>Visa e-greve i systemfältet</ShowTray>
+        <ShowToast>Visa Toast meddelanden om ny e-post</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Välj det konto som du vill ändra</Title>
+        <AddNew>Lägga till ett nytt konto</AddNew>
+        <Account>
+          <Title>Hantera {0}</Title>
+          <Address>E-postadress</Address>
+          <Password>Lösenord</Password>
+          <Mailto>Använd detta konto för mailto-länkar</Mailto>
+          <DefaultAccount>Använd detta konto som standardkonto</DefaultAccount>
+          <Browser>Webbläsare</Browser>
+          <AddAccount>Lägga till konto</AddAccount>
+          <RemoveAccount>Ta bort detta konto</RemoveAccount>
+          <RemoveConfirmation>Är du säker på att du vill ta bort detta konto?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Ta bort konto</RemoveConfirmationTitle>
+          <AccountsIntroNone>Välkommen till Gmail Notifier Plus.\n\nTo igång, klicka på knappen nedan för att lägga till ett nytt konto.</AccountsIntroNone>
+          <Error>Det finns redan ett konto med denna adress. Ange en annan adress.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Kontrollera dina kontoinställningar</CheckLogin>
+    <Connecting>Söker efter ny e-post...</Connecting>
+    <ConnectionUnavailable>Vänligen kontrollera din nätverksanslutning</ConnectionUnavailable>
+    <Inbox>Inkorg</Inbox>
+    <NoSubject>(inget ämne)</NoSubject>
+    <NoAccount>Lägg till ett konto</NoAccount>
+    <NoMail>Ingen ny e-post</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Visa detta e-postmeddelande</ViewEmail>
+    <NoSubject>(inget ämne)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Uppdatering</WindowTitle>
+    <Text>En ny version av Gmail Notifier Plus har hämtats och är redo! Du kan starta om Gmail Notifier Plus nu för att installera uppdateringen.</Text>
+    <YesText>Starta om Gmail Notifier Plus</YesText>
+    <YesInstruction>Jag behöver nya hotness.</YesInstruction>
+    <NoText>Nej tack</NoText>
+    <NoInstruction>Jag bor på kanten.</NoInstruction>
+  </Updates>
+</Locale>

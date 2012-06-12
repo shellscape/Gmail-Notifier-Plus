@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Polski (pl-PL)</Name>
+  <Common>
+    <Cancel>Anuluj</Cancel>
+    <Close>Zamknij</Close>
+    <Next>Następny</Next>
+    <OK>Ok</OK>
+    <Previous>Poprzedni</Previous>
+    <No>Nr</No>
+    <Yes>Tak</Yes>
+    <Unread>Nieprzeczytane</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Domyślne konto</DefaultAccount>
+    <Inbox>Przejdź do folderu Skrzynka odbiorcza</Inbox>
+    <Compose>Redagowania nowych wiadomości e-mail</Compose>
+    <Check>Sprawdź, czy są nowe wiadomości e-mail</Check>
+    <Preferences>Preferencje</Preferences>
+    <About>O Gmail Checker Plus</About>
+    <Help>Pomoc Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Temat</WindowTitle>
+    <Button>Sweet. Dziękujemy!</Button>
+    <FirstRun>Chodźmy!</FirstRun>
+    <Donate>Rozważ oddawanie</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Preferencje</WindowTitle>
+    <Navigation>
+      <General>Preferencje ogólne</General>
+      <Accounts>Zarządzanie kontami</Accounts>
+      <Appearance>Zmień preferencje wyświetlania</Appearance>
+      <Donate>Prosimy o dotację</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Ogólne ustawienia Gmail Notifier Plus</Title>
+        <ApplyChanges>Zastosuj zmiany</ApplyChanges>
+        <Sound>
+          <Title>Powiadamianie dźwiękowe</Title>
+          <None>Brak</None>
+          <Default>Domyślne</Default>
+          <Custom>Niestandardowe...</Custom>
+          <Browse>Przeglądaj...</Browse>
+          <BrowseWindowTitle>Wybierz dźwięk powiadomienia</BrowseWindowTitle>
+          <WaveFiles>Plik Wave</WaveFiles>
+        </Sound>
+        <CheckEmail>Sprawdź adres e-mail interwał (w minutach)</CheckEmail>
+        <Language>Język wyświetlania</Language>
+        <FlashTaskbar>Program Flash paska zadań dla nowych wiadomości e-mail</FlashTaskbar>
+        <ShowTray>Pokaż liczba wiadomości e-mail w zasobniku systemowym</ShowTray>
+        <ShowToast>Pokaż powiadomienia Toast dla nowych wiadomości e-mail</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Wybierz konta, które chcesz zmienić</Title>
+        <AddNew>Dodaj nowe konto</AddNew>
+        <Account>
+          <Title>Zarządzanie {0}</Title>
+          <Address>Adres email</Address>
+          <Password>Hasło</Password>
+          <Mailto>Konto służy do łącza mailto</Mailto>
+          <DefaultAccount>Za pomocą tego konta jako domyślnego konta</DefaultAccount>
+          <Browser>Przeglądarka</Browser>
+          <AddAccount>Dodaj konto</AddAccount>
+          <RemoveAccount>Należy usunąć to konto</RemoveAccount>
+          <RemoveConfirmation>Na pewno chcesz usunąć to konto?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Usuwanie konta</RemoveConfirmationTitle>
+          <AccountsIntroNone>Witamy w Gmail Notifier Plus.\n\nTo rozpocząć, kliknij poniższy przycisk, aby dodać nowe konto.</AccountsIntroNone>
+          <Error>Istnieje już konto z tego adresu. Wprowadź inny adres.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Sprawdź ustawienia konta</CheckLogin>
+    <Connecting>Trwa sprawdzanie nowych wiadomości e-mail...</Connecting>
+    <ConnectionUnavailable>Sprawdź połączenie sieciowe</ConnectionUnavailable>
+    <Inbox>Skrzynka odbiorcza</Inbox>
+    <NoSubject>(brak tematu)</NoSubject>
+    <NoAccount>Dodaj konto</NoAccount>
+    <NoMail>Nie nowa poczta</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Wyświetlić tę wiadomość e-mail</ViewEmail>
+    <NoSubject>(brak tematu)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Aktualizacja</WindowTitle>
+    <Text>Nowa wersja Gmail Notifier Plus została pobrana i jest gotowy! Gmail Notifier Plus teraz można ponownie zastosować tę aktualizację.</Text>
+    <YesText>Uruchom ponownie Gmail Checker Plus</YesText>
+    <YesInstruction>Potrzebuję nowe hotness.</YesInstruction>
+    <NoText>Nie, dziękuję</NoText>
+    <NoInstruction>Lubię żyć na krawędzi.</NoInstruction>
+  </Updates>
+</Locale>

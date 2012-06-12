@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Magyar (hu-HU)</Name>
+  <Common>
+    <Cancel>Mégse</Cancel>
+    <Close>Zárja be</Close>
+    <Next>Következő</Next>
+    <OK>oké</OK>
+    <Previous>Előző</Previous>
+    <No>nem</No>
+    <Yes>igen</Yes>
+    <Unread>Olvasatlan</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Alapértelmezett fiók</DefaultAccount>
+    <Inbox>Ugrás a bejövõ</Inbox>
+    <Compose>Új elektronikus levél összeállítása</Compose>
+    <Check>Új e-mailek ellenőrzése</Check>
+    <Preferences>Beállítások</Preferences>
+    <About>Gmail Notifier kapcsolatos plusz</About>
+    <Help>Segítsen a Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Kapcsolatban</WindowTitle>
+    <Button>édes. kösz!</Button>
+    <FirstRun>gyerünk!</FirstRun>
+    <Donate>Akkor kérünk támogasd</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Beállítások</WindowTitle>
+    <Navigation>
+      <General>Általános beállítások</General>
+      <Accounts>A fiókok kezelése</Accounts>
+      <Appearance>Megjelenítési beállítások módosítása</Appearance>
+      <Donate>Legyen szíves adományoz</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Általános Gmail Notifier Plus-beállítások</Title>
+        <ApplyChanges>Változtatások</ApplyChanges>
+        <Sound>
+          <Title>Hangjelzés</Title>
+          <None>Nincs</None>
+          <Default>Alapértelmezett</Default>
+          <Custom>Egyéni...</Custom>
+          <Browse>Tallózás...</Browse>
+          <BrowseWindowTitle>Válassza ki a hirdetés egészséges</BrowseWindowTitle>
+          <WaveFiles>Hullám-fájl</WaveFiles>
+        </Sound>
+        <CheckEmail>Ellenőrizze az e-mail időköz (percben)</CheckEmail>
+        <Language>Megjelenítési nyelv</Language>
+        <FlashTaskbar>Új e-mailek tálca Flash</FlashTaskbar>
+        <ShowTray>Elektronikus levél számolás megjelenítése a tálcán</ShowTray>
+        <ShowToast>Új e-mailek Pirítós hirdetések megjelenítése</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Válassza ki a fiókot szeretne módosítani</Title>
+        <AddNew>Új fiók hozzáadása</AddNew>
+        <Account>
+          <Title>Kezelése {0}</Title>
+          <Address>Elektronikus levél cím</Address>
+          <Password>Jelszó</Password>
+          <Mailto>Ezen a számlán hivatkozások: mailto</Mailto>
+          <DefaultAccount>Ezt a fiókot használja alapértelmezett fiókként</DefaultAccount>
+          <Browser>Böngésző</Browser>
+          <AddAccount>Fiók hozzáadása</AddAccount>
+          <RemoveAccount>Ez a fiók eltávolítása</RemoveAccount>
+          <RemoveConfirmation>Biztos, hogy el kívánja távolítani ezt a fiókot?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Fiók eltávolítása</RemoveConfirmationTitle>
+          <AccountsIntroNone>Welcome to Gmail Notifier Plus.\n\nTo a kezdéshez, kérjük kattintson az alábbi új fiók hozzáadása gombra.</AccountsIntroNone>
+          <Error>Már létezik egy fiókot, ezzel a címmel. Adjon meg egy másik címet.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Ellenőrizze a fiók beállításai</CheckLogin>
+    <Connecting>Új e-mailek ellenőrzése...</Connecting>
+    <ConnectionUnavailable>Ellenőrizze a hálózati kapcsolatot.</ConnectionUnavailable>
+    <Inbox>Beérkezett üzenetek</Inbox>
+    <NoSubject>(no subject)</NoSubject>
+    <NoAccount>Kérjük a fiók hozzáadása</NoAccount>
+    <NoMail>Nincs új levél</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Ez elektronikus levél megtekintése</ViewEmail>
+    <NoSubject>(no subject)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Frissítés</WindowTitle>
+    <Text>Gmail Notifier Plus új változata már letöltött, és készen áll! Gmail Notifier Plus most is indítsa újra a frissítést.</Text>
+    <YesText>Indítsa újra a Gmail Notifier Plus</YesText>
+    <YesInstruction>Szükségem van új hotness.</YesInstruction>
+    <NoText>nem, köszönöm</NoText>
+    <NoInstruction>Mint, peremén élni.</NoInstruction>
+  </Updates>
+</Locale>

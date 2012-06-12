@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Català (ca-AD)</Name>
+  <Common>
+    <Cancel>Cancel·la</Cancel>
+    <Close>Tancar</Close>
+    <Next>Següent</Next>
+    <OK>OK</OK>
+    <Previous>Anterior</Previous>
+    <No>No</No>
+    <Yes>Sí</Yes>
+    <Unread>No llegits</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Compte per defecte</DefaultAccount>
+    <Inbox>Anar a la seva safata d'entrada</Inbox>
+    <Compose>Compondre nou e-mail</Compose>
+    <Check>Buscar l'e-mail nou</Check>
+    <Preferences>Preferències</Preferences>
+    <About>Sobre Gmail Notifier Plus</About>
+    <Help>Wiki d'ajuda</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Sobre</WindowTitle>
+    <Button>Dolç. Gràcies!</Button>
+    <FirstRun>Let ' S Go!</FirstRun>
+    <Donate>Si us plau consideri donar</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Preferències</WindowTitle>
+    <Navigation>
+      <General>Preferències generals</General>
+      <Accounts>Gestionar els seus comptes</Accounts>
+      <Appearance>Preferències d'exhibició de canvi</Appearance>
+      <Donate>Si us plau done</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Configuració de Gmail Notifier més general</Title>
+        <ApplyChanges>Aplica els canvis</ApplyChanges>
+        <Sound>
+          <Title>Sonar notificació</Title>
+          <None>Cap</None>
+          <Default>Per defecte</Default>
+          <Custom>Custom...</Custom>
+          <Browse>Navegar...</Browse>
+          <BrowseWindowTitle>Selecciona un so de notificació</BrowseWindowTitle>
+          <WaveFiles>Fitxer de so</WaveFiles>
+        </Sound>
+        <CheckEmail>Interval d'e-mail de comprovació (en minuts)</CheckEmail>
+        <Language>Llengua d'exhibició</Language>
+        <FlashTaskbar>Emetre el taskbar per a l'e-mail nou</FlashTaskbar>
+        <ShowTray>Mostra el nombre d'e-mail a safata de sistema</ShowTray>
+        <ShowToast>Mostra pa torrat notificacions d'e-mail nou</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Trieu el compte que voleu canviar</Title>
+        <AddNew>Afegir un compte nou</AddNew>
+        <Account>
+          <Title>Gestionar: {0}</Title>
+          <Address>Adreça d'e-mail</Address>
+          <Password>Contrasenya</Password>
+          <Mailto>Utilitzar aquest compte per als enllaços mailto</Mailto>
+          <DefaultAccount>Utilitzar aquest compte com el compte per defecte</DefaultAccount>
+          <Browser>Navegador</Browser>
+          <AddAccount>Afegir compte</AddAccount>
+          <RemoveAccount>Suprimeix aquest compte</RemoveAccount>
+          <RemoveConfirmation>Esteu segur que voleu suprimir aquest compte?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Suprimeix el compte</RemoveConfirmationTitle>
+          <AccountsIntroNone>Benvinguts a Gmail Notifier Plus.\n\nTo començar, feu clic al botó de més avall per afegir un compte nou.</AccountsIntroNone>
+          <Error>Ja existeix un compte amb aquesta adreça. Si us plau, introdueix una adreça diferent.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Si us plau aturi les seves escenes de compte</CheckLogin>
+    <Connecting>S'estan cercant e-mail nou...</Connecting>
+    <ConnectionUnavailable>Si us plau, comproveu la connexió de xarxa</ConnectionUnavailable>
+    <Inbox>Safata d'entrada</Inbox>
+    <NoSubject>(sense tema)</NoSubject>
+    <NoAccount>Si us plau afegiu un compte</NoAccount>
+    <NoMail>No hi ha correu nou</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Veure aquest e-mail</ViewEmail>
+    <NoSubject>(sense tema)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Actualització</WindowTitle>
+    <Text>Una versió nova de Gmail Notifier Plus ha estat descarregat i està llest! Pot reprendre Gmail Notifier Plus ara per aplicar l'actualització.</Text>
+    <YesText>Reinicieu el notificador de Gmail Plus</YesText>
+    <YesInstruction>Els I necessiten la febre de nou.</YesInstruction>
+    <NoText>No, gràcies</NoText>
+    <NoInstruction>M'agradaria viure a la vora.</NoInstruction>
+  </Updates>
+</Locale>

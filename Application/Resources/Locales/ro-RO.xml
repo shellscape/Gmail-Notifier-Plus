@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Român (ro-RO)</Name>
+  <Common>
+    <Cancel>Revocare</Cancel>
+    <Close>Închide</Close>
+    <Next>Următorul</Next>
+    <OK>ok</OK>
+    <Previous>Anterioară</Previous>
+    <No>nu</No>
+    <Yes>da</Yes>
+    <Unread>Necitit</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Contul implicit</DefaultAccount>
+    <Inbox>Du-te la inbox</Inbox>
+    <Compose>Compune nou poştă electronică</Compose>
+    <Check>Selectare pentru poşta electronică nouă</Check>
+    <Preferences>Preferinţe</Preferences>
+    <About>Despre Gmail Notifier Plus</About>
+    <Help>Ajutor Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Despre</WindowTitle>
+    <Button>drag. mulţumesc!</Button>
+    <FirstRun>să mergem!</FirstRun>
+    <Donate>Vă rugăm să ia în considerare donarea</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Preferinţe</WindowTitle>
+    <Navigation>
+      <General>Preferinţe generale</General>
+      <Accounts>Gestionarea conturilor</Accounts>
+      <Appearance>Modificare Preferinţe Afişare</Appearance>
+      <Donate>Vă rugăm să doneze</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Setări generale de Gmail Notifier Plus</Title>
+        <ApplyChanges>Aplica modificările</ApplyChanges>
+        <Sound>
+          <Title>Notificări sunet</Title>
+          <None>Nici unul</None>
+          <Default>Implicit</Default>
+          <Custom>Custom...</Custom>
+          <Browse>Răsfoire...</Browse>
+          <BrowseWindowTitle>Selectaţi un sunet de notificare</BrowseWindowTitle>
+          <WaveFiles>Fişier val</WaveFiles>
+        </Sound>
+        <CheckEmail>Verificaţi interval de e-mail (în minute)</CheckEmail>
+        <Language>Limba de afișare</Language>
+        <FlashTaskbar>Flash bara de activități pentru poşta electronică nouă</FlashTaskbar>
+        <ShowTray>Arată contor de e-mail în sistem taviţă</ShowTray>
+        <ShowToast>Arată paine prajita notificări de e-mail nou</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Alegeţi contul pe care doriţi să o modificaţi</Title>
+        <AddNew>Adăugaţi un cont nou</AddNew>
+        <Account>
+          <Title>Gestionaţi {0}</Title>
+          <Address>Adresa de e-mail</Address>
+          <Password>Parola</Password>
+          <Mailto>Utilizaţi acest cont pentru linkurile mailto</Mailto>
+          <DefaultAccount>Utilizaţi acest cont ca contul implicit</DefaultAccount>
+          <Browser>Browser-ul</Browser>
+          <AddAccount>Adăugaţi contul de</AddAccount>
+          <RemoveAccount>Eliminaţi acest cont</RemoveAccount>
+          <RemoveConfirmation>Sigur eliminaţi acest cont?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Eliminaţi contul</RemoveConfirmationTitle>
+          <AccountsIntroNone>Bine ati venit la Gmail Notifier Plus.\n\nTo a începe, vă rugăm să faceţi clic pe butonul de mai jos pentru a adăuga un cont nou.</AccountsIntroNone>
+          <Error>Există deja un cont cu această adresă. Vă rugăm să introduceţi o adresă diferită.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Vă rugăm să verificaţi setările contului</CheckLogin>
+    <Connecting>Verificarea pentru poşta electronică nouă...</Connecting>
+    <ConnectionUnavailable>Vă rugăm să verificaţi conexiunea la reţea</ConnectionUnavailable>
+    <Inbox>Inbox</Inbox>
+    <NoSubject>(subiect)</NoSubject>
+    <NoAccount>Vă rugăm să adăugaţi un cont</NoAccount>
+    <NoMail>Nici un mail nou</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Vizualiza acest e-mail</ViewEmail>
+    <NoSubject>(subiect)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Actualizare</WindowTitle>
+    <Text>O nouă versiune de Gmail Notifier Plus s-a descărcat şi este gata! Poate reporni Gmail Notifier Plus acum să aplicaţi actualizarea.</Text>
+    <YesText>Reporniţi Gmail Notifier Plus</YesText>
+    <YesInstruction>Am nevoie de hotness noi.</YesInstruction>
+    <NoText>nu, mulţumesc</NoText>
+    <NoInstruction>Îmi place să trăiască pe marginea.</NoInstruction>
+  </Updates>
+</Locale>

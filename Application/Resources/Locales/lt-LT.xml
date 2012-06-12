@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Lietuvių (lt-LT)</Name>
+  <Common>
+    <Cancel>Atšaukti</Cancel>
+    <Close>Uždaryti</Close>
+    <Next>Kitą</Next>
+    <OK>gerai</OK>
+    <Previous>Ankstesnių</Previous>
+    <No>ne</No>
+    <Yes>taip</Yes>
+    <Unread>Neskaityti</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Numatytasis abonementas</DefaultAccount>
+    <Inbox>Eiti į jūsų pašto dėžutę</Inbox>
+    <Compose>Kurti naują el. laišką</Compose>
+    <Check>Žymės į naują el. laišką</Check>
+    <Preferences>Lengvatos</Preferences>
+    <About>Apie Gmail pranešėjas plius</About>
+    <Help>Padėti Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Apie</WindowTitle>
+    <Button>mielas. ačiū!</Button>
+    <FirstRun>eime!</FirstRun>
+    <Donate>Praπome dovanojanθios</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Lengvatos</WindowTitle>
+    <Navigation>
+      <General>Bendrosios nuostatos</General>
+      <Accounts>Tvarkyti savo sąskaitas</Accounts>
+      <Appearance>Keisti rodymo nuostatose</Appearance>
+      <Donate>Prašome paaukoti</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Bendrieji Gmail pranešėjas plius parametrai</Title>
+        <ApplyChanges>Taikyti keitimus</ApplyChanges>
+        <Sound>
+          <Title>Garso pranešimą</Title>
+          <None>Nė vienas</None>
+          <Default>Numatytasis</Default>
+          <Custom>Pasirinktinis...</Custom>
+          <Browse>Naršyti...</Browse>
+          <BrowseWindowTitle>Pasirinkite pranešimo apie garsą</BrowseWindowTitle>
+          <WaveFiles>Bangos failą</WaveFiles>
+        </Sound>
+        <CheckEmail>Žymės el. pašto intervalą (minutėmis)</CheckEmail>
+        <Language>Ekrano kalba</Language>
+        <FlashTaskbar>Flash užduočių juostos į naują el. laišką</FlashTaskbar>
+        <ShowTray>Rodyti el. pašto sistemos dėklo</ShowTray>
+        <ShowToast>Rodyti Skrudinta informaciniai pranešimai apie naują el. laišką</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Pasirinkti norite keisti sąskaitą</Title>
+        <AddNew>Pridėti naują sąskaitą</AddNew>
+        <Account>
+          <Title>Valdyti {0}</Title>
+          <Address>Elektroninio pašto adresas</Address>
+          <Password>Slaptažodį</Password>
+          <Mailto>Naudokite šią sąskaitą mailto saitams</Mailto>
+          <DefaultAccount>Naudokite šią sąskaitą kaip numatytąją sąskaitą</DefaultAccount>
+          <Browser>Naršyklės</Browser>
+          <AddAccount>Abonemento pridėjimas</AddAccount>
+          <RemoveAccount>Pašalinti šią sąskaitą</RemoveAccount>
+          <RemoveConfirmation>Ar tikrai norite pašalinti šią sąskaitą?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Šalinti abonentą</RemoveConfirmationTitle>
+          <AccountsIntroNone>Sveiki atvykę į Gmail pranešėjas Plus.\n\nTo pradėti, spustelėkite mygtuką žemiau, norėdami pridėti naują abonementą.</AccountsIntroNone>
+          <Error>Jau yra sąskaitą su šiuo adresu. Prašome įvesti kitą adresą.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Patikrinkite, ar jūsų abonemento parametrus</CheckLogin>
+    <Connecting>Tikrinti naujų el...</Connecting>
+    <ConnectionUnavailable>Patikrinkite tinklo ryšį</ConnectionUnavailable>
+    <Inbox>Gautieji</Inbox>
+    <NoSubject>(nėra subjekto)</NoSubject>
+    <NoAccount>Prašome pridėti sąskaitą</NoAccount>
+    <NoMail>Joks naujas paštas</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Peržiūrėti šį laišką</ViewEmail>
+    <NoSubject>(nėra subjekto)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Naujinimas</WindowTitle>
+    <Text>Nauja versija Gmail pranešėjas plius buvo paimtas ir yra pasirengusi! Gmail pranešėjas plius dabar galite paleisti taikyti naujinimą.</Text>
+    <YesText>Iš naujo paleiskite Gmail pranešėjas plius</YesText>
+    <YesInstruction>Reikia naujų hotness.</YesInstruction>
+    <NoText>ne, ačiū</NoText>
+    <NoInstruction>Man patinka gyventi ant krašto.</NoInstruction>
+  </Updates>
+</Locale>

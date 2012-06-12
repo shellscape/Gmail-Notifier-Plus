@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Український (uk-UA)</Name>
+  <Common>
+    <Cancel>Скасувати</Cancel>
+    <Close>Закрити</Close>
+    <Next>Наступний</Next>
+    <OK>Гаразд</OK>
+    <Previous>Попередній</Previous>
+    <No>Ні</No>
+    <Yes>Так</Yes>
+    <Unread>Непрочитані</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>За замовчуванням рахунок</DefaultAccount>
+    <Inbox>Перейти до папки "Вхідні"</Inbox>
+    <Compose>Створення нових повідомлень електронної пошти</Compose>
+    <Check>Перевірка наявності нових повідомлень електронної пошти</Check>
+    <Preferences>Налаштування</Preferences>
+    <About>Про Сповіщувач Gmail плюс</About>
+    <Help>Допомогти вікі</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Про</WindowTitle>
+    <Button>Солодкий. Дякую!</Button>
+    <FirstRun>Пішли!</FirstRun>
+    <Donate>Будь ласка, пожертвуйте</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Налаштування</WindowTitle>
+    <Navigation>
+      <General>Загальні параметри</General>
+      <Accounts>Управляти своїми рахунками</Accounts>
+      <Appearance>Змініть параметри відображення</Appearance>
+      <Donate>Будь-ласка, підтримайте нас</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Загальні параметри Сповіщувач Gmail плюс</Title>
+        <ApplyChanges>Застосування змін</ApplyChanges>
+        <Sound>
+          <Title>Звукова сигналізація</Title>
+          <None>Немає</None>
+          <Default>За замовчуванням</Default>
+          <Custom>Митні...</Custom>
+          <Browse>Перегляд...</Browse>
+          <BrowseWindowTitle>Виберіть звук сповіщень</BrowseWindowTitle>
+          <WaveFiles>Звуковий файл</WaveFiles>
+        </Sound>
+        <CheckEmail>Інтервал перевірки електронної пошти (у хвилинах)</CheckEmail>
+        <Language>Мова інтерфейсу</Language>
+        <FlashTaskbar>Флеш панелі завдань для нових повідомлень електронної пошти</FlashTaskbar>
+        <ShowTray>Показати кількість електронної пошти в системний трей</ShowTray>
+        <ShowToast>Показувати сповіщення тост для нових повідомлень електронної пошти</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Виберіть обліковий запис, який ви хотіли б змінити</Title>
+        <AddNew>Додати новий обліковий запис</AddNew>
+        <Account>
+          <Title>Керування {0}</Title>
+          <Address>Адреса електронної пошти</Address>
+          <Password>Пароль</Password>
+          <Mailto>Використовувати цей обліковий запис для посилань mailto</Mailto>
+          <DefaultAccount>Використовувати цей обліковий запис як облікового запису</DefaultAccount>
+          <Browser>Браузер</Browser>
+          <AddAccount>Додавання облікового запису</AddAccount>
+          <RemoveAccount>Видалення цього облікового запису</RemoveAccount>
+          <RemoveConfirmation>Ви впевнені, що бажаєте видалити даний обліковий запис?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Видалення облікового запису</RemoveConfirmationTitle>
+          <AccountsIntroNone>Ласкаво просимо на Plus.\n\nTo Сповіщувач Gmail розпочати роботу, будь ласка, натисніть на кнопку нижче, щоб додати новий обліковий запис.</AccountsIntroNone>
+          <Error>Обліковий запис з цією адресою вже існує. Будь ласка, введіть іншу адресу.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Будь ласка, перевірте параметри облікового запису</CheckLogin>
+    <Connecting>Перевірка нових повідомлень електронної пошти...</Connecting>
+    <ConnectionUnavailable>Будь ласка, перевірте підключення до мережі</ConnectionUnavailable>
+    <Inbox>«Вхідні»</Inbox>
+    <NoSubject>(немає теми)</NoSubject>
+    <NoAccount>Будь ласка, додайте обліковий запис</NoAccount>
+    <NoMail>Немає нових повідомлень</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Переглянути цей лист</ViewEmail>
+    <NoSubject>(немає теми)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Оновлення</WindowTitle>
+    <Text>Нова версія Сповіщувач Gmail плюс була завантажена і готовий! Щоб застосувати оновлення можна перезавантажити Gmail Notifier плюс зараз.</Text>
+    <YesText>Перезавантажте Сповіщувач Gmail плюс</YesText>
+    <YesInstruction>Мені потрібен новий Жар.</YesInstruction>
+    <NoText>Ні, дякую</NoText>
+    <NoInstruction>Я люблю жити на краю.</NoInstruction>
+  </Updates>
+</Locale>

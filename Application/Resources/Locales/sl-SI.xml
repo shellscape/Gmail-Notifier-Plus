@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Slovenski (sl-SI)</Name>
+  <Common>
+    <Cancel>Prekliči</Cancel>
+    <Close>Zaprite</Close>
+    <Next>Naslednji</Next>
+    <OK>v redu</OK>
+    <Previous>Prejšnje</Previous>
+    <No>ne</No>
+    <Yes>da</Yes>
+    <Unread>Neprebrana</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Privzeti račun</DefaultAccount>
+    <Inbox>Pojdite v mapo Prejeto</Inbox>
+    <Compose>Sestavite novo e-pošto</Compose>
+    <Check>Preverjanje za novo pošto</Check>
+    <Preferences>Nastavitve</Preferences>
+    <About>O Gmail prijavitelj Plus</About>
+    <Help>Pomoč Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>O</WindowTitle>
+    <Button>ljubko. hvala!</Button>
+    <FirstRun>pojdimo!</FirstRun>
+    <Donate>Prosimo, da menijo, Doniranjem</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Nastavitve</WindowTitle>
+    <Navigation>
+      <General>Splošne nastavitve</General>
+      <Accounts>Upravljanje računov</Accounts>
+      <Appearance>Spremenite nastavitve zaslona</Appearance>
+      <Donate>Prosim podariti</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Splošne nastavitve za Gmail prijavitelj Plus</Title>
+        <ApplyChanges>Uporabi spremembe</ApplyChanges>
+        <Sound>
+          <Title>Zvočno opozorilo</Title>
+          <None>Nobena</None>
+          <Default>Privzeto</Default>
+          <Custom>Po meri...</Custom>
+          <Browse>Prebrskaj...</Browse>
+          <BrowseWindowTitle>Izberite obvestilo zvok</BrowseWindowTitle>
+          <WaveFiles>Datoteka Wave</WaveFiles>
+        </Sound>
+        <CheckEmail>Potrdite email interval (v minutah)</CheckEmail>
+        <Language>Jezik za prikaz</Language>
+        <FlashTaskbar>Flash opravilni vrstici za nov email</FlashTaskbar>
+        <ShowTray>Pokaži email račun v sistem pladenj</ShowTray>
+        <ShowToast>Prikaži obvestila Toast za nov email</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Izberite račun, ki ga želite spremeniti</Title>
+        <AddNew>Dodaj nov račun</AddNew>
+        <Account>
+          <Title>Upravljanje {0}</Title>
+          <Address>E-naslov</Address>
+          <Password>Geslo</Password>
+          <Mailto>Uporabite ta račun za mailto povezave</Mailto>
+          <DefaultAccount>Uporabite ta račun kot privzeti račun</DefaultAccount>
+          <Browser>Brskalnik</Browser>
+          <AddAccount>Dodajanje računa</AddAccount>
+          <RemoveAccount>Odstraniti ta račun</RemoveAccount>
+          <RemoveConfirmation>Ali ste prepričani, da želite odstraniti ta račun?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Odstranjevanje računa</RemoveConfirmationTitle>
+          <AccountsIntroNone>Dobrodošli v Gmail prijavitelj Plus.\n\nTo začeti, prosimo, kliknite na gumb spodaj, da dodate nov račun.</AccountsIntroNone>
+          <Error>Račun s tem naslovom že obstaja. Prosimo, vnesite drugačen naslov.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Preverite nastavitve računa</CheckLogin>
+    <Connecting>Preverjanje za novo e-pošto...</Connecting>
+    <ConnectionUnavailable>Prosimo, preverite omrežne povezave</ConnectionUnavailable>
+    <Inbox>Prejeto</Inbox>
+    <NoSubject>(ni predmet)</NoSubject>
+    <NoAccount>Prosimo, dodajte račun</NoAccount>
+    <NoMail>Nobena nova pošta</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Ogled ta email</ViewEmail>
+    <NoSubject>(ni predmet)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Posodobitev</WindowTitle>
+    <Text>Nova različica Gmail prijavitelj Plus je bilo prenesenih in je pripravljen! Gmail prijavitelj Plus zdaj lahko zaženete uporaba posodobitve.</Text>
+    <YesText>Zaženite Gmail prijavitelj Plus</YesText>
+    <YesInstruction>Rabim, da je new hotness.</YesInstruction>
+    <NoText>ne, hvala</NoText>
+    <NoInstruction>Všeč mi je, da živi na robu.</NoInstruction>
+  </Updates>
+</Locale>

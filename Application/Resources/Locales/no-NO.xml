@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Norsk (no-NO)</Name>
+  <Common>
+    <Cancel>Avbryt</Cancel>
+    <Close>Lukk</Close>
+    <Next>Neste</Next>
+    <OK>ok</OK>
+    <Previous>Forrige</Previous>
+    <No>nei</No>
+    <Yes>ja</Yes>
+    <Unread>Uleste</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Standardkonto</DefaultAccount>
+    <Inbox>Gå til innboksen</Inbox>
+    <Compose>Avfatte ny email</Compose>
+    <Check>Se etter ny e-post</Check>
+    <Preferences>Innstillinger</Preferences>
+    <About>Om Gmail-varsleren pluss</About>
+    <Help>Hjelpe Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Om</WindowTitle>
+    <Button>søt. takk!</Button>
+    <FirstRun>la oss gå!</FirstRun>
+    <Donate>Vennligst Vurder å donere</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Innstillinger</WindowTitle>
+    <Navigation>
+      <General>Generelle innstillinger</General>
+      <Accounts>Administrere forretningsforbindelsene</Accounts>
+      <Appearance>Endre innstillingene for skjerm</Appearance>
+      <Donate>Vennligst donere</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Generelle innstillinger for Gmail-varsleren pluss</Title>
+        <ApplyChanges>Bruke endringene</ApplyChanges>
+        <Sound>
+          <Title>Lydvarsling</Title>
+          <None>Ingen</None>
+          <Default>Standard</Default>
+          <Custom>Egendefinert...</Custom>
+          <Browse>Bla gjennom...</Browse>
+          <BrowseWindowTitle>Velg en lyd for varsel</BrowseWindowTitle>
+          <WaveFiles>Wave-fil</WaveFiles>
+        </Sound>
+        <CheckEmail>Sjekk e-intervall (i minutter)</CheckEmail>
+        <Language>Visningsspråket</Language>
+        <FlashTaskbar>Flash oppgavelinjen for ny e-post</FlashTaskbar>
+        <ShowTray>Vis e-post telle i systemstatusfeltet</ShowTray>
+        <ShowToast>Vis Toast varsler om ny e-post</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Velg kontoen du vil endre</Title>
+        <AddNew>Legge til en ny konto</AddNew>
+        <Account>
+          <Title>Administrere {0}</Title>
+          <Address>E-postadresse</Address>
+          <Password>Passord</Password>
+          <Mailto>Bruk denne kontoen til mailto-koblinger</Mailto>
+          <DefaultAccount>Bruk denne kontoen som standardkonto</DefaultAccount>
+          <Browser>Leseren</Browser>
+          <AddAccount>Legge til konto</AddAccount>
+          <RemoveAccount>Fjerne denne kontoen</RemoveAccount>
+          <RemoveConfirmation>Er du sikker på at du vil fjerne denne kontoen?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Fjerne konto</RemoveConfirmationTitle>
+          <AccountsIntroNone>Velkommen til Gmail-varsleren Plus.\n\nTo komme i gang, klikk knappen nedenfor for å legge til en ny konto.</AccountsIntroNone>
+          <Error>Det finnes allerede en konto med denne adressen. Skriv inn en annen adresse.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Kontroller innstillingene for kontoen</CheckLogin>
+    <Connecting>Ser etter ny e-post...</Connecting>
+    <ConnectionUnavailable>Kontroller nettverkstilkoblingen</ConnectionUnavailable>
+    <Inbox>Innboks</Inbox>
+    <NoSubject>(intet emne)</NoSubject>
+    <NoAccount>Legg til en konto</NoAccount>
+    <NoMail>Ingen ny e-post</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Vise denne e-posten</ViewEmail>
+    <NoSubject>(intet emne)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Oppdateringen</WindowTitle>
+    <Text>En ny versjon av Gmail-varsleren pluss har blitt lastet ned, og den er klar! Du kan starte Gmail-varsleren Plus nå for å bruke oppdateringen.</Text>
+    <YesText>Start på nytt Gmail-varsleren pluss</YesText>
+    <YesInstruction>Jeg nød den nye hotness.</YesInstruction>
+    <NoText>nei takk</NoText>
+    <NoInstruction>Jeg liker å leve på kanten.</NoInstruction>
+  </Updates>
+</Locale>

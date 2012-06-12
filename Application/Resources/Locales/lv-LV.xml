@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Latviešu (lv-LV)</Name>
+  <Common>
+    <Cancel>Atcelt</Cancel>
+    <Close>Aizveriet</Close>
+    <Next>Nākamo</Next>
+    <OK>labi</OK>
+    <Previous>Iepriekšējā</Previous>
+    <No>nē</No>
+    <Yes>jā</Yes>
+    <Unread>Nelasītu</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Noklusējuma konts</DefaultAccount>
+    <Inbox>Dodieties uz iesūtni</Inbox>
+    <Compose>Izveidot jaunu e-pastu</Compose>
+    <Check>Pārbaudīt, vai nav jaunu e-pastu</Check>
+    <Preferences>Preferences</Preferences>
+    <About>Par Gmail Notifier Gmail Notifier Plus</About>
+    <Help>Palīdzība Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Par</WindowTitle>
+    <Button>jauks. paldies!</Button>
+    <FirstRun>ejam!</FirstRun>
+    <Donate>Lūdzu, apsveriet ziedotājas</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Preferences</WindowTitle>
+    <Navigation>
+      <General>Vispārējo preferenču</General>
+      <Accounts>Pārvaldīt kontus</Accounts>
+      <Appearance>Mainīt displeja preferences</Appearance>
+      <Donate>Lūdzu ziedot</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Vispārīgajos iestatījumos Gmail paziņotājs Plus</Title>
+        <ApplyChanges>Lietot izmaiņas</ApplyChanges>
+        <Sound>
+          <Title>Skaņas paziņojumu</Title>
+          <None>Nav</None>
+          <Default>Noklusējuma</Default>
+          <Custom>Custom...</Custom>
+          <Browse>Pārlūkot...</Browse>
+          <BrowseWindowTitle>Atlasiet paziņojuma skaņu</BrowseWindowTitle>
+          <WaveFiles>Wave failu</WaveFiles>
+        </Sound>
+        <CheckEmail>Pārbaudīt e-pastu intervāls (minūtēs)</CheckEmail>
+        <Language>Displeja valoda</Language>
+        <FlashTaskbar>Flash uzdevumjoslas jaunu e-pastu</FlashTaskbar>
+        <ShowTray>Rādīt e-pastu skaits sistēmas teknē</ShowTray>
+        <ShowToast>Rādīt grauzdiņš paziņojumi par jaunu e-pastu</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Izvēlieties kontu, ko vēlaties mainīt</Title>
+        <AddNew>Pievienot jaunu kontu</AddNew>
+        <Account>
+          <Title>Pārvaldīt {0}</Title>
+          <Address>E-pasta adresi</Address>
+          <Password>Parole</Password>
+          <Mailto>Lietojiet šo kontu mailto saites</Mailto>
+          <DefaultAccount>Lietojiet šo kontu kā noklusējuma kontu</DefaultAccount>
+          <Browser>Pārlūkprogrammas</Browser>
+          <AddAccount>Konta pievienošana</AddAccount>
+          <RemoveAccount>Noņemt šo kontu</RemoveAccount>
+          <RemoveConfirmation>Vai tiešām vēlaties noņemt šo kontu?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Noņemt kontu</RemoveConfirmationTitle>
+          <AccountsIntroNone>Laipni lūdzam Gmail paziņotājs Plus.\n\nTo Iepazīstieties, lūdzu, noklikšķiniet uz šīs pogas, lai pievienotu jaunu kontu.</AccountsIntroNone>
+          <Error>Konts ar šādu adresi jau pastāv. Lūdzu, ievadiet citu adresi.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Lūdzu, pārbaudiet konta iestatījumus</CheckLogin>
+    <Connecting>Jaunu e-pasta ziņu pārbaudi...</Connecting>
+    <ConnectionUnavailable>Lūdzu, pārbaudiet tīkla savienojumu</ConnectionUnavailable>
+    <Inbox>Iesūtne</Inbox>
+    <NoSubject>(bez tēmas)</NoSubject>
+    <NoAccount>Lūdzu, pievienojiet kontu</NoAccount>
+    <NoMail>Nav jaunu pasta</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Skatīt šo e-pastu</ViewEmail>
+    <NoSubject>(bez tēmas)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Atjauninājums</WindowTitle>
+    <Text>Jauno versiju Gmail paziņotājs Plus ir lejupielādēts, un ir gatavs! Lai lietotu šo atjauninājumu, varat restartēt Gmail paziņotājs Plus tagad.</Text>
+    <YesText>Restartējiet Gmail Notifier Gmail Notifier Plus</YesText>
+    <YesInstruction>Man vajag jaunu hotness.</YesInstruction>
+    <NoText>nē, paldies</NoText>
+    <NoInstruction>Man patīk dzīvot uz malas.</NoInstruction>
+  </Updates>
+</Locale>

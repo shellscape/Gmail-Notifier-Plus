@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Eesti (et-EE)</Name>
+  <Common>
+    <Cancel>Loobu</Cancel>
+    <Close>Sulgege</Close>
+    <Next>Järgmise</Next>
+    <OK>Ok</OK>
+    <Previous>Eelmine</Previous>
+    <No>Ei</No>
+    <Yes>Jah</Yes>
+    <Unread>Lugemata</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Vaikekonto</DefaultAccount>
+    <Inbox>Mine kausta sisse</Inbox>
+    <Compose>Koosta uus e-posti</Compose>
+    <Check>Uute meilide kontrollimine</Check>
+    <Preferences>Eelistused</Preferences>
+    <About>Gmail taotleja kohta pluss</About>
+    <Help>Spikri Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Kohta</WindowTitle>
+    <Button>Armas. Tänud!</Button>
+    <FirstRun>Lähme!</FirstRun>
+    <Donate>Palun kaaluda annetava</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Eelistused</WindowTitle>
+    <Navigation>
+      <General>Üldised eelistused</General>
+      <Accounts>Hallata oma kontodele</Accounts>
+      <Appearance>Muuda ekraani eelistused</Appearance>
+      <Donate>Palun Kingi</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Gmaili teavitaja pluss üldsätted</Title>
+        <ApplyChanges>Rakenda muutused</ApplyChanges>
+        <Sound>
+          <Title>Heli teatamine</Title>
+          <None>Ükski</None>
+          <Default>Vaikimisi</Default>
+          <Custom>Kohandatud...</Custom>
+          <Browse>Sirvi...</Browse>
+          <BrowseWindowTitle>Valige teatise heli</BrowseWindowTitle>
+          <WaveFiles>Wave fail</WaveFiles>
+        </Sound>
+        <CheckEmail>Kontrollige e-posti intervall (minutites)</CheckEmail>
+        <Language>Kuvakeel</Language>
+        <FlashTaskbar>Uue e-posti tegumiriba Flash</FlashTaskbar>
+        <ShowTray>Näita e-posti count süsteemses salves</ShowTray>
+        <ShowToast>Kuva röstsai teatisi uute meilisõnumite jaoks</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Konto, mida soovite muuta</Title>
+        <AddNew>Uue konto lisamiseks</AddNew>
+        <Account>
+          <Title>Hallata {0}</Title>
+          <Address>E-posti aadress</Address>
+          <Password>Parool</Password>
+          <Mailto>Selle konto abil mailto lingid</Mailto>
+          <DefaultAccount>Kasuta selle konto vaikekontoks</DefaultAccount>
+          <Browser>Brauser</Browser>
+          <AddAccount>Konto lisamine</AddAccount>
+          <RemoveAccount>See konto eemaldamine</RemoveAccount>
+          <RemoveConfirmation>Olete kindel, et soovite eemaldada selle konto?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Eemalda konto</RemoveConfirmationTitle>
+          <AccountsIntroNone>Tere tulemast Gmaili teavitaja Plus.\n\nTo alustamine, klõpsake alltoodud nuppu, et uue konto.</AccountsIntroNone>
+          <Error>See aadress konto on juba olemas. Palun sisestage mõni muu aadress.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Palun kontrollige oma sätteid</CheckLogin>
+    <Connecting>Uute meilide kontrollimine...</Connecting>
+    <ConnectionUnavailable>Palun kontrollige oma võrguühendust</ConnectionUnavailable>
+    <Inbox>Sisendkausta</Inbox>
+    <NoSubject>(teema puudub)</NoSubject>
+    <NoAccount>Palun lisage konto</NoAccount>
+    <NoMail>Ühtegi uut meili</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Saate vaadata selle e-posti</ViewEmail>
+    <NoSubject>(teema puudub)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Värskendus</WindowTitle>
+    <Text>Gmaili teavitaja pluss uus versioon on alla laaditud ja on valmis! Selle värskenduse rakendamiseks võite taasalustada Gmaili teavitaja pluss nüüd.</Text>
+    <YesText>Taaskäivitage Gmail teavitaja pluss</YesText>
+    <YesInstruction>On vaja uusi hotness.</YesInstruction>
+    <NoText>Tänan ei</NoText>
+    <NoInstruction>Ma tahan elada serval.</NoInstruction>
+  </Updates>
+</Locale>

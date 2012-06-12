@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Tiếng Việt (vi-VN)</Name>
+  <Common>
+    <Cancel>Hủy bỏ</Cancel>
+    <Close>Đóng</Close>
+    <Next>Tiếp theo</Next>
+    <OK>Ok</OK>
+    <Previous>Trước đó</Previous>
+    <No>Không</No>
+    <Yes>Có</Yes>
+    <Unread>Chưa đọc</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Trương mục mặc định</DefaultAccount>
+    <Inbox>Đi đến hộp thư của bạn</Inbox>
+    <Compose>Soạn thư điện tử mới</Compose>
+    <Check>Kiểm tra các email mới</Check>
+    <Preferences>Sở thích</Preferences>
+    <About>Về Gmail Notifier cộng với</About>
+    <Help>Trợ giúp Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Về</WindowTitle>
+    <Button>Ngọt ngào. Cảm ơn!</Button>
+    <FirstRun>Đi thôi!</FirstRun>
+    <Donate>Xin vui lòng xem xét tài trợ</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Sở thích</WindowTitle>
+    <Navigation>
+      <General>Chung sở thích</General>
+      <Accounts>Quản lý tài khoản của bạn</Accounts>
+      <Appearance>Thay đổi sở thích hiển thị</Appearance>
+      <Donate>Hãy góp</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Cài đặt Gmail Notifier Plus chung</Title>
+        <ApplyChanges>Áp dụng thay đổi</ApplyChanges>
+        <Sound>
+          <Title>Thông báo âm thanh</Title>
+          <None>Không có</None>
+          <Default>Mặc định</Default>
+          <Custom>Tuỳ chỉnh...</Custom>
+          <Browse>Duyệt...</Browse>
+          <BrowseWindowTitle>Chọn âm thanh thông báo</BrowseWindowTitle>
+          <WaveFiles>Wave File</WaveFiles>
+        </Sound>
+        <CheckEmail>Kiểm tra email khoảng thời gian (trong vài phút)</CheckEmail>
+        <Language>Ngôn ngữ hiển thị</Language>
+        <FlashTaskbar>Flash thanh tác vụ cho email mới</FlashTaskbar>
+        <ShowTray>Hiển thị thư điện tử tính trong khay hệ thống</ShowTray>
+        <ShowToast>Hiện Toast báo cho email mới</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Chọn trương mục bạn muốn thay đổi</Title>
+        <AddNew>Thêm một tài khoản mới</AddNew>
+        <Account>
+          <Title>Quản lý {0}</Title>
+          <Address>Địa chỉ email</Address>
+          <Password>Mật khẩu</Password>
+          <Mailto>Sử dụng trương mục này cho liên kết mailto</Mailto>
+          <DefaultAccount>Sử dụng trương mục này như trương mục mặc định</DefaultAccount>
+          <Browser>Trình duyệt</Browser>
+          <AddAccount>Thêm tài khoản</AddAccount>
+          <RemoveAccount>Loại bỏ trương mục này</RemoveAccount>
+          <RemoveConfirmation>Bạn có chắc bạn muốn loại bỏ trương mục này không?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Loại bỏ trương mục</RemoveConfirmationTitle>
+          <AccountsIntroNone>Chào mừng đến với Gmail Notifier Plus.\n\nTo bắt đầu, hãy nhấp vào nút dưới đây để thêm một tài khoản mới.</AccountsIntroNone>
+          <Error>Một tài khoản với địa chỉ này đã tồn tại. Vui lòng nhập địa chỉ khác.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Vui lòng kiểm tra thiết đặt trương mục</CheckLogin>
+    <Connecting>Kiểm tra các email mới...</Connecting>
+    <ConnectionUnavailable>Vui lòng kiểm tra kết nối mạng của bạn</ConnectionUnavailable>
+    <Inbox>Hộp thư đến</Inbox>
+    <NoSubject>(không có chủ đề)</NoSubject>
+    <NoAccount>Xin vui lòng thêm một tài khoản</NoAccount>
+    <NoMail>Không có thư mới</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Xem email này</ViewEmail>
+    <NoSubject>(không có chủ đề)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Cập Nhật</WindowTitle>
+    <Text>Một phiên bản mới của Gmail Notifier Plus đã được tải về và đã sẵn sàng! Bạn có thể khởi động Gmail Notifier Plus bây giờ để áp dụng các Cập Nhật.</Text>
+    <YesText>Khởi động lại Gmail Notifier cộng với</YesText>
+    <YesInstruction>Tôi cần hotness mới.</YesInstruction>
+    <NoText>Không, cảm ơn</NoText>
+    <NoInstruction>Tôi muốn sống trên các cạnh.</NoInstruction>
+  </Updates>
+</Locale>

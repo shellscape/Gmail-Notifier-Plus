@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Français (fr-FR)</Name>
+  <Common>
+    <Cancel>Annuler</Cancel>
+    <Close>Fermer</Close>
+    <Next>Prochaine</Next>
+    <OK>Bien</OK>
+    <Previous>Précédente</Previous>
+    <No>Aucun</No>
+    <Yes>Oui</Yes>
+    <Unread>Non lus</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Compte par défaut</DefaultAccount>
+    <Inbox>Allez à votre boîte de réception</Inbox>
+    <Compose>Composer de nouveau Courriel</Compose>
+    <Check>Vérifiez de nouveau Courriel</Check>
+    <Preferences>Préférences</Preferences>
+    <About>Sur Gmail Notifier Plus</About>
+    <Help>Aide Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Sur</WindowTitle>
+    <Button>Sweet. Merci !</Button>
+    <FirstRun>Allons-y!</FirstRun>
+    <Donate>Merci de considérer faire un don</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Préférences</WindowTitle>
+    <Navigation>
+      <General>Préférences générales</General>
+      <Accounts>Gérer vos comptes</Accounts>
+      <Appearance>Préférences d'affichage de changement</Appearance>
+      <Donate>Veuillez faire un don</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Paramètres généraux de Gmail Notifier Plus</Title>
+        <ApplyChanges>Appliquer les modifications</ApplyChanges>
+        <Sound>
+          <Title>Notification sonore</Title>
+          <None>Aucun</None>
+          <Default>Par défaut</Default>
+          <Custom>Personnalisé...</Custom>
+          <Browse>Parcourir...</Browse>
+          <BrowseWindowTitle>Sélectionnez un son de notification</BrowseWindowTitle>
+          <WaveFiles>Fichier wave</WaveFiles>
+        </Sound>
+        <CheckEmail>Vérification de courriel intervalle (en minutes)</CheckEmail>
+        <Language>Langue d'affichage</Language>
+        <FlashTaskbar>Flash de la barre des tâches pour le nouveau Courriel</FlashTaskbar>
+        <ShowTray>Montrer le comte de courriel dans la barre d'état système</ShowTray>
+        <ShowToast>Afficher les notifications Toast pour nouveau Courriel</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Choisissez le compte que vous souhaitez modifier</Title>
+        <AddNew>Ajouter un nouveau compte</AddNew>
+        <Account>
+          <Title>Gérer {0}</Title>
+          <Address>Adresse de Courriel</Address>
+          <Password>Mot de passe</Password>
+          <Mailto>Utilisez ce compte pour des liens mailto</Mailto>
+          <DefaultAccount>Utiliser ce compte comme compte par défaut</DefaultAccount>
+          <Browser>Navigateur</Browser>
+          <AddAccount>Ajoutez le compte</AddAccount>
+          <RemoveAccount>Supprimer ce compte</RemoveAccount>
+          <RemoveConfirmation>Êtes-vous sûr de que vouloir supprimer ce compte ?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Supprimer le compte</RemoveConfirmationTitle>
+          <AccountsIntroNone>Bienvenue à Gmail Notifier Plus.\n\nTo commencer, veuillez cliquer sur le bouton ci-dessous pour ajouter un nouveau compte.</AccountsIntroNone>
+          <Error>Il existe déjà un compte avec cette adresse. Veuillez entrer une adresse différente.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Veuillez vérifier les paramètres de votre compte</CheckLogin>
+    <Connecting>Vérifier de nouveau Courriel...</Connecting>
+    <ConnectionUnavailable>Veuillez vérifier votre connexion réseau</ConnectionUnavailable>
+    <Inbox>Boîte de réception</Inbox>
+    <NoSubject>(aucun sujet)</NoSubject>
+    <NoAccount>Veuillez ajouter un compte</NoAccount>
+    <NoMail>Aucun nouveau message</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Voir ce courriel</ViewEmail>
+    <NoSubject>(aucun sujet)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Mise à jour</WindowTitle>
+    <Text>Une nouvelle version de Gmail Notifier Plus a été téléchargée et il est prête ! Vous pouvez redémarrer Gmail Notifier Plus maintenant d'appliquer la mise à jour.</Text>
+    <YesText>Redémarrez Gmail Notifier Plus</YesText>
+    <YesInstruction>J'ai besoin de la chaleur de nouveau.</YesInstruction>
+    <NoText>Non merci</NoText>
+    <NoInstruction>J'aimerais vivre sur le bord.</NoInstruction>
+  </Updates>
+</Locale>

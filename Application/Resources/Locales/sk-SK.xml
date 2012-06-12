@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Slovenčina (sk-SK)</Name>
+  <Common>
+    <Cancel>Zrušiť</Cancel>
+    <Close>Zavrieť</Close>
+    <Next>Ďalší</Next>
+    <OK>ok</OK>
+    <Previous>Predchádzajúce</Previous>
+    <No>nie</No>
+    <Yes>áno</Yes>
+    <Unread>Neprečítané správy</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Predvoleným kontom</DefaultAccount>
+    <Inbox>Prejdite do priečinka Doručená pošta</Inbox>
+    <Compose>Napísať nový email</Compose>
+    <Check>Skontrolujte, či pre nové správy elektronickej pošty</Check>
+    <Preferences>Predvoľby</Preferences>
+    <About>O Gmail Notifier… Plus</About>
+    <Help>Pomoc Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>O</WindowTitle>
+    <Button>sladký. vďaka!</Button>
+    <FirstRun>poďme!</FirstRun>
+    <Donate>Prosím zvážte darovanie</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Predvoľby</WindowTitle>
+    <Navigation>
+      <General>Všeobecné preferencie</General>
+      <Accounts>Spravovať vaše účty</Accounts>
+      <Appearance>Zmena zobrazenia preferencie</Appearance>
+      <Donate>Prosím darovať</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>V¹eobecné nastavenia služby Gmail Notifier Plus</Title>
+        <ApplyChanges>Aplikovať zmeny</ApplyChanges>
+        <Sound>
+          <Title>Zvukové upozornenie</Title>
+          <None>Žiadna</None>
+          <Default>Predvolené</Default>
+          <Custom>Vlastné...</Custom>
+          <Browse>Prehľadávať...</Browse>
+          <BrowseWindowTitle>Vyberte zvuk nepočuť</BrowseWindowTitle>
+          <WaveFiles>Súbor Wave</WaveFiles>
+        </Sound>
+        <CheckEmail>Kontrola e-mailu interval (v minútach)</CheckEmail>
+        <Language>Jazyk zobrazenia</Language>
+        <FlashTaskbar>Flash panelu pre nové správy elektronickej pošty</FlashTaskbar>
+        <ShowTray>Zobraziť e-mail počítať v systémovej lište</ShowTray>
+        <ShowToast>Zobraziť Toast upozornenia pre nové správy elektronickej pošty</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Vyberte konto, ktoré chcete zmeniť</Title>
+        <AddNew>Pridanie nového účtu</AddNew>
+        <Account>
+          <Title>Spravovať {0}</Title>
+          <Address>E-mailovú adresu</Address>
+          <Password>Heslo</Password>
+          <Mailto>Použitie tohto účtu pre mailto odkazy</Mailto>
+          <DefaultAccount>Toto konto použiť ako predvolené konto</DefaultAccount>
+          <Browser>Prehliadač</Browser>
+          <AddAccount>Pridanie konta</AddAccount>
+          <RemoveAccount>Odstrániť účet</RemoveAccount>
+          <RemoveConfirmation>Naozaj chcete odstrániť toto konto?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Odstránenie konta</RemoveConfirmationTitle>
+          <AccountsIntroNone>Vitajte na Gmail Notifier Plus.\n\nTo začať, prosím, kliknite na tlačidlo nižšie na pridanie nového účtu.</AccountsIntroNone>
+          <Error>Konto s touto adresou už existuje. Zadajte inú adresu.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Skontrolujte nastavenia konta</CheckLogin>
+    <Connecting>Kontrolujú sa nové správy elektronickej pošty...</Connecting>
+    <ConnectionUnavailable>Prosím skontrolujte pripojenie na sieť</ConnectionUnavailable>
+    <Inbox>Doručenej pošty</Inbox>
+    <NoSubject>(žiadny predmet)</NoSubject>
+    <NoAccount>Prosím, pridajte konto</NoAccount>
+    <NoMail>Novú poštu</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Zobrazenie tohto e-mailu</ViewEmail>
+    <NoSubject>(žiadny predmet)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Aktualizácia</WindowTitle>
+    <Text>Nová verzia Gmail Notifier Plus-Tree bolo stiahnuté a je pripravený! Gmail Notifier Plus teraz môžete reštartovať uplatňovať aktualizácie.</Text>
+    <YesText>Reštartujte Gmail Notifier… Plus</YesText>
+    <YesInstruction>Je potrebné nové horkosť.</YesInstruction>
+    <NoText>nie ďakujem</NoText>
+    <NoInstruction>Som chcel žiť na okraji.</NoInstruction>
+  </Updates>
+</Locale>

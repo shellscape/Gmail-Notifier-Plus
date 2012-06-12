@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>한국어 (ko-KR)</Name>
+  <Common>
+    <Cancel>취소</Cancel>
+    <Close>닫기</Close>
+    <Next>다음</Next>
+    <OK>괜찮았던 것</OK>
+    <Previous>이전</Previous>
+    <No>없음</No>
+    <Yes>예</Yes>
+    <Unread>읽지 않음</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>기본 계정</DefaultAccount>
+    <Inbox>귀하의 받은 편지 함으로 이동</Inbox>
+    <Compose>새 메일 작성</Compose>
+    <Check>새 전자 메일 확인</Check>
+    <Preferences>기본 설정</Preferences>
+    <About>Gmail 알리미에 대 한 플러스</About>
+    <Help>도움말 위 키</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>에 대 한</WindowTitle>
+    <Button>달콤한입니다. 감사!</Button>
+    <FirstRun>가죠!</FirstRun>
+    <Donate>기부 고려 하시기 바랍니다</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>기본 설정</WindowTitle>
+    <Navigation>
+      <General>일반 기본 설정</General>
+      <Accounts>귀하의 계정 관리</Accounts>
+      <Appearance>디스플레이 기본 설정 변경</Appearance>
+      <Donate>제발 기부</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>일반 Gmail 알리미 플러스 설정</Title>
+        <ApplyChanges>변경 내용 적용</ApplyChanges>
+        <Sound>
+          <Title>소리 알림</Title>
+          <None>없음</None>
+          <Default>기본</Default>
+          <Custom>사용자 지정...</Custom>
+          <Browse>찾아보기...</Browse>
+          <BrowseWindowTitle>알림 소리 선택</BrowseWindowTitle>
+          <WaveFiles>웨이브 파일</WaveFiles>
+        </Sound>
+        <CheckEmail>확인 이메일 간격 (분)</CheckEmail>
+        <Language>표시 언어</Language>
+        <FlashTaskbar>새 전자 메일에 대 한 작업 표시줄 플래시</FlashTaskbar>
+        <ShowTray>시스템 트레이에 이메일 개수 표시</ShowTray>
+        <ShowToast>새 전자 메일에 대 한 토스트 알림 표시</ShowToast>
+      </General>
+      <Accounts>
+        <Title>변경 하려는 계정을 선택 하십시오</Title>
+        <AddNew>새 계정 추가</AddNew>
+        <Account>
+          <Title>{0} 관리</Title>
+          <Address>이메일 주소</Address>
+          <Password>암호</Password>
+          <Mailto>Mailto 링크에 대해이 계정을 사용합니다</Mailto>
+          <DefaultAccount>이 계정을 기본 계정으로 사용</DefaultAccount>
+          <Browser>브라우저</Browser>
+          <AddAccount>계정 추가</AddAccount>
+          <RemoveAccount>이 계정을 제거합니다</RemoveAccount>
+          <RemoveConfirmation>당신은이 계정을 제거 하 시겠습니까?</RemoveConfirmation>
+          <RemoveConfirmationTitle>계정 제거</RemoveConfirmationTitle>
+          <AccountsIntroNone>에 오신 것을 환영 합니다 Gmail 알리미 Plus.\n\nTo 시작, 새 계정을 추가 하려면 아래 단추를 클릭 하십시오.</AccountsIntroNone>
+          <Error>이 주소를 가진 계정이 이미 있습니다. 다른 주소를 입력 하십시오.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>계정 설정을 확인 하시기 바랍니다</CheckLogin>
+    <Connecting>새로운 이메일을 확인 하는 중...</Connecting>
+    <ConnectionUnavailable>네트워크 연결을 확인 하십시오</ConnectionUnavailable>
+    <Inbox>받은 편지함</Inbox>
+    <NoSubject>(제목 없음)</NoSubject>
+    <NoAccount>계정 추가 하시기 바랍니다</NoAccount>
+    <NoMail>새 메일 없음</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>이 이메일 보기</ViewEmail>
+    <NoSubject>(제목 없음)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>업데이트</WindowTitle>
+    <Text>Gmail 알리미 플러스의 새로운 버전을 다운로드 되었습니다 이며 준비! 업데이트를 적용 하려면 Gmail 알리미 플러스 지금 시작할 수 있습니다.</Text>
+    <YesText>다시 Gmail 알리미 플러스</YesText>
+    <YesInstruction>새로운 섹시가 필요합니다.</YesInstruction>
+    <NoText>괜찮아요. 고마워요</NoText>
+    <NoInstruction>가장자리에 살고 싶어요.</NoInstruction>
+  </Updates>
+</Locale>

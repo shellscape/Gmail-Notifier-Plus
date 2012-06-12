@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Czech (cs-CZ)</Name>
+  <Common>
+    <Cancel>Storno</Cancel>
+    <Close>Zavřít</Close>
+    <Next>Další</Next>
+    <OK>Ok</OK>
+    <Previous>Předchozí</Previous>
+    <No>Ne</No>
+    <Yes>Ano</Yes>
+    <Unread>Nepřečtené</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Výchozí účet</DefaultAccount>
+    <Inbox>Přejít do složky Doručená pošta</Inbox>
+    <Compose>Vytvořit nový email</Compose>
+    <Check>Kontrolovat novou poštu</Check>
+    <Preferences>Předvolby</Preferences>
+    <About>O službě Gmail Notifier Plus</About>
+    <Help>Pomoc Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>O</WindowTitle>
+    <Button>Milé. Dík!</Button>
+    <FirstRun>Jdeme!</FirstRun>
+    <Donate>Prosím zvažte darování</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Předvolby</WindowTitle>
+    <Navigation>
+      <General>Obecné předvolby</General>
+      <Accounts>Spravovat své účty</Accounts>
+      <Appearance>Změnit zobrazení předvolby</Appearance>
+      <Donate>Prosím pomozte</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Obecná nastavení služby Gmail Notifier Plus</Title>
+        <ApplyChanges>Aplikovat změny</ApplyChanges>
+        <Sound>
+          <Title>Zvukové upozornění</Title>
+          <None>Žádný</None>
+          <Default>Výchozí</Default>
+          <Custom>Vlastní...</Custom>
+          <Browse>Procházet...</Browse>
+          <BrowseWindowTitle>Vyberte zvukové upozornění</BrowseWindowTitle>
+          <WaveFiles>Soubor wave</WaveFiles>
+        </Sound>
+        <CheckEmail>Kontrola e-mailů interval (v minutách)</CheckEmail>
+        <Language>Jazyk zobrazení</Language>
+        <FlashTaskbar>Flash panelu pro nové zprávy elektronické pošty</FlashTaskbar>
+        <ShowTray>Zobrazit počet e-mailů v systémové části panelu</ShowTray>
+        <ShowToast>Zobrazovat upozornění přípitek pro nové zprávy elektronické pošty</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Zvolte účet, pomocí kterého chcete změnit</Title>
+        <AddNew>Přidat nový účet</AddNew>
+        <Account>
+          <Title>Správa {0}</Title>
+          <Address>E-mailová adresa</Address>
+          <Password>Heslo</Password>
+          <Mailto>Použít tento účet pro Mailto – odkazy</Mailto>
+          <DefaultAccount>Použít tento účet jako výchozí účet</DefaultAccount>
+          <Browser>Prohlížeč</Browser>
+          <AddAccount>Přidat účet</AddAccount>
+          <RemoveAccount>Odstranit tento účet</RemoveAccount>
+          <RemoveConfirmation>Opravdu že chcete odstranit tento účet?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Odebrat účet</RemoveConfirmationTitle>
+          <AccountsIntroNone>Vítá vás Gmail Notifier Plus.\n\nTo Začínáme, klepněte na tlačítko Přidat nový účet.</AccountsIntroNone>
+          <Error>Účet s touto adresou již existuje. Zadejte jinou adresu.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Zkontrolujte prosím nastavení účtu</CheckLogin>
+    <Connecting>Hledám nové zprávy elektronické pošty...</Connecting>
+    <ConnectionUnavailable>Zkontrolujte připojení k síti</ConnectionUnavailable>
+    <Inbox>Doručená pošta</Inbox>
+    <NoSubject>((žádný předmět)</NoSubject>
+    <NoAccount>Přidejte účet</NoAccount>
+    <NoMail>Žádná nová pošta</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Zobrazit tento email</ViewEmail>
+    <NoSubject>((žádný předmět)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Aktualizovat</WindowTitle>
+    <Text>Gmail Notifier plus nová verze byla stažena a je připravena! Gmail Notifier Plus nyní můžete znovu použít aktualizaci.</Text>
+    <YesText>Restartujte službu Gmail Notifier Plus</YesText>
+    <YesInstruction>Potřebuji nové tažnej.</YesInstruction>
+    <NoText>Ne, děkuji</NoText>
+    <NoInstruction>Rád se žít na okraji.</NoInstruction>
+  </Updates>
+</Locale>

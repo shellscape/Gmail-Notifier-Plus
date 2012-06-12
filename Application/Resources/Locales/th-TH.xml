@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>ภาษาไทย (th-TH)</Name>
+  <Common>
+    <Cancel>ยกเลิก</Cancel>
+    <Close>ปิด</Close>
+    <Next>ถัดไป</Next>
+    <OK>ตกลง, ได้</OK>
+    <Previous>ก่อนหน้านี้</Previous>
+    <No>ไม่ใช่</No>
+    <Yes>ใช่</Yes>
+    <Unread>ยังไม่ได้อ่าน</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>บัญชีเริ่มต้น</DefaultAccount>
+    <Inbox>ไปที่กล่องขาเข้าของคุณ</Inbox>
+    <Compose>เขียนอีเมล์ใหม่</Compose>
+    <Check>การตรวจสอบอีเมลใหม่</Check>
+    <Preferences>กำหนดลักษณะ</Preferences>
+    <About>เกี่ยวกับ Gmail Notifier บวก</About>
+    <Help>วิธีใช้ Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>เกี่ยวกับ</WindowTitle>
+    <Button>หวาน ขอขอบคุณ</Button>
+    <FirstRun>ไปกันเถอะ!</FirstRun>
+    <Donate>โปรดพิจารณาบริจาค</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>กำหนดลักษณะ</WindowTitle>
+    <Navigation>
+      <General>กำหนดลักษณะทั่วไป</General>
+      <Accounts>จัดการบัญชีของคุณ</Accounts>
+      <Appearance>เปลี่ยนการกำหนดลักษณะการแสดงผล</Appearance>
+      <Donate>กรุณาบริจาค</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>การตั้งค่า Gmail Notifier Plus ทั่วไป</Title>
+        <ApplyChanges>ใช้การเปลี่ยนแปลง</ApplyChanges>
+        <Sound>
+          <Title>เสียงแจ้งเตือน</Title>
+          <None>ไม่มี</None>
+          <Default>ค่าเริ่มต้น</Default>
+          <Custom>กำหนดเอง...</Custom>
+          <Browse>เรียกดู...</Browse>
+          <BrowseWindowTitle>เลือกเสียงแจ้งเตือน</BrowseWindowTitle>
+          <WaveFiles>แฟ้ม Wave</WaveFiles>
+        </Sound>
+        <CheckEmail>ตรวจสอบอีเมล์ช่วง (เป็นนาที)</CheckEmail>
+        <Language>ภาษาที่แสดง</Language>
+        <FlashTaskbar>แฟลชแถบสำหรับอีเมล์ใหม่</FlashTaskbar>
+        <ShowTray>แสดงจำนวนอีเมล์ในถาดระบบ</ShowTray>
+        <ShowToast>แสดงการแจ้งเตือนของขนมปังสำหรับอีเมล์ใหม่</ShowToast>
+      </General>
+      <Accounts>
+        <Title>เลือกบัญชีคุณต้องการเปลี่ยน</Title>
+        <AddNew>เพิ่มบัญชีใหม่</AddNew>
+        <Account>
+          <Title>จัดการ {0}</Title>
+          <Address>ที่อยู่อีเมล</Address>
+          <Password>รหัสผ่าน</Password>
+          <Mailto>ใช้บัญชีนี้สำหรับการเชื่อมโยง mailto</Mailto>
+          <DefaultAccount>ใช้บัญชีนี้เป็นบัญชีเริ่มต้น</DefaultAccount>
+          <Browser>เบราว์เซอร์</Browser>
+          <AddAccount>เพิ่มบัญชีผู้ใช้</AddAccount>
+          <RemoveAccount>เอาบัญชีผู้ใช้นี้</RemoveAccount>
+          <RemoveConfirmation>คุณแน่ใจหรือไม่ว่าคุณต้องการเอาบัญชีผู้ใช้นี้</RemoveConfirmation>
+          <RemoveConfirmationTitle>เอาบัญชีผู้ใช้</RemoveConfirmationTitle>
+          <AccountsIntroNone>ยินดีต้อนรับสู่ Gmail Notifier Plus.\n\nTo เริ่มต้นการใช้งาน กรุณาคลิกที่ปุ่มด้านล่างเพื่อเพิ่มบัญชีใหม่</AccountsIntroNone>
+          <Error>บัญชี ด้วยชื่อนี้อยู่แล้ว กรุณาใส่อยู่ที่แตกต่างกัน</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>กรุณาตรวจสอบการตั้งค่าบัญชีผู้ใช้ของคุณ</CheckLogin>
+    <Connecting>ตรวจสอบอีเมล์ใหม่...</Connecting>
+    <ConnectionUnavailable>กรุณาตรวจสอบการเชื่อมต่อเครือข่ายของคุณ</ConnectionUnavailable>
+    <Inbox>กล่องขาเข้า</Inbox>
+    <NoSubject>(ไม่มีชื่อเรื่อง)</NoSubject>
+    <NoAccount>กรุณาเพิ่มบัญชีผู้ใช้</NoAccount>
+    <NoMail>ไม่มีจดหมายใหม่</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>ดูอีเมล์นี้</ViewEmail>
+    <NoSubject>(ไม่มีชื่อเรื่อง)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>โปรแกรมปรับปรุง</WindowTitle>
+    <Text>Gmail Notifier Plus รุ่นใหม่ถูกดาวน์โหลด และพร้อม คุณสามารถเริ่ม Gmail Notifier Plus เดี๋ยวนี้เพื่อใช้การปรับปรุงใหม่</Text>
+    <YesText>เริ่มการทำงานของ Gmail Notifier บวก</YesText>
+    <YesInstruction>Hotness ใหม่จะต้อง</YesInstruction>
+    <NoText>ไม่ล่ะขอบใจ</NoText>
+    <NoInstruction>ชอบอาศัยอยู่บนขอบ</NoInstruction>
+  </Updates>
+</Locale>

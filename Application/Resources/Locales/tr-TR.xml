@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Türk (tr-TR)</Name>
+  <Common>
+    <Cancel>İptal</Cancel>
+    <Close>Kapat</Close>
+    <Next>Sonraki</Next>
+    <OK>Tamam</OK>
+    <Previous>Önceki</Previous>
+    <No>No</No>
+    <Yes>Evet</Yes>
+    <Unread>Okunmamış</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Varsayılan hesap</DefaultAccount>
+    <Inbox>Gelen kutunuza gitmek</Inbox>
+    <Compose>Yeni e-posta oluşturma</Compose>
+    <Check>Yeni posta denetle</Check>
+    <Preferences>Tercihler</Preferences>
+    <About>Hakkında Gmail Notifier Plus</About>
+    <Help>Wiki Yardım</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Hakkında</WindowTitle>
+    <Button>Tatlı. Teşekkürler!</Button>
+    <FirstRun>Gidelim!</FirstRun>
+    <Donate>Lütfen bağış düşünün</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Tercihler</WindowTitle>
+    <Navigation>
+      <General>Genel tercihler</General>
+      <Accounts>Hesaplarınızı yönetmek</Accounts>
+      <Appearance>Görüntüleme tercihlerini değiştirme</Appearance>
+      <Donate>Lütfen bağış yapın</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Gmail Notifier Plus Genel ayarlar</Title>
+        <ApplyChanges>Değişiklikleri Uygula</ApplyChanges>
+        <Sound>
+          <Title>Ses Uyarısı</Title>
+          <None>Hiçbiri</None>
+          <Default>Varsayılan</Default>
+          <Custom>Özel...</Custom>
+          <Browse>Gözat...</Browse>
+          <BrowseWindowTitle>Bildirim sesi seçin</BrowseWindowTitle>
+          <WaveFiles>Wave dosyası</WaveFiles>
+        </Sound>
+        <CheckEmail>Onay e-posta aralığı (dakika)</CheckEmail>
+        <Language>Ekran dili</Language>
+        <FlashTaskbar>Yeni e-posta görev flash</FlashTaskbar>
+        <ShowTray>Sistem tepsisinde e-posta sayısını göster</ShowTray>
+        <ShowToast>Yeni e-posta için Toast bildirimleri göster</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Değiştirmek istediğiniz hesabı seçin</Title>
+        <AddNew>Yeni bir hesap eklemek</AddNew>
+        <Account>
+          <Title>{0} Yönetme</Title>
+          <Address>E-posta adresi</Address>
+          <Password>Parola</Password>
+          <Mailto>Mailto bağlantıları için bu hesabı kullanın</Mailto>
+          <DefaultAccount>Bu hesap varsayılan hesap olarak kullanın</DefaultAccount>
+          <Browser>Tarayıcı</Browser>
+          <AddAccount>Hesap Ekle</AddAccount>
+          <RemoveAccount>Bu hesabı kaldırma</RemoveAccount>
+          <RemoveConfirmation>Bu hesabı kaldırmak istediğinizden emin misiniz?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Hesabını kaldırma</RemoveConfirmationTitle>
+          <AccountsIntroNone>Gmail Notifier Plus.\n\nTo Hoş Geldiniz başlarken, lütfen yeni bir hesap eklemek için aşağıdaki düğmeyi tıklatın.</AccountsIntroNone>
+          <Error>Bu adresle bir hesap zaten var. Lütfen farklı bir adres girin.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Hesap ayarlarınızı gözden geçirin</CheckLogin>
+    <Connecting>Yeni e-posta denetleniyor...</Connecting>
+    <ConnectionUnavailable>Lütfen ağ bağlantınızı denetleyin</ConnectionUnavailable>
+    <Inbox>Gelen kutusu</Inbox>
+    <NoSubject>(konu yok)</NoSubject>
+    <NoAccount>Lütfen bir hesap ekle</NoAccount>
+    <NoMail>Hiçbir yeni posta</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Bu e-postayı</ViewEmail>
+    <NoSubject>(konu yok)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Güncelleştirme</WindowTitle>
+    <Text>Gmail Notifier Plus'ın yeni bir sürümü yüklendi ve hazır! Gmail Notifier Plus Şimdi bu güncelleştirmeyi yeniden başlatabilirsiniz.</Text>
+    <YesText>Gmail Notifier'I yeniden artı</YesText>
+    <YesInstruction>Yeni hotness ihtiyacım var.</YesInstruction>
+    <NoText>Hayır, Teşekkürler</NoText>
+    <NoInstruction>Kenarında yaşamak ister.</NoInstruction>
+  </Updates>
+</Locale>

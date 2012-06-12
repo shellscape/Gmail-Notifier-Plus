@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Dansk (da-DK)</Name>
+  <Common>
+    <Cancel>Annuller</Cancel>
+    <Close>Luk</Close>
+    <Next>Næste</Next>
+    <OK>Ok</OK>
+    <Previous>Tidligere</Previous>
+    <No>Nej</No>
+    <Yes>Ja</Yes>
+    <Unread>Ulæste</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Standardkonto</DefaultAccount>
+    <Inbox>Gå til din Indbakke</Inbox>
+    <Compose>Sammensætte nye e-mail</Compose>
+    <Check>Afkrydsningsfeltet for ny e-mail</Check>
+    <Preferences>Præferencer</Preferences>
+    <About>Om Gmail Notifier Plus</About>
+    <Help>Hjælp Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Om</WindowTitle>
+    <Button>Sød. Tak!</Button>
+    <FirstRun>Lad os gå!</FirstRun>
+    <Donate>Venligst Overvej donere</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Præferencer</WindowTitle>
+    <Navigation>
+      <General>Generelle præferencer</General>
+      <Accounts>Administrere dine konti</Accounts>
+      <Appearance>Skift indstillinger</Appearance>
+      <Donate>Venligst donere</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Generelle Gmail Notifier Plus indstillinger</Title>
+        <ApplyChanges>Anvend ændringer</ApplyChanges>
+        <Sound>
+          <Title>Lydsignal</Title>
+          <None>Ingen</None>
+          <Default>Standard</Default>
+          <Custom>Brugerdefineret...</Custom>
+          <Browse>Gennemse...</Browse>
+          <BrowseWindowTitle>Vælge en lyd, anmeldelse</BrowseWindowTitle>
+          <WaveFiles>Wave-fil</WaveFiles>
+        </Sound>
+        <CheckEmail>Kontrol e-mail-interval (i minutter)</CheckEmail>
+        <Language>Visningssprog</Language>
+        <FlashTaskbar>Flash proceslinjen for ny e-mail</FlashTaskbar>
+        <ShowTray>Vis e-mail Tæl i systembakken</ShowTray>
+        <ShowToast>Vis Toast meddelelser for ny e-mail</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Vælg den konto, du vil gerne ændre</Title>
+        <AddNew>Tilføj en ny konto</AddNew>
+        <Account>
+          <Title>Administrere {0}</Title>
+          <Address>E-mail-adresse</Address>
+          <Password>Adgangskode</Password>
+          <Mailto>Brug denne konto til mailto hyperlinks</Mailto>
+          <DefaultAccount>Brug denne konto som standardkonto</DefaultAccount>
+          <Browser>Browser</Browser>
+          <AddAccount>Tilføj konto</AddAccount>
+          <RemoveAccount>Fjerne denne konto</RemoveAccount>
+          <RemoveConfirmation>Er du sikker på, du vil fjerne denne konto?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Fjerne konto</RemoveConfirmationTitle>
+          <AccountsIntroNone>Velkommen til Gmail Notifier Plus.\n\nTo Introduktion, skal du klikke på knappen nedenfor for at tilføje en ny konto.</AccountsIntroNone>
+          <Error>Der findes allerede en konto med denne adresse. Angiv en anden adresse.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Kontrol din kontoindstillinger</CheckLogin>
+    <Connecting>Kontrollerer for ny e-mail...</Connecting>
+    <ConnectionUnavailable>Kontrol netværksforbindelsen</ConnectionUnavailable>
+    <Inbox>Indbakke</Inbox>
+    <NoSubject>(intet emne)</NoSubject>
+    <NoAccount>Tilføj venligst en konto</NoAccount>
+    <NoMail>Ingen ny post</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Få vist denne e-mail</ViewEmail>
+    <NoSubject>(intet emne)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Opdatering</WindowTitle>
+    <Text>En ny version af Gmail Notifier Plus er downloadet og er klar! Du kan genstarte Gmail Notifier Plus nu for at anvende opdateringen.</Text>
+    <YesText>Genstart Gmail Notifier Plus</YesText>
+    <YesInstruction>Jeg har brug for den nye hotness.</YesInstruction>
+    <NoText>Nej tak</NoText>
+    <NoInstruction>Jeg bor på kanten.</NoInstruction>
+  </Updates>
+</Locale>

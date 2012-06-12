@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Deutscher (de-DE)</Name>
+  <Common>
+    <Cancel>Abbrechen</Cancel>
+    <Close>Schließen</Close>
+    <Next>Nächste</Next>
+    <OK>Okay</OK>
+    <Previous>Zurück</Previous>
+    <No>Nr.</No>
+    <Yes>Ja</Yes>
+    <Unread>Ungelesene</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Standardkonto</DefaultAccount>
+    <Inbox>Gehen Sie zu Ihrem Posteingang</Inbox>
+    <Compose>Neuen e-Mail verfassen</Compose>
+    <Check>Überprüfung auf neue e-Mail-Adresse</Check>
+    <Preferences>Einstellungen</Preferences>
+    <About>Über Gmail Notifier Plus</About>
+    <Help>Hilfe-Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Über</WindowTitle>
+    <Button>Sweet. Vielen Dank!</Button>
+    <FirstRun>Auf geht's!</FirstRun>
+    <Donate>Betrachten bitte zu spenden</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Einstellungen</WindowTitle>
+    <Navigation>
+      <General>Allgemeine Einstellungen</General>
+      <Accounts>Verwalten Sie Ihre Konten</Accounts>
+      <Appearance>Display-Einstellungen ändern</Appearance>
+      <Donate>Bitte spenden Sie</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Allgemeine Einstellungen für Google Mail Notifier Plus</Title>
+        <ApplyChanges>Änderungen</ApplyChanges>
+        <Sound>
+          <Title>Akustische Benachrichtigung</Title>
+          <None>Keine</None>
+          <Default>Standard</Default>
+          <Custom>Benutzerdefinierte...</Custom>
+          <Browse>Durchsuchen...</Browse>
+          <BrowseWindowTitle>Wählen Sie einen Sound Benachrichtigung</BrowseWindowTitle>
+          <WaveFiles>Wave-Datei</WaveFiles>
+        </Sound>
+        <CheckEmail>Check e-Mail-Intervall (in Minuten)</CheckEmail>
+        <Language>Display-Sprache</Language>
+        <FlashTaskbar>Flash der Taskleiste für neue e-Mail-Adresse</FlashTaskbar>
+        <ShowTray>E-Mail Graf in Taskleiste anzeigen</ShowTray>
+        <ShowToast>Toast Benachrichtigungen für neue e-Mail-Adresse anzeigen</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Wählen Sie das Konto, das Sie ändern möchten.</Title>
+        <AddNew>Hinzufügen eines neuen Benutzerkontos</AddNew>
+        <Account>
+          <Title>Verwalten von {0}</Title>
+          <Address>E-Mail-Adresse</Address>
+          <Password>Passwort</Password>
+          <Mailto>Verwenden Sie dieses Konto für Mailto-links</Mailto>
+          <DefaultAccount>Verwenden Sie dieses Konto als Standardkonto</DefaultAccount>
+          <Browser>Browser</Browser>
+          <AddAccount>Konto hinzufügen</AddAccount>
+          <RemoveAccount>Dieses Konto entfernen</RemoveAccount>
+          <RemoveConfirmation>Sind Sie sicher, dass Sie dieses Konto entfernen möchten?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Konto löschen</RemoveConfirmationTitle>
+          <AccountsIntroNone>Willkommen bei Google Mail Notifier Plus.\n\nTo beginnen, klicken Sie bitte auf die Schaltfläche unten, um ein neues Konto hinzuzufügen.</AccountsIntroNone>
+          <Error>Es gibt bereits ein Konto mit dieser Adresse. Bitte geben Sie eine andere Adresse.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Bitte überprüfen Sie Ihre Account-Einstellungen</CheckLogin>
+    <Connecting>Auf neue e-Mails überprüft...</Connecting>
+    <ConnectionUnavailable>Bitte überprüfen Sie die Netzwerkverbindung</ConnectionUnavailable>
+    <Inbox>Posteingang</Inbox>
+    <NoSubject>(kein Betreff)</NoSubject>
+    <NoAccount>Bitte fügen Sie ein Konto</NoAccount>
+    <NoMail>Keine neue Nachrichten</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Diese e-Mail anzeigen</ViewEmail>
+    <NoSubject>(kein Betreff)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Update</WindowTitle>
+    <Text>Eine neue Version von Gmail Notifier Plus heruntergeladen wurde und bereit ist! Sie können Gmail Notifier Plus jetzt neu starten, um das Update zu installieren.</Text>
+    <YesText>Starten Sie Google Mail Notifier Plus</YesText>
+    <YesInstruction>Ich brauche die neue Schärfe.</YesInstruction>
+    <NoText>Nein, danke</NoText>
+    <NoInstruction>Ich möchte am Rand Leben.</NoInstruction>
+  </Updates>
+</Locale>

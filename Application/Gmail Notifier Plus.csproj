@@ -223,6 +223,37 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Locales\bg-BG.xml" />
+    <EmbeddedResource Include="Resources\Locales\ca-AD.xml" />
+    <EmbeddedResource Include="Resources\Locales\cs-CZ.xml" />
+    <EmbeddedResource Include="Resources\Locales\da-DK.xml" />
+    <EmbeddedResource Include="Resources\Locales\de-DE.xml" />
+    <EmbeddedResource Include="Resources\Locales\el-GR.xml" />
+    <EmbeddedResource Include="Resources\Locales\et-EE.xml" />
+    <EmbeddedResource Include="Resources\Locales\fi-FI.xml" />
+    <EmbeddedResource Include="Resources\Locales\fr-FR.xml" />
+    <EmbeddedResource Include="Resources\Locales\he-IL.xml" />
+    <EmbeddedResource Include="Resources\Locales\hi-IN.xml" />
+    <EmbeddedResource Include="Resources\Locales\hu-HU.xml" />
+    <EmbeddedResource Include="Resources\Locales\id-ID.xml" />
+    <EmbeddedResource Include="Resources\Locales\ja-JP.xml" />
+    <EmbeddedResource Include="Resources\Locales\ko-KR.xml" />
+    <EmbeddedResource Include="Resources\Locales\lt-LT.xml" />
+    <EmbeddedResource Include="Resources\Locales\lv-LV.xml" />
+    <EmbeddedResource Include="Resources\Locales\no-NO.xml" />
+    <EmbeddedResource Include="Resources\Locales\pl-PL.xml" />
+    <EmbeddedResource Include="Resources\Locales\pt-PT.xml" />
+    <EmbeddedResource Include="Resources\Locales\ro-RO.xml" />
+    <EmbeddedResource Include="Resources\Locales\ru-RU.xml" />
+    <EmbeddedResource Include="Resources\Locales\sk-SK.xml" />
+    <EmbeddedResource Include="Resources\Locales\sl-SI.xml" />
+    <EmbeddedResource Include="Resources\Locales\sv-SE.xml" />
+    <EmbeddedResource Include="Resources\Locales\th-TH.xml" />
+    <EmbeddedResource Include="Resources\Locales\tr-TR.xml" />
+    <EmbeddedResource Include="Resources\Locales\uk-UA.xml" />
+    <EmbeddedResource Include="Resources\Locales\vi-VN.xml" />
+    <EmbeddedResource Include="Resources\Locales\zh-CHS.xml" />
+    <EmbeddedResource Include="Resources\Locales\zh-CHT.xml" />
     <None Include="Resources\Icons\new-fallback.ico" />
     <EmbeddedResource Include="Resources\Locales\it-IT.xml" />
     <EmbeddedResource Include="Resources\Locales\ur-PK.xml" />
@@ -290,7 +321,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_StartDate="2011/4/4" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_UpdateAssemblyVersion="True" />
+      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_StartDate="2011/4/4" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

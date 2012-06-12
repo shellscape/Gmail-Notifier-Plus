@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Suomi (fi-FI)</Name>
+  <Common>
+    <Cancel>Peruuta</Cancel>
+    <Close>Sulje</Close>
+    <Next>Seuraava</Next>
+    <OK>Okei</OK>
+    <Previous>Edellinen</Previous>
+    <No>Ei</No>
+    <Yes>Kyllä</Yes>
+    <Unread>Lukematon</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Oletustili</DefaultAccount>
+    <Inbox>Siirry Saapuneet-kansioon</Inbox>
+    <Compose>Luoda uuden sähköposti</Compose>
+    <Check>Uuden sähköpostin tarkistaminen</Check>
+    <Preferences>Asetukset</Preferences>
+    <About>Tietoja Gmail-postivahdista Plus</About>
+    <Help>Ohjeen Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Tietoja</WindowTitle>
+    <Button>Makea. Kiitos!</Button>
+    <FirstRun>Mennään!</FirstRun>
+    <Donate>Harkitse lahjoittaa</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Asetukset</WindowTitle>
+    <Navigation>
+      <General>Yleiset asetukset</General>
+      <Accounts>Asiakkuuksien hallinta</Accounts>
+      <Appearance>Muuta näytön asetuksia</Appearance>
+      <Donate>Lahjoita</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Gmail Notifier Plus yleisasetukset</Title>
+        <ApplyChanges>Käytä muutoksia</ApplyChanges>
+        <Sound>
+          <Title>Ääni-ilmoitus</Title>
+          <None>Ei mitään</None>
+          <Default>Oletusarvon mukaan</Default>
+          <Custom>Mukautettu...</Custom>
+          <Browse>Selaa...</Browse>
+          <BrowseWindowTitle>Valitse ääni-ilmoitusta</BrowseWindowTitle>
+          <WaveFiles>Aaltotiedosto</WaveFiles>
+        </Sound>
+        <CheckEmail>Tarkista sähköposti aikaväli (minuutteina)</CheckEmail>
+        <Language>Näyttökieli</Language>
+        <FlashTaskbar>Uusien sähköpostien tehtäväpalkin Flash</FlashTaskbar>
+        <ShowTray>Näytä Sähköposti määrä ilmaisinalueella</ShowTray>
+        <ShowToast>Uusi sähköposti Näytä paahtoleipä ilmoitukset</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Valitse tili, jota haluat muuttaa</Title>
+        <AddNew>Lisää uusi tili</AddNew>
+        <Account>
+          <Title>Hallita {0}</Title>
+          <Address>Sähköpostiosoite</Address>
+          <Password>Salasana</Password>
+          <Mailto>Tätä tiliä käytetään mailto-linkit</Mailto>
+          <DefaultAccount>Käytä tätä tiliä oletustilinä</DefaultAccount>
+          <Browser>Selain</Browser>
+          <AddAccount>Lisää tili</AddAccount>
+          <RemoveAccount>Poista tämä tili</RemoveAccount>
+          <RemoveConfirmation>Oletko varma, että haluat poistaa tämän tunnuksen?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Poista tili</RemoveConfirmationTitle>
+          <AccountsIntroNone>Tervetuloa Gmail Notifier Plus.\n\nTo alkuun, valitse Lisää uusi tili alla olevaa painiketta.</AccountsIntroNone>
+          <Error>Tämä osoite tili on jo olemassa. Kirjoita toinen osoite.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Tarkista tilin asetukset</CheckLogin>
+    <Connecting>Tarkistetaan uusi sähköposti...</Connecting>
+    <ConnectionUnavailable>Tarkista verkkoyhteys</ConnectionUnavailable>
+    <Inbox>Saapuneet-kansiossa</Inbox>
+    <NoSubject>(no subject)</NoSubject>
+    <NoAccount>Lisää tili</NoAccount>
+    <NoMail>Ei uusia viestejä</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Näytä tämä sähköposti</ViewEmail>
+    <NoSubject>(no subject)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Päivitys</WindowTitle>
+    <Text>Uusi versio Gmail Notifier Plus on ladattu ja on valmis! Voit soveltaa päivitys uudelleen Gmail Notifier Plus nyt.</Text>
+    <YesText>Käynnistä Gmail Notifier Plus</YesText>
+    <YesInstruction>Tarvitaan uusia hotness.</YesInstruction>
+    <NoText>Ei kiitos</NoText>
+    <NoInstruction>Pidän elää reunassa.</NoInstruction>
+  </Updates>
+</Locale>

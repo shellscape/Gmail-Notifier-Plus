@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Ελληνικά (el-GR)</Name>
+  <Common>
+    <Cancel>Άκυρο</Cancel>
+    <Close>Κλείσιμο</Close>
+    <Next>Επόμενη</Next>
+    <OK>Ok</OK>
+    <Previous>Προηγούμενη</Previous>
+    <No>Όχι</No>
+    <Yes>Ναι</Yes>
+    <Unread>Μη αναγνωσμένα</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Προεπιλεγμένος λογαριασμός</DefaultAccount>
+    <Inbox>Μεταβείτε στο φάκελο "Εισερχόμενα"</Inbox>
+    <Compose>Συνθέσετε νέα μηνύματα ηλεκτρονικού ταχυδρομείου</Compose>
+    <Check>Έλεγχος για νέα μηνύματα ηλεκτρονικού ταχυδρομείου</Check>
+    <Preferences>Προτιμήσεις</Preferences>
+    <About>Σχετικά με το Gmail Notifier συν</About>
+    <Help>Βοήθεια Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Σχετικά με την</WindowTitle>
+    <Button>Γλυκό. Ευχαριστώ!</Button>
+    <FirstRun>Πάμε!</FirstRun>
+    <Donate>Παρακαλώ σκεφτείτε δωρίζετε</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Προτιμήσεις</WindowTitle>
+    <Navigation>
+      <General>Γενικές προτιμήσεις</General>
+      <Accounts>Διαχειριστείτε τους λογαριασμούς σας</Accounts>
+      <Appearance>Αλλαγή εμφάνισης προτιμήσεις</Appearance>
+      <Donate>Παρακαλώ δωρεά</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Γενικές ρυθμίσεις Gmail Notifier συν</Title>
+        <ApplyChanges>Εφαρμογή αλλαγών</ApplyChanges>
+        <Sound>
+          <Title>Ηχητική ειδοποίηση</Title>
+          <None>Κανένα</None>
+          <Default>Προεπιλογή</Default>
+          <Custom>Προσαρμογή...</Custom>
+          <Browse>Αναζήτηση...</Browse>
+          <BrowseWindowTitle>Επιλέξτε έναν ήχο ειδοποίησης</BrowseWindowTitle>
+          <WaveFiles>Αρχείο κυματομορφής</WaveFiles>
+        </Sound>
+        <CheckEmail>Ελέγξτε το email χρονικό διάστημα (σε λεπτά)</CheckEmail>
+        <Language>Εμφάνιση γλώσσας</Language>
+        <FlashTaskbar>Flash της γραμμής εργασιών για νέα μηνύματα ηλεκτρονικού ταχυδρομείου</FlashTaskbar>
+        <ShowTray>Εμφάνιση email μέτρηση στην περιοχή ειδοποιήσεων συστήματος</ShowTray>
+        <ShowToast>Εμφάνιση τοστ ειδοποιήσεων για νέα μηνύματα ηλεκτρονικού ταχυδρομείου</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Επιλέξτε το λογαριασμό που θα θέλατε να αλλάξετε</Title>
+        <AddNew>Προσθέσετε ένα νέο λογαριασμό</AddNew>
+        <Account>
+          <Title>Διαχείριση {0}</Title>
+          <Address>Διεύθυνση ηλεκτρονικού ταχυδρομείου</Address>
+          <Password>Κωδικός πρόσβασης</Password>
+          <Mailto>Χρησιμοποιήστε αυτόν το λογαριασμό για συνδέσεις mailto</Mailto>
+          <DefaultAccount>Χρησιμοποιήστε αυτόν το λογαριασμό ως τον προεπιλεγμένο λογαριασμό</DefaultAccount>
+          <Browser>Πρόγραμμα περιήγησης</Browser>
+          <AddAccount>Προσθήκη λογαριασμού</AddAccount>
+          <RemoveAccount>Καταργήστε το λογαριασμό</RemoveAccount>
+          <RemoveConfirmation>Είστε βέβαιοι ότι θέλετε να καταργήσετε αυτόν το λογαριασμό;</RemoveConfirmation>
+          <RemoveConfirmationTitle>Κατάργηση λογαριασμού</RemoveConfirmationTitle>
+          <AccountsIntroNone>Καλώς ήρθατε στο Gmail Notifier Plus.\n\nTo να ξεκινήσετε, κάντε κλικ στο κουμπί παρακάτω, για να προσθέσετε ένα νέο λογαριασμό.</AccountsIntroNone>
+          <Error>Υπάρχει ήδη ένας λογαριασμός με αυτήν τη διεύθυνση. Παρακαλούμε εισάγετε μια διαφορετική διεύθυνση.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Ελέγξτε τις ρυθμίσεις του λογαριασμού</CheckLogin>
+    <Connecting>Έλεγχος για νέα μηνύματα ηλεκτρονικού ταχυδρομείου...</Connecting>
+    <ConnectionUnavailable>Ελέγξτε τη σύνδεση δικτύου σας</ConnectionUnavailable>
+    <Inbox>"Εισερχόμενα"</Inbox>
+    <NoSubject>(χωρίς θέμα)</NoSubject>
+    <NoAccount>Παρακαλείσθε να προσθέσετε ένα λογαριασμό</NoAccount>
+    <NoMail>Καμία νέα αλληλογραφία</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Προβάλετε αυτό το email</ViewEmail>
+    <NoSubject>(χωρίς θέμα)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Η ενημερωμένη έκδοση</WindowTitle>
+    <Text>Μια νέα έκδοση του Gmail Notifier Plus λογισμικό έχει μεταφορτωθεί και είναι έτοιμη! Μπορείτε να κάνετε επανεκκίνηση Gmail Notifier συν τώρα να εφαρμόσετε την ενημερωμένη έκδοση.</Text>
+    <YesText>Κάντε επανεκκίνηση του Gmail Notifier συν</YesText>
+    <YesInstruction>Θα πρέπει η νέα hotness.</YesInstruction>
+    <NoText>Όχι, ευχαριστώ</NoText>
+    <NoInstruction>Θα ήθελα να ζουν στην άκρη.</NoInstruction>
+  </Updates>
+</Locale>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Bahasa Indonesia (id-ID)</Name>
+  <Common>
+    <Cancel>Batal</Cancel>
+    <Close>Tutup</Close>
+    <Next>Berikutnya</Next>
+    <OK>Oke</OK>
+    <Previous>Sebelumnya</Previous>
+    <No>Tidak</No>
+    <Yes>Ya</Yes>
+    <Unread>Belum dibaca</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Default Account</DefaultAccount>
+    <Inbox>Pergi ke kotak masuk Anda</Inbox>
+    <Compose>Compose email baru</Compose>
+    <Check>Cek email baru</Check>
+    <Preferences>Preferensi</Preferences>
+    <About>Tentang Gmail Notifier ditambah</About>
+    <Help>Membantu Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>Tentang</WindowTitle>
+    <Button>Manis. Terima kasih!</Button>
+    <FirstRun>Ayo!</FirstRun>
+    <Donate>Silakan mempertimbangkan sumbangan</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Preferensi</WindowTitle>
+    <Navigation>
+      <General>Preferensi umum</General>
+      <Accounts>Mengelola akun Anda</Accounts>
+      <Appearance>Perubahan tampilan preferensi</Appearance>
+      <Donate>Harap menyumbang</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Umum pengaturan Gmail Notifier Plus</Title>
+        <ApplyChanges>Menerapkan perubahan</ApplyChanges>
+        <Sound>
+          <Title>Suara pemberitahuan</Title>
+          <None>Tidak ada</None>
+          <Default>Default</Default>
+          <Custom>Custom...</Custom>
+          <Browse>Browse...</Browse>
+          <BrowseWindowTitle>Pilih suara pemberitahuan</BrowseWindowTitle>
+          <WaveFiles>Wave File</WaveFiles>
+        </Sound>
+        <CheckEmail>Cek email interval (menit)</CheckEmail>
+        <Language>Bahasa tampilan</Language>
+        <FlashTaskbar>Flash taskbar email baru</FlashTaskbar>
+        <ShowTray>Tampilkan hitungan email di baki sistem</ShowTray>
+        <ShowToast>Tampilkan Toast pemberitahuan email baru</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Pilih akun yang Anda ingin mengubah</Title>
+        <AddNew>Menambahkan account baru</AddNew>
+        <Account>
+          <Title>Mengelola {0}</Title>
+          <Address>Alamat email</Address>
+          <Password>Sandi</Password>
+          <Mailto>Menggunakan account ini untuk link mailto</Mailto>
+          <DefaultAccount>Menggunakan account ini sebagai default account</DefaultAccount>
+          <Browser>Browser</Browser>
+          <AddAccount>Menambahkan Account</AddAccount>
+          <RemoveAccount>Menghapus akun ini</RemoveAccount>
+          <RemoveConfirmation>Apakah Anda yakin Anda ingin menghapus akun ini?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Menghapus Account</RemoveConfirmationTitle>
+          <AccountsIntroNone>Selamat datang di Gmail Notifier Plus.\n\nTo memulai, klik tombol di bawah ini untuk menambahkan account baru.</AccountsIntroNone>
+          <Error>Account dengan alamat ini sudah ada. Masukkan sebuah alamat yang berbeda.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Periksa pengaturan account</CheckLogin>
+    <Connecting>Mengecek email baru...</Connecting>
+    <ConnectionUnavailable>Silakan periksa koneksi jaringan Anda</ConnectionUnavailable>
+    <Inbox>Kotak masuk</Inbox>
+    <NoSubject>(no subject)</NoSubject>
+    <NoAccount>Harap tambahkan account</NoAccount>
+    <NoMail>Tidak ada pesan baru</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Lihat email ini</ViewEmail>
+    <NoSubject>(no subject)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Update</WindowTitle>
+    <Text>Versi baru dari Gmail Notifier Plus telah download dan siap! Anda dapat merestart Gmail Notifier Plus sekarang untuk menerapkan pembaruan.</Text>
+    <YesText>Restart Pemberitahu Gmail ditambah</YesText>
+    <YesInstruction>Aku butuh panas baru.</YesInstruction>
+    <NoText>Tidak terima kasih</NoText>
+    <NoInstruction>Aku suka tinggal di tepi.</NoInstruction>
+  </Updates>
+</Locale>

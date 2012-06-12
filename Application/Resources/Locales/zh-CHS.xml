@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>中文 (简体) (zh-CHS)</Name>
+  <Common>
+    <Cancel>取消</Cancel>
+    <Close>关闭</Close>
+    <Next>下一步</Next>
+    <OK>还行</OK>
+    <Previous>上一页</Previous>
+    <No>无</No>
+    <Yes>是</Yes>
+    <Unread>未读</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>默认帐户</DefaultAccount>
+    <Inbox>转到您的收件箱</Inbox>
+    <Compose>撰写新的电子邮件</Compose>
+    <Check>检查新电子邮件</Check>
+    <Preferences>首选项</Preferences>
+    <About>关于 Gmail 通告程序加上</About>
+    <Help>帮助维基</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>关于</WindowTitle>
+    <Button>甜。谢谢 ！</Button>
+    <FirstRun>我们走吧！</FirstRun>
+    <Donate>请考虑捐赠</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>首选项</WindowTitle>
+    <Navigation>
+      <General>常规首选项</General>
+      <Accounts>管理您的帐户</Accounts>
+      <Appearance>更改显示首选项</Appearance>
+      <Donate>请捐赠</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Gmail 通告程序加的常规设置</Title>
+        <ApplyChanges>应用更改</ApplyChanges>
+        <Sound>
+          <Title>声音通知</Title>
+          <None>无</None>
+          <Default>默认</Default>
+          <Custom>自定义...</Custom>
+          <Browse>浏览...</Browse>
+          <BrowseWindowTitle>选择通知声音</BrowseWindowTitle>
+          <WaveFiles>波形文件</WaveFiles>
+        </Sound>
+        <CheckEmail>检查电子邮件的时间间隔 （以分钟计）</CheckEmail>
+        <Language>显示语言</Language>
+        <FlashTaskbar>闪存任务栏中为新的电子邮件</FlashTaskbar>
+        <ShowTray>显示在系统任务栏中的电子邮件数</ShowTray>
+        <ShowToast>显示烤面包的新电子邮件的通知</ShowToast>
+      </General>
+      <Accounts>
+        <Title>选择您想更改的帐户</Title>
+        <AddNew>添加新的帐户</AddNew>
+        <Account>
+          <Title>管理: {0}</Title>
+          <Address>电子邮件地址</Address>
+          <Password>密码</Password>
+          <Mailto>使用此帐户的 mailto 链接</Mailto>
+          <DefaultAccount>使用此帐户作为默认帐户</DefaultAccount>
+          <Browser>浏览器</Browser>
+          <AddAccount>添加帐户</AddAccount>
+          <RemoveAccount>删除此帐户</RemoveAccount>
+          <RemoveConfirmation>确实要删除此帐户吗？</RemoveConfirmation>
+          <RemoveConfirmationTitle>删除帐户</RemoveConfirmationTitle>
+          <AccountsIntroNone>欢迎使用 Gmail 通告程序 Plus.\n\nTo 开始，请单击下面的按钮以添加新的帐户。</AccountsIntroNone>
+          <Error>此地址的帐户已经存在。请输入一个不同的地址。</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>请检查您的帐户设置</CheckLogin>
+    <Connecting>正在检查新电子邮件...</Connecting>
+    <ConnectionUnavailable>请检查您的网络连接</ConnectionUnavailable>
+    <Inbox>收件箱</Inbox>
+    <NoSubject>（没有主题）</NoSubject>
+    <NoAccount>请添加帐户</NoAccount>
+    <NoMail>没有新邮件</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>查看此电子邮件</ViewEmail>
+    <NoSubject>（没有主题）</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>更新</WindowTitle>
+    <Text>新版本的 Gmail 通告程序加已被下载，并准备 ！应用更新，可以对 Gmail 通告程序加现在重新启动。</Text>
+    <YesText>重新启动 Gmail 通告程序加上</YesText>
+    <YesInstruction>我需要新的颠倒。</YesInstruction>
+    <NoText>不，谢谢</NoText>
+    <NoInstruction>我想生存的边缘。</NoInstruction>
+  </Updates>
+</Locale>

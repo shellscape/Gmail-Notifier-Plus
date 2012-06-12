@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>Български език (bg-BG)</Name>
+  <Common>
+    <Cancel>Отказ</Cancel>
+    <Close>Затвори</Close>
+    <Next>Следващ</Next>
+    <OK>OK</OK>
+    <Previous>Предишна</Previous>
+    <No>Не</No>
+    <Yes>Да</Yes>
+    <Unread>Непрочетени</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>Акаунт по подразбиране</DefaultAccount>
+    <Inbox>Отидете на папката "Входящи"</Inbox>
+    <Compose>Съставяне на нов имейл</Compose>
+    <Check>Проверка за нова поща</Check>
+    <Preferences>Предпочитания</Preferences>
+    <About>За Gmail нотификатор плюс</About>
+    <Help>Помощ за уики</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>За</WindowTitle>
+    <Button>Сладко. Благодаря!</Button>
+    <FirstRun>Да вървим!</FirstRun>
+    <Donate>Моля, Дарете</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>Предпочитания</WindowTitle>
+    <Navigation>
+      <General>Общи предпочитания</General>
+      <Accounts>Управление на вашите сметки</Accounts>
+      <Appearance>Промяна на предпочитания за показване</Appearance>
+      <Donate>Моля направете дарение</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Общи настройки за Gmail нотификатор, плюс</Title>
+        <ApplyChanges>Приложи промените</ApplyChanges>
+        <Sound>
+          <Title>Звукови уведомяване</Title>
+          <None>Няма</None>
+          <Default>По подразбиране</Default>
+          <Custom>По избор...</Custom>
+          <Browse>Преглед...</Browse>
+          <BrowseWindowTitle>Изберете звук за уведомяване</BrowseWindowTitle>
+          <WaveFiles>Звуков файл</WaveFiles>
+        </Sound>
+        <CheckEmail>Проверете имейл интервал (в минути)</CheckEmail>
+        <Language>Език на показване</Language>
+        <FlashTaskbar>Светване на лентата на задачите за нова електронна поща</FlashTaskbar>
+        <ShowTray>Покажи брой на имейл в системна област</ShowTray>
+        <ShowToast>Показвай тост съобщения за нова електронна поща</ShowToast>
+      </General>
+      <Accounts>
+        <Title>Изберете акаунта, който искате да промените</Title>
+        <AddNew>Добавяне на нов акаунт</AddNew>
+        <Account>
+          <Title>Управление на {0}</Title>
+          <Address>Имейл адрес</Address>
+          <Password>Парола</Password>
+          <Mailto>Използвайте този акаунт за mailto връзки</Mailto>
+          <DefaultAccount>Използвайте този акаунт като акаунт по подразбиране</DefaultAccount>
+          <Browser>Браузър</Browser>
+          <AddAccount>Добавяне на акаунт</AddAccount>
+          <RemoveAccount>Премахване на този акаунт</RemoveAccount>
+          <RemoveConfirmation>Наистина ли искате да премахнете този акаунт?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Премахни акаунт</RemoveConfirmationTitle>
+          <AccountsIntroNone>Добре дошли Gmail нотификатор Plus.\n\nTo да започнете, щракнете върху бутона по-долу, за да добавите нов акаунт.</AccountsIntroNone>
+          <Error>Вече съществува акаунт с този адрес. Моля, въведете различен адрес.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>Проверете настройките на вашия акаунт</CheckLogin>
+    <Connecting>Проверка за нова електронна поща...</Connecting>
+    <ConnectionUnavailable>Проверете връзката си към мрежата</ConnectionUnavailable>
+    <Inbox>"Входящи"</Inbox>
+    <NoSubject>(няма тема)</NoSubject>
+    <NoAccount>Добавете акаунт</NoAccount>
+    <NoMail>Няма нова поща</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>Показване на това имейл съобщение</ViewEmail>
+    <NoSubject>(няма тема)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>Актуализиране</WindowTitle>
+    <Text>Нова версия на Gmail нотификатор плюс е била изтеглена и е готов! Можете да рестартирате Gmail нотификатор плюс сега, за да приложите актуализацията.</Text>
+    <YesText>Рестартирайте Gmail нотификатор плюс</YesText>
+    <YesInstruction>Имам нужда от нова hotness.</YesInstruction>
+    <NoText>Не, благодаря</NoText>
+    <NoInstruction>Обичам да живее по ръба.</NoInstruction>
+  </Updates>
+</Locale>

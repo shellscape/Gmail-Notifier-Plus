@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>עברית (he-IL)</Name>
+  <Common>
+    <Cancel>ביטול</Cancel>
+    <Close>סגור</Close>
+    <Next>הבא</Next>
+    <OK>אוקיי</OK>
+    <Previous>הקודם</Previous>
+    <No>לא</No>
+    <Yes>כן</Yes>
+    <Unread>הודעות שלא נקראו</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>החשבון המוגדר כברירת מחדל</DefaultAccount>
+    <Inbox>מעבר אל תיבת הדואר הנכנס שלך</Inbox>
+    <Compose>חיבור דואר אלקטרוני חדש</Compose>
+    <Check>הסימון עבור דואר אלקטרוני חדש</Check>
+    <Preferences>העדפות</Preferences>
+    <About>אודות Gmail מועט פלוס</About>
+    <Help>עזרה Wiki</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>אודות</WindowTitle>
+    <Button>מתוקה. תודה!</Button>
+    <FirstRun>בוא נלך!</FirstRun>
+    <Donate>אנא שקול תרומה</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>העדפות</WindowTitle>
+    <Navigation>
+      <General>העדפות כלליות</General>
+      <Accounts>ניהול החשבונות שלך</Accounts>
+      <Appearance>שינוי העדפות תצוגה</Appearance>
+      <Donate>אנא תירמו</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>הגדרות כלליות של Gmail מועט פלוס</Title>
+        <ApplyChanges>החל שינויים</ApplyChanges>
+        <Sound>
+          <Title>דיווח באמצעות צליל</Title>
+          <None>אף אחד</None>
+          <Default>ברירת מחדל</Default>
+          <Custom>מותאם אישית...</Custom>
+          <Browse>עיון...</Browse>
+          <BrowseWindowTitle>בחר צליל דיווח</BrowseWindowTitle>
+          <WaveFiles>קובץ צליל</WaveFiles>
+        </Sound>
+        <CheckEmail>מרווח זמן לבדיקת אימייל (בדקות)</CheckEmail>
+        <Language>שפת תצוגה</Language>
+        <FlashTaskbar>הבזקת שורת המשימות עבור דואר אלקטרוני חדש</FlashTaskbar>
+        <ShowTray>הצג ספירת דוא ל במגש המערכת</ShowTray>
+        <ShowToast>הצג הודעות טוסט עבור דואר אלקטרוני חדש</ShowToast>
+      </General>
+      <Accounts>
+        <Title>בחר חשבון שברצונך לשנות</Title>
+        <AddNew>הוסף חשבון חדש</AddNew>
+        <Account>
+          <Title>ניהול: {0}</Title>
+          <Address>כתובת דוא</Address>
+          <Password>סיסמה</Password>
+          <Mailto>השתמש בחשבון זה עבור קישורי mailto</Mailto>
+          <DefaultAccount>השתמש בחשבון זה כחשבון ברירת המחדל</DefaultAccount>
+          <Browser>דפדפן</Browser>
+          <AddAccount>הוסף חשבון</AddAccount>
+          <RemoveAccount>הסרת חשבון זה</RemoveAccount>
+          <RemoveConfirmation>האם אתה בטוח שברצונך להסיר את החשבון הזה?</RemoveConfirmation>
+          <RemoveConfirmationTitle>הסרת חשבון</RemoveConfirmationTitle>
+          <AccountsIntroNone>ברוך הבא Plus.\n\nTo מועט של Gmail להתחיל לעבוד, נא לחץ על הלחצן שלהלן כדי להוסיף חשבון חדש.</AccountsIntroNone>
+          <Error>חשבון עם כתובת זו כבר קיימת. נא הזן כתובת שונה.</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>נא בדוק את הגדרות החשבון שלך</CheckLogin>
+    <Connecting>בדיקת דואר אלקטרוני חדש...</Connecting>
+    <ConnectionUnavailable>נא בדוק את חיבור הרשת שלך</ConnectionUnavailable>
+    <Inbox>תיבת הדואר הנכנס</Inbox>
+    <NoSubject>(ללא נושא)</NoSubject>
+    <NoAccount>נא הוסף חשבון</NoAccount>
+    <NoMail>אין דואר חדש</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>הצג דואר אלקטרוני זה</ViewEmail>
+    <NoSubject>(ללא נושא)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>עדכון</WindowTitle>
+    <Text>גירסה חדשה של Gmail מועט בתוספת שהורד והוא מוכן! באפשרותך להפעיל מחדש ב- Gmail מועט בתוספת כעת כדי להחיל את העדכון.</Text>
+    <YesText>הפעלה מחדש של Gmail מועט פלוס</YesText>
+    <YesInstruction>אני צריך את hotness החדשה.</YesInstruction>
+    <NoText>לא, תודה</NoText>
+    <NoInstruction>אני אוהב לחיות על הקצה.</NoInstruction>
+  </Updates>
+</Locale>

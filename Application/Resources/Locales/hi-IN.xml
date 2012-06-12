@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>हिन्दी (hi-IN)</Name>
+  <Common>
+    <Cancel>रद्द करें</Cancel>
+    <Close>बंद करें</Close>
+    <Next>अगले</Next>
+    <OK>ठीक है</OK>
+    <Previous>पिछले</Previous>
+    <No>नहीं</No>
+    <Yes>हाँ</Yes>
+    <Unread>नहीं पढ़ा गया</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>डिफ़ॉल्ट खाता</DefaultAccount>
+    <Inbox>अपने इनबॉक्स में जाना</Inbox>
+    <Compose>नई ई-मेल रचना</Compose>
+    <Check>नई ई-मेल के लिए जाँचें</Check>
+    <Preferences>वरीयताएँ</Preferences>
+    <About>जीमेल नोटिफ़ायर के बारे में अधिक</About>
+    <Help>Wiki में मदद</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>के बारे में</WindowTitle>
+    <Button>प्यारा. धन्यवाद!</Button>
+    <FirstRun>चलो चलें!</FirstRun>
+    <Donate>दान पर विचार कृपया</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>वरीयताएँ</WindowTitle>
+    <Navigation>
+      <General>सामान्य वरीयताएँ</General>
+      <Accounts>अपने खाते का प्रबंधन</Accounts>
+      <Appearance>डिस्प्ले वरियता बदलें</Appearance>
+      <Donate>कृपया दान</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>जीमेल नोटिफ़ायर प्लस की सामान्य सेटिंग्स</Title>
+        <ApplyChanges>परिवर्तन लागू करें</ApplyChanges>
+        <Sound>
+          <Title>ध्वनि सूचना</Title>
+          <None>कोई नहीं</None>
+          <Default>डिफ़ॉल्ट</Default>
+          <Custom>कस्टम...</Custom>
+          <Browse>ब्राउज़ करें...</Browse>
+          <BrowseWindowTitle>एक अधिसूचना ध्वनि का चयन करें</BrowseWindowTitle>
+          <WaveFiles>वेव फ़ाइल</WaveFiles>
+        </Sound>
+        <CheckEmail>ईमेल अंतराल (मिनट में) की जाँच करें</CheckEmail>
+        <Language>प्रदर्शन भाषा</Language>
+        <FlashTaskbar>नई ई-मेल के लिए कार्यपट्टी फ़्लैश</FlashTaskbar>
+        <ShowTray>ईमेल गिनती सिस्टम ट्रे में दिखाएँ</ShowTray>
+        <ShowToast>नई ई-मेल के लिए टोस्ट सूचनाएँ दिखाएँ</ShowToast>
+      </General>
+      <Accounts>
+        <Title>आप परिवर्तित करना चाहेंगे खाते का चयन करें</Title>
+        <AddNew>एक नया खाता जोड़ें</AddNew>
+        <Account>
+          <Title>{0} का प्रबंधन</Title>
+          <Address>ईमेल पता</Address>
+          <Password>पासवर्ड</Password>
+          <Mailto>इस खाते के लिए इन्हें मेल करें लिंक का उपयोग करें</Mailto>
+          <DefaultAccount>डिफ़ॉल्ट खाते के रूप में इस खाते का उपयोग करें</DefaultAccount>
+          <Browser>ब्राउज़र</Browser>
+          <AddAccount>खाता जोड़ें</AddAccount>
+          <RemoveAccount>इस खाते को हटा दें</RemoveAccount>
+          <RemoveConfirmation>क्या आप इस खाते को हटाने के लिए सुनिश्चित हैं?</RemoveConfirmation>
+          <RemoveConfirmationTitle>खाता हटाएँ</RemoveConfirmationTitle>
+          <AccountsIntroNone>जीमेल नोटिफ़ायर Plus.\n\nTo में आपका स्वागत है शुरू हो जाओ, कृपया एक नया खाता जोड़ने के लिए नीचे दिया गया बटन क्लिक करें।</AccountsIntroNone>
+          <Error>इस पते के साथ एक खाता पहले से मौजूद है। कृपया कोई भिन्न पता दर्ज करें।</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>कृपया अपने खाते की सेटिंग्स की जाँच करें</CheckLogin>
+    <Connecting>नए ईमेल के लिए जाँच कर रहा...</Connecting>
+    <ConnectionUnavailable>कृपया अपना नेटवर्क कनेक्शन जाँचें</ConnectionUnavailable>
+    <Inbox>इनबॉक्स</Inbox>
+    <NoSubject>(कोई विषय)</NoSubject>
+    <NoAccount>कृपया कोई खाता जोड़ना</NoAccount>
+    <NoMail>कोई नया मेल</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>इस ईमेल को देखने</ViewEmail>
+    <NoSubject>(कोई विषय)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>अद्यतन</WindowTitle>
+    <Text>जीमेल नोटिफ़ायर प्लस का एक नया संस्करण डाउनलोड किया गया है और के लिए तैयार है! आप अद्यतन लागू करने के लिए Gmail नोटिफायर प्लस अब पुनः आरंभ कर सकते हैं।</Text>
+    <YesText>Gmail नोटिफायर को पुनरारंभ प्लस</YesText>
+    <YesInstruction>मैं नए hotness की जरूरत है।</YesInstruction>
+    <NoText>नहीं धन्यवाद</NoText>
+    <NoInstruction>मैं किनारे पर रहने के लिए पसंद है।</NoInstruction>
+  </Updates>
+</Locale>

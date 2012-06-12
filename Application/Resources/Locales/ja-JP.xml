@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Locale>
+  <Name>日本語 （ja-JP）</Name>
+  <Common>
+    <Cancel>キャンセル</Cancel>
+    <Close>閉じる</Close>
+    <Next>次</Next>
+    <OK>わかりました</OK>
+    <Previous>前</Previous>
+    <No>なし</No>
+    <Yes>はい</Yes>
+    <Unread>未読</Unread>
+  </Common>
+  <JumpList>
+    <DefaultAccount>既定のアカウント</DefaultAccount>
+    <Inbox>あなたの受信トレイに移動します。</Inbox>
+    <Compose>新しいメールを作成します。</Compose>
+    <Check>新しいメールの確認</Check>
+    <Preferences>設定</Preferences>
+    <About>Gmail の通知者についてプラス</About>
+    <Help>Wiki をヘルプします。</Help>
+  </JumpList>
+  <About>
+    <WindowTitle>について</WindowTitle>
+    <Button>甘い。ありがとうございます ！</Button>
+    <FirstRun>行きましょう！</FirstRun>
+    <Donate>寄付をご検討ください。</Donate>
+  </About>
+  <Preferences>
+    <WindowTitle>設定</WindowTitle>
+    <Navigation>
+      <General>一般的なプレファレンス</General>
+      <Accounts>あなたのアカウントを管理します。</Accounts>
+      <Appearance>ディスプレイの設定を変更</Appearance>
+      <Donate>寄付をしてください。</Donate>
+    </Navigation>
+    <Panels>
+      <General>
+        <Title>Gmail チェッカー プラスの全般設定</Title>
+        <ApplyChanges>変更を適用します。</ApplyChanges>
+        <Sound>
+          <Title>音による通知</Title>
+          <None>なし</None>
+          <Default>既定</Default>
+          <Custom>カスタム.</Custom>
+          <Browse>参照.</Browse>
+          <BrowseWindowTitle>通知音を選択します。</BrowseWindowTitle>
+          <WaveFiles>Wave ファイル</WaveFiles>
+        </Sound>
+        <CheckEmail>チェック e メール間隔 (分)</CheckEmail>
+        <Language>表示言語</Language>
+        <FlashTaskbar>新しい電子メールのためのタスクバーをフラッシュします。</FlashTaskbar>
+        <ShowTray>システム トレイにメールの数を表示します。</ShowTray>
+        <ShowToast>トーストの通知新しい電子メールを表示します。</ShowToast>
+      </General>
+      <Accounts>
+        <Title>変更したいアカウントを選択します。</Title>
+        <AddNew>新しいアカウントを追加します。</AddNew>
+        <Account>
+          <Title>{0} を管理します。</Title>
+          <Address>電子メール アドレス</Address>
+          <Password>パスワード</Password>
+          <Mailto>Mailto リンクはこのアカウントを使用します。</Mailto>
+          <DefaultAccount>既定のアカウントとしてこのアカウントを使用します。</DefaultAccount>
+          <Browser>ブラウザー</Browser>
+          <AddAccount>アカウントを追加します。</AddAccount>
+          <RemoveAccount>このアカウントを削除します。</RemoveAccount>
+          <RemoveConfirmation>このアカウントを削除してもよろしいですか。</RemoveConfirmation>
+          <RemoveConfirmationTitle>アカウントを削除します。</RemoveConfirmationTitle>
+          <AccountsIntroNone>Gmail チェッカー Plus.\n\nTo へようこそをはじめ、新しいアカウントを追加するには下のボタンをクリックしてください。</AccountsIntroNone>
+          <Error>このアドレスのアカウントは既に存在します。別のアドレスを入力してください。</Error>
+        </Account>
+      </Accounts>
+    </Panels>
+  </Preferences>
+  <Thumbnails>
+    <CheckLogin>あなたのアカウント設定を確認してください。</CheckLogin>
+    <Connecting>新しいメールをチェック.</Connecting>
+    <ConnectionUnavailable>ネットワーク接続を確認してください。</ConnectionUnavailable>
+    <Inbox>受信トレイ</Inbox>
+    <NoSubject>(主題無し)</NoSubject>
+    <NoAccount>アカウントを追加してください。</NoAccount>
+    <NoMail>どんな新しいメール</NoMail>
+  </Thumbnails>
+  <Toast>
+    <ViewEmail>このメールを表示します。</ViewEmail>
+    <NoSubject>(主題無し)</NoSubject>
+  </Toast>
+  <Updates>
+    <WindowTitle>更新プログラム</WindowTitle>
+    <Text>新しいバージョンの Gmail の通知者はダウンロードされており、準備ができている ！更新プログラムを適用するには Gmail チェッカーと今を再起動できます。</Text>
+    <YesText>Gmail チェッカーを再起動プラス</YesText>
+    <YesInstruction>私は新しいあつ必要があります。</YesInstruction>
+    <NoText>遠慮します</NoText>
+    <NoInstruction>最先端で生活したいと思います。</NoInstruction>
+  </Updates>
+</Locale>
