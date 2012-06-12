@@ -29,14 +29,15 @@
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 
-			<Directory Id="ProgramMenuFolder">
-				<Directory Id="ApplicationProgramsFolder" Name="$(var.GmailNotifierPlus.TargetName)" />
-			</Directory>
-			
 			<Directory Id="LocalAppDataFolder">
 				<Directory Id="VendorDirectory" Name="Shellscape">
 
 					<Directory Id="INSTALLLOCATION" Name="$(var.GmailNotifierPlus.TargetName)">
+
+						<Directory Id="ProgramMenuFolder">
+							<Directory Id="ApplicationProgramsFolder" Name="$(var.GmailNotifierPlus.TargetName)" />
+						</Directory>						
+						
 						<Component Id="ProductComponent" Guid="e66738e2-6058-4a48-9f24-59a79d2cd346">
 
 							<File Id="GmailNotifierPlusExe" Name="$(var.GmailNotifierPlus.TargetFileName)" Source="$(var.GmailNotifierPlus.TargetPath)" DiskId="1" />
@@ -82,7 +83,7 @@
 		<!-- Start Menu -->
 		<DirectoryRef Id="ApplicationProgramsFolder">
 			<Component Id="ApplicationShortcut" Guid="67CDE77B-25CA-4555-B2F0-AFC1A2160F07">
-				<Shortcut Id="ApplicationStartMenuShortcut" Name="$(var.GmailNotifierPlus.TargetName)" Description="$(var.GmailNotifierPlus.TargetName)" Target="[APPLICATIONROOTDIRECTORY]$(var.GmailNotifierPlus.TargetFileName)" WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
+				<Shortcut Id="ApplicationStartMenuShortcut" Name="$(var.GmailNotifierPlus.TargetName)" Description="$(var.GmailNotifierPlus.TargetName)" Target="[INSTALLLOCATION]$(var.GmailNotifierPlus.TargetFileName)" WorkingDirectory="INSTALLLOCATION"/>
 				<Shortcut Id="UninstallProduct" Name="Uninstall $(var.GmailNotifierPlus.TargetName)" Description="Uninstalls $(var.GmailNotifierPlus.TargetName)" Target="[SystemFolder]msiexec.exe" Arguments="/x [ProductCode]"/>
 				<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
 				<RegistryValue Root="HKCU" Key="Software\Shellscape\$(var.GmailNotifierPlus.TargetName)\shortcut" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
