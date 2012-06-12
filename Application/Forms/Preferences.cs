@@ -201,7 +201,7 @@ namespace GmailNotifierPlus.Forms {
 			dsLang.Columns.Add(columnValue, typeof(string));
 
 			foreach (KeyValuePair<String, String> kvp in Utilities.ResourceHelper.AvailableLocales) {
-				dsLang.Rows.Add(new string[] { kvp.Key, kvp.Value });
+				dsLang.Rows.Add(new string[] { kvp.Value, kvp.Key });
 			}
 
 			_ComboLanguage.DataSource = dsLang;

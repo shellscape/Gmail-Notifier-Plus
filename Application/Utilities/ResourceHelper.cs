@@ -137,6 +137,8 @@ namespace GmailNotifierPlus.Utilities {
 					String[] resNames = a.GetManifestResourceNames();
 					String prefix = String.Concat(_ResourcePrefix, "Locales.");
 
+					resNames = resNames.OrderBy(s => s.Replace(prefix, String.Empty)).ToArray();
+
 					foreach (String name in resNames) {
 						if(!name.StartsWith(prefix)){
 							continue;
@@ -146,14 +148,9 @@ namespace GmailNotifierPlus.Utilities {
 						Locale locale = GetLocale(lang);
 
 						if (locale != null) {
-							_AvailableLocales.Add(locale.Name, lang);
+							_AvailableLocales.Add(lang, locale.Name);
 						}
 					}
-
-					if (_AvailableLocales.Keys.Count > 0) {
-						_AvailableLocales.OrderBy(o => o.Key);
-					}
-
 				}
 
 				return _AvailableLocales;
