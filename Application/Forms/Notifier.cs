@@ -128,7 +128,7 @@ namespace GmailNotifierPlus.Forms {
 		private void Notifier_Activated(object sender, EventArgs e) {
 			this.Refresh();
 
-			TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this); //_PictureLogo);
+			TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
 
 			if (thumb != null) {
 				thumb.InvalidatePreview();
@@ -148,11 +148,11 @@ namespace GmailNotifierPlus.Forms {
 				return;
 			}
 
+			SetCheckingPreview();
+
 			try {
 				_webClient.Credentials = new NetworkCredential(Account.Login.ToLower(), Account.Password);
 				_webClient.DownloadDataAsync(new Uri(UrlHelper.GetFeedUrl(Account)));
-
-				SetCheckingPreview();
 			}
 			catch { }
 		}
