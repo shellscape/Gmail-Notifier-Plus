@@ -25,6 +25,8 @@ namespace GmailNotifierPlus {
 
 		private String _login = String.Empty;
 		private String _password = String.Empty;
+		private String _consumerKey = String.Empty;
+		private String _consumerSecret = String.Empty;
 
 		public Account() {
 			this.Login = this.Password = this.Name = this.Domain = this.FullAddress = String.Empty;
@@ -66,6 +68,30 @@ namespace GmailNotifierPlus {
 				_password = value;
 
 				if (original != _password && AccountChanged != null) {
+					AccountChanged(this);
+				}
+			}
+		}
+
+		public String ConsumerKey {
+			get { return _consumerKey; }
+			set {
+				String original = _consumerKey;
+				_consumerKey = value;
+
+				if(original != _consumerKey && AccountChanged != null) {
+					AccountChanged(this);
+				}
+			}
+		}
+
+		public String ConsumerSecret {
+			get { return _consumerSecret; }
+			set {
+				String original = _consumerSecret;
+				_consumerSecret = value;
+
+				if(original != _consumerSecret && AccountChanged != null) {
 					AccountChanged(this);
 				}
 			}

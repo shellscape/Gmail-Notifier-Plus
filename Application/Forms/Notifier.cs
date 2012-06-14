@@ -1,16 +1,20 @@
-﻿using GmailNotifierPlus.Utilities;
-
-using Microsoft.WindowsAPI.Taskbar;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 
 using GmailNotifierPlus.Localization;
+using GmailNotifierPlus.Utilities;
+
+using Google.GData.Client;
+
+using Microsoft.WindowsAPI.Taskbar;
 
 namespace GmailNotifierPlus.Forms {
 	public partial class Notifier : Form {
@@ -153,6 +157,22 @@ namespace GmailNotifierPlus.Forms {
 			try {
 				_webClient.Credentials = new NetworkCredential(Account.Login.ToLower(), Account.Password);
 				_webClient.DownloadDataAsync(new Uri(UrlHelper.GetFeedUrl(Account)));
+
+				//String sAppName = "Gmail-Notifier-Plus";
+				//String sConsumerKey = "shellscape.org";
+				//String sConsumerSecret = "U8YfwklXqNuUTh1bfFvsZ9SF";
+				//String sUser = "andrew";
+				//String sDomain = "shellscape.org";
+				//String result = "";
+
+				//Uri oURI = new Uri("https://mail.google.com/mail/feed/atom/");
+				//OAuth2LeggedAuthenticator oToken = new OAuth2LeggedAuthenticator(sAppName, sConsumerKey, sConsumerSecret, sUser, sDomain, "HMAC-SHA1");
+				//HttpWebRequest oReq = oToken.CreateHttpWebRequest("GET", oURI);
+
+				//using(StreamReader reader = new StreamReader(oReq.GetResponse().GetResponseStream())) {
+				//  result = reader.ReadToEnd();
+				//}
+
 			}
 			catch { }
 		}

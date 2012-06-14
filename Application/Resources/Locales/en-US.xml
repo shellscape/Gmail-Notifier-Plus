@@ -69,6 +69,11 @@
 					<RemoveConfirmationTitle>Remove Account</RemoveConfirmationTitle>
 					<AccountsIntroNone>Welcome to Gmail Notifier Plus.\n\nTo get started, please click the button below to add a new account.</AccountsIntroNone>
 					<Error>An account with this address already exists. Please enter a different address.</Error>
+					<OAuth>
+						<UseOauth>Use OAuth Login</UseOauth>
+						<ConsumerKey>Consumer Key</ConsumerKey>
+						<ConsumerSecret>Consumer Secret</ConsumerSecret>
+					</OAuth>
 				</Account>
 			</Accounts>
 		</Panels>
