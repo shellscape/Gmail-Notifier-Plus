@@ -445,6 +445,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void PaintAccountGlyph(Graphics g, Rectangle bounds, Account account) {
 
+			String fullAddress = account.FullAddress ?? "<account error>";
 			Bitmap image = account.Type == AccountTypes.Regular ? _iconStandard : _iconApps;
 			int tileWidth = _userFrame.Width;
 			int tileHeight = (int)(((float)tileWidth / (float)image.Width) * image.Height);
@@ -458,7 +459,7 @@ namespace GmailNotifierPlus.Forms {
 
 			Point addressPoint = new Point(bounds.X + _userFrame.Width, bounds.Y);
 			Rectangle addressRect = new Rectangle(addressPoint.X, addressPoint.Y, bounds.Width - _userFrame.Width, bounds.Height);
-			Rectangle textExtent = _rendererListSmall.GetTextExtent(g, addressRect, account.FullAddress, TextFormatFlags.Left);
+			Rectangle textExtent = _rendererListSmall.GetTextExtent(g, addressRect, fullAddress, TextFormatFlags.Left);
 			int center = (_userFrame.Height - textExtent.Height) / 2;
 
 			if (account.Default) {
@@ -469,7 +470,7 @@ namespace GmailNotifierPlus.Forms {
 
 			addressRect.Offset(0, center);
 
-			_rendererListSmall.DrawText(g, addressRect, account.FullAddress, false, TextFormatFlags.Left);
+			_rendererListSmall.DrawText(g, addressRect, fullAddress, false, TextFormatFlags.Left);
 
 			if (account.Default) {
 				addressRect.Offset(0, textExtent.Height + 4);
@@ -661,7 +662,9 @@ namespace GmailNotifierPlus.Forms {
 				renderer.DrawBackground(e.Graphics, item.Bounds);
 			}
 
-			PaintAccountGlyph(e.Graphics, e.Item.Bounds, item.Account);
+			if(e.Item.Bounds != null && item.Account != null) {
+				PaintAccountGlyph(e.Graphics, e.Item.Bounds, item.Account);
+			}
 		}
 
 		private void _LinkRemove_Click(object sender, EventArgs e) {
