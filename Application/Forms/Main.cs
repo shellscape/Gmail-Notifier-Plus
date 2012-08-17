@@ -442,6 +442,8 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
+		delegate bool FocusDelegate();
+
 		private void FinalizeChecks() {
 
 			if(_statusList.Count != _instances.Count) {
@@ -465,6 +467,13 @@ namespace GmailNotifierPlus.Forms {
 
 					if(_config.FlashTaskbar) {
 						Utilities.TaskbarHelper.Flash(this, _config.FlashCount);
+
+						// this will fix #97, but it'll also steal focus. Not sure that's the best solution.
+						//System.Threading.Timer timer = null;
+						//timer = new System.Threading.Timer(delegate(object state) {
+						//  this.Invoke(new FocusDelegate(Focus));
+						//  timer.Dispose();
+						//}, this, _config.FlashCount * 1000, 1000);
 					}
 
 				}

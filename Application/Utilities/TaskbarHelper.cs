@@ -95,7 +95,7 @@ namespace GmailNotifierPlus.Utilities {
 		/// <param name="count">The number of times to Flash.</param>
 		/// <returns></returns>
 		public static Boolean Flash(Form form, int count) {
-			FLASHWINFO fi = Create_FLASHWINFO(form.Handle, FLASHW_ALL, (uint)count, 0);
+			FLASHWINFO fi = Create_FLASHWINFO(form.Handle, FLASHW_TRAY, (uint)count, 0);
 			return FlashWindowEx(ref fi);
 		}
 
