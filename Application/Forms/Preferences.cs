@@ -50,8 +50,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private VisualStyleElement _titleElement;
 
-		public Preferences()
-			: base() {
+		public Preferences() : base() {
 			
 			InitializeComponent();
 
@@ -614,16 +613,18 @@ namespace GmailNotifierPlus.Forms {
 			String label = Locale.Current.Preferences.Panels.General.Sound.Custom;
 			String data = String.Empty;
 
-			dataSource.Rows.RemoveAt(2);
-
-			if (dialog.ShowDialog() == CommonFileDialogResult.Ok) {
+			if(dialog.ShowDialog() == CommonFileDialogResult.Ok) {
 				data = Path.GetFileName(dialog.FileName);
 				label = dialog.FileName;
+
+				dataSource.Rows.RemoveAt(2);
+				dataSource.Rows.Add(new string[] { data, label });
+
+				_ComboSound.SelectedIndex = 2;
 			}
-
-			dataSource.Rows.Add(new string[] { data, label });
-
-			_ComboSound.SelectedIndex = 2;
+			else {
+				_ComboSound.SelectedIndex = (int)Config.Current.SoundNotification;
+			}
 		}
 
 		private void _ComboSound_SelectedValueChanged(object sender, EventArgs e) {
