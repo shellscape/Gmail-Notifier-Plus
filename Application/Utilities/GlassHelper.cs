@@ -26,6 +26,9 @@ namespace GmailNotifierPlus.Utilities {
 		[DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
 		private static extern bool DeleteDC(IntPtr hdc);
 
+		[DllImport("user32.dll")]
+		static extern Int32 ReleaseDC(IntPtr hwnd, IntPtr hdc);
+
 		[DllImport("gdi32.dll")]
 		private static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, uint dwRop);
 		
@@ -143,11 +146,11 @@ namespace GmailNotifierPlus.Utilities {
 			info.biBitCount = 32;
 			info.biCompression = 0; // BI_RGB
 			IntPtr dib = CreateDIBSection(primaryHdc, info, 0, 0, IntPtr.Zero, 0);
-			SelectObject(memoryHdc, dib);
+			IntPtr prevDib = SelectObject(memoryHdc, dib);
 
 			// Create and select font
 			IntPtr fontHandle = font.ToHfont();
-			SelectObject(memoryHdc, fontHandle);
+			IntPtr prevFont = SelectObject(memoryHdc, fontHandle);
 
 			// Draw glowing text
 			VisualStyleRenderer renderer = new VisualStyleRenderer(System.Windows.Forms.VisualStyles.VisualStyleElement.Window.Caption.Active);
@@ -171,7 +174,10 @@ namespace GmailNotifierPlus.Utilities {
 
 			// Clean up
 			DeleteObject(fontHandle);
+			DeleteObject(prevFont);
 			DeleteObject(dib);
+			DeleteObject(prevDib);
+			
 			DeleteDC(memoryHdc);
 
 			graphics.ReleaseHdc(primaryHdc);

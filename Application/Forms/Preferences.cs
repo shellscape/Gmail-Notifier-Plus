@@ -55,7 +55,7 @@ namespace GmailNotifierPlus.Forms {
 			InitializeComponent();
 
 			Text = String.Concat(Locale.Current.Preferences.WindowTitle, " - ", Program.MainForm.Text);
-			Icon = Program.MainForm.Icon;
+			Icon = Resources.Icons.Window;
 			TopMost = true;
 
 			_iconApps = Utilities.ResourceHelper.GetImage("gmail-limon.png");

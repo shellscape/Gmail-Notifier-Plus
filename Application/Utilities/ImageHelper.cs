@@ -5,11 +5,23 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace GmailNotifierPlus.Utilities {
 
 	public class ImageHelper {
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		extern static bool DestroyIcon(IntPtr handle);
+
+		public static Icon IconFromBitmap(Bitmap bitmap) {
+
+			IntPtr hIcon = bitmap.GetHicon();
+			using(Icon icon = Icon.FromHandle(hIcon)) { // we can use Icon's dispose method because it calls DestroyIcon for us.
+				return icon.Clone() as Icon;
+			}
+		}
 
 		public static Bitmap GetTrayIcon(Bitmap numbers) {
 
@@ -30,7 +42,7 @@ namespace GmailNotifierPlus.Utilities {
 
 			using(ImageAttributes ia = new ImageAttributes())
 			using(Graphics graphics = Graphics.FromImage(bitmap)) {
-			
+
 				ia.SetColorMatrix(cm);
 
 				Rectangle destRect = new Rectangle(0, Math.Max(0, 16 - envelope.Height), 16, 16);
@@ -40,7 +52,7 @@ namespace GmailNotifierPlus.Utilities {
 				graphics.DrawImage(numbers, 0, 2, numbers.Width, numbers.Height);
 			}
 
-			if(envelope != null){
+			if(envelope != null) {
 				envelope.Dispose();
 			}
 

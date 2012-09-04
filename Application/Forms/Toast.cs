@@ -186,6 +186,8 @@ namespace GmailNotifierPlus.Forms {
 
 		private Timer _closeTimer = new Timer() { Interval = 15000, Enabled = false };
 
+		private ToolTip _openTip = null;
+
 		private VisualStyleElement _elementClose = null;
 		private VisualStyleElement _elementPrev = null;
 		private VisualStyleElement _elementInbox = null;
@@ -211,7 +213,13 @@ namespace GmailNotifierPlus.Forms {
 			if (!VisualStyleRenderer.IsSupported) {
 				this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 				this.ControlBox = true;
-				this.Icon = Program.MainForm.Icon;
+
+				// according to http://msdn.microsoft.com/en-us/library/system.drawing.bitmap.gethicon.aspx
+				// the form will create a copy here. we should dispose of the icon fetched from resources.
+
+				using(Icon icon = Resources.Icons.Window) { 
+					this.Icon = icon;
+				}
 			}
 
 			int enabled = 0;
@@ -237,15 +245,15 @@ namespace GmailNotifierPlus.Forms {
 			_iconNext = Resources.Icons.Next;
 			_iconWindow = Resources.Icons.Window;
 
-			ToolTip openTip = new ToolTip();
-			openTip.SetToolTip(_PictureOpen, Localization.Locale.Current.Toast.ViewEmail);
+			ToolTip _openTip = new ToolTip();
+			_openTip.SetToolTip(_PictureOpen, Localization.Locale.Current.Toast.ViewEmail);
 
 			_PictureOpen.Cursor = Cursors.Hand;
 			_PictureOpen.Click += OpenEmail;
 
-			//using (Icon icon = ResourceHelper.GetIcon("Open.ico")) {
-			  _PictureOpen.Image = Resources.Icons.Open.ToBitmap();
-			//}
+			using (Icon icon = Resources.Icons.Open){ //ResourceHelper.GetIcon("Open.ico")) {
+			  _PictureOpen.Image = icon.ToBitmap();
+			}
 
 			if (this.Account.Emails.Count > 1) {
 				_stateNext = State.Normal;
@@ -325,6 +333,8 @@ namespace GmailNotifierPlus.Forms {
 		protected override void OnFormClosing(FormClosingEventArgs e) {
 			base.OnFormClosing(e);
 
+			this.Icon.Dispose();
+
 			Timer timer = new Timer() {
 				Interval = 50
 			};
@@ -333,6 +343,20 @@ namespace GmailNotifierPlus.Forms {
 				this.Opacity = Math.Max(this.Opacity - 0.1, 0);
 
 				if (this.Opacity == 0) {
+
+					_iconPrev.Dispose();
+					_iconInbox.Dispose();
+					_iconNext.Dispose();
+					_iconWindow.Dispose();
+
+					if(_PictureOpen != null) {
+						_PictureOpen.Image.Dispose();
+					}
+
+					if(_openTip != null) {
+						_openTip.Dispose();
+					}
+
 					timer.Stop();
 					timer.Dispose();
 				}
@@ -503,11 +527,13 @@ namespace GmailNotifierPlus.Forms {
 			e.Graphics.FillRectangle(SystemBrushes.Control, _rectClient);
 
 			e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-			Font font = SystemFonts.CaptionFont;
+
 			Rectangle captionLayout = new Rectangle(_dwmMargins.cxLeftWidth + (_dwmMargins.cxLeftWidth / 2) + 16, _dwmMargins.cxLeftWidth, this.Width, _dwmMargins.cyTopHeight);
 			String caption = String.Concat(" ", this.Account.FullAddress); // stupid hack. padding so the glow doesnt get cut off on the left.
-
-			Utilities.GlassHelper.DrawText(e.Graphics, caption, font, captionLayout, this.ForeColor, TextFormatFlags.Default, Utilities.TextStyle.Glowing);
+			
+			using(Font font = SystemFonts.CaptionFont) {
+				Utilities.GlassHelper.DrawText(e.Graphics, caption, font, captionLayout, this.ForeColor, TextFormatFlags.Default, Utilities.TextStyle.Glowing);
+			}
 
 			e.Graphics.DrawIcon(_iconWindow, new Rectangle(_dwmMargins.cxLeftWidth, _dwmMargins.cxLeftWidth, 16, 16));
 

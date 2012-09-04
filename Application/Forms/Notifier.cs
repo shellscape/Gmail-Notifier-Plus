@@ -55,6 +55,7 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.RightToLeft = Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
 			_LabelStatus.Width = this.Width;
 
+			_webClient.Credentials = new NetworkCredential(Account.Login.ToLower(), Account.Password);
 			_webClient.DownloadDataCompleted += _WebClient_DownloadDataCompleted;
 
 			_config.Saved += _Config_Saved;
@@ -63,6 +64,10 @@ namespace GmailNotifierPlus.Forms {
 			};
 
 			_PictureOpen.Image = Resources.Icons.Open.ToBitmap();
+
+			using(Icon icon = Resources.Icons.Open) {
+				_PictureOpen.Image = icon.ToBitmap();
+			}
 
 			this.Text = Account.FullAddress;
 		}
@@ -91,10 +96,10 @@ namespace GmailNotifierPlus.Forms {
 		public TabbedThumbnail PreviewThumbnail {
 			get { return _preview; }
 			set {
-				if (_preview != value) {
+				if(_preview != value) {
 					_preview = value;
 
-					if (_preview != null) {
+					if(_preview != null) {
 						_preview.TabbedThumbnailActivated += Thumbnail_Activated;
 					}
 				}
@@ -108,17 +113,17 @@ namespace GmailNotifierPlus.Forms {
 		private void Thumbnail_Activated(object sender, TabbedThumbnailEventArgs e) {
 
 			// i can't track down why exactly, but this is being fired twice.
-			if (_thumbActivated) {
+			if(_thumbActivated) {
 				_thumbActivated = false;
 			}
 			else {
 				_thumbActivated = true;
 
-				if (ConnectionStatus == NotifierStatus.AuthenticationFailed) {
+				if(ConnectionStatus == NotifierStatus.AuthenticationFailed) {
 					Program.MainForm.Jumplist_ShowPreferences(new string[] { "account", this.Account.FullAddress });
 				}
 				else {
-					if (ConnectionStatus != NotifierStatus.Offline) {
+					if(ConnectionStatus != NotifierStatus.Offline) {
 						OpenEmail();
 					}
 				}
@@ -128,11 +133,12 @@ namespace GmailNotifierPlus.Forms {
 		private void Notifier_Activated(object sender, EventArgs e) {
 			this.Refresh();
 
-			TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this); //_PictureLogo);
-
-			if (thumb != null) {
-				thumb.InvalidatePreview();
+			using(TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this)) {
+				if(thumb != null) {
+					thumb.InvalidatePreview();
+				}
 			}
+
 		}
 
 		private void Notifier_Shown(object sender, EventArgs e) {
@@ -144,21 +150,20 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		internal void CheckMail() {
-			if (_webClient.IsBusy) {
+			if(_webClient.IsBusy) {
 				return;
 			}
 
 			try {
-				_webClient.Credentials = new NetworkCredential(Account.Login.ToLower(), Account.Password);
-				_webClient.DownloadDataAsync(new Uri(UrlHelper.GetFeedUrl(Account)));
-
 				SetCheckingPreview();
+
+				_webClient.DownloadDataAsync(new Uri(UrlHelper.GetFeedUrl(Account)));
 			}
 			catch { }
 		}
 
 		private void _ButtonPrev_Click(object sender, ThumbnailButtonClickedEventArgs e) {
-			if (_mailIndex > 0) {
+			if(_mailIndex > 0) {
 				_mailIndex--;
 				UpdateMailPreview();
 			}
@@ -170,24 +175,28 @@ namespace GmailNotifierPlus.Forms {
 
 		private void _ButtonNext_Click(object sender, ThumbnailButtonClickedEventArgs e) {
 
-			if (_mailIndex < Unread) {
+			if(_mailIndex < Unread) {
 				_mailIndex++;
 				UpdateMailPreview();
 			}
 		}
 
 		private void _Config_Saved(object sender, EventArgs e) {
-			if (base.IsDisposed) {
+			if(base.IsDisposed) {
 				return;
 			}
 
 			UpdateThumbButtonsStatus();
 
 			_LabelStatus.RightToLeft = Localization.Locale.Current.IsRightToLeftLanguage ? RightToLeft.Yes : RightToLeft.No;
+
+			_webClient.Credentials = new NetworkCredential(Account.Login.ToLower(), Account.Password);
 		}
 
 		private void _WebClient_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e) {
-			if (e.Error == null) {
+
+			if(e.Error == null) {
+
 				ConnectionStatus = NotifierStatus.OK;
 
 				String xml = System.Text.Encoding.UTF8.GetString(e.Result).Replace("<feed version=\"0.3\" xmlns=\"http://purl.org/atom/ns#\">", "<feed>");
@@ -201,25 +210,21 @@ namespace GmailNotifierPlus.Forms {
 					_previousUnread = Unread;
 
 					Unread = Convert.ToInt32(node.InnerText);
-					//XmlMail = document.SelectNodes("/feed/entry");
 
 					Account.Emails.Clear();
 
-					foreach (XmlNode mailNode in document.SelectNodes("/feed/entry")) {
+					foreach(XmlNode mailNode in document.SelectNodes("/feed/entry")) {
 						Account.Emails.Add(Email.FromNode(mailNode, Account));
 					}
 
-					// at a point, i thought that the oldest should be shown first. not sure why.
-					//Account.Emails.Sort();
-
 					_mailIndex = 0;
 				}
-				catch (System.Xml.XmlException) { }
-				catch (Exception) { } // fixed issue #6. google will occasionally send back invalid xml.
+				catch(System.Xml.XmlException) { }
+				catch(Exception) { } // fixed issue #6. google will occasionally send back invalid xml.
 			}
 			else {
 				WebException error = (WebException)e.Error;
-				if (error.Status == WebExceptionStatus.ProtocolError) {
+				if(error.Status == WebExceptionStatus.ProtocolError) {
 					ConnectionStatus = NotifierStatus.AuthenticationFailed;
 				}
 				else {
@@ -229,11 +234,11 @@ namespace GmailNotifierPlus.Forms {
 
 			UpdateMailPreview();
 
-			if (CheckMailFinished != null) {
+			if(CheckMailFinished != null) {
 				CheckMailFinished(this, EventArgs.Empty);
 			}
 
-			if (Unread > _previousUnread && _config.ShowToast && Account.Emails.Count > 0) {
+			if(Unread > _previousUnread && _config.ShowToast && Account.Emails.Count > 0) {
 				ToastManager.Pop(Account);
 			}
 		}
@@ -252,7 +257,7 @@ namespace GmailNotifierPlus.Forms {
 		protected override void OnActivated(EventArgs e) {
 			base.OnActivated(e);
 
-			if (Program.MainForm != null) {
+			if(Program.MainForm != null) {
 				Program.MainForm.Activate();
 			}
 		}
@@ -260,18 +265,38 @@ namespace GmailNotifierPlus.Forms {
 		protected override void OnGotFocus(EventArgs e) {
 			base.OnGotFocus(e);
 
-			if (Program.MainForm != null) {
+			if(Program.MainForm != null) {
 				Program.MainForm.Activate();
 			}
 		}
 
 		private void CreateThumbButtons() {
 
+			if(_ButtonInbox != null) {
+				_ButtonInbox.Dispose();
+			}
+
+			if(_ButtonPrev != null) {
+				_ButtonPrev.Dispose();
+			}
+
+			if(_ButtonNext != null) {
+				_ButtonNext.Dispose();
+			}
+
 			_ButtonPrev = new ThumbnailToolBarButton(Resources.Icons.Previous, Locale.Current.Common.Previous);
 			_ButtonPrev.Click += _ButtonPrev_Click;
 
 			_ButtonInbox = new ThumbnailToolBarButton(Resources.Icons.Inbox, Locale.Current.Thumbnails.Inbox);
 			_ButtonInbox.Click += _ButtonInbox_Click;
+
+			//try {
+			//  _ButtonInbox.Icon = Resources.Icons.Inbox;
+			//}
+			//catch(Microsoft.WindowsAPI.Shell.ShellException) {
+			//  // happens from time to time, seems like only when the machine comes out of hibernation
+			//  // Exception: Microsoft.WindowsAPI.Shell.ShellException (0x800705B4): Shell Exception has occurred, look at inner exception for information.
+			//}
 
 			_ButtonNext = new ThumbnailToolBarButton(Resources.Icons.Next, Locale.Current.Common.Next);
 			_ButtonNext.Click += _ButtonNext_Click;
@@ -280,6 +305,11 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void SetCheckingPreview() {
+
+			if(_PictureLogo.Image != null) {
+				_PictureLogo.Image.Dispose();
+			}
+
 			_LabelStatus.AutoSize = false;
 			_LabelStatus.Top = 82;
 			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
@@ -287,7 +317,9 @@ namespace GmailNotifierPlus.Forms {
 			_LabelStatus.Width = this.Width;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Thumbnails.Connecting;
+
 			_PictureLogo.Image = Resources.Bitmaps.Checking;
+
 			_PictureOpen.Visible = false;
 		}
 
@@ -299,28 +331,46 @@ namespace GmailNotifierPlus.Forms {
 				(this.Height - _LabelStatus.Height) / 2
 			);
 
+			if(_PictureLogo.Image != null) {
+				_PictureLogo.Image.Dispose();
+			}
+
 			_LabelStatus.ForeColor = System.Drawing.Color.Gray;
 			_PictureLogo.Image = null;
 			_PictureOpen.Visible = false;
 		}
 
 		private void SetOfflinePreview() {
+
+			if(_PictureLogo.Image != null) {
+				_PictureLogo.Image.Dispose();
+			}
+
 			_LabelStatus.Location = new Point(0, 84);
 			_LabelStatus.Width = this.Width;
 			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Thumbnails.ConnectionUnavailable;
+
 			_PictureLogo.Image = Resources.Bitmaps.Offline;
+			
 			_PictureOpen.Visible = false;
 		}
 
 		private void SetWarningPreview() {
+
+			if(_PictureLogo.Image != null) {
+				_PictureLogo.Image.Dispose();
+			}
+
 			_LabelStatus.Location = new Point(0, 84);
 			_LabelStatus.Width = this.Width;
 			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
 			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
 			_LabelStatus.Text = Locale.Current.Thumbnails.CheckLogin;
+
 			_PictureLogo.Image = Resources.Bitmaps.Warning;
+			
 			_PictureOpen.Visible = false;
 		}
 
@@ -354,7 +404,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void UpdateMailPreview() {
 
-			if (this.Disposing || this.IsDisposed) {
+			if(this.Disposing || this.IsDisposed) {
 				return;
 			}
 
@@ -362,7 +412,7 @@ namespace GmailNotifierPlus.Forms {
 
 			this.UpdateThumbButtonsStatus();
 
-			switch (ConnectionStatus) {
+			switch(ConnectionStatus) {
 
 				case NotifierStatus.AuthenticationFailed:
 					this.SetWarningPreview();
@@ -378,7 +428,7 @@ namespace GmailNotifierPlus.Forms {
 						_mailIndex = Math.Max(Account.Emails.Count - 1, 0);
 					}
 
-					if (Unread > 0) {
+					if(Unread > 0) {
 
 						Email email = Account.Emails[_mailIndex];
 
@@ -397,17 +447,19 @@ namespace GmailNotifierPlus.Forms {
 						this.ShowStatus();
 					}
 
-					TabbedThumbnail thumb = null;
+					try {
+						if(!this.Disposing) {
+
+							using(TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this)) {
+								if(thumb != null) {
+									thumb.InvalidatePreview();
+								}
+							}
+						}
+					}
 
 					// for some reason, at this point specifically, the form is sometimes disposed by the time the process enters GetThumbnailPreview.
-					try {
-						thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(this);
-					}
-					catch (ObjectDisposedException) { }
-
-					if (thumb != null) {
-						thumb.InvalidatePreview();
-					}
+					catch(ObjectDisposedException) { }
 
 					return;
 			}
@@ -427,21 +479,12 @@ namespace GmailNotifierPlus.Forms {
 			_ButtonNext.Enabled = _mailIndex < 20 && _mailIndex < (Unread - 1);
 			_ButtonNext.Tooltip = Locale.Current.Common.Next;
 
-			try{
-			_ButtonInbox.Icon = Resources.Icons.Inbox;
-			}
-			catch(Microsoft.WindowsAPI.Shell.ShellException){
-				// happens from time to time, seems like only when the machine comes out of hibernation
-				// Exception: Microsoft.WindowsAPI.Shell.ShellException (0x800705B4): Shell Exception has occurred, look at inner exception for information.
-			}
-
 			_ButtonInbox.Tooltip = Locale.Current.Thumbnails.Inbox;
-
 			_ButtonInbox.Enabled = ConnectionStatus == NotifierStatus.OK;
 		}
 
 		private void OnMailReceived(EventArgs e) {
-			if (CheckMailFinished != null) {
+			if(CheckMailFinished != null) {
 				CheckMailFinished(this, e);
 			}
 		}
@@ -452,7 +495,7 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void OpenEmail() {
-			if (String.IsNullOrEmpty(_mailUrl)) {
+			if(String.IsNullOrEmpty(_mailUrl)) {
 				OpenInbox();
 			}
 			else {

@@ -55,10 +55,6 @@ namespace GmailNotifierPlus.Forms {
 			var app = new System.Windows.Application();
 
 			JumpList.SetJumpList(app, _jumpList);
-			TaskbarItemInfo info = new TaskbarItemInfo();
-
-			info.ProgressState = TaskbarItemProgressState.Indeterminate;
-			info.ProgressValue = 20;
 
 			this.Icon = Resources.Icons.Window;
 			this.StartPosition = FormStartPosition.Manual;
@@ -93,7 +89,7 @@ namespace GmailNotifierPlus.Forms {
 				HideTrayIcon();
 
 				_jumpList.RemoveCustomCategories();
-				_jumpList.Apply(); //this._jumpList.Refresh();
+				_jumpList.Apply();
 			}
 			catch {
 			}
@@ -147,10 +143,11 @@ namespace GmailNotifierPlus.Forms {
 			if(notifier != null) {
 				notifier.Text = account.FullAddress;
 
-				TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(notifier.Handle);
+				using(TabbedThumbnail thumb = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(notifier.Handle)) {
 
-				if(thumb != null) {
-					thumb.Title = account.FullAddress;
+					if(thumb != null) {
+						thumb.Title = account.FullAddress;
+					}
 				}
 			}
 
@@ -173,10 +170,6 @@ namespace GmailNotifierPlus.Forms {
 				this.InitJumpList();
 				this.UpdateJumpList();
 				this.CheckMail();
-			}
-
-			if(_config.ShowTrayIcon) {
-				_TrayIcon.Icon = _iconTray;
 			}
 
 			_TrayIcon.Visible = Config.Current.ShowTrayIcon && _UnreadTotal > 0;
@@ -252,7 +245,7 @@ namespace GmailNotifierPlus.Forms {
 				yes.Click += delegate(object s, EventArgs ea) {
 
 					EventHandler handler = null;
-					
+
 					handler = delegate(object o, EventArgs args) {
 						Application.ApplicationExit -= handler;
 						System.Diagnostics.Process.Start(Application.ExecutablePath);
@@ -268,11 +261,12 @@ namespace GmailNotifierPlus.Forms {
 				no.Click += delegate(object s, EventArgs ea) {
 					dialog.Close();
 				};
-
+				
 				dialog.Caption = dialog.InstructionText = "Gmail Notifier Plus " + Locale.Current.Updates.WindowTitle;
 				dialog.Controls.Add(yes);
 				dialog.Controls.Add(no);
 				dialog.Show();
+
 			}
 		}
 
@@ -389,11 +383,13 @@ namespace GmailNotifierPlus.Forms {
 				}
 
 				Notifier form = _instances[key];
-				TabbedThumbnail thumbnailPreview = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(form.Handle);
+				
+				using(TabbedThumbnail thumbnailPreview = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(form.Handle)) {
 
-				thumbnailPreview.TabbedThumbnailClosed -= _Preview_TabbedThumbnailClosed;
+					thumbnailPreview.TabbedThumbnailClosed -= _Preview_TabbedThumbnailClosed;
 
-				_taskbarManager.TabbedThumbnail.RemoveThumbnailPreview(thumbnailPreview);
+					_taskbarManager.TabbedThumbnail.RemoveThumbnailPreview(thumbnailPreview);
+				}
 
 				this._UnreadTotal -= form.Unread;
 
@@ -535,25 +531,25 @@ namespace GmailNotifierPlus.Forms {
 			try {
 
 				if(_iconDigits != null) {
-					DestroyIcon(_iconDigits.Handle);
+					_iconDigits.Dispose(); // Dispose() already calls DestroyIcon
 				}
 
 				if(_iconTray != null) {
-					DestroyIcon(_iconTray.Handle);
+					_iconTray.Dispose();
 				}
 
 				using(Bitmap numbers = ImageHelper.GetDigitIcon(unread)) {
 
 					if(numbers == null) {
-						_iconDigits = Resources.Icons.Warning as Icon;
+						_iconDigits = Resources.Icons.Warning;
 					}
 					else {
-						_iconDigits = Icon.FromHandle(numbers.GetHicon());
+						_iconDigits = ImageHelper.IconFromBitmap(numbers);
 					}
 
 					// letting this generate even if the option isn't on. allows the user to show/hide the icon at will.
 					using(Bitmap trayNumbers = ImageHelper.GetTrayIcon(numbers)) {
-						_iconTray = Icon.FromHandle(trayNumbers.GetHicon());
+						_iconTray = ImageHelper.IconFromBitmap(trayNumbers);
 					}
 				}
 
