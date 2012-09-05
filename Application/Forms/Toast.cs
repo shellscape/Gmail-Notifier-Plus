@@ -196,7 +196,7 @@ namespace GmailNotifierPlus.Forms {
 		private Icon _iconPrev = null;
 		private Icon _iconInbox = null;
 		private Icon _iconNext = null;
-		private Icon _iconWindow = null;
+		//private Icon _iconWindow = null;
 
 		public Toast(Account account) {
 			InitializeComponent();
@@ -210,30 +210,21 @@ namespace GmailNotifierPlus.Forms {
 
 			this.UpdateStyles();
 
-			if (!VisualStyleRenderer.IsSupported) {
-				this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-				this.ControlBox = true;
-
-				// according to http://msdn.microsoft.com/en-us/library/system.drawing.bitmap.gethicon.aspx
-				// the form will create a copy here. we should dispose of the icon fetched from resources.
-
-				using(Icon icon = Resources.Icons.Window) { 
-					this.Icon = icon;
-				}
-			}
-
 			int enabled = 0;
 			int response = DwmIsCompositionEnabled(ref enabled);
 
 			_aeroEnabled = enabled == 1;
+		
+			if(!VisualStyleRenderer.IsSupported || !_aeroEnabled) {
+				this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+				this.ControlBox = true;
+			}
 
 			this.Opacity = 0;
-			//this.TopMost = true;
+
 			SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, SetWindowPosFlags.NOACTIVATE | SetWindowPosFlags.NOSIZE | SetWindowPosFlags.NOREPOSITION);
 
-			_closeTimer.Tick += delegate(object sender, EventArgs e) {
-				this.Close();
-			};
+			_closeTimer.Tick += _closeTimer_Tick;
 
 			_elementClose = VisualStyleElement.Window.SmallCloseButton.Normal;
 			_elementPrev = VisualStyleElement.CreateElement("TaskbandExtendedUI", LeftControl, 1);
@@ -243,7 +234,8 @@ namespace GmailNotifierPlus.Forms {
 			_iconPrev = Resources.Icons.Previous;
 			_iconInbox = Resources.Icons.Inbox;
 			_iconNext = Resources.Icons.Next;
-			_iconWindow = Resources.Icons.Window;
+
+			this.Icon = Resources.Icons.Window;
 
 			ToolTip _openTip = new ToolTip();
 			_openTip.SetToolTip(_PictureOpen, Localization.Locale.Current.Toast.ViewEmail);
@@ -269,6 +261,10 @@ namespace GmailNotifierPlus.Forms {
 
 		protected override bool ShowWithoutActivation {
 			get { return true; }
+		}
+
+		private void _closeTimer_Tick(object sender, EventArgs e) {
+			this.Close();
 		}
 
 		private int _activatedCount = 0; // child controls activate the form automatically. this happens twice. any subsequent activations should stop the timer.
@@ -330,10 +326,40 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing) {
+			if(disposing && (components != null)) {
+				components.Dispose();
+			}
+
+			_closeTimer.Dispose();
+
+			this.Icon.Dispose();
+			this.Icon = null;
+
+			_iconPrev.Dispose();
+			_iconInbox.Dispose();
+			_iconNext.Dispose();
+
+			if(_PictureOpen != null) {
+				_PictureOpen.Image.Dispose();
+			}
+
+			if(_openTip != null) {
+				_openTip.Dispose();
+			}
+			
+
+			base.Dispose(disposing);
+		}
+
 		protected override void OnFormClosing(FormClosingEventArgs e) {
 			base.OnFormClosing(e);
 
-			this.Icon.Dispose();
+			_closeTimer.Tick -= _closeTimer_Tick;
 
 			Timer timer = new Timer() {
 				Interval = 50
@@ -343,20 +369,6 @@ namespace GmailNotifierPlus.Forms {
 				this.Opacity = Math.Max(this.Opacity - 0.1, 0);
 
 				if (this.Opacity == 0) {
-
-					_iconPrev.Dispose();
-					_iconInbox.Dispose();
-					_iconNext.Dispose();
-					_iconWindow.Dispose();
-
-					if(_PictureOpen != null) {
-						_PictureOpen.Image.Dispose();
-					}
-
-					if(_openTip != null) {
-						_openTip.Dispose();
-					}
-
 					timer.Stop();
 					timer.Dispose();
 				}
@@ -374,7 +386,7 @@ namespace GmailNotifierPlus.Forms {
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
 
-			if (VisualStyleRenderer.IsSupported) {
+			if (VisualStyleRenderer.IsSupported && _aeroEnabled) {
 				DwmExtendFrameIntoClientArea(this.Handle, ref _dwmMargins);
 			}
 
@@ -478,7 +490,7 @@ namespace GmailNotifierPlus.Forms {
 			int iconY = (_buttonSize.Height - 16) / 2;
 			int buttonY = VisualStyleRenderer.IsSupported ? (this.Height - _buttonSize.Height) : (this.ClientSize.Height - _buttonSize.Height);
 
-			if (VisualStyleRenderer.IsSupported) {
+			if (VisualStyleRenderer.IsSupported && _aeroEnabled) {
 				_rectClient = new Rectangle(
 					_dwmMargins.cxLeftWidth,
 					_dwmMargins.cyTopHeight,
@@ -521,6 +533,7 @@ namespace GmailNotifierPlus.Forms {
 		protected override void OnPaint(PaintEventArgs e) {
 			base.OnPaint(e);
 
+
 			InitRects(e.Graphics);
 
 			e.Graphics.Clear(_aeroEnabled ? Color.Transparent : SystemColors.Control);
@@ -528,30 +541,33 @@ namespace GmailNotifierPlus.Forms {
 
 			e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 
-			Rectangle captionLayout = new Rectangle(_dwmMargins.cxLeftWidth + (_dwmMargins.cxLeftWidth / 2) + 16, _dwmMargins.cxLeftWidth, this.Width, _dwmMargins.cyTopHeight);
-			String caption = String.Concat(" ", this.Account.FullAddress); // stupid hack. padding so the glow doesnt get cut off on the left.
-			
-			using(Font font = SystemFonts.CaptionFont) {
-				Utilities.GlassHelper.DrawText(e.Graphics, caption, font, captionLayout, this.ForeColor, TextFormatFlags.Default, Utilities.TextStyle.Glowing);
+			if(_aeroEnabled) {
+				e.Graphics.DrawIcon(this.Icon, new Rectangle(_dwmMargins.cxLeftWidth, _dwmMargins.cxLeftWidth, 16, 16));
+
+				Rectangle captionLayout = new Rectangle(_dwmMargins.cxLeftWidth + (_dwmMargins.cxLeftWidth / 2) + 16, _dwmMargins.cxLeftWidth, this.Width, _dwmMargins.cyTopHeight);
+				String caption = String.Concat(" ", this.Account.FullAddress); // stupid hack. padding so the glow doesnt get cut off on the left.
+
+				using(Font font = SystemFonts.CaptionFont) {
+					Utilities.GlassHelper.DrawText(e.Graphics, caption, font, captionLayout, this.ForeColor, TextFormatFlags.Default, Utilities.TextStyle.Glowing);
+				}
+
+				PaintElement(e.Graphics, _elementClose, _rectClose, _stateClose);
 			}
 
-			e.Graphics.DrawIcon(_iconWindow, new Rectangle(_dwmMargins.cxLeftWidth, _dwmMargins.cxLeftWidth, 16, 16));
-
-			PaintElement(e.Graphics, _elementPrev, _rectPrev, _statePrev);
+			if(VisualStyleRenderer.IsSupported) {
+				PaintElement(e.Graphics, _elementPrev, _rectPrev, _statePrev);
+				PaintElement(e.Graphics, _elementInbox, _rectInbox, _stateInbox);
+				PaintElement(e.Graphics, _elementNext, _rectNext, _stateNext);
+			}
+			
 			PaintIcon(e.Graphics, _iconPrev, _rectPrev, _statePrev);
-
-			PaintElement(e.Graphics, _elementInbox, _rectInbox, _stateInbox);
 			PaintIcon(e.Graphics, _iconInbox, _rectInbox, State.Normal);
-
-			PaintElement(e.Graphics, _elementNext, _rectNext, _stateNext);
 			PaintIcon(e.Graphics, _iconNext, _rectNext, _stateNext);
-
-			PaintElement(e.Graphics, _elementClose, _rectClose, _stateClose);
 		}
 
 		protected override void WndProc(ref Message m) {
 
-			if (!VisualStyleRenderer.IsSupported) {
+			if (!VisualStyleRenderer.IsSupported || !_aeroEnabled) {
 				base.WndProc(ref m);
 				return;
 			}
