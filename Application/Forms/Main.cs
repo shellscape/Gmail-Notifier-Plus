@@ -37,9 +37,6 @@ namespace GmailNotifierPlus.Forms {
 		private int _PreviousTotal;
 		private int _UnreadTotal;
 
-		private Icon _iconDigits = null;
-		private Icon _iconTray = null;
-
 		private Config _config = Config.Current;
 
 		private static readonly int WM_TASKBARBUTTONCREATED = ((int)RegisterWindowMessage("TaskbarButtonCreated"));
@@ -86,6 +83,8 @@ namespace GmailNotifierPlus.Forms {
 			base.OnClosing(e);
 
 			try {
+				ImageHelper.Cleanup();
+				
 				HideTrayIcon();
 
 				_jumpList.RemoveCustomCategories();
@@ -495,7 +494,7 @@ namespace GmailNotifierPlus.Forms {
 				return;
 			}
 
-			CleanupDigitIcon();
+			//CleanupDigitIcon();
 
 			if(count == 0) {
 				_taskbarManager.SetOverlayIcon(base.Handle, null, String.Empty);
@@ -505,15 +504,20 @@ namespace GmailNotifierPlus.Forms {
 			else {
 
 				try {
-					int digitsNumber;
-					Int32.TryParse(count.ToString("00"), out digitsNumber);
+					int unreadNumber;
+					Icon overlay;
 
-					DrawUnreadOverlay(digitsNumber, null);
+					Int32.TryParse(count.ToString("00"), out unreadNumber);
+					overlay = ImageHelper.GetNumberIcon(unreadNumber);
 
-					_taskbarManager.SetOverlayIcon(base.Handle, _iconDigits, String.Empty);
+					if(overlay == null) {
+						overlay = Resources.Icons.NewFallback;
+					}
+					
+					_taskbarManager.SetOverlayIcon(base.Handle, overlay, String.Empty);
 
-					_TrayIcon.Icon = _iconTray;
-					_TrayIcon.Text = String.Concat(GmailNotifierPlus.Resources.Strings.WindowTitle, " (Unread: ", digitsNumber.ToString(), ")");
+					_TrayIcon.Icon = overlay;
+					_TrayIcon.Text = String.Concat(GmailNotifierPlus.Resources.Strings.WindowTitle, " (Unread: ", unreadNumber.ToString(), ")");
 
 					if(_config.ShowTrayIcon) {
 						_TrayIcon.Visible = true;
@@ -526,57 +530,10 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
-		private void DrawUnreadOverlay(int unread, Exception priorException) {
-
-			try {
-
-				if(_iconDigits != null) {
-					_iconDigits.Dispose(); // Dispose() already calls DestroyIcon
-				}
-
-				if(_iconTray != null) {
-					_iconTray.Dispose();
-				}
-
-				using(Bitmap numbers = ImageHelper.GetDigitIcon(unread)) {
-
-					if(numbers == null) {
-						_iconDigits = Resources.Icons.Warning;
-					}
-					else {
-						_iconDigits = ImageHelper.IconFromBitmap(numbers);
-					}
-
-					// letting this generate even if the option isn't on. allows the user to show/hide the icon at will.
-					using(Bitmap trayNumbers = ImageHelper.GetTrayIcon(numbers)) {
-						_iconTray = ImageHelper.IconFromBitmap(trayNumbers);
-					}
-				}
-
-			}
-			catch(System.ComponentModel.Win32Exception ex) { // trying to solve the "The operation completed successfully" exception on Icon ctor.
-				if(ex.NativeErrorCode != 0) {
-					if(priorException == null) {
-						DrawUnreadOverlay(unread, ex);
-					}
-					else {
-						_iconDigits = Resources.Icons.NewFallback;
-						_iconTray = Resources.Icons.WindowSmall;
-					}
-				}
-				else {
-					throw;
-				}
-			}
-
-		}
-
 		internal void SetWarningOverlay() {
 
 			if(_taskbarManager != null) {
 				_taskbarManager.SetOverlayIcon(base.Handle, Resources.Icons.Warning, String.Empty);
-
-				CleanupDigitIcon();
 			}
 
 		}
@@ -585,26 +542,12 @@ namespace GmailNotifierPlus.Forms {
 
 			if(_taskbarManager != null) {
 				_taskbarManager.SetOverlayIcon(base.Handle, Resources.Icons.Offline, String.Empty);
-
-				CleanupDigitIcon();
 			}
 
-		}
-
-		private void CleanupDigitIcon() {
-			if(_iconDigits != null) {
-				_iconDigits.Dispose();
-				_iconDigits = null;
-			}
 		}
 
 		private void HideTrayIcon() {
 			_TrayIcon.Visible = false;
-
-			if(_TrayIcon.Icon != null) {
-				_TrayIcon.Icon.Dispose();
-			}
-
 			_TrayIcon.Icon = null;
 		}
 

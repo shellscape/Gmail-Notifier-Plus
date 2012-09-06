@@ -10,10 +10,65 @@ using System.Text;
 
 namespace GmailNotifierPlus.Utilities {
 
-	public class ImageHelper {
+	public static class ImageHelper {
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		extern static bool DestroyIcon(IntPtr handle);
+
+		private static Dictionary<int, Icon> _iconCache;
+
+		static ImageHelper() {
+			_iconCache = new Dictionary<int, Icon>();
+
+			// prepare the cache. 1 - 10 is going to be pretty common. might as well create these now.
+			for(var i = 1; i < 11; i++) {
+				GetNumberIcon(i);
+			}
+		}
+
+		// we'll have to do this with a method since static classes cant have destructors.
+		public static void Cleanup() {
+			foreach(var kvp in _iconCache) {
+				kvp.Value.Dispose();
+			}
+			_iconCache.Clear();
+		}
+
+		public static Icon GetNumberIcon(int number) {
+
+			try {
+
+				if(_iconCache.ContainsKey(number)) {
+					return _iconCache[number];
+				}
+				
+				using(Bitmap numbers = ImageHelper.GetNumberImage(number)) {
+
+					Icon numberIcon = null;
+					
+					if(numbers != null) {
+						numberIcon = ImageHelper.IconFromBitmap(numbers);
+					}
+
+					if(numberIcon != null) {
+						_iconCache.Add(number, numberIcon);
+					}
+
+					return numberIcon;
+				}
+			}
+			catch(System.ComponentModel.Win32Exception ex) {
+				// trying to solve the "The operation completed successfully" exception on Icon ctor.
+				// though with the addition of the icon cache, I doubt this will be a problem any more.
+				if(ex.NativeErrorCode != 0) {
+					return null;
+				}
+				else {
+					throw;
+				}
+			}
+
+		}
 
 		public static Icon IconFromBitmap(Bitmap bitmap) {
 
@@ -23,43 +78,7 @@ namespace GmailNotifierPlus.Utilities {
 			}
 		}
 
-		public static Bitmap GetTrayIcon(Bitmap numbers) {
-
-			Bitmap bitmap = new Bitmap(16, 16);
-			Bitmap envelope = new Bitmap(16, 16, PixelFormat.Format32bppArgb);
-
-			ColorMatrix cm = new ColorMatrix();
-			cm.Matrix33 = 0.8f;
-
-			try {
-				using(Icon envelopeIcon = Resources.Icons.WindowSmall)
-				using(Graphics iconGraphics = Graphics.FromImage(envelope)) {
-
-					iconGraphics.DrawIcon(envelopeIcon, new Rectangle(0, 0, envelopeIcon.Width, envelopeIcon.Height));
-				}
-			}
-			catch(ArgumentException) { }
-
-			using(ImageAttributes ia = new ImageAttributes())
-			using(Graphics graphics = Graphics.FromImage(bitmap)) {
-
-				ia.SetColorMatrix(cm);
-
-				Rectangle destRect = new Rectangle(0, Math.Max(0, 16 - envelope.Height), 16, 16);
-
-				graphics.DrawImage(envelope, destRect, 0, 0, envelope.Width, envelope.Height, GraphicsUnit.Pixel, ia);
-
-				graphics.DrawImage(numbers, 0, 2, numbers.Width, numbers.Height);
-			}
-
-			if(envelope != null) {
-				envelope.Dispose();
-			}
-
-			return bitmap;
-		}
-
-		public static Bitmap GetDigitIcon(int number) {
+		public static Bitmap GetNumberImage(int number) {
 
 			// overlay icons MUST be 16x16. Stupid limitation by microsoft.
 			Bitmap bitmap = new Bitmap(16, 16);
@@ -68,7 +87,7 @@ namespace GmailNotifierPlus.Utilities {
 				graphics.CompositingQuality = CompositingQuality.HighQuality;
 				graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-				using(Bitmap numbers = GetNumbers(number)) {
+				using(Bitmap numbers = DrawNumbers(number)) {
 
 					// yeah, most of these numbers are arbitrary, based on the font we're using 
 					// and the numbers used to calc width and height.
@@ -94,7 +113,7 @@ namespace GmailNotifierPlus.Utilities {
 			return bitmap;
 		}
 
-		public static Bitmap GetNumbers(int number) {
+		public static Bitmap DrawNumbers(int number) {
 
 			Bitmap result = null;
 			SizeF sz;
