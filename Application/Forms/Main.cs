@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace GmailNotifierPlus.Forms {
 		private JumpList _jumpList;
 		private Dictionary<string, Notifier.NotifierStatus> _statusList = new Dictionary<string, Notifier.NotifierStatus>();
 		private TaskbarManager _taskbarManager = TaskbarManager.Instance;
+		private List<ToolStripMenuItem> _trayCategories = new List<ToolStripMenuItem>();
 
 		private int _PreviousTotal;
 		private int _UnreadTotal;
@@ -72,6 +74,14 @@ namespace GmailNotifierPlus.Forms {
 			_Timer.Interval = Math.Max(1, _config.Interval) * 1000;
 			_Timer.Enabled = true;
 
+			_TrayIcon.ContextMenuStrip = new ContextMenuStrip();
+			_TrayIcon.MouseClick += delegate(object sender, MouseEventArgs e) {
+				if(e.Button == MouseButtons.Left) {
+					MethodInfo mi = typeof(NotifyIcon).GetMethod("ShowContextMenu", BindingFlags.Instance | BindingFlags.NonPublic);
+					mi.Invoke(_TrayIcon, null);
+				}
+			};
+
 			Shellscape.UpdateManager.Current.UpdateAvailable += _Updates_UpdatesAvailable;
 			Shellscape.UpdateManager.Current.Start();
 
@@ -84,7 +94,7 @@ namespace GmailNotifierPlus.Forms {
 
 			try {
 				ImageHelper.Cleanup();
-				
+
 				HideTrayIcon();
 
 				_jumpList.RemoveCustomCategories();
@@ -260,7 +270,7 @@ namespace GmailNotifierPlus.Forms {
 				no.Click += delegate(object s, EventArgs ea) {
 					dialog.Close();
 				};
-				
+
 				dialog.Caption = dialog.InstructionText = "Gmail Notifier Plus " + Locale.Current.Updates.WindowTitle;
 				dialog.Controls.Add(yes);
 				dialog.Controls.Add(no);
@@ -323,12 +333,68 @@ namespace GmailNotifierPlus.Forms {
 			_jumpList.JumpItems.AddRange(new List<JumpItem>() { check, settings, help, about });
 
 			_jumpList.Apply();
+
+			InitTrayList(defaultAccountIndex);
+		}
+
+		private void InitTrayList(int defaultAccountIndex) {
+
+			_TrayIcon.ContextMenuStrip.Items.Clear();
+
+			using(Icon iconAbout = Resources.Icons.about)
+			using(Icon iconCheck = Resources.Icons.Refresh)
+			using(Icon iconHelp = Resources.Icons.help)
+			using(Icon iconPrefs = Resources.Icons.Settings)
+			using(Icon iconInbox = Resources.Icons.Inbox)
+			using(Icon iconCompose = Resources.Icons.Compose) {
+
+				String browserPath = UrlHelper.GetDefaultBrowserPath();
+
+				var accountSeparator = new ToolStripMenuItem(Locale.Current.JumpList.DefaultAccount) { Enabled = false };
+
+				var inbox = new ToolStripMenuItem(Locale.Current.JumpList.Inbox, iconInbox.ToBitmap(), delegate(object sender, EventArgs e) {
+					String url = UrlHelper.BuildInboxUrl(defaultAccountIndex);
+
+					using(Process p = new Process()) {
+
+						p.StartInfo.FileName = String.IsNullOrEmpty(browserPath) ? url : browserPath;
+						p.StartInfo.Arguments = url;
+
+						p.Start();
+					}
+				});
+
+
+				var compose = new ToolStripMenuItem(Locale.Current.JumpList.Compose, iconCompose.ToBitmap(), delegate(object sender, EventArgs e) {
+					String url = UrlHelper.BuildComposeUrl(defaultAccountIndex);
+
+					using(Process p = new Process()) {
+
+						p.StartInfo.FileName = String.IsNullOrEmpty(browserPath) ? url : browserPath;
+						p.StartInfo.Arguments = url;
+
+						p.Start();
+					}
+				});
+
+				var taskSeparator = new ToolStripMenuItem("Tasks") { Enabled = false };
+				var check = new ToolStripMenuItem(Locale.Current.JumpList.Check, iconCheck.ToBitmap(), new EventHandler(CheckMail));
+				var settings = new ToolStripMenuItem(Locale.Current.JumpList.Preferences, iconPrefs.ToBitmap(), new EventHandler(ShowAbout));
+				var help = new ToolStripMenuItem(Locale.Current.JumpList.Help, iconHelp.ToBitmap(), new EventHandler(ShowHelp));
+				var about = new ToolStripMenuItem(Locale.Current.JumpList.About, iconAbout.ToBitmap(), new EventHandler(ShowPreferences));
+
+				_TrayIcon.ContextMenuStrip.Items.AddRange(new ToolStripMenuItem[] { accountSeparator, inbox, compose, taskSeparator, check, settings, help, about });
+
+			}
+
 		}
 
 		/// <summary>
 		/// Updates the portion of the JumpList which shows new/unread email.
 		/// </summary>
 		internal void UpdateJumpList() {
+
+			UpdateTrayList();
 
 			if(!_config.RecentDocsTracked) { // if the user doesn't have recent docs turned on, this will method throw errors.
 				return;
@@ -364,6 +430,61 @@ namespace GmailNotifierPlus.Forms {
 
 		}
 
+		internal void UpdateTrayList() {
+
+			foreach(var item in _trayCategories) {
+				_TrayIcon.ContextMenuStrip.Items.Remove(item);
+				item.Dispose();
+			}
+
+			_trayCategories.Clear();
+
+			String inboxFormat = "{0} ({1})";
+
+			foreach(Notifier notifier in _instances.Values) {
+
+				Account account = notifier.Account;
+				String category = String.Format(inboxFormat, account.FullAddress, notifier.Unread);
+				Bitmap icon = null;
+
+				using(Icon i = Resources.Icons.Mail){
+					icon = i.ToBitmap();
+				}
+
+				if(notifier.Emails.Count > 0) {
+					_trayCategories.Add(new ToolStripMenuItem() { Text = category, Enabled = false });
+				}
+
+				foreach(Email email in notifier.Emails) {
+
+					var menuitem = new ToolStripMenuItem(email.Title.LimitElipses(30), icon, delegate(object sender, EventArgs e) {
+						List<String> data = (sender as ToolStripMenuItem).Tag as List<String>;
+						String browserPath = data[0];
+						String url = data[1];
+						using(Process p = new Process()){
+
+							p.StartInfo.FileName = String.IsNullOrEmpty(browserPath) ? url : browserPath;
+							p.StartInfo.Arguments = url;
+
+							p.Start();
+						}
+					});
+
+					menuitem.ToolTipText = email.Title;
+					menuitem.Tag = new List<String>() { account.Browser == null ? String.Empty : account.Browser.Path, email.Url };
+
+					_trayCategories.Add(menuitem);
+				}
+
+			}
+
+			_trayCategories.Reverse();
+
+			foreach(var item in _trayCategories){
+				_TrayIcon.ContextMenuStrip.Items.Insert(0, item);
+			}
+		}
+
 		internal void CheckMail() {
 			_statusList.Clear();
 			_UnreadTotal = 0;
@@ -382,7 +503,7 @@ namespace GmailNotifierPlus.Forms {
 				}
 
 				Notifier form = _instances[key];
-				
+
 				using(TabbedThumbnail thumbnailPreview = _taskbarManager.TabbedThumbnail.GetThumbnailPreview(form.Handle)) {
 
 					thumbnailPreview.TabbedThumbnailClosed -= _Preview_TabbedThumbnailClosed;
@@ -513,7 +634,7 @@ namespace GmailNotifierPlus.Forms {
 					if(overlay == null) {
 						overlay = Resources.Icons.NewFallback;
 					}
-					
+
 					_taskbarManager.SetOverlayIcon(base.Handle, overlay, String.Empty);
 
 					_TrayIcon.Icon = overlay;
@@ -555,6 +676,10 @@ namespace GmailNotifierPlus.Forms {
 
 		#region .    Jumplist Handling
 
+		public void CheckMail(object sender, EventArgs e) {
+			Jumplist_CheckMail(null);
+		}
+
 		public void Jumplist_CheckMail(String[] arguments) {
 
 			MethodInvoker method = delegate { this.CheckMail(); };
@@ -565,6 +690,10 @@ namespace GmailNotifierPlus.Forms {
 			else {
 				method();
 			}
+		}
+
+		public void ShowPreferences(object sender, EventArgs e) {
+			Jumplist_ShowPreferences(null);
 		}
 
 		public void Jumplist_ShowPreferences(String[] arguments) {
@@ -612,6 +741,10 @@ namespace GmailNotifierPlus.Forms {
 			}
 		}
 
+		public void ShowAbout(object sender, EventArgs e) {
+			Jumplist_ShowAbout(null);
+		}
+
 		public void Jumplist_ShowAbout(String[] arguments) {
 
 			About about = Shellscape.Program.FindForm(typeof(About)) as About ?? new About();
@@ -630,6 +763,10 @@ namespace GmailNotifierPlus.Forms {
 			else {
 				method();
 			}
+		}
+
+		public void ShowHelp(object sender, EventArgs e) {
+			Jumplist_ShowHelp(null);
 		}
 
 		public void Jumplist_ShowHelp(String[] arguments) {

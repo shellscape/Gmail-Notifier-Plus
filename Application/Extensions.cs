@@ -27,11 +27,33 @@ namespace GmailNotifierPlus {
 
 			Type type = typeof(Shellscape.UI.JumplistTask);
 
-			foreach (Shellscape.UI.JumplistTask task in list.JumpItems.Where(t => t.GetType() == type)) {
-				Shellscape.Remoting.RemotingTaskMethods.Methods.Remove(task.Arguments);	
+			foreach(Shellscape.UI.JumplistTask task in list.JumpItems.Where(t => t.GetType() == type)) {
+				Shellscape.Remoting.RemotingTaskMethods.Methods.Remove(task.Arguments);
 			}
 
 			list.JumpItems.Clear();
+		}
+
+		public static String Limit(this string str, int limit) {
+
+			if(str.Length <= limit) {
+				return str;
+			}
+
+			return str.Substring(0, limit).TrimEnd();
+		}
+
+		public static string LimitElipses(this string str, int limit) {
+
+			if(limit < 5) {
+				return str.Limit(limit);       // Can’t do much with such a short limit
+			}
+
+			if(str.Length <= (limit - 3)) {
+				return str;
+			}
+
+			return str.Substring(0, limit - 3) + "…";
 		}
 
 	}
