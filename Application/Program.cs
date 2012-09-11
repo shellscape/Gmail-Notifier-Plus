@@ -47,7 +47,14 @@ namespace GmailNotifierPlus {
 		    Shellscape.UpdateManager updates = new Shellscape.UpdateManager(_repoUser, _repoName, _repoName);
 
 		    updates.Error += delegate(object sender, UnhandledExceptionEventArgs e) {
-		      ErrorHelper.Report(e.ExceptionObject as Exception);
+					if(e.ExceptionObject is System.Net.WebException) {
+						if(e.ExceptionObject != null) {
+							ErrorHelper.Log(e.ExceptionObject as Exception, Guid.NewGuid());
+						}
+						return;	
+					}
+										
+					ErrorHelper.Report(e.ExceptionObject as Exception);
 		    };
 
 		    SystemEvents.SessionEnded += delegate(object sender, SessionEndedEventArgs e) {
