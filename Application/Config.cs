@@ -4,21 +4,39 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using System.Xml;
 
 using Microsoft.Win32;
 
 namespace GmailNotifierPlus {
 
-	[DataContract][Flags]
+	[DataContract]
+	[Flags]
 	public enum SoundNotification {
-		[EnumMember(Value="0")]
+		[EnumMember(Value = "0")]
 		None = 0,
 
-		[EnumMember(Value="1")]
+		[EnumMember(Value = "1")]
 		Default = 1,
 
-		[EnumMember(Value="2")]
+		[EnumMember(Value = "2")]
 		Custom = 2
+	}
+
+	[DataContract]
+	[Flags]
+	public enum StartupState {
+		[EnumMember(Value = "0")]
+		None = 0,
+
+		[EnumMember(Value = "1")]
+		First = 1,
+
+		[EnumMember(Value = "2")]
+		Second = 2,
+
+		[EnumMember(Value = "3")]
+		Other = 3
 	}
 
 	[DataContract(Name = "config")]
@@ -37,7 +55,8 @@ namespace GmailNotifierPlus {
 			this.Interval = 60;
 			this.Language = "en-US";
 			this.Sound = "default";
-			this.FirstRun = true;
+			//this.FirstRun = true;
+			this.StartupState = StartupState.First;
 			this.FlashCount = 4;
 			this.FlashTaskbar = true;
 
@@ -45,12 +64,13 @@ namespace GmailNotifierPlus {
 		}
 
 		public static void InitDefaults(Config config) {
-			config.FirstRun = true;
+			//config.FirstRun = true;
+			config.StartupState = GmailNotifierPlus.StartupState.First;
 			config.FlashCount = 4;
 		}
 
 		public static void Init() {
-			if (!Directory.Exists(_path)) {
+			if(!Directory.Exists(_path)) {
 				Directory.CreateDirectory(_path);
 			}
 
@@ -58,18 +78,37 @@ namespace GmailNotifierPlus {
 			String xml = null;
 			FileInfo file = new FileInfo(Path.Combine(_path, _fileName));
 
-			if (file.Exists) {
-				using (StreamReader sr = file.OpenText()) {
+			if(file.Exists) {
+				using(StreamReader sr = file.OpenText()) {
 					xml = sr.ReadToEnd();
 				}
 
-				if (!String.IsNullOrEmpty(xml)) {
+				if(!String.IsNullOrEmpty(xml)) {
 					config = Utilities.Serializer.DeserializeContract<Config>(xml);
 				}
 			}
 			else {
 				InitDefaults(config);
 				config.Save();
+			}
+
+			if(config.StartupState == StartupState.None) {
+				// we need to check for the legacy <firstrun> node. if it exists and is false, we're on the second run.
+
+				XmlDocument document = new XmlDocument();
+				document.LoadXml(xml);
+
+				XmlNamespaceManager manager = new XmlNamespaceManager(document.NameTable);
+				manager.AddNamespace("n", "http://schemas.datacontract.org/2004/07/GmailNotifierPlus");
+
+				XmlNode node = document.SelectSingleNode("n:config/n:firstrun", manager);
+
+				if(node == null) {
+					config.StartupState = StartupState.First;
+				}
+				else {
+					config.StartupState = StartupState.Second;
+				}
 			}
 
 			config.Language = config.Language;
@@ -81,7 +120,7 @@ namespace GmailNotifierPlus {
 
 			LoadLocale(config);
 
-			for (var i = 0; i < config.Accounts.Count; i++) {
+			for(var i = 0; i < config.Accounts.Count; i++) {
 				config.Accounts[i].Init();
 			}
 
@@ -89,9 +128,9 @@ namespace GmailNotifierPlus {
 			// If it isn't we cannot add custom categories to the jumplist.
 
 			try {
-				using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", false)) {
+				using(RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", false)) {
 					object trackDocs = key.GetValue("Start_TrackDocs"); //DWORD value. 
-					if (trackDocs != null) {
+					if(trackDocs != null) {
 						int tracking = Convert.ToInt32(trackDocs);
 						config.RecentDocsTracked = tracking == 1;
 					}
@@ -102,12 +141,12 @@ namespace GmailNotifierPlus {
 					key.Close();
 				}
 			}
-			catch (System.Security.SecurityException) {
+			catch(System.Security.SecurityException) {
 			}
 
 
 		}
-	
+
 		public static Config Current {
 			get;
 			private set;
@@ -127,10 +166,10 @@ namespace GmailNotifierPlus {
 
 				_language = value;
 
-				if (previous != _language) {
+				if(previous != _language) {
 					Config.LoadLocale(this);
 
-					if (LanguageChanged != null) {
+					if(LanguageChanged != null) {
 						LanguageChanged(this);
 					}
 				}
@@ -146,8 +185,11 @@ namespace GmailNotifierPlus {
 		[DataMember(Name = "accounts")]
 		public AccountList Accounts { get; set; }
 
-		[DataMember(Name = "firstrun")]
-		public Boolean FirstRun { get; set; }
+		//[DataMember(Name = "firstrun")]
+		//public Boolean FirstRun { get; set; }
+
+		[DataMember(Name = "startupstate")]
+		public StartupState StartupState { get; set; }
 
 		[DataMember(Name = "flashtaskbar")]
 		public Boolean FlashTaskbar { get; set; }
@@ -172,13 +214,13 @@ namespace GmailNotifierPlus {
 
 			String serialized = Utilities.Serializer.SerializeContract<Config>(this);
 
-			using (FileStream fs = new FileStream(Path.Combine(_path, _fileName), FileMode.Create, FileAccess.ReadWrite)) {
-				using (StreamWriter sw = new StreamWriter(fs)) {
+			using(FileStream fs = new FileStream(Path.Combine(_path, _fileName), FileMode.Create, FileAccess.ReadWrite)) {
+				using(StreamWriter sw = new StreamWriter(fs)) {
 					sw.Write(serialized);
 				}
 			}
 
-			if (this.Saved != null) {
+			if(this.Saved != null) {
 				this.Saved(this, EventArgs.Empty);
 			}
 
@@ -188,7 +230,7 @@ namespace GmailNotifierPlus {
 			Localization.Locale locale = Utilities.ResourceHelper.GetLocale(config.Language);
 
 			// in case the config xml gets hosed, or a user goes a-tamperin'
-			if (locale == null) {
+			if(locale == null) {
 				locale = Utilities.ResourceHelper.GetLocale("en-US");
 			}
 

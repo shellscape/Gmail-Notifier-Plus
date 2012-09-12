@@ -115,14 +115,21 @@ namespace GmailNotifierPlus.Forms {
 		protected override void OnShown(EventArgs e) {
 			base.OnShown(e);
 
-			if(_config.FirstRun) {
+			if(_config.StartupState == StartupState.Second) {
+				Jumplist_ShowAbout(null);
+
+				_config.StartupState = StartupState.Other;
+				_config.Save();
+			}
+
+			if(_config.StartupState == StartupState.First) {
 
 				FirstRun firstRun = new FirstRun();
 				firstRun.Show();
 				firstRun.BringToFront();
 				firstRun.Focus();
 
-				_config.FirstRun = false;
+				_config.StartupState = StartupState.Second;
 				_config.Save();
 
 			}
@@ -242,6 +249,9 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void _Updates_DownloadComplete(object sender, AsyncCompletedEventArgs e) {
+
+			_config.StartupState = StartupState.Second;
+			_config.Save();
 
 			Shellscape.UpdateManager.Current.Replace(Config.Current.AppDataPath, Path.GetDirectoryName(Application.ExecutablePath)); // @"C:\Users\Andrew\AppData\Roaming\Gmail Notifier Plus\Updates\test");
 

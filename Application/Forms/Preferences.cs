@@ -74,7 +74,7 @@ namespace GmailNotifierPlus.Forms {
 			InitAccountsPanel();
 			InitAccountPanel();
 
-			if (Config.Current.FirstRun) {
+			if (Config.Current.StartupState == StartupState.First) {
 				InitFirstRun();
 			}
 
