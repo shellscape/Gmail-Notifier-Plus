@@ -223,6 +223,9 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Icons\donate-paypal.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <EmbeddedResource Include="Resources\Locales\zh-CN.xml" />
     <EmbeddedResource Include="Resources\Locales\zh-TW.xml" />
     <EmbeddedResource Include="Resources\Locales\bg-BG.xml" />

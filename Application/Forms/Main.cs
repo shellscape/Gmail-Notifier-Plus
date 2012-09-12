@@ -334,13 +334,15 @@ namespace GmailNotifierPlus.Forms {
 			Shellscape.UI.JumplistTask settings = new Shellscape.UI.JumplistTask("-settings", Locale.Current.JumpList.Preferences, "Settings.ico");
 			Shellscape.UI.JumplistTask help = new Shellscape.UI.JumplistTask("-help", Locale.Current.JumpList.Help, "help.ico");
 			Shellscape.UI.JumplistTask about = new Shellscape.UI.JumplistTask("-about", Locale.Current.JumpList.About, "about.ico");
+			Shellscape.UI.JumplistTask donate = new Shellscape.UI.JumplistTask("-donate", Locale.Current.About.Donate, "donate-paypal.ico");
 
 			check.Click += Jumplist_CheckMail;
 			settings.Click += Jumplist_ShowPreferences;
 			help.Click += Jumplist_ShowHelp;
 			about.Click += Jumplist_ShowAbout;
+			donate.Click += LaunchDonation;
 
-			_jumpList.JumpItems.AddRange(new List<JumpItem>() { check, settings, help, about });
+			_jumpList.JumpItems.AddRange(new List<JumpItem>() { check, settings, help, about, donate });
 
 			_jumpList.Apply();
 
@@ -356,7 +358,8 @@ namespace GmailNotifierPlus.Forms {
 			using(Icon iconHelp = Resources.Icons.help)
 			using(Icon iconPrefs = Resources.Icons.Settings)
 			using(Icon iconInbox = Resources.Icons.Inbox)
-			using(Icon iconCompose = Resources.Icons.Compose) {
+			using(Icon iconCompose = Resources.Icons.Compose) 
+			using(Icon iconDonate = Shellscape.Resources.Icons.DonatePaypal) {
 
 				String browserPath = UrlHelper.GetDefaultBrowserPath();
 
@@ -392,11 +395,18 @@ namespace GmailNotifierPlus.Forms {
 				var settings = new ToolStripMenuItem(Locale.Current.JumpList.Preferences, iconPrefs.ToBitmap(), new EventHandler(ShowAbout));
 				var help = new ToolStripMenuItem(Locale.Current.JumpList.Help, iconHelp.ToBitmap(), new EventHandler(ShowHelp));
 				var about = new ToolStripMenuItem(Locale.Current.JumpList.About, iconAbout.ToBitmap(), new EventHandler(ShowPreferences));
+				var donate = new ToolStripMenuItem(Locale.Current.About.Donate, iconDonate.ToBitmap(), new EventHandler(delegate(object sender, EventArgs e) {
+					LaunchDonation(null);
+				}));
 
-				_TrayIcon.ContextMenuStrip.Items.AddRange(new ToolStripMenuItem[] { accountSeparator, inbox, compose, taskSeparator, check, settings, help, about });
+				_TrayIcon.ContextMenuStrip.Items.AddRange(new ToolStripMenuItem[] { accountSeparator, inbox, compose, taskSeparator, check, settings, help, about, donate });
 
 			}
 
+		}
+
+		private void LaunchDonation(String[] arguments) {
+			Shellscape.Utilities.ApplicationHelper.Donate("Gmail%20Notifier%20Plus%20Donation");
 		}
 
 		/// <summary>
