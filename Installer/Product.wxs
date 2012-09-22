@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-	<Product Id="882e1c57-0b1b-4887-9feb-5d2b24b6ace6" Name="$(var.GmailNotifierPlus.TargetName) !(bind.FileVersion.GmailNotifierPlusExe)" Language="1033" Version="!(bind.FileVersion.GmailNotifierPlusExe)" Manufacturer="Shellscape Software" UpgradeCode="3b2f2964-2da8-4af0-80ef-847e78999421">
+	
+		<Product Id="*" Name="$(var.GmailNotifierPlus.TargetName) !(bind.FileVersion.GmailNotifierPlusExe)" Language="1033" 
+			Version="!(bind.FileVersion.GmailNotifierPlusExe)"
+			Manufacturer="Shellscape Software" 
+			UpgradeCode="3b2f2964-2da8-4af0-80ef-847e78999421">
 
 		<Package InstallerVersion="200" Compressed="yes" />
 
@@ -10,7 +14,6 @@
 		<Property Id="WixShellExecTarget" Value="[#GmailNotifierPlusExe]" />		
 		
 		<UI>
-			
 			<UIRef Id="WixUI_Minimal" />
 			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
 		</UI>
@@ -29,6 +32,8 @@
 
 		<CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
 
+		<MajorUpgrade DowngradeErrorMessage="A newer version of Gmail Notifier Plus is already installed. Setup will now exit." />
+			
 		<Directory Id="TARGETDIR" Name="SourceDir">
 
 			<Directory Id="LocalAppDataFolder">
@@ -104,9 +109,6 @@
 			<ComponentRef Id="Resources" />
 			<ComponentRef Id="ApplicationShortcut" />
 			<ComponentRef Id="StartupShortcut" />
-
-			<!-- Note: The following ComponentGroupRef is required to pull in generated authoring from project references. -->
-			<ComponentGroupRef Id="Product.Generated" />
 		</Feature>
 	</Product>
 </Wix>
