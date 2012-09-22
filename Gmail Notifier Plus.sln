@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gmail Notifier Plus", "Application\Gmail Notifier Plus.csproj", "{F1308EEC-69AB-4B73-AB3E-E3276A543F3D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shellscape.Common", "External\Shellscape.Common\Shellscape.Common\Shellscape.Common.csproj", "{F7F1F64D-F6CD-42A9-B167-546E4EA31463}"
@@ -8,6 +8,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows API", "External\Shellscape.Common\Microsoft\Windows API\Windows API.csproj", "{B20A1853-BDC5-47D5-9369-3999BBD7F516}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Installer", "Installer\Installer.wixproj", "{04567B92-BA0F-4548-9B10-78D105AE1D65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E80B4792-3F1C-4B9C-950D-51ED344F3D7E}"
+	ProjectSection(SolutionItems) = preProject
+		CHANGES.md = CHANGES.md
+		pad.xml = pad.xml
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
