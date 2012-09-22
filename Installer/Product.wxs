@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
 	
-		<Product Id="*" Name="$(var.GmailNotifierPlus.TargetName) !(bind.FileVersion.GmailNotifierPlusExe)" Language="1033" 
+		<Product Id="*" Name="$(var.GmailNotifierPlus.TargetName)" Language="1033" 
 			Version="!(bind.FileVersion.GmailNotifierPlusExe)"
 			Manufacturer="Shellscape Software" 
 			UpgradeCode="3b2f2964-2da8-4af0-80ef-847e78999421">
@@ -104,7 +104,7 @@
 			</Component>
 		</DirectoryRef>
 
-		<Feature Id="ProductFeature" Title="$(var.GmailNotifierPlus.TargetName) !(bind.FileVersion.GmailNotifierPlusExe)" Level="1">
+		<Feature Id="ProductFeature" Title="$(var.GmailNotifierPlus.TargetName)" Level="1">
 			<ComponentRef Id="ProductComponent" />
 			<ComponentRef Id="Resources" />
 			<ComponentRef Id="ApplicationShortcut" />
