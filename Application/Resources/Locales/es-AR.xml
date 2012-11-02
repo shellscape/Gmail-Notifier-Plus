@@ -88,11 +88,11 @@
 		<NoSubject>(sin asunto)</NoSubject>
 	</Toast>
 	<Updates>
-		<WindowTitle>Update</WindowTitle>
-		<Text>A new version of Gmail Notifier Plus has been downloaded and is ready! You can restart Gmail Notifier Plus now to apply the update.</Text>
-		<YesText>Restart Gmail Notifier Plus</YesText>
-		<YesInstruction>I need the new hotness.</YesInstruction>
-		<NoText>No, Thanks</NoText>
-		<NoInstruction>I like to live on the edge.</NoInstruction>
+		<WindowTitle>Actualizar</WindowTitle>
+		<Text>Una nueva versión de Gmail Notifier Plus ha sido descargada. Puedes reiniciar Gmail Notifier Plus ahora para aplicarla.</Text>
+		<YesText>Reiniciar Gmail Notifier Plus</YesText>
+		<YesInstruction>Necesito lo nuevo.</YesInstruction>
+		<NoText>No, gracias</NoText>
+		<NoInstruction>Me gusta vivir al límite.</NoInstruction>
 	</Updates>
 </Locale>
