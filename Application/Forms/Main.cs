@@ -376,8 +376,7 @@ namespace GmailNotifierPlus.Forms {
 						p.Start();
 					}
 				});
-
-
+				
 				var compose = new ToolStripMenuItem(Locale.Current.JumpList.Compose, iconCompose.ToBitmap(), delegate(object sender, EventArgs e) {
 					String url = UrlHelper.BuildComposeUrl(defaultAccountIndex);
 
@@ -392,9 +391,9 @@ namespace GmailNotifierPlus.Forms {
 
 				var taskSeparator = new ToolStripMenuItem("Tasks") { Enabled = false };
 				var check = new ToolStripMenuItem(Locale.Current.JumpList.Check, iconCheck.ToBitmap(), new EventHandler(CheckMail));
-				var settings = new ToolStripMenuItem(Locale.Current.JumpList.Preferences, iconPrefs.ToBitmap(), new EventHandler(ShowAbout));
+				var settings = new ToolStripMenuItem(Locale.Current.JumpList.Preferences, iconPrefs.ToBitmap(), new EventHandler(ShowPreferences));
 				var help = new ToolStripMenuItem(Locale.Current.JumpList.Help, iconHelp.ToBitmap(), new EventHandler(ShowHelp));
-				var about = new ToolStripMenuItem(Locale.Current.JumpList.About, iconAbout.ToBitmap(), new EventHandler(ShowPreferences));
+				var about = new ToolStripMenuItem(Locale.Current.JumpList.About, iconAbout.ToBitmap(), new EventHandler(ShowAbout));
 				var donate = new ToolStripMenuItem(Locale.Current.About.Donate, iconDonate.ToBitmap(), new EventHandler(delegate(object sender, EventArgs e) {
 					LaunchDonation(null);
 				}));
