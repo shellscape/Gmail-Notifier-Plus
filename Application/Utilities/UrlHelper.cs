@@ -27,14 +27,16 @@ namespace GmailNotifierPlus.Utilities {
 		private static Config _Config = Config.Current;
 
 		public static void Launch(Account account, String url) {
-				
+
 			if (account == null || account.Browser == null) {
 
+				var action = new Action(() => System.Diagnostics.Process.Start(url));
+
 				if (Program.MainForm.InvokeRequired) {
-					Program.MainForm.Invoke(new Action(() => System.Windows.Forms.Help.ShowHelp(Program.MainForm, url)));
+					Program.MainForm.Invoke(action);
 				}
 				else {
-					System.Windows.Forms.Help.ShowHelp(Program.MainForm, url);
+					action();
 				}
 
 				return;
@@ -66,7 +68,7 @@ namespace GmailNotifierPlus.Utilities {
 
 			Shellscape.Browser browser = defaultAccount.Browser;
 
-			if(browser == null){
+			if (browser == null) {
 				return String.Empty;
 			}
 
