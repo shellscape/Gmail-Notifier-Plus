@@ -6,7 +6,7 @@
     <Close>Закрыть</Close>
     <Next>Следующая</Next>
     <OK>Хорошо</OK>
-    <Previous>Предыдущий</Previous>
+    <Previous>Предыдущая</Previous>
     <No>No</No>
     <Yes>Да</Yes>
     <Unread>Непрочитанные</Unread>
@@ -16,58 +16,58 @@
     <Inbox>Перейдите к папке "Входящие"</Inbox>
     <Compose>Написать новое сообщение</Compose>
     <Check>Проверить новые сообщения электронной почты</Check>
-    <Preferences>Предпочтения</Preferences>
-    <About>О программе оповещения Gmail плюс</About>
+    <Preferences>Настройки</Preferences>
+    <About>О программе Gmail Notifier Plus</About>
     <Help>Помощь вики</Help>
   </JumpList>
   <About>
-    <WindowTitle>О</WindowTitle>
-    <Button>Сладкий. Спасибо!</Button>
-    <FirstRun>Поехали!</FirstRun>
-    <Donate>Просьба рассмотреть возможность пожертвовать</Donate>
+    <WindowTitle>О программе</WindowTitle>
+    <Button>Ок. Спасибо!</Button>
+    <FirstRun>Вперед!</FirstRun>
+    <Donate>Пожалуйста, пожертвуйте на развитие проекта!</Donate>
   </About>
   <Preferences>
-    <WindowTitle>Предпочтения</WindowTitle>
+    <WindowTitle>Настройки</WindowTitle>
     <Navigation>
-      <General>Общие предпочтения</General>
-      <Accounts>Управлять своими счетами</Accounts>
-      <Appearance>Изменение отображения предпочтения</Appearance>
+      <General>Общие настройки</General>
+      <Accounts>Управление учетными записями</Accounts>
+      <Appearance>Изменение отображения</Appearance>
       <Donate>Пожалуйста, пожертвуйте</Donate>
     </Navigation>
     <Panels>
       <General>
-        <Title>Общие настройки Gmail Notifier плюс</Title>
+        <Title>Общие настройки Gmail Notifier Plus</Title>
         <ApplyChanges>Применить изменения</ApplyChanges>
         <Sound>
           <Title>Звуковое оповещение</Title>
           <None>Нет</None>
           <Default>По умолчанию</Default>
-          <Custom>Пользовательские...</Custom>
+          <Custom>Пользовательское...</Custom>
           <Browse>Обзор...</Browse>
           <BrowseWindowTitle>Выберите звук уведомления</BrowseWindowTitle>
           <WaveFiles>Wave-файл</WaveFiles>
         </Sound>
         <CheckEmail>Интервал проверки электронной почты (в минутах)</CheckEmail>
         <Language>Язык интерфейса</Language>
-        <FlashTaskbar>Флэш-панель задач новые сообщения электронной почты</FlashTaskbar>
-        <ShowTray>Показать граф электронной почты в системном трее</ShowTray>
-        <ShowToast>Показать уведомления тост новые сообщения электронной почты</ShowToast>
+        <FlashTaskbar>Мигание панели задач для новых сообщений</FlashTaskbar>
+        <ShowTray>Показать счетчик писем в системном трее</ShowTray>
+        <ShowToast>Показать всплывающие уведомления для новых сообщений</ShowToast>
       </General>
       <Accounts>
         <Title>Выберите учетную запись, которую вы хотите изменить</Title>
         <AddNew>Добавление новой учетной записи</AddNew>
         <Account>
-          <Title>Управлять {0}</Title>
+          <Title>Управление {0}</Title>
           <Address>Адрес электронной почты</Address>
           <Password>Пароль</Password>
-          <Mailto>Используйте эту учетную запись для почтовых ссылок</Mailto>
+          <Mailto>Использовать эту учетную запись для почтовых ссылок</Mailto>
           <DefaultAccount>Использовать эту учетную запись в качестве учетной записи по умолчанию</DefaultAccount>
           <Browser>Обозреватель</Browser>
           <AddAccount>Добавить учетную запись</AddAccount>
           <RemoveAccount>Удаление учетной записи</RemoveAccount>
           <RemoveConfirmation>Вы уверены, что хотите удалить эту учетную запись?</RemoveConfirmation>
           <RemoveConfirmationTitle>Удаление учетной записи</RemoveConfirmationTitle>
-          <AccountsIntroNone>Добро пожаловать на Gmail Notifier Plus.\n\nTo начать работу, пожалуйста, нажмите на кнопку ниже, чтобы добавить новую учетную запись.</AccountsIntroNone>
+          <AccountsIntroNone>Добро пожаловать на Gmail Notifier Plus.\n\nЧтобы начать работу, пожалуйста, нажмите на кнопку ниже, чтобы добавить новую учетную запись.</AccountsIntroNone>
           <Error>Уже существует учетная запись с таким адресом. Пожалуйста, введите другой адрес.</Error>
         </Account>
       </Accounts>
@@ -88,9 +88,9 @@
   </Toast>
   <Updates>
     <WindowTitle>Обновление</WindowTitle>
-    <Text>Новая версия Gmail Notifier плюс было загружено и готова! Чтобы применить это обновление как можно перезапустить Gmail Notifier плюс теперь.</Text>
-    <YesText>Перезапустите оповещения Gmail плюс</YesText>
-    <YesInstruction>Мне нужен новый hotness.</YesInstruction>
+    <Text>Новая версия Gmail Notifier Plus была загружено и готова к установке! Чтобы применить это обновление, перезапустите Gmail Notifier плюс.</Text>
+    <YesText>Перезапустите Gmail Notifier Plus</YesText>
+    <YesInstruction>Люблю все новенькое</YesInstruction>
     <NoText>Нет, спасибо</NoText>
     <NoInstruction>Мне нравится жить на краю.</NoInstruction>
   </Updates>
