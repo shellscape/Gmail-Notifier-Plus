@@ -28,6 +28,9 @@ namespace GmailNotifierPlus.Forms {
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		extern static bool DestroyIcon(IntPtr handle);
 
+		[DllImport("shell32.dll", CharSet = CharSet.Auto)]
+		public static extern int SHQueryUserNotificationState(out int qns);
+
 		private const int _UNREAD_MAX = 0x63;
 
 		private Dictionary<string, Notifier> _instances = new Dictionary<string, Notifier>();
@@ -42,6 +45,11 @@ namespace GmailNotifierPlus.Forms {
 		private Config _config = Config.Current;
 
 		private static readonly int WM_TASKBARBUTTONCREATED = ((int)RegisterWindowMessage("TaskbarButtonCreated"));
+
+		private readonly int WM_SETTINGCHANGE = 0x1A;
+		private readonly int QUNS_PRESENTATION_MODE = 0x04;
+		private readonly int QUNS_ACCEPTS_NOTIFICATIONS = 0x05;
+		private bool _presentationMode = false;
 
 		public Main() {
 
@@ -145,6 +153,22 @@ namespace GmailNotifierPlus.Forms {
 			if(m.Msg == WM_TASKBARBUTTONCREATED) {
 				this.CheckMail();
 			}
+
+			// monitor the Windows Presentation Mode settings and hide the unread message count and disable mail checking when Presentation Mode is On
+			if(m.Msg == WM_SETTINGCHANGE) {
+				int state;
+				SHQueryUserNotificationState(out state);
+
+				if(state == QUNS_PRESENTATION_MODE) {
+					_presentationMode = true;
+					SetOfflineOverlay();
+				}
+				else if(state == QUNS_ACCEPTS_NOTIFICATIONS) {
+					_presentationMode = false;
+					CheckMail();
+				}
+			}
+
 			base.WndProc(ref m);
 		}
 
@@ -505,11 +529,13 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		internal void CheckMail() {
-			_statusList.Clear();
-			_UnreadTotal = 0;
+			if (!_presentationMode) {
+				_statusList.Clear();
+				_UnreadTotal = 0;
 
-			foreach(Notifier notifier in _instances.Values) {
-				notifier.CheckMail();
+				foreach(Notifier notifier in _instances.Values) {
+					notifier.CheckMail();
+				}
 			}
 		}
 
@@ -589,7 +615,7 @@ namespace GmailNotifierPlus.Forms {
 
 				UpdateJumpList();
 
-				if(_UnreadTotal > _PreviousTotal) {
+				if(_UnreadTotal > _PreviousTotal && !_presentationMode) {
 					switch(Config.Current.SoundNotification) {
 						case SoundNotification.Default:
 							SoundHelper.PlayDefaultSound();
