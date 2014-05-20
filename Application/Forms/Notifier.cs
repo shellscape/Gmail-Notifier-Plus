@@ -461,16 +461,21 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		private void UpdateThumbButtonsStatus() {
+			try {
+				_ButtonPrev.Enabled = _mailIndex != 0;
+				_ButtonPrev.Tooltip = Locale.Current.Common.Previous;
 
-			_ButtonPrev.Enabled = _mailIndex != 0;
-			_ButtonPrev.Tooltip = Locale.Current.Common.Previous;
+				// gmail's atom feed only sends data for the first 20 unread
+				_ButtonNext.Enabled = _mailIndex < 20 && _mailIndex < (Unread - 1);
+				_ButtonNext.Tooltip = Locale.Current.Common.Next;
 
-			// gmail's atom feed only sends data for the first 20 unread
-			_ButtonNext.Enabled = _mailIndex < 20 && _mailIndex < (Unread - 1);
-			_ButtonNext.Tooltip = Locale.Current.Common.Next;
-
-			_ButtonInbox.Tooltip = Locale.Current.Thumbnails.Inbox;
-			_ButtonInbox.Enabled = ConnectionStatus == NotifierStatus.OK;
+				_ButtonInbox.Tooltip = Locale.Current.Thumbnails.Inbox;
+				_ButtonInbox.Enabled = ConnectionStatus == NotifierStatus.OK;
+			}
+			catch (Microsoft.WindowsAPI.Shell.ShellException) {
+				// in some cases, particularly when resuming Windows from Hibernation, a call to the API that controls the buttons will fail
+				// it's OK to silently swallow the exception, because this method gets called periodically and the buttons will get enabled in a while
+			}
 		}
 
 		private void OpenInbox() {
