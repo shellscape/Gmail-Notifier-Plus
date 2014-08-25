@@ -28,9 +28,6 @@
 			this._LinkAddNew = new Shellscape.UI.Controls.ResponsiveLinkLabel();
 			this._LabelAccountsTitle = new Shellscape.UI.Controls.ThemeLabel();
 			this._PanelAccount = new Shellscape.UI.Controls.DoubleBufferedPanel();
-			this._PanelAccountActions = new Shellscape.UI.Controls.DoubleBufferedFlowPanel();
-			this._ButtonAccountCancel = new System.Windows.Forms.Button();
-			this._ButtonAccountAction = new System.Windows.Forms.Button();
 			this._PanelAccountControls = new Shellscape.UI.Controls.DoubleBufferedPanel();
 			this._ComboBrowser = new System.Windows.Forms.ComboBox();
 			this._TextPassword = new System.Windows.Forms.TextBox();
@@ -42,6 +39,8 @@
 			this._LabelBrowser = new System.Windows.Forms.Label();
 			this._LabelAddress = new System.Windows.Forms.Label();
 			this._PanelAccountGlyph = new Shellscape.UI.Controls.DoubleBufferedPanel();
+			this._ButtonAccountCancel = new System.Windows.Forms.Button();
+			this._ButtonAccountAction = new System.Windows.Forms.Button();
 			this._LabelAccount = new Shellscape.UI.Controls.ThemeLabel();
 			this._LabelGeneral = new Shellscape.UI.Controls.ThemeLabel();
 			this._ComboSound = new System.Windows.Forms.ComboBox();
@@ -56,14 +55,11 @@
 			this._CheckToast = new System.Windows.Forms.CheckBox();
 			this._ButtonApply = new System.Windows.Forms.Button();
 			this._PanelGeneral = new Shellscape.UI.Controls.DoubleBufferedPanel();
-			this._PanelGeneralActions = new Shellscape.UI.Controls.DoubleBufferedFlowPanel();
 			this._Panels.SuspendLayout();
 			this._PanelAccounts.SuspendLayout();
 			this._PanelAccount.SuspendLayout();
-			this._PanelAccountActions.SuspendLayout();
 			this._PanelAccountControls.SuspendLayout();
 			this._PanelGeneral.SuspendLayout();
-			this._PanelGeneralActions.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _Panels
@@ -133,9 +129,10 @@
 			// 
 			// _PanelAccount
 			// 
-			this._PanelAccount.Controls.Add(this._PanelAccountActions);
 			this._PanelAccount.Controls.Add(this._PanelAccountControls);
 			this._PanelAccount.Controls.Add(this._PanelAccountGlyph);
+			this._PanelAccount.Controls.Add(this._ButtonAccountCancel);
+			this._PanelAccount.Controls.Add(this._ButtonAccountAction);
 			this._PanelAccount.Controls.Add(this._LabelAccount);
 			this._PanelAccount.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._PanelAccount.Location = new System.Drawing.Point(6, 16);
@@ -144,40 +141,6 @@
 			this._PanelAccount.Size = new System.Drawing.Size(542, 424);
 			this._PanelAccount.TabIndex = 2;
 			this._PanelAccount.TabStop = true;
-			// 
-			// _PanelAccountActions
-			// 
-			this._PanelAccountActions.AutoSize = true;
-			this._PanelAccountActions.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._PanelAccountActions.Controls.Add(this._ButtonAccountCancel);
-			this._PanelAccountActions.Controls.Add(this._ButtonAccountAction);
-			this._PanelAccountActions.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._PanelAccountActions.Location = new System.Drawing.Point(3, 395);
-			this._PanelAccountActions.Name = "_PanelAccountActions";
-			this._PanelAccountActions.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this._PanelAccountActions.Size = new System.Drawing.Size(539, 29);
-			this._PanelAccountActions.TabIndex = 8;
-			// 
-			// _ButtonAccountCancel
-			// 
-			this._ButtonAccountCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._ButtonAccountCancel.Location = new System.Drawing.Point(461, 3);
-			this._ButtonAccountCancel.Name = "_ButtonAccountCancel";
-			this._ButtonAccountCancel.Size = new System.Drawing.Size(75, 23);
-			this._ButtonAccountCancel.TabIndex = 7;
-			this._ButtonAccountCancel.Text = "Cancel";
-			this._ButtonAccountCancel.UseVisualStyleBackColor = true;
-			// 
-			// _ButtonAccountAction
-			// 
-			this._ButtonAccountAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this._ButtonAccountAction.Enabled = false;
-			this._ButtonAccountAction.Location = new System.Drawing.Point(330, 3);
-			this._ButtonAccountAction.Name = "_ButtonAccountAction";
-			this._ButtonAccountAction.Size = new System.Drawing.Size(125, 23);
-			this._ButtonAccountAction.TabIndex = 6;
-			this._ButtonAccountAction.Text = "Apply Changes";
-			this._ButtonAccountAction.UseVisualStyleBackColor = true;
 			// 
 			// _PanelAccountControls
 			// 
@@ -297,6 +260,27 @@
 			this._PanelAccountGlyph.Size = new System.Drawing.Size(539, 80);
 			this._PanelAccountGlyph.TabIndex = 1;
 			this._PanelAccountGlyph.TabStop = true;
+			// 
+			// _ButtonAccountCancel
+			// 
+			this._ButtonAccountCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._ButtonAccountCancel.Location = new System.Drawing.Point(461, 398);
+			this._ButtonAccountCancel.Name = "_ButtonAccountCancel";
+			this._ButtonAccountCancel.Size = new System.Drawing.Size(75, 23);
+			this._ButtonAccountCancel.TabIndex = 7;
+			this._ButtonAccountCancel.Text = "Cancel";
+			this._ButtonAccountCancel.UseVisualStyleBackColor = true;
+			// 
+			// _ButtonAccountAction
+			// 
+			this._ButtonAccountAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this._ButtonAccountAction.Enabled = false;
+			this._ButtonAccountAction.Location = new System.Drawing.Point(330, 398);
+			this._ButtonAccountAction.Name = "_ButtonAccountAction";
+			this._ButtonAccountAction.Size = new System.Drawing.Size(125, 23);
+			this._ButtonAccountAction.TabIndex = 6;
+			this._ButtonAccountAction.Text = "Apply Changes";
+			this._ButtonAccountAction.UseVisualStyleBackColor = true;
 			// 
 			// _LabelAccount
 			// 
@@ -419,7 +403,7 @@
 			// _ButtonApply
 			// 
 			this._ButtonApply.Enabled = false;
-			this._ButtonApply.Location = new System.Drawing.Point(411, 3);
+			this._ButtonApply.Location = new System.Drawing.Point(411, 398);
 			this._ButtonApply.Name = "_ButtonApply";
 			this._ButtonApply.Size = new System.Drawing.Size(125, 23);
 			this._ButtonApply.TabIndex = 0;
@@ -428,7 +412,7 @@
 			// 
 			// _PanelGeneral
 			// 
-			this._PanelGeneral.Controls.Add(this._PanelGeneralActions);
+			this._PanelGeneral.Controls.Add(this._ButtonApply);
 			this._PanelGeneral.Controls.Add(this._CheckToast);
 			this._PanelGeneral.Controls.Add(this._CheckTray);
 			this._PanelGeneral.Controls.Add(this._CheckFlashTaskbar);
@@ -448,18 +432,6 @@
 			this._PanelGeneral.TabIndex = 1;
 			this._PanelGeneral.TabStop = true;
 			// 
-			// _PanelGeneralActions
-			// 
-			this._PanelGeneralActions.AutoSize = true;
-			this._PanelGeneralActions.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._PanelGeneralActions.Controls.Add(this._ButtonApply);
-			this._PanelGeneralActions.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._PanelGeneralActions.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this._PanelGeneralActions.Location = new System.Drawing.Point(3, 395);
-			this._PanelGeneralActions.Name = "_PanelGeneralActions";
-			this._PanelGeneralActions.Size = new System.Drawing.Size(539, 29);
-			this._PanelGeneralActions.TabIndex = 10;
-			// 
 			// Preferences
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -473,12 +445,10 @@
 			this._PanelAccounts.PerformLayout();
 			this._PanelAccount.ResumeLayout(false);
 			this._PanelAccount.PerformLayout();
-			this._PanelAccountActions.ResumeLayout(false);
 			this._PanelAccountControls.ResumeLayout(false);
 			this._PanelAccountControls.PerformLayout();
 			this._PanelGeneral.ResumeLayout(false);
 			this._PanelGeneral.PerformLayout();
-			this._PanelGeneralActions.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -516,9 +486,7 @@
 		private System.Windows.Forms.Button _ButtonSound;
 		private System.Windows.Forms.Label _LabelSound;
 		private System.Windows.Forms.ComboBox _ComboSound;
-        private Shellscape.UI.Controls.ThemeLabel _LabelGeneral;
-        private Shellscape.UI.Controls.DoubleBufferedFlowPanel _PanelGeneralActions;
-        private Shellscape.UI.Controls.DoubleBufferedFlowPanel _PanelAccountActions;
+		private Shellscape.UI.Controls.ThemeLabel _LabelGeneral;
 
 	}
 }
