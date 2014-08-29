@@ -124,10 +124,8 @@ namespace GmailNotifierPlus.Utilities {
 		}
 
 		public static string GetFeedUrl(Account account) {
-			if (account.Type == AccountTypes.Regular) {
-				return string.Format(Uris.Feed, Params.Base);
-			}
-			return string.Format(Uris.Feed, Params.BaseApps + account.Domain);
+			// In 08/2014 Gmail has abandoned it's special feed for Google Apps accounts and the changes are since published to the feed on the same url as regular accounts
+			return string.Format(Uris.Feed, Params.Base);
 		}
 
 		public static string ToLoginUrl(string continueUrl, int accountIndex) {
