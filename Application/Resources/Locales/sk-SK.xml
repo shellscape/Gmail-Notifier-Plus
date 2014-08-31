@@ -4,94 +4,94 @@
   <Common>
     <Cancel>Zrušiť</Cancel>
     <Close>Zavrieť</Close>
-    <Next>Ďalší</Next>
-    <OK>ok</OK>
-    <Previous>Predchádzajúce</Previous>
+    <Next>Nasledujúca</Next>
+    <OK>OK</OK>
+    <Previous>Predchádzajúca</Previous>
     <No>nie</No>
     <Yes>áno</Yes>
     <Unread>Neprečítané správy</Unread>
   </Common>
   <JumpList>
-    <DefaultAccount>Predvoleným kontom</DefaultAccount>
-    <Inbox>Prejdite do priečinka Doručená pošta</Inbox>
+    <DefaultAccount>Predvolený účet</DefaultAccount>
+    <Inbox>Prejsť do priečinka Doručená pošta</Inbox>
     <Compose>Napísať nový email</Compose>
-    <Check>Skontrolujte, či pre nové správy elektronickej pošty</Check>
-    <Preferences>Predvoľby</Preferences>
-    <About>O Gmail Notifier… Plus</About>
-    <Help>Pomoc Wiki</Help>
+    <Check>Skontrolovať novú poštu</Check>
+    <Preferences>Nastavenia</Preferences>
+    <About>O Gmail Notifier Plus</About>
+    <Help>Pomocník</Help>
   </JumpList>
   <About>
-    <WindowTitle>O</WindowTitle>
-    <Button>sladký. vďaka!</Button>
-    <FirstRun>poďme!</FirstRun>
-    <Donate>Prosím zvážte darovanie</Donate>
+    <WindowTitle>O aplikácii</WindowTitle>
+    <Button>Skvelé. Vďaka!</Button>
+    <FirstRun>Poďme na to!</FirstRun>
+    <Donate>Prosím zvážte príspevok</Donate>
   </About>
   <Preferences>
-    <WindowTitle>Predvoľby</WindowTitle>
+    <WindowTitle>Nastavenia</WindowTitle>
     <Navigation>
-      <General>Všeobecné preferencie</General>
-      <Accounts>Spravovať vaše účty</Accounts>
-      <Appearance>Zmena zobrazenia preferencie</Appearance>
-      <Donate>Prosím darovať</Donate>
+      <General>Všeobecné nastavenia</General>
+      <Accounts>Spravovať účty</Accounts>
+      <Appearance>Upraviť nastavenia zobrazovania</Appearance>
+      <Donate>Prosím prispejte</Donate>
     </Navigation>
     <Panels>
       <General>
-        <Title>V¹eobecné nastavenia služby Gmail Notifier Plus</Title>
-        <ApplyChanges>Aplikovať zmeny</ApplyChanges>
+        <Title>Všeobecné nastavenia Gmail Notifier Plus</Title>
+        <ApplyChanges>Uložiť zmeny</ApplyChanges>
         <Sound>
-          <Title>Zvukové upozornenie</Title>
-          <None>Žiadna</None>
+          <Title>Zvukové upozornenia</Title>
+          <None>Žiadne</None>
           <Default>Predvolené</Default>
           <Custom>Vlastné...</Custom>
           <Browse>Prehľadávať...</Browse>
-          <BrowseWindowTitle>Vyberte zvuk nepočuť</BrowseWindowTitle>
-          <WaveFiles>Súbor Wave</WaveFiles>
+          <BrowseWindowTitle>Vyberte zvuk notifikácie</BrowseWindowTitle>
+          <WaveFiles>Súbor typu Wave</WaveFiles>
         </Sound>
-        <CheckEmail>Kontrola e-mailu interval (v minútach)</CheckEmail>
+        <CheckEmail>Interval kontroly pošty (v minútach)</CheckEmail>
         <Language>Jazyk zobrazenia</Language>
-        <FlashTaskbar>Flash panelu pre nové správy elektronickej pošty</FlashTaskbar>
-        <ShowTray>Zobraziť e-mail počítať v systémovej lište</ShowTray>
-        <ShowToast>Zobraziť Toast upozornenia pre nové správy elektronickej pošty</ShowToast>
+        <FlashTaskbar>Signalizovať nové správy na hlavnom paneli</FlashTaskbar>
+        <ShowTray>Zobrazovať počet správ v systémovej lište</ShowTray>
+        <ShowToast>Zobrazovať popup upozornenia na nové správy</ShowToast>
       </General>
       <Accounts>
-        <Title>Vyberte konto, ktoré chcete zmeniť</Title>
-        <AddNew>Pridanie nového účtu</AddNew>
+        <Title>Vyberte účet, ktorý chcete upraviť</Title>
+        <AddNew>Pridať nový účet</AddNew>
         <Account>
-          <Title>Spravovať {0}</Title>
-          <Address>E-mailovú adresu</Address>
+          <Title>Účet {0}</Title>
+          <Address>E-mailová adresa</Address>
           <Password>Heslo</Password>
-          <Mailto>Použitie tohto účtu pre mailto odkazy</Mailto>
-          <DefaultAccount>Toto konto použiť ako predvolené konto</DefaultAccount>
+          <Mailto>Používať tento účet pre odkazy typu mailto</Mailto>
+          <DefaultAccount>Nastaviť tento účet ako predvolený</DefaultAccount>
           <Browser>Prehliadač</Browser>
-          <AddAccount>Pridanie konta</AddAccount>
+          <AddAccount>Pridať účet</AddAccount>
           <RemoveAccount>Odstrániť účet</RemoveAccount>
-          <RemoveConfirmation>Naozaj chcete odstrániť toto konto?</RemoveConfirmation>
-          <RemoveConfirmationTitle>Odstránenie konta</RemoveConfirmationTitle>
-          <AccountsIntroNone>Vitajte na Gmail Notifier Plus.\n\nTo začať, prosím, kliknite na tlačidlo nižšie na pridanie nového účtu.</AccountsIntroNone>
-          <Error>Konto s touto adresou už existuje. Zadajte inú adresu.</Error>
+          <RemoveConfirmation>Naozaj chcete odstrániť tento účet?</RemoveConfirmation>
+          <RemoveConfirmationTitle>Odstránenie účtu</RemoveConfirmationTitle>
+          <AccountsIntroNone>Vitajte v programe Gmail Notifier Plus.\n\nZačnite pridaním nového účtu.</AccountsIntroNone>
+          <Error>Účet s touto adresou už existuje. Zadajte inú adresu.</Error>
         </Account>
       </Accounts>
     </Panels>
   </Preferences>
   <Thumbnails>
-    <CheckLogin>Skontrolujte nastavenia konta</CheckLogin>
-    <Connecting>Kontrolujú sa nové správy elektronickej pošty...</Connecting>
-    <ConnectionUnavailable>Prosím skontrolujte pripojenie na sieť</ConnectionUnavailable>
-    <Inbox>Doručenej pošty</Inbox>
-    <NoSubject>(žiadny predmet)</NoSubject>
-    <NoAccount>Prosím, pridajte konto</NoAccount>
-    <NoMail>Novú poštu</NoMail>
+    <CheckLogin>Skontrolujte nastavenia účtu</CheckLogin>
+    <Connecting>Kontroluje sa nová pošta...</Connecting>
+    <ConnectionUnavailable>Skontrolujte pripojenie na sieť</ConnectionUnavailable>
+    <Inbox>Doručená pošta</Inbox>
+    <NoSubject>(bez predmetu)</NoSubject>
+    <NoAccount>Prosím, pridajte účet</NoAccount>
+    <NoMail>Žiadna nová pošta</NoMail>
   </Thumbnails>
   <Toast>
-    <ViewEmail>Zobrazenie tohto e-mailu</ViewEmail>
-    <NoSubject>(žiadny predmet)</NoSubject>
+    <ViewEmail>Zobraziť túto správu</ViewEmail>
+    <NoSubject>(bez predmetu)</NoSubject>
   </Toast>
   <Updates>
     <WindowTitle>Aktualizácia</WindowTitle>
-    <Text>Nová verzia Gmail Notifier Plus-Tree bolo stiahnuté a je pripravený! Gmail Notifier Plus teraz môžete reštartovať uplatňovať aktualizácie.</Text>
-    <YesText>Reštartujte Gmail Notifier… Plus</YesText>
-    <YesInstruction>Je potrebné nové horkosť.</YesInstruction>
-    <NoText>nie ďakujem</NoText>
-    <NoInstruction>Som chcel žiť na okraji.</NoInstruction>
+    <Text>Nová verzia Gmail Notifier Plus bola prebraná a je pripravená! Pre uplatnenie aktualizácie reštartujte Gmail Notifier Plus.</Text>
+    <YesText>Reštartovať Gmail Notifier Plus</YesText>
+    <YesInstruction>Potrebujem novú verziu.</YesInstruction>
+    <NoText>Nie, ďakujem</NoText>
+    <NoInstruction>Rád žijem na hrane.</NoInstruction>
   </Updates>
 </Locale>
