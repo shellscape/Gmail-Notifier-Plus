@@ -78,7 +78,7 @@ namespace GmailNotifierPlus.Forms {
 		}
 
 		protected override void OnPaintIcon(Graphics g) {
-			g.DrawImage(this._icon, 326, 7, this._icon.Width, this._icon.Height);
+			g.DrawImage(this._icon, Width - _icon.Width, 7, this._icon.Width, this._icon.Height);
 		}
 
 	}
