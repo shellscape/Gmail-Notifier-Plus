@@ -294,14 +294,18 @@ namespace GmailNotifierPlus.Forms {
 			_taskbarManager.ThumbnailToolBars.AddButtons(base.Handle, new ThumbnailToolBarButton[] { _ButtonPrev, _ButtonInbox, _ButtonNext });
 		}
 
+		private void SetLabelStatusStyles() {
+			_LabelStatus.AutoSize = true;
+			_LabelStatus.Location = new Point(0, this.Height - _LabelStatus.Height - this.Height / 10);
+			// This will make the label to AutoSize its height, but not width
+			_LabelStatus.MinimumSize = new Size(this.Width, 0);
+			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
+			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
+		}
+
 		private void SetCheckingPreview() {
 
-			_LabelStatus.AutoSize = false;
-			_LabelStatus.Top = 82;
-			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
-			_LabelStatus.Left = 0;
-			_LabelStatus.Width = this.Width;
-			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
+			SetLabelStatusStyles();
 			_LabelStatus.Text = Locale.Current.Thumbnails.Connecting;
 
 			if(_PictureLogo.Image != null) {
@@ -332,10 +336,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void SetOfflinePreview() {
 
-			_LabelStatus.Location = new Point(0, 84);
-			_LabelStatus.Width = this.Width;
-			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
-			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
+			SetLabelStatusStyles();
 			_LabelStatus.Text = Locale.Current.Thumbnails.ConnectionUnavailable;
 
 			if(_PictureLogo.Image != null) {
@@ -349,10 +350,7 @@ namespace GmailNotifierPlus.Forms {
 
 		private void SetWarningPreview() {
 
-			_LabelStatus.Location = new Point(0, 84);
-			_LabelStatus.Width = this.Width;
-			_LabelStatus.TextAlign = ContentAlignment.MiddleCenter;
-			_LabelStatus.ForeColor = System.Drawing.SystemColors.ControlText;
+			SetLabelStatusStyles();
 			_LabelStatus.Text = Locale.Current.Thumbnails.CheckLogin;
 
 			if(_PictureLogo.Image != null) {
