@@ -344,6 +344,7 @@
 			// 
 			// _ButtonSound
 			// 
+			this._ButtonSound.AutoSize = true;
 			this._ButtonSound.Location = new System.Drawing.Point(386, 38);
 			this._ButtonSound.Name = "_ButtonSound";
 			this._ButtonSound.Size = new System.Drawing.Size(65, 23);
