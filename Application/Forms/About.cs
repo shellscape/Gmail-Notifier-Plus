@@ -40,6 +40,7 @@ namespace GmailNotifierPlus.Forms {
 
 			String toYear = DateTime.Now.Year.ToString();
 			String linkTarget = "Shellscape Software";
+			String contributorsLinkTarget = "contributors";
 
 			toYear = toYear == "2011" ? String.Empty : String.Concat("-", toYear);
 
@@ -47,11 +48,12 @@ namespace GmailNotifierPlus.Forms {
 			this._Button.Text = Localization.Locale.Current.About.Button;
 			this._ButtonDonate.Text = Localization.Locale.Current.About.Donate;
 			this._LabelCopyright.Text = String.Join("\n",
-				String.Concat("Copyright © 2011", toYear, " Andrew Powell, ", linkTarget, ". All rights reserved."),
+				String.Concat("Copyright © 2011", toYear, " Andrew Powell, ", linkTarget, " and ", contributorsLinkTarget, ". All rights reserved."),
 				"Based on the application originally developed by Baptiste Girod\n",
 				"Gmail Notifier Plus is in no way associated with Gmail. Gmail is a registered trademark of Google, Inc."
 			);
-			this._LabelCopyright.Links.Add(this._LabelCopyright.Text.IndexOf(linkTarget), linkTarget.Length);
+			this._LabelCopyright.Links.Add(this._LabelCopyright.Text.IndexOf(linkTarget), linkTarget.Length, "http://shellscape.org");
+			this._LabelCopyright.Links.Add(this._LabelCopyright.Text.IndexOf(contributorsLinkTarget), contributorsLinkTarget.Length, "https://github.com/shellscape/Gmail-Notifier-Plus/contributors");
 			this._LabelCopyright.Font = SystemFonts.MessageBoxFont;
 			this._LabelCopyright.LinkColor = this._LabelCopyright.NormalColor = this._LabelCopyright.HoverColor;
 			this._LabelCopyright.LinkBehavior = LinkBehavior.AlwaysUnderline;
@@ -64,7 +66,7 @@ namespace GmailNotifierPlus.Forms {
 			};
 
 			this._LabelCopyright.LinkClicked += delegate(object sender, LinkLabelLinkClickedEventArgs e) {
-				Help.ShowHelp(this, "http://shellscape.org");
+				Help.ShowHelp(this, e.Link.LinkData.ToString());
 			};
 
 			_upToDate = Utilities.ResourceHelper.GetImage("uptodate.png");
