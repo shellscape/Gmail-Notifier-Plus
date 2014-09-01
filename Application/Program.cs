@@ -38,29 +38,29 @@ namespace GmailNotifierPlus {
 
 				Shellscape.Remoting.RemotingTaskMethods.Methods.Add("mailto", delegate(String[] arguments) { Forms.Main.Remote_Mailto(arguments); });
 
-		    AppDomain.CurrentDomain.UnhandledException += delegate(object sender, UnhandledExceptionEventArgs e) {
-		      ErrorHelper.Report(e.ExceptionObject as Exception);
-		    };
+				AppDomain.CurrentDomain.UnhandledException += delegate(object sender, UnhandledExceptionEventArgs e) {
+					ErrorHelper.Report(e.ExceptionObject as Exception);
+				};
 
-		    Config.Init();
+				Config.Init();
 
-		    Shellscape.UpdateManager updates = new Shellscape.UpdateManager(_repoUser, _repoName, _repoName);
+				Shellscape.UpdateManager updates = new Shellscape.UpdateManager(_repoUser, _repoName, _repoName, _repoName);
 
-		    updates.Error += delegate(object sender, UnhandledExceptionEventArgs e) {
+				updates.Error += delegate(object sender, UnhandledExceptionEventArgs e) {
 					if(e.ExceptionObject is System.Net.WebException) {
 						if(e.ExceptionObject != null) {
 							ErrorHelper.Log(e.ExceptionObject as Exception, Guid.NewGuid());
 						}
-						return;	
+						return;
 					}
-										
+		
 					ErrorHelper.Report(e.ExceptionObject as Exception);
-		    };
+				};
 
-		    SystemEvents.SessionEnded += delegate(object sender, SessionEndedEventArgs e) {
-		      Shellscape.UpdateManager.Current.Stop();
-		      Application.Exit();
-		    };
+				SystemEvents.SessionEnded += delegate(object sender, SessionEndedEventArgs e) {
+					Shellscape.UpdateManager.Current.Stop();
+					Application.Exit();
+				};
 
 			};
 			
@@ -70,4 +70,3 @@ namespace GmailNotifierPlus {
 
 	}
 }
-
