@@ -295,7 +295,7 @@ namespace GmailNotifierPlus.Forms {
 					};
 
 					Application.ApplicationExit += handler;
-					Application.Exit();
+					Invoke((Action)(() => Application.Exit()));
 
 					dialog.Close();
 				};
