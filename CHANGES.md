@@ -3,6 +3,14 @@
 This file outlines significant changes between versions.
 For a full list of technical commits to the project, please see [the commit history](https://github.com/shellscape/Gmail-Notifier-Plus/commits/master/).
 
+**vNext**
+
+* Gmail Notifier Plus is now [HiDPI](http://en.wikipedia.org/wiki/Resolution_independence#Microsoft_Windows) friendly.
+* When giving a presentation using [Presentation Mode](http://windows.microsoft.com/en-us/windows7/adjust-settings-before-giving-a-presentation) in Windows, the app won't show unread message count and won't notify you of new email.
+* Fixed Google Apps for Work Gmail accounts connectivity issue.
+* Updated the Update mechanism to use GitHub Releases.
+* Updated the Spanish, Russian and Slovak translations.
+
 **3.6**  
 	
 * Gmail Notifier Plus now works on Windows 8.
