@@ -1,7 +1,7 @@
 Gmail Notifier Plus
 ===================
 
-Gmail Notifier Plus is a small, fun application to monitor multiple Gmail and Google Apps Mail accounts from a single, compact point. With it's slick, native look, GNP notifies you in a variety of ways of your new mail, and allows you to quickly nagivate older new mail without opening a browser.
+Gmail Notifier Plus is a small, fun application to monitor multiple Gmail and Google Apps for Work Gmail accounts from a single, compact point. With it's slick, native look, GNP notifies you in a variety of ways of your new mail, and allows you to quickly nagivate older new mail without opening a browser.
 
 [A brief history of the app](https://github.com/shellscape/Gmail-Notifier-Plus/wiki/History-of-gmail-notifier-plus)
 
