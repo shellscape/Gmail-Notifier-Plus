@@ -16,7 +16,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © 2012 Andrew Powell, Shellscape Software")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: Debuggable(System.Diagnostics.DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 [assembly: CompilationRelaxations(8)]
 [assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]
 
