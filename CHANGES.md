@@ -3,6 +3,10 @@
 This file outlines significant changes between versions.
 For a full list of technical commits to the project, please see [the commit history](https://github.com/shellscape/Gmail-Notifier-Plus/commits/master/).
 
+**3.8**
+
+* Gmail Notifier Plus now works on Windows 10.
+
 **3.7**
 
 * Gmail Notifier Plus is now [HiDPI](http://en.wikipedia.org/wiki/Resolution_independence#Microsoft_Windows) friendly.
