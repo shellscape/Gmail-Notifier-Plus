@@ -231,6 +231,11 @@ namespace GmailNotifierPlus.Forms {
 
 			_userFrame = Shellscape.Utilities.ResourceHelper.GetStandardResourceBitmap("authui.dll", "#12222");
 
+			// Starting from Windows 10, authui.dll doesn't contain the user frame image anymore, so we'll just use a transparent container instead.
+			if (_userFrame == null) {
+				_userFrame = new Bitmap(80, 80);
+			}
+
 			ImageList imageList = new ImageList() {
 				ColorDepth = ColorDepth.Depth32Bit,
 				ImageSize = new Size(1, _userFrame.Height)
